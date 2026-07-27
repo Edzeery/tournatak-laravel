@@ -18,6 +18,7 @@ class TeamDetailPage extends Component
         $this->team = Team::with([
             'captain',
             'players.user',
+            'players.position',
             'activeStaff.user',
             'formations',
         ])->findOrFail($teamId);

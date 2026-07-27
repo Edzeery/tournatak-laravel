@@ -16,7 +16,7 @@
     </nav>
 
     {{-- Main Stats Cards --}}
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 stagger-children">
         <div class="col-md-3 col-6">
             <div class="stat-card">
                 <div class="stat-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;">
@@ -56,7 +56,7 @@
     </div>
 
     {{-- Match Stats Row --}}
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4 stagger-children">
         <div class="col-md-3 col-6">
             <div class="stat-card">
                 <div class="stat-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;">
@@ -96,10 +96,10 @@
     </div>
 
     {{-- Quick Actions --}}
-    <div class="card border-0 mb-4">
-        <div class="card-body">
-            <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                <i class="bi bi-lightning-fill text-gold"></i> إجراءات سريعة
+            <div class="card border-0 mb-4 animate-fade-in-up animate-delay-2">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3" style="color:var(--dark);">
+                        <i class="bi bi-lightning-fill text-gold"></i> إجراءات سريعة
             </h6>
             <div class="d-flex flex-wrap gap-2">
                 <a href="{{ route('admin.teams.create') }}" class="btn btn-sm btn-outline-success" style="border-radius:8px;">

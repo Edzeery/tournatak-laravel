@@ -15,7 +15,7 @@ class Player extends Model
         'user_id',
         'team_id',
         'number',
-        'position',
+        'position_text',
         'image',
         'position_id',
         'date_of_birth',

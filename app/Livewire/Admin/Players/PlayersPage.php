@@ -39,7 +39,7 @@ class PlayersPage extends Component
     public function render()
     {
         $query = Player::query()
-            ->with(['user', 'team'])
+            ->with(['user', 'team', 'position'])
             ->when($this->search, fn($q) => $q->whereHas('user', fn($uq) => $uq->where('name', 'like', "%{$this->search}%"))
                 ->orWhereHas('team', fn($tq) => $tq->where('name', 'like', "%{$this->search}%")));
 

@@ -54,7 +54,7 @@ Route::get('/lang/{locale}', function ($locale) {
     }
     session(['locale' => $locale]);
     app()->setLocale($locale);
-    return redirect()->back();
+    return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
 })->name('lang.switch');
 
 Route::get('/', HomePage::class)->name('home');

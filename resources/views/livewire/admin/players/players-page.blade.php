@@ -66,7 +66,7 @@
                                 <td class="fw-bold">{{ $player->user->name ?? '-' }}</td>
                                 <td>{{ $player->team->name ?? '-' }}</td>
                                 <td><span class="badge-sport">{{ $player->number ?? '-' }}</span></td>
-                                <td>{{ $player->position ?? '-' }}</td>
+                                <td>{{ $player->position->name ?? $player->position_text ?? '-' }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('admin.players.edit', $player) }}" class="btn btn-sm btn-outline-primary" style="border-radius:8px;">
                                         <i class="bi bi-pencil"></i>

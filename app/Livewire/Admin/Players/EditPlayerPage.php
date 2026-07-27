@@ -14,7 +14,7 @@ class EditPlayerPage extends Component
     public ?int $user_id = null;
     public ?int $team_id = null;
     public ?int $number = null;
-    public ?string $position = null;
+    public ?string $position_text = null;
     public ?string $image = null;
     public $position_id = '';
     public $date_of_birth = '';
@@ -33,7 +33,7 @@ class EditPlayerPage extends Component
         $this->user_id = $player->user_id;
         $this->team_id = $player->team_id;
         $this->number = $player->number;
-        $this->position = $player->position;
+        $this->position_text = $player->position_text;
         $this->image = $player->image;
         $this->position_id = $player->position_id ?? '';
         $this->date_of_birth = $player->date_of_birth ? $player->date_of_birth->format('Y-m-d') : '';
@@ -53,7 +53,7 @@ class EditPlayerPage extends Component
             'user_id' => 'required|exists:users,id',
             'team_id' => 'required|exists:teams,id',
             'number' => 'nullable|integer|min:0',
-            'position' => 'nullable|string|max:255',
+            'position_text' => 'nullable|string|max:255',
             'image' => 'nullable|string|max:255',
             'position_id' => 'nullable|exists:positions,id',
             'date_of_birth' => 'nullable|date',
@@ -70,7 +70,7 @@ class EditPlayerPage extends Component
             'user_id' => $this->user_id,
             'team_id' => $this->team_id,
             'number' => $this->number,
-            'position' => $this->position,
+            'position_text' => $this->position_text,
             'image' => $this->image,
             'position_id' => $this->position_id ?: null,
             'date_of_birth' => $this->date_of_birth ?: null,

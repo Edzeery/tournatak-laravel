@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="{{ config('app.name') }} - منصة إدارة البطولات والمسابقات الرياضية">
-    <title>{{ config('app.name', 'Tournatak') }} - {{ $title ?? 'الرئيسية' }}</title>
+    <meta name="description" content="{{ config('app.name') }} - {{ app()->getLocale() === 'ar' ? 'منصة إدارة البطولات والمسابقات الرياضية' : 'Sports Tournaments & Competitions Management Platform' }}">
+    <title>{{ config('app.name', 'Tournatak') }} - {{ $title ?? (app()->getLocale() === 'ar' ? 'الرئيسية' : 'Home') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     @if(app()->getLocale() === 'ar')
@@ -30,41 +30,41 @@
                 <i class="bi bi-list text-white fs-4"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav {{ app()->getLocale() === 'ar' ? 'me-auto' : 'ms-auto' }} mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                            <i class="bi bi-house-door"></i> الرئيسية
+                            <i class="bi bi-house-door"></i> {{ app()->getLocale() === 'ar' ? 'الرئيسية' : 'Home' }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('competitions.*') ? 'active' : '' }}" href="{{ route('competitions.index') }}">
-                            <i class="bi bi-trophy"></i> البطولات
+                            <i class="bi bi-trophy"></i> {{ app()->getLocale() === 'ar' ? 'البطولات' : 'Competitions' }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('teams.*') ? 'active' : '' }}" href="{{ route('teams.index') }}">
-                            <i class="bi bi-shield-check"></i> الفرق
+                            <i class="bi bi-shield-check"></i> {{ app()->getLocale() === 'ar' ? 'الفرق' : 'Teams' }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('players.*') ? 'active' : '' }}" href="{{ route('players.index') }}">
-                            <i class="bi bi-people"></i> اللاعبون
+                            <i class="bi bi-people"></i> {{ app()->getLocale() === 'ar' ? 'اللاعبون' : 'Players' }}
                         </a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                <ul class="navbar-nav {{ app()->getLocale() === 'ar' ? 'ms-auto' : 'me-auto' }} mb-2 mb-lg-0 align-items-lg-center">
                     @include('components.language-switcher')
                     @auth
                         @if(auth()->user()->hasRole('admin'))
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('admin.*') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                                    <i class="bi bi-grid-1x2"></i> لوحة التحكم
+                                    <i class="bi bi-grid-1x2"></i> {{ app()->getLocale() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}
                                 </a>
                             </li>
                         @else
                             <li class="nav-item">
                                 <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.dashboard') }}">
-                                    <i class="bi bi-person-badge"></i> حسابي
+                                    <i class="bi bi-person-badge"></i> {{ app()->getLocale() === 'ar' ? 'حسابي' : 'My Account' }}
                                 </a>
                             </li>
                         @endif
@@ -82,13 +82,13 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('user.profile') }}">
-                                        <i class="bi bi-person"></i> الملف الشخصي
+                                        <i class="bi bi-person"></i> {{ app()->getLocale() === 'ar' ? 'الملف الشخصي' : 'Profile' }}
                                     </a>
                                 </li>
                                 @if(auth()->user()->hasRole('admin'))
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">
-                                        <i class="bi bi-grid-1x2"></i> لوحة التحكم
+                                        <i class="bi bi-grid-1x2"></i> {{ app()->getLocale() === 'ar' ? 'لوحة التحكم' : 'Admin Panel' }}
                                     </a>
                                 </li>
                                 @endif
@@ -97,7 +97,7 @@
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button class="dropdown-item d-flex align-items-center gap-2 text-danger" type="submit">
-                                            <i class="bi bi-box-arrow-left"></i> تسجيل الخروج
+                                            <i class="bi bi-box-arrow-left"></i> {{ app()->getLocale() === 'ar' ? 'تسجيل الخروج' : 'Logout' }}
                                         </button>
                                     </form>
                                 </li>
@@ -106,12 +106,12 @@
                     @else
                         <li class="nav-item ms-2">
                             <a class="nav-link px-3 py-2" href="{{ route('login') }}">
-                                <i class="bi bi-box-arrow-in-right"></i> تسجيل الدخول
+                                <i class="bi bi-box-arrow-in-right"></i> {{ app()->getLocale() === 'ar' ? 'تسجيل الدخول' : 'Login' }}
                             </a>
                         </li>
                         <li class="nav-item ms-1">
                             <a class="btn btn-warning btn-sm px-3 py-2 fw-bold" href="{{ route('register') }}" style="border-radius:50px;">
-                                <i class="bi bi-rocket-takeoff"></i> ابدأ الآن
+                                <i class="bi bi-rocket-takeoff"></i> {{ app()->getLocale() === 'ar' ? 'ابدأ الآن' : 'Get Started' }}
                             </a>
                         </li>
                     @endauth
@@ -122,7 +122,7 @@
 
     {{-- Flash Messages --}}
     @if(session('success'))
-        <div class="container mt-3">
+        <div class="container mt-3 animate-fade-in-down">
             <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
                 <i class="bi bi-check-circle-fill fs-5"></i>
                 <div>{{ session('success') }}</div>
@@ -131,7 +131,7 @@
         </div>
     @endif
     @if(session('error'))
-        <div class="container mt-3">
+        <div class="container mt-3 animate-fade-in-down">
             <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2" role="alert">
                 <i class="bi bi-exclamation-triangle-fill fs-5"></i>
                 <div>{{ session('error') }}</div>
@@ -141,7 +141,9 @@
     @endif
 
     {{-- Main Content --}}
-    {{ $slot }}
+    <main class="animate-page">
+        {{ $slot }}
+    </main>
 
     {{-- Footer --}}
     <footer class="footer-sports pt-5 pb-3">
@@ -152,52 +154,46 @@
                         <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
                     </div>
                     <p style="color: rgba(255,255,255,0.5); max-width: 300px;">
-                        منصة رياضية متكاملة لإدارة البطولات والمسابقات والفرق واللاعبين في الجزائر والعالم العربي.
+                        {{ app()->getLocale() === 'ar' ? 'منصة رياضية متكاملة لإدارة البطولات والمسابقات والفرق واللاعبين في الجزائر والعالم العربي.' : 'A comprehensive sports platform for managing tournaments, competitions, teams and players.' }}
                     </p>
                     <div class="d-flex gap-3 mt-3">
-                        <a href="#" class="d-flex align-items-center justify-content-center rounded-circle" style="width:40px;height:40px;background:rgba(255,255,255,0.06);color:#fff;font-size:1.1rem;">
-                            <i class="bi bi-facebook"></i>
-                        </a>
-                        <a href="#" class="d-flex align-items-center justify-content-center rounded-circle" style="width:40px;height:40px;background:rgba(255,255,255,0.06);color:#fff;font-size:1.1rem;">
-                            <i class="bi bi-twitter-x"></i>
-                        </a>
-                        <a href="#" class="d-flex align-items-center justify-content-center rounded-circle" style="width:40px;height:40px;background:rgba(255,255,255,0.06);color:#fff;font-size:1.1rem;">
-                            <i class="bi bi-instagram"></i>
-                        </a>
+                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-2 col-6">
-                    <h6 class="text-white fw-bold mb-3">المنصة</h6>
+                    <h6 class="text-white fw-bold mb-3">{{ app()->getLocale() === 'ar' ? 'المنصة' : 'Platform' }}</h6>
                     <ul class="list-unstyled d-flex flex-column gap-2">
-                        <li><a href="{{ route('home') }}">الرئيسية</a></li>
-                        <li><a href="{{ route('competitions.index') }}">البطولات</a></li>
-                        <li><a href="{{ route('teams.index') }}">الفرق</a></li>
-                        <li><a href="{{ route('players.index') }}">اللاعبون</a></li>
+                        <li><a href="{{ route('home') }}">{{ app()->getLocale() === 'ar' ? 'الرئيسية' : 'Home' }}</a></li>
+                        <li><a href="{{ route('competitions.index') }}">{{ app()->getLocale() === 'ar' ? 'البطولات' : 'Competitions' }}</a></li>
+                        <li><a href="{{ route('teams.index') }}">{{ app()->getLocale() === 'ar' ? 'الفرق' : 'Teams' }}</a></li>
+                        <li><a href="{{ route('players.index') }}">{{ app()->getLocale() === 'ar' ? 'اللاعبون' : 'Players' }}</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-6">
-                    <h6 class="text-white fw-bold mb-3">حسابي</h6>
+                    <h6 class="text-white fw-bold mb-3">{{ app()->getLocale() === 'ar' ? 'حسابي' : 'Account' }}</h6>
                     <ul class="list-unstyled d-flex flex-column gap-2">
                         @auth
-                            <li><a href="{{ route('user.dashboard') }}">لوحة التحكم</a></li>
-                            <li><a href="{{ route('user.profile') }}">الملف الشخصي</a></li>
+                            <li><a href="{{ route('user.dashboard') }}">{{ app()->getLocale() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}</a></li>
+                            <li><a href="{{ route('user.profile') }}">{{ app()->getLocale() === 'ar' ? 'الملف الشخصي' : 'Profile' }}</a></li>
                         @else
-                            <li><a href="{{ route('login') }}">تسجيل الدخول</a></li>
-                            <li><a href="{{ route('register') }}">إنشاء حساب</a></li>
+                            <li><a href="{{ route('login') }}">{{ app()->getLocale() === 'ar' ? 'تسجيل الدخول' : 'Login' }}</a></li>
+                            <li><a href="{{ route('register') }}">{{ app()->getLocale() === 'ar' ? 'إنشاء حساب' : 'Register' }}</a></li>
                         @endauth
                     </ul>
                 </div>
                 <div class="col-lg-4">
-                    <h6 class="text-white fw-bold mb-3">تواصل معنا</h6>
+                    <h6 class="text-white fw-bold mb-3">{{ app()->getLocale() === 'ar' ? 'تواصل معنا' : 'Contact Us' }}</h6>
                     <ul class="list-unstyled d-flex flex-column gap-2" style="color:rgba(255,255,255,0.5);">
                         <li><i class="bi bi-envelope-fill text-gold me-2"></i> info@tournatak.com</li>
                         <li><i class="bi bi-telephone-fill text-gold me-2"></i> +213 XX XX XX XX</li>
-                        <li><i class="bi bi-geo-alt-fill text-gold me-2"></i> الجزائر</li>
+                        <li><i class="bi bi-geo-alt-fill text-gold me-2"></i> {{ app()->getLocale() === 'ar' ? 'الجزائر' : 'Algeria' }}</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom pt-3 text-center">
-                <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name') }}. جميع الحقوق محفوظة.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name') }}. {{ app()->getLocale() === 'ar' ? 'جميع الحقوق محفوظة.' : 'All rights reserved.' }}</p>
             </div>
         </div>
     </footer>
@@ -207,12 +203,22 @@
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('mainNav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
+            if (nav) {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
             }
         });
+
+        // Animate elements on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
     </script>
     @livewireScripts
     @stack('scripts')

@@ -9,8 +9,17 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        $locale = session('locale', config('app.locale'));
+        $locale = session('locale') ?? $request->cookie('locale') ?? config('app.locale', 'ar');
+
+        if (!in_array($locale, ['ar', 'en'])) {
+            $locale = config('app.locale', 'ar');
+        }
+
         app()->setLocale($locale);
-        return $next($request);
+
+       
+        return $next($request)->withCookie(
+            cookie('locale', $locale, 60 * 24 * 365)
+        );
     }
 }

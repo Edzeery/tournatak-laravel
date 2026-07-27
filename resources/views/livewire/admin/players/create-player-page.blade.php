@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">المركز</label>
-                        <input type="text" class="form-control" wire:model="position" placeholder="مهاجم / مدافع / حارس">
+                        <input type="text" class="form-control" wire:model="position_text" placeholder="مهاجم / مدافع / حارس">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">رابط الصورة</label>

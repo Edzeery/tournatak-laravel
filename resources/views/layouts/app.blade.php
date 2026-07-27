@@ -152,119 +152,119 @@
                 </ul>
             </div>
 
-            {{-- Mobile offcanvas nav --}}
-            <div class="offcanvas offcanvas-end d-lg-none offcanvas-dark" tabindex="-1" id="mobileNav"
-                aria-labelledby="mobileNavLabel">
-                <div class="offcanvas-header border-chrome-bottom">
-                    <a class="navbar-brand text-gold" href="{{ route('home') }}">
-                        <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
-                    </a>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                        aria-label="{{ __('app.close') }}"></button>
-                </div>
-                <div class="offcanvas-body">
-                    @auth
-                        <div class="offcanvas-user-card">
-                            <div class="offcanvas-user-avatar">
-                                {{ mb_substr(Auth::user()->name, 0, 1) }}
-                            </div>
-                            <div>
-                                <div class="fw-bold">{{ Auth::user()->name }}</div>
-                                <small class="text-chrome-muted fs-sm">{{ Auth::user()->email }}</small>
-                            </div>
-                        </div>
-                    @endauth
 
-                    <ul class="nav flex-column offcanvas-nav-section">
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-mobile {{ request()->routeIs('home') ? 'active' : '' }}"
-                                href="{{ route('home') }}">
-                                <i class="bi bi-house-door"></i> {{ __('app.home') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-mobile {{ request()->routeIs('competitions.*') ? 'active' : '' }}"
-                                href="{{ route('competitions.index') }}">
-                                <i class="bi bi-trophy"></i> {{ __('app.competitions') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-mobile {{ request()->routeIs('teams.*') ? 'active' : '' }}"
-                                href="{{ route('teams.index') }}">
-                                <i class="bi bi-shield-check"></i> {{ __('app.teams') }}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-mobile {{ request()->routeIs('players.*') ? 'active' : '' }}"
-                                href="{{ route('players.index') }}">
-                                <i class="bi bi-people"></i> {{ __('app.players') }}
-                            </a>
-                        </li>
-                    </ul>
-
-                    @auth
-                        <div class="offcanvas-divider"></div>
-
-                        <ul class="nav flex-column offcanvas-nav-section">
-                            @if (auth()->user()->hasRole('admin'))
-                                <li class="nav-item">
-                                    <a class="nav-link nav-link-mobile" href="{{ route('admin.dashboard') }}">
-                                        <i class="bi bi-grid-1x2"></i> {{ __('app.dashboard') }}
-                                    </a>
-                                </li>
-                            @else
-                                <li class="nav-item">
-                                    <a class="nav-link nav-link-mobile" href="{{ route('user.dashboard') }}">
-                                        <i class="bi bi-person-badge"></i> {{ __('app.my_account') }}
-                                    </a>
-                                </li>
-                            @endif
-                            <li class="nav-item">
-                                <a class="nav-link nav-link-mobile" href="{{ route('user.profile') }}">
-                                    <i class="bi bi-person"></i> {{ __('app.profile') }}
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div class="offcanvas-divider"></div>
-
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button class="nav-link nav-link-mobile nav-link-logout-mobile w-100" type="submit">
-                                <i class="bi bi-box-arrow-left"></i> {{ __('app.logout') }}
-                            </button>
-                        </form>
-                    @else
-                        <div class="offcanvas-divider"></div>
-                        <div class="d-flex flex-column gap-2">
-                            <a class="btn btn-outline-light w-100 rounded-md fw-bold" href="{{ route('login') }}">
-                                <i class="bi bi-box-arrow-in-right me-2"></i> {{ __('app.login') }}
-                            </a>
-                            <a class="btn btn-gold w-100 rounded-md fw-bold" href="{{ route('register') }}">
-                                <i class="bi bi-rocket-takeoff me-2"></i> {{ __('app.get_started') }}
-                            </a>
-                        </div>
-                    @endauth
-
-                    <div class="offcanvas-divider"></div>
-
-                    <div class="offcanvas-bottom-section">
-                        <button class="offcanvas-action-btn w-100" onclick="toggleTheme()">
-                            <i class="bi theme-icon"></i>
-                            <span>{{ __('app.toggle_theme') }}</span>
-                        </button>
-                        <div class="offcanvas-lang-row">
-                            @foreach (['ar' => 'العربية', 'en' => 'English', 'fr' => 'Français', 'es' => 'Español'] as $code => $label)
-                                <a href="{{ route('lang.switch', $code) }}"
-                                    class="offcanvas-lang-btn {{ app()->getLocale() === $code ? 'active' : '' }}">{{ $label }}</a>
-                            @endforeach
-                        </div>
+        </div>
+    </nav>
+    {{-- Mobile offcanvas nav --}}
+    <div class="offcanvas offcanvas-end d-lg-none offcanvas-dark" tabindex="-1" id="mobileNav"
+        aria-labelledby="mobileNavLabel">
+        <div class="offcanvas-header border-chrome-bottom">
+            <a class="navbar-brand text-gold" href="{{ route('home') }}">
+                <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
+            </a>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="{{ __('app.close') }}"></button>
+        </div>
+        <div class="offcanvas-body">
+            @auth
+                <div class="offcanvas-user-card">
+                    <div class="offcanvas-user-avatar">
+                        {{ mb_substr(Auth::user()->name, 0, 1) }}
                     </div>
+                    <div>
+                        <div class="fw-bold">{{ Auth::user()->name }}</div>
+                        <small class="text-chrome-muted fs-sm">{{ Auth::user()->email }}</small>
+                    </div>
+                </div>
+            @endauth
+
+            <ul class="nav flex-column offcanvas-nav-section">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-mobile {{ request()->routeIs('home') ? 'active' : '' }}"
+                        href="{{ route('home') }}">
+                        <i class="bi bi-house-door"></i> {{ __('app.home') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-mobile {{ request()->routeIs('competitions.*') ? 'active' : '' }}"
+                        href="{{ route('competitions.index') }}">
+                        <i class="bi bi-trophy"></i> {{ __('app.competitions') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-mobile {{ request()->routeIs('teams.*') ? 'active' : '' }}"
+                        href="{{ route('teams.index') }}">
+                        <i class="bi bi-shield-check"></i> {{ __('app.teams') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-mobile {{ request()->routeIs('players.*') ? 'active' : '' }}"
+                        href="{{ route('players.index') }}">
+                        <i class="bi bi-people"></i> {{ __('app.players') }}
+                    </a>
+                </li>
+            </ul>
+
+            @auth
+                <div class="offcanvas-divider"></div>
+
+                <ul class="nav flex-column offcanvas-nav-section">
+                    @if (auth()->user()->hasRole('admin'))
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-mobile" href="{{ route('admin.dashboard') }}">
+                                <i class="bi bi-grid-1x2"></i> {{ __('app.dashboard') }}
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-mobile" href="{{ route('user.dashboard') }}">
+                                <i class="bi bi-person-badge"></i> {{ __('app.my_account') }}
+                            </a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-mobile" href="{{ route('user.profile') }}">
+                            <i class="bi bi-person"></i> {{ __('app.profile') }}
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="offcanvas-divider"></div>
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button class="nav-link nav-link-mobile nav-link-logout-mobile w-100" type="submit">
+                        <i class="bi bi-box-arrow-left"></i> {{ __('app.logout') }}
+                    </button>
+                </form>
+            @else
+                <div class="offcanvas-divider"></div>
+                <div class="d-flex flex-column gap-2">
+                    <a class="btn btn-outline-light w-100 rounded-md fw-bold" href="{{ route('login') }}">
+                        <i class="bi bi-box-arrow-in-right me-2"></i> {{ __('app.login') }}
+                    </a>
+                    <a class="btn btn-gold w-100 rounded-md fw-bold" href="{{ route('register') }}">
+                        <i class="bi bi-rocket-takeoff me-2"></i> {{ __('app.get_started') }}
+                    </a>
+                </div>
+            @endauth
+
+            <div class="offcanvas-divider"></div>
+
+            <div class="offcanvas-bottom-section">
+                <button class="offcanvas-action-btn w-100" onclick="toggleTheme()">
+                    <i class="bi theme-icon"></i>
+                    <span>{{ __('app.toggle_theme') }}</span>
+                </button>
+                <div class="offcanvas-lang-row">
+                    @foreach (['ar' => 'العربية', 'en' => 'English', 'fr' => 'Français', 'es' => 'Español'] as $code => $label)
+                        <a href="{{ route('lang.switch', $code) }}"
+                            class="offcanvas-lang-btn {{ app()->getLocale() === $code ? 'active' : '' }}">{{ $label }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
-    </nav>
-
+    </div>
     {{-- Flash Messages (SweetAlert2 Toasts) --}}
     @if (session('success'))
         @push('scripts')

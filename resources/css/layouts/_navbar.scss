@@ -253,12 +253,12 @@
 
 // ---- Logout Mobile ----
 .nav-link-logout-mobile {
-    color: rgba(239, 68, 68, 0.7) !important;
+    color: rgba(239, 68, 68, 0.7) ;
     text-align: start;
 
     &:hover {
-        color: #ef4444 !important;
-        background: rgba(239, 68, 68, 0.08) !important;
+        color: #ef4444 ;
+        background: rgba(239, 68, 68, 0.08) ;
     }
 }
 

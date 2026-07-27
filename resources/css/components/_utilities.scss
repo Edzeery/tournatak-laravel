@@ -200,13 +200,14 @@
     background: var(--chrome-bg) !important;
 }
 
-// ---- Mobile nav link ----
-.nav-link-mobile {
-    color: var(--chrome-text-hover) !important;
-    font-weight: 600;
-    padding: 12px 16px;
-    border-radius: 10px;
+.offcanvas-header .btn-close {
+    padding: calc(var(--bs-offcanvas-padding-y) * .5) calc(var(--bs-offcanvas-padding-x) * .5);
+    margin-top: calc(-.5 * var(--bs-offcanvas-padding-y));
+    margin-left: calc(-.5 * var(--bs-offcanvas-padding-x));
+    margin-bottom: calc(-.5 * var(--bs-offcanvas-padding-y));
+    margin-right: auto;
 }
+
 
 // ---- Gold outline button ----
 .btn-gold-outline {

@@ -1,36 +1,36 @@
 @php $isRtl = isRtl(); @endphp
 <div>
     {{-- Welcome Hero --}}
-    <div class="card border-0 mb-4 animate-fade-in" style="background: var(--gradient-hero);overflow:hidden;position:relative;">
-        <div style="position:absolute;top:-50px;{{ isRtl() ? 'right' : 'left' }}:-50px;width:300px;height:300px;background:radial-gradient(circle,rgba(255,193,7,0.1) 0%,transparent 70%);border-radius:50%;"></div>
+    <div class="card border-0 mb-4 animate-fade-in dashboard-hero-card">
+        <div class="dashboard-hero-blob"></div>
         <div class="card-body p-4 position-relative" style="z-index:2;">
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold animate-scale-in" style="width:64px;height:64px;font-size:1.5rem;">
+                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold animate-scale-in avatar-lg">
                             {{ mb_substr($user->name, 0, 1) }}
                         </div>
                         <div>
-                            <h4 class="text-white fw-bold mb-0" style="font-size:1.4rem;">
-                                {{ $isAr ? 'مرحباً بك' : 'Welcome back' }}, {{ $user->name }}!
+                            <h4 class="text-white fw-bold mb-0 fs-xl">
+                                {{ __('app.welcome_back') }}, {{ $user->name }}!
                             </h4>
-                            <p style="color:rgba(255,255,255,0.5);margin:0;font-size:0.9rem;">
-                                {{ $isAr ? 'إليك نظرة عامة على حسابك ونشاطك' : 'Here\'s an overview of your account and activity' }}
+                            <p class="fs-md text-chrome-subtle mb-0">
+                                {{ __('app.account_overview_desc') }}
                             </p>
                         </div>
                     </div>
                     <div class="d-flex flex-wrap gap-2 mt-3">
                         <a href="{{ route('user.profile') }}" class="btn btn-primary-sport btn-sm">
-                            <i class="bi bi-person-gear me-1"></i> {{ $isAr ? 'تعديل الملف' : 'Edit Profile' }}
+                            <i class="bi bi-person-gear me-1"></i> {{ __('app.edit_profile') }}
                         </a>
                         <a href="{{ route('teams.index') }}" class="btn btn-outline-sport btn-sm">
-                            <i class="bi bi-shield me-1"></i> {{ $isAr ? 'تصفح الفرق' : 'Browse Teams' }}
+                            <i class="bi bi-shield me-1"></i> {{ __('app.browse_teams') }}
                         </a>
                     </div>
                 </div>
                 <div class="col-md-4 text-center d-none d-md-block">
-                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width:100px;height:100px;background:rgba(255,193,7,0.1);border:3px solid rgba(255,193,7,0.3);">
-                        <i class="bi bi-trophy-fill text-gold" style="font-size:2.5rem;"></i>
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle dashboard-trophy">
+                        <i class="bi bi-trophy-fill text-gold fs-4xl"></i>
                     </div>
                 </div>
             </div>
@@ -42,29 +42,29 @@
         <div class="col-6 col-md-3">
             <div class="stat-card card-hover">
                 <div class="stat-icon bg-gold bg-opacity-10 text-gold"><i class="bi bi-shield-fill"></i></div>
-                <div class="stat-number count-animate" style="font-size:1.8rem;">{{ $stats['teams'] }}</div>
-                <div class="stat-label">{{ $isAr ? 'فريق' : 'Teams' }}</div>
+                <div class="stat-number count-animate fs-2xl">{{ $stats['teams'] }}</div>
+                <div class="stat-label">{{ __('app.teams') }}</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-hover">
-                <div class="stat-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><i class="bi bi-trophy-fill"></i></div>
-                <div class="stat-number count-animate" style="font-size:1.8rem;">{{ $stats['competitions'] }}</div>
-                <div class="stat-label">{{ $isAr ? 'بطولة' : 'Competitions' }}</div>
+                <div class="stat-icon stat-icon-blue"><i class="bi bi-trophy-fill"></i></div>
+                <div class="stat-number count-animate fs-2xl">{{ $stats['competitions'] }}</div>
+                <div class="stat-label">{{ __('app.competitions') }}</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-hover">
-                <div class="stat-icon" style="background:rgba(16,185,129,0.1);color:#10b981;"><i class="bi bi-circle-fill"></i></div>
-                <div class="stat-number count-animate" style="font-size:1.8rem;">{{ $stats['goals'] }}</div>
-                <div class="stat-label">{{ $isAr ? 'هدف' : 'Goals' }}</div>
+                <div class="stat-icon stat-icon-green"><i class="bi bi-circle-fill"></i></div>
+                <div class="stat-number count-animate fs-2xl">{{ $stats['goals'] }}</div>
+                <div class="stat-label">{{ __('app.goals') }}</div>
             </div>
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card card-hover">
-                <div class="stat-icon" style="background:rgba(168,85,247,0.1);color:#a855f7;"><i class="bi bi-calendar-event-fill"></i></div>
-                <div class="stat-number count-animate" style="font-size:1.8rem;">{{ $stats['matches'] }}</div>
-                <div class="stat-label">{{ $isAr ? 'مباراة' : 'Matches' }}</div>
+                <div class="stat-icon stat-icon-purple"><i class="bi bi-calendar-event-fill"></i></div>
+                <div class="stat-number count-animate fs-2xl">{{ $stats['matches'] }}</div>
+                <div class="stat-label">{{ __('app.matches') }}</div>
             </div>
         </div>
     </div>
@@ -74,35 +74,35 @@
         <div class="col-lg-4">
             <div class="card border-0 animate-fade-in-up animate-delay-1">
                 <div class="card-body p-4">
-                    <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                        <i class="bi bi-person-badge text-gold"></i> {{ $isAr ? 'معلومات الحساب' : 'Account Info' }}
+                    <h6 class="fw-bold mb-3 text-theme-primary">
+                        <i class="bi bi-person-badge text-gold"></i> {{ __('app.account_info') }}
                     </h6>
                     <div class="text-center mb-4">
-                        <div class="bg-gold text-dark rounded-circle d-inline-flex align-items-center justify-content-center fw-bold mb-2 animate-scale-in" style="width:72px;height:72px;font-size:1.8rem;">
+                        <div class="bg-gold text-dark rounded-circle d-inline-flex align-items-center justify-content-center fw-bold mb-2 animate-scale-in avatar-md fs-2xl">
                             {{ mb_substr($user->name, 0, 1) }}
                         </div>
-                        <h5 class="fw-bold mb-0" style="color:var(--dark);">{{ $user->name }}</h5>
-                        <small style="color:#94a3b8;">@{{ $user->username }}</small>
+                        <h5 class="fw-bold mb-0 text-theme-primary">{{ $user->name }}</h5>
+                        <small class="text-theme-muted">@{{ $user->username }}</small>
                     </div>
                     <div class="d-flex flex-column gap-2">
-                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background:#f8f9fa;">
-                            <small class="text-muted"><i class="bi bi-envelope me-1"></i> {{ $isAr ? 'البريد' : 'Email' }}</small>
-                            <small class="fw-bold" style="font-size:0.8rem;">{{ $user->email }}</small>
+                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3 info-row">
+                            <small class="text-muted"><i class="bi bi-envelope me-1"></i> {{ __('app.email') }}</small>
+                            <small class="fw-bold fs-xs">{{ $user->email }}</small>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background:#f8f9fa;">
-                            <small class="text-muted"><i class="bi bi-shield me-1"></i> {{ $isAr ? 'الدور' : 'Role' }}</small>
-                            <span class="badge bg-warning-subtle text-warning fw-bold" style="font-size:0.75rem;">{{ $user->role ?? 'user' }}</span>
+                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3 info-row">
+                            <small class="text-muted"><i class="bi bi-shield me-1"></i> {{ __('app.role') }}</small>
+                            <span class="badge bg-warning-subtle text-warning fw-bold fs-sm">{{ $user->role ?? 'user' }}</span>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background:#f8f9fa;">
-                            <small class="text-muted"><i class="bi bi-calendar me-1"></i> {{ $isAr ? 'التسجيل' : 'Joined' }}</small>
-                            <small class="fw-bold" style="font-size:0.8rem;">{{ formatDate($user->created_at) }}</small>
+                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3 info-row">
+                            <small class="text-muted"><i class="bi bi-calendar me-1"></i> {{ __('app.joined') }}</small>
+                            <small class="fw-bold fs-xs">{{ formatDate($user->created_at) }}</small>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background:#f8f9fa;">
-                            <small class="text-muted"><i class="bi bi-check-circle me-1"></i> {{ $isAr ? 'الحالة' : 'Status' }}</small>
+                        <div class="d-flex justify-content-between align-items-center p-2 rounded-3 info-row">
+                            <small class="text-muted"><i class="bi bi-check-circle me-1"></i> {{ __('app.status') }}</small>
                             @if($user->is_verified)
-                                <span class="badge" style="background:rgba(16,185,129,0.1);color:#10b981;font-size:0.75rem;">{{ $isAr ? 'موثق' : 'Verified' }}</span>
+                                <span class="badge fs-sm badge-verified">{{ __('app.verified') }}</span>
                             @else
-                                <span class="badge bg-secondary" style="font-size:0.75rem;">{{ $isAr ? 'غير موثق' : 'Unverified' }}</span>
+                                <span class="badge bg-secondary fs-sm">{{ __('app.unverified') }}</span>
                             @endif
                         </div>
                     </div>
@@ -115,31 +115,31 @@
             {{-- Recent Matches --}}
             <div class="card border-0 mb-4 animate-fade-in-up animate-delay-2">
                 <div class="card-body p-4">
-                    <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                        <i class="bi bi-calendar-event text-gold"></i> {{ $isAr ? 'آخر المباريات' : 'Recent Matches' }}
+                    <h6 class="fw-bold mb-3 text-theme-primary">
+                        <i class="bi bi-calendar-event text-gold"></i> {{ __('app.recent_matches') }}
                     </h6>
                     @if($recentMatches->count())
                         <div class="table-responsive">
                             <table class="table align-middle mb-0">
                                 <thead>
                                     <tr>
-                                        <th style="font-size:0.8rem;">{{ $isAr ? 'الفريق ١' : 'Team 1' }}</th>
-                                        <th style="font-size:0.8rem;text-align:center;">{{ $isAr ? 'النتيجة' : 'Score' }}</th>
-                                        <th style="font-size:0.8rem;">{{ $isAr ? 'الفريق ٢' : 'Team 2' }}</th>
-                                        <th style="font-size:0.8rem;">{{ $isAr ? 'التاريخ' : 'Date' }}</th>
+                                        <th class="fs-xs">{{ __('app.header_team1') }}</th>
+                                        <th class="text-center fs-xs">{{ __('app.score') }}</th>
+                                        <th class="fs-xs">{{ __('app.header_team2') }}</th>
+                                        <th class="fs-xs">{{ __('app.date') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($recentMatches as $match)
                                         <tr>
-                                            <td class="fw-bold" style="font-size:0.85rem;">{{ $match->team1->name ?? '—' }}</td>
+                                            <td class="fw-bold fs-base">{{ $match->team1->name ?? '—' }}</td>
                                             <td class="text-center">
-                                                <span class="badge bg-dark rounded-pill px-3" style="font-size:0.85rem;">
+                                                <span class="badge bg-dark rounded-pill px-3 fs-base">
                                                     {{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}
                                                 </span>
                                             </td>
-                                            <td class="fw-bold" style="font-size:0.85rem;">{{ $match->team2->name ?? '—' }}</td>
-                                            <td style="font-size:0.8rem;color:#94a3b8;">{{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>
+                                            <td class="fw-bold fs-base">{{ $match->team2->name ?? '—' }}</td>
+                                            <td class="text-theme-muted fs-xs">{{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -147,8 +147,8 @@
                         </div>
                     @else
                         <div class="text-center py-4">
-                            <i class="bi bi-calendar-x d-block mb-2" style="font-size:2rem;color:#cbd5e1;"></i>
-                            <p style="color:#94a3b8;font-size:0.9rem;">{{ $isAr ? 'لا توجد مباريات حتى الآن' : 'No matches yet' }}</p>
+                            <i class="bi bi-calendar-x d-block mb-2 fs-3xl text-slate"></i>
+                            <p class="text-theme-muted fs-md">{{ __('app.no_matches_yet') }}</p>
                         </div>
                     @endif
                 </div>
@@ -157,21 +157,21 @@
             {{-- Quick Actions --}}
             <div class="card border-0 animate-fade-in-up animate-delay-3">
                 <div class="card-body p-4">
-                    <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                        <i class="bi bi-lightning-fill text-gold"></i> {{ $isAr ? 'إجراءات سريعة' : 'Quick Actions' }}
+                    <h6 class="fw-bold mb-3 text-theme-primary">
+                        <i class="bi bi-lightning-fill text-gold"></i> {{ __('app.quick_actions') }}
                     </h6>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="{{ route('user.profile') }}" class="btn btn-sm btn-outline-primary" style="border-radius:8px;">
-                            <i class="bi bi-person-gear"></i> {{ $isAr ? 'الملف الشخصي' : 'Profile' }}
+                        <a href="{{ route('user.profile') }}" class="btn btn-sm btn-outline-primary rounded-md">
+                            <i class="bi bi-person-gear"></i> {{ __('app.profile') }}
                         </a>
-                        <a href="{{ route('teams.index') }}" class="btn btn-sm btn-outline-success" style="border-radius:8px;">
-                            <i class="bi bi-shield"></i> {{ $isAr ? 'تصفح الفرق' : 'Browse Teams' }}
+                        <a href="{{ route('teams.index') }}" class="btn btn-sm btn-outline-success rounded-md">
+                            <i class="bi bi-shield"></i> {{ __('app.browse_teams') }}
                         </a>
-                        <a href="{{ route('competitions.index') }}" class="btn btn-sm btn-outline-warning" style="border-radius:8px;">
-                            <i class="bi bi-trophy"></i> {{ $isAr ? 'البطولات' : 'Competitions' }}
+                        <a href="{{ route('competitions.index') }}" class="btn btn-sm btn-outline-warning rounded-md">
+                            <i class="bi bi-trophy"></i> {{ __('app.competitions') }}
                         </a>
-                        <a href="{{ route('players.index') }}" class="btn btn-sm btn-outline-info" style="border-radius:8px;">
-                            <i class="bi bi-people"></i> {{ $isAr ? 'اللاعبون' : 'Players' }}
+                        <a href="{{ route('players.index') }}" class="btn btn-sm btn-outline-info rounded-md">
+                            <i class="bi bi-people"></i> {{ __('app.players') }}
                         </a>
                     </div>
                 </div>

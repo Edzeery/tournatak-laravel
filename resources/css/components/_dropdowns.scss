@@ -16,3 +16,16 @@
     right: 0 !important;
     left: auto !important;
 }
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: var(--bs-dropdown-link-active-color);
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: var(--bs-dropdown-link-hover-color);
+        background-color: #f8f9fa17;
+}

@@ -1,20 +1,20 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">الفرق</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.teams') }}</a></li>
             <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none" style="color:var(--primary);">{{ $team->name }}</a></li>
-            <li class="breadcrumb-item active">الطاقم</li>
+            <li class="breadcrumb-item active">{{ __('app.staff') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-people-fill text-gold"></i> الطاقم الفني</h4>
+            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-people-fill text-gold"></i> {{ __('app.technical_staff') }}</h4>
             <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $team->name }}</p>
         </div>
         <button class="btn btn-warning" wire:click="openModal">
-            <i class="bi bi-plus-lg"></i> إضافة عضو طاقم
+            <i class="bi bi-plus-lg"></i> {{ __('app.add_staff_member') }}
         </button>
     </div>
 
@@ -22,8 +22,8 @@
         <div class="card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
-                    <input type="text" class="form-control" placeholder="بحث باسم العضو..." wire:model.live.debounce.300ms="search">
+                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.search') }}</label>
+                    <input type="text" class="form-control" placeholder="{{ __('app.search_member_by_name') }}" wire:model.live.debounce.300ms="search">
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                             </button>
                             <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
                                     wire:click="deleteStaff({{ $member->id }})"
-                                    wire:confirm="هل أنت متأكد من حذف هذا العضو؟">
+                                    wire:confirm="{{ __('app.confirm_delete_staff') }}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -73,10 +73,10 @@
                     <div class="card-body py-5 text-center">
                         <div class="empty-state py-3">
                             <i class="bi bi-people d-block" style="font-size:2.5rem;"></i>
-                            <h5>لا يوجد أعضاء طاقم</h5>
-                            <p class="text-muted">لم يتم إضافة أي عضو طاقم بعد</p>
+                            <h5>{{ __('app.no_staff') }}</h5>
+                            <p class="text-muted">{{ __('app.no_staff_desc') }}</p>
                             <button class="btn btn-warning" wire:click="openModal">
-                                <i class="bi bi-plus-lg"></i> إضافة عضو طاقم
+                                <i class="bi bi-plus-lg"></i> {{ __('app.add_staff_member') }}
                             </button>
                         </div>
                     </div>
@@ -86,20 +86,20 @@
     </div>
 
     @if($showModal)
-        <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="staffModalTitle" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" style="border-radius:16px;" wire:click.stop>
                     <div class="modal-header border-0 pb-0">
-                        <h5 class="modal-title fw-bold">
+                        <h5 class="modal-title fw-bold" id="staffModalTitle">
                             <i class="bi bi-people-fill text-gold"></i>
-                            {{ $editingStaffId ? 'تعديل عضو الطاقم' : 'إضافة عضو طاقم' }}
+                            {{ $editingStaffId ? __('app.edit_staff_member') : __('app.add_staff_member') }}
                         </h5>
-                        <button type="button" class="btn-close" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close" aria-label="Close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">بحث عن مستخدم</label>
-                            <input type="text" class="form-control" placeholder="اكتب اسم المستخدم للبحث..."
+                            <label class="form-label fw-bold">{{ __('app.search_user') }}</label>
+                            <input type="text" class="form-control" placeholder="{{ __('app.search_user_placeholder') }}"
                                    wire:model.live.debounce.300ms="userSearch">
                             @if(count($searchedUsers) > 0)
                                 <div class="list-group mt-1" style="max-height:200px;overflow-y:auto;position:relative;z-index:10;">
@@ -113,34 +113,34 @@
                             @endif
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">الدور</label>
+                            <label class="form-label fw-bold">{{ __('app.staff_role') }}</label>
                             <select class="form-select" wire:model="staffForm.staff_role">
-                                <option value="">اختر الدور...</option>
+                                <option value="">{{ __('app.choose_role') }}</option>
                                 @foreach($staffRoles as $key => $label)
                                     <option value="{{ $key }}">{{ $label }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">التخصص</label>
-                            <input type="text" class="form-control" placeholder="التخصص..." wire:model="staffForm.specialization">
+                            <label class="form-label fw-bold">{{ __('app.specialization') }}</label>
+                            <input type="text" class="form-control" placeholder="{{ __('app.specialization_placeholder') }}" wire:model="staffForm.specialization">
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">تاريخ البداية</label>
+                                <label class="form-label fw-bold">{{ __('app.start_date') }}</label>
                                 <input type="text" class="form-control flatpickr-input" wire:model="staffForm.start_date" placeholder="{{ __('app.select_date') }}" data-date-format="Y-m-d" data-alt-format="d/m/Y">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">تاريخ النهاية</label>
+                                <label class="form-label fw-bold">{{ __('app.end_date') }}</label>
                                 <input type="text" class="form-control flatpickr-input" wire:model="staffForm.end_date" placeholder="{{ __('app.select_date') }}" data-date-format="Y-m-d" data-alt-format="d/m/Y">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">إلغاء</button>
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
                         <button type="button" class="btn btn-warning px-4" wire:click="saveStaff" wire:loading.attr="disabled" style="border-radius:8px;">
-                            <span wire:loading.remove wire:target="saveStaff"><i class="bi bi-check-lg"></i> حفظ</span>
-                            <span wire:loading wire:target="saveStaff"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                            <span wire:loading.remove wire:target="saveStaff"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
+                            <span wire:loading wire:target="saveStaff"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>
                     </div>
                 </div>

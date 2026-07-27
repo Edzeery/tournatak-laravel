@@ -53,23 +53,26 @@ class MatchStatsPage extends Component
         'blocked_shots' => 0,
     ];
 
-    private static $statLabels = [
-        'possession' => 'الاستحواذ',
-        'shots_total' => 'التسديدات',
-        'shots_on_target' => 'التسديدات على المرمى',
-        'shots_off_target' => 'التسديدات خارج المرمى',
-        'corners' => 'الركنيات',
-        'fouls' => 'الأخطاء',
-        'offsides' => 'التسلل',
-        'yellow_cards' => 'البطاقات الصفراء',
-        'red_cards' => 'البطاقات الحمراء',
-        'passes_total' => 'التمريرات',
-        'passes_accurate' => 'التمريرات الدقيقة',
-        'tackles' => 'التدخلات',
-        'saves' => 'التصديات',
-        'hit_woodwork' => 'إصابة العارضة',
-        'blocked_shots' => 'التسديدات المحجوبة',
-    ];
+    private static function getStatLabels(): array
+    {
+        return [
+            'possession' => __('app.stat_possession'),
+            'shots_total' => __('app.stat_shots_total'),
+            'shots_on_target' => __('app.stat_shots_on_target'),
+            'shots_off_target' => __('app.stat_shots_off_target'),
+            'corners' => __('app.stat_corners'),
+            'fouls' => __('app.stat_fouls'),
+            'offsides' => __('app.stat_offsides'),
+            'yellow_cards' => __('app.stat_yellow_cards'),
+            'red_cards' => __('app.stat_red_cards'),
+            'passes_total' => __('app.stat_passes_total'),
+            'passes_accurate' => __('app.stat_passes_accurate'),
+            'tackles' => __('app.stat_tackles'),
+            'saves' => __('app.stat_saves'),
+            'hit_woodwork' => __('app.stat_hit_woodwork'),
+            'blocked_shots' => __('app.stat_blocked_shots'),
+        ];
+    }
 
     public function mount(Match_ $match): void
     {
@@ -151,23 +154,23 @@ class MatchStatsPage extends Component
         );
 
         $teamName = $this->activeTeam === 1
-            ? ($this->match->team1->name ?? 'الفريق الأول')
-            : ($this->match->team2->name ?? 'الفريق الثاني');
+            ? ($this->match->team1->name ?? __('app.team1_name'))
+            : ($this->match->team2->name ?? __('app.team2_name'));
 
-        session()->flash('success', "تم حفظ إحصائيات {$teamName} بنجاح");
+        session()->flash('success', __('app.stats_saved_for', ['team' => $teamName]));
         $this->loadStats();
     }
 
     public function render()
     {
-        $statFields = collect(self::$statLabels)->except(['possession']);
+        $statFields = collect(self::getStatLabels())->except(['possession']);
 
         return view('livewire.admin.matches.stats-page', [
-            'title' => 'إحصائيات المباراة - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
+            'title' => __('app.page_title_match_stats') . ' - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
             'match' => $this->match,
             'team1Stats' => $this->team1Stats,
             'team2Stats' => $this->team2Stats,
-            'statLabels' => self::$statLabels,
+            'statLabels' => self::getStatLabels(),
             'statFields' => $statFields,
         ]);
     }

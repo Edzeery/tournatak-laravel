@@ -39,7 +39,7 @@ class UsersPage extends Component
     {
         $user = User::findOrFail($id);
         $user->delete();
-        session()->flash('success', 'تم حذف المستخدم بنجاح');
+        session()->flash('success', __('app.user_deleted'));
     }
 
     public function render()
@@ -51,7 +51,7 @@ class UsersPage extends Component
             ->when($this->roleFilter, fn($q) => $q->where('role', $this->roleFilter));
 
         return view('livewire.admin.users.users-page', [
-            'title' => 'إدارة المستخدمين',
+            'title' => __('app.page_title_manage_users'),
             'users' => $query->latest()->paginate($this->perPage),
         ]);
     }

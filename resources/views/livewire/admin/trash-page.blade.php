@@ -2,12 +2,12 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="text-white fw-bold mb-1"><i class="bi bi-trash3 text-gold me-2"></i>{{ __('app.trash') }}</h4>
-            <p style="color:rgba(255,255,255,0.4);font-size:0.9rem;" class="mb-0">{{ __('app.trash_description') }}</p>
+            <p class="mb-0 fs-md" style="color:rgba(255,255,255,0.4);">{{ __('app.trash_description') }}</p>
         </div>
     </div>
 
     {{-- Filters --}}
-    <div class="card mb-4" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;">
+    <div class="card mb-4 card-dark rounded-xl">
         <div class="card-body p-3">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
@@ -22,8 +22,7 @@
                         ] as $key => $label)
                             <button
                                 type="button"
-                                class="btn btn-sm {{ $filterType === $key ? 'btn-gold' : '' }}"
-                                style="border-radius:8px;{{ $filterType !== $key ? 'background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.08);' : '' }}"
+                                class="btn btn-sm {{ $filterType === $key ? 'btn-gold' : 'lang-btn-inactive' }} rounded-md"
                                 wire:click="filterType = '{{ $key }}'"
                             >
                                 {{ $label }}
@@ -37,14 +36,15 @@
                         <input
                             type="text"
                             class="form-control"
-                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:10px;padding-right:38px;"
+                            style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:#fff;border-radius:10px;padding-inline-end:38px;"
                             placeholder="{{ __('app.search') }}..."
                             wire:model.live.debounce.300ms="search"
+                            aria-label="{{ __('app.search') }}"
                         />
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="text-end" style="color:rgba(255,255,255,0.4);font-size:0.85rem;">
+                    <div class="text-end fs-base" style="color:rgba(255,255,255,0.4);">
                         @if(method_exists($records, 'total'))
                             {{ $records->total() }} {{ __('app.results') }}
                         @endif
@@ -55,7 +55,7 @@
     </div>
 
     {{-- Records Table --}}
-    <div class="card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;">
+    <div class="card card-dark rounded-xl">
         <div class="card-body p-0">
             @if($records->isEmpty())
                 <x-empty-state icon="bi-trash3" :title="__('app.no_records')" :message="__('app.trash_empty_message')" />
@@ -63,11 +63,11 @@
                 <div class="table-responsive">
                     <table class="table table-dark-custom mb-0">
                         <thead>
-                            <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
-                                <th style="color:rgba(255,255,255,0.5);font-size:0.8rem;text-transform:uppercase;padding:14px 20px;">{{ __('app.name') }}</th>
-                                <th style="color:rgba(255,255,255,0.5);font-size:0.8rem;text-transform:uppercase;padding:14px 20px;">{{ __('app.type') }}</th>
-                                <th style="color:rgba(255,255,255,0.5);font-size:0.8rem;text-transform:uppercase;padding:14px 20px;">{{ __('app.deleted_at') }}</th>
-                                <th style="color:rgba(255,255,255,0.5);font-size:0.8rem;text-transform:uppercase;padding:14px 20px;text-align:end;">{{ __('app.actions') }}</th>
+                            <tr class="border-chrome-bottom">
+                                <th class="fs-sm" style="color:rgba(255,255,255,0.5);text-transform:uppercase;padding:14px 20px;">{{ __('app.name') }}</th>
+                                <th class="fs-sm" style="color:rgba(255,255,255,0.5);text-transform:uppercase;padding:14px 20px;">{{ __('app.type') }}</th>
+                                <th class="fs-sm" style="color:rgba(255,255,255,0.5);text-transform:uppercase;padding:14px 20px;">{{ __('app.deleted_at') }}</th>
+                                <th class="fs-sm" style="color:rgba(255,255,255,0.5);text-transform:uppercase;padding:14px 20px;text-align:end;">{{ __('app.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,30 +94,30 @@
                                                 'User' => 'users',
                                             ];
                                         @endphp
-                                        <span class="badge" style="background:rgba(255,193,7,0.12);color:#ffc107;border-radius:6px;padding:4px 10px;font-size:0.75rem;">
+                                        <span class="badge rounded-sm-custom fs-sm" style="background:rgba(255,193,7,0.12);color:#ffc107;padding:4px 10px;">
                                             {{ $typeLabels[get_class($record)] ?? $typeName }}
                                         </span>
                                     </td>
-                                    <td style="padding:14px 20px;color:rgba(255,255,255,0.5);font-size:0.9rem;">
+                                    <td class="fs-md" style="padding:14px 20px;color:rgba(255,255,255,0.5);">
                                         {{ $record->deleted_at->diffForHumans() }}
                                     </td>
                                     <td style="padding:14px 20px;text-align:end;">
                                         <div class="d-flex gap-2 justify-content-end">
                                             <button
-                                                class="btn btn-sm btn-outline-success"
-                                                style="border-radius:8px;"
+                                                class="btn btn-sm btn-outline-success rounded-md"
                                                 wire:click="restore('{{ $typeKeys[$typeName] }}', {{ $record->id }})"
                                                 wire:confirm="{{ __('app.restore_confirm') }}"
                                                 title="{{ __('app.restore') }}"
+                                                aria-label="{{ __('app.restore') }}"
                                             >
                                                 <i class="bi bi-arrow-counterclockwise"></i>
                                             </button>
                                             <button
-                                                class="btn btn-sm btn-outline-danger"
-                                                style="border-radius:8px;"
+                                                class="btn btn-sm btn-outline-danger rounded-md"
                                                 wire:click="forceDelete('{{ $typeKeys[$typeName] }}', {{ $record->id }})"
                                                 wire:confirm="{{ __('app.force_delete_confirm') }}"
                                                 title="{{ __('app.force_delete') }}"
+                                                aria-label="{{ __('app.force_delete') }}"
                                             >
                                                 <i class="bi bi-trash3"></i>
                                             </button>

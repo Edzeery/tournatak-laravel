@@ -51,14 +51,14 @@ class EditTypePage extends Component
             'is_active' => $this->is_active,
         ]);
 
-        session()->flash('success', 'تم تحديث النوع بنجاح');
+        session()->flash('success', __('app.type_updated'));
         return redirect()->route('admin.types.index');
     }
 
     public function render()
     {
         return view('livewire.admin.types.edit-type-page', [
-            'title' => 'تعديل نوع',
+            'title' => __('app.page_title_edit_type'),
             'type' => $this->type,
             'subtypes' => CompetitionSubtype::orderBy('name')->get(),
         ]);

@@ -15,6 +15,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^7.3.1",
         "alpinejs": "^3.15.12",
+        "apexcharts": "^6.6.1",
         "bootstrap": "^5.3.8",
         "bootstrap-icons": "^1.13.1",
         "flatpickr": "^4.6.13",

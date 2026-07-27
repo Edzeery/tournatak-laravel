@@ -1,18 +1,18 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-tags-fill text-gold"></i> إدارة أنواع البطولات</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">عرض وإدارة أنواع البطولات والتصنيفات</p>
+            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-tags-fill text-gold"></i> {{ __('app.type_management') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ __('app.types_desc') }}</p>
         </div>
         <a href="{{ route('admin.types.create') }}" class="btn btn-warning">
-            <i class="bi bi-plus-lg"></i> إضافة نوع
+            <i class="bi bi-plus-lg"></i> {{ __('app.add_type') }}
         </a>
     </div>
 
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item active">الأنواع</li>
+        <ol class="breadcrumb fs-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('app.types') }}</li>
         </ol>
     </nav>
 
@@ -20,12 +20,12 @@
         <div class="card-body">
             <form wire:submit="resetPage" class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
-                    <input type="text" class="form-control" placeholder="بحث بالاسم..." wire:model.live.debounce.300ms="search">
+                    <label class="form-label fw-bold fs-base">{{ __('app.search') }}</label>
+                    <input type="text" class="form-control" placeholder="{{ __('app.search_name_placeholder') }}" wire:model.live.debounce.300ms="search" aria-label="{{ __('app.search') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">العرض</label>
-                    <select class="form-select" wire:model.live="perPage">
+                    <label class="form-label fw-bold fs-base">{{ __('app.per_page_display') }}</label>
+                    <select class="form-select" wire:model.live="perPage" aria-label="{{ __('app.per_page') }}">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
@@ -46,19 +46,19 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>الاسم</th>
-                            <th>الرابط</th>
-                            <th>التصنيف</th>
-                            <th>الحالة</th>
-                            <th class="text-center">إجراءات</th>
+                            <th>{{ __('app.name') }}</th>
+                            <th>{{ __('app.slug') }}</th>
+                            <th>{{ __('app.category') }}</th>
+                            <th>{{ __('app.status') }}</th>
+                            <th class="text-center">{{ __('app.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($types as $type)
                             <tr wire:key="{{ $type->id }}">
-                                <td style="color:#94a3b8;">{{ $type->id }}</td>
+                                <td class="text-chrome-muted">{{ $type->id }}</td>
                                 <td class="fw-bold">{{ $type->name }}</td>
-                                <td><code style="background:rgba(255,193,7,0.1);color:#b8860b;padding:2px 8px;border-radius:4px;font-size:0.8rem;">{{ $type->slug }}</code></td>
+                                <td><code class="rounded-xs" style="background:rgba(255,193,7,0.1);color:#b8860b;padding:2px 8px;">{{ $type->slug }}</code></td>
                                 <td>{{ $type->subtype->name ?? '-' }}</td>
                                 <td>
                                     @if($type->is_active)
@@ -68,15 +68,18 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-warning" style="border-radius:8px;" wire:click="toggleActive({{ $type->id }})">
+                                    <button class="btn btn-sm btn-outline-warning rounded-md" wire:click="toggleActive({{ $type->id }})"
+                                        aria-label="{{ __('app.toggle_active') }}">
                                         <i class="bi bi-toggle-{{ $type->is_active ? 'on' : 'off' }}"></i>
                                     </button>
-                                    <a href="{{ route('admin.types.edit', $type) }}" class="btn btn-sm btn-outline-primary" style="border-radius:8px;">
+                                    <a href="{{ route('admin.types.edit', $type) }}" class="btn btn-sm btn-outline-primary rounded-md"
+                                        aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                                    <button class="btn btn-sm btn-outline-danger rounded-md"
                                             wire:click="delete({{ $type->id }})"
-                                            wire:confirm="هل أنت متأكد من حذف هذا النوع؟">
+                                            wire:confirm="{{ __('app.confirm_delete_type') }}"
+                                            aria-label="{{ __('app.delete') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -84,7 +87,7 @@
                         @empty
                             <tr wire:loading.remove>
                                 <td colspan="6">
-                                    <x-empty-state icon="bi-tag" title="{{ __('No Types Found') }}" message="{{ __('No results found. Start by adding a new item.') }}" />
+                                    <x-empty-state icon="bi-tag" title="{{ __('app.types') }}" message="{{ __('app.no_results_found') }}" />
                                 </td>
                             </tr>
                         @endforelse

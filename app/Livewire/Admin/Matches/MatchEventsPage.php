@@ -63,7 +63,7 @@ class MatchEventsPage extends Component
         ]);
 
         if (!in_array($this->eventForm['team_id'], [$this->match->team1_id, $this->match->team2_id])) {
-            session()->flash('error', 'الفريق غير صحيح');
+            session()->flash('error', __('app.invalid_team'));
             return;
         }
 
@@ -78,7 +78,7 @@ class MatchEventsPage extends Component
                 'description' => $this->eventForm['description'],
                 'related_player_id' => $this->eventForm['related_player_id'],
             ]);
-            session()->flash('success', 'تم تحديث الحدث بنجاح');
+            session()->flash('success', __('app.event_updated'));
         } else {
             MatchEvent::create([
                 'match_id' => $this->matchId,
@@ -90,7 +90,7 @@ class MatchEventsPage extends Component
                 'description' => $this->eventForm['description'],
                 'related_player_id' => $this->eventForm['related_player_id'],
             ]);
-            session()->flash('success', 'تم إضافة الحدث بنجاح');
+            session()->flash('success', __('app.event_added'));
         }
 
         $this->closeModal();
@@ -116,7 +116,7 @@ class MatchEventsPage extends Component
     public function deleteEvent($id)
     {
         MatchEvent::findOrFail($id)->delete();
-        session()->flash('success', 'تم حذف الحدث بنجاح');
+        session()->flash('success', __('app.event_deleted'));
         $this->loadEvents();
     }
 
@@ -145,7 +145,7 @@ class MatchEventsPage extends Component
             : ($this->eventForm['team_id'] == $this->match->team2_id ? $team2Players : collect());
 
         return view('livewire.admin.matches.events-page', [
-            'title' => 'أحداث المباراة - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
+            'title' => __('app.page_title_match_events') . ' - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
             'match' => $this->match,
             'events' => $this->events,
             'team1Players' => $team1Players,

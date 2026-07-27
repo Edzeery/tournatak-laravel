@@ -55,14 +55,14 @@ class EditCompetitionPage extends Component
             'approval_status' => $this->approval_status,
         ]);
 
-        session()->flash('success', 'تم تحديث البطولة بنجاح');
+        session()->flash('success', __('app.competition_updated'));
         return redirect()->route('admin.competitions.index');
     }
 
     public function render()
     {
         return view('livewire.admin.competitions.edit-competition-page', [
-            'title' => 'تعديل بطولة',
+            'title' => __('app.page_title_edit_competition'),
             'competition' => $this->competition,
             'types' => CompetitionType::where('is_active', true)->get(),
             'subtypes' => CompetitionSubtype::all(),

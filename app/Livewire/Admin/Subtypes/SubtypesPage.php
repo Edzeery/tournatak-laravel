@@ -33,7 +33,7 @@ class SubtypesPage extends Component
     {
         $subtype = CompetitionSubtype::findOrFail($id);
         $subtype->delete();
-        session()->flash('success', 'تم حذف النوع الفرعي بنجاح');
+        session()->flash('success', __('app.subtype_deleted'));
     }
 
     public function render()
@@ -43,7 +43,7 @@ class SubtypesPage extends Component
                 ->orWhere('en_name', 'like', "%{$this->search}%"));
 
         return view('livewire.admin.subtypes.subtypes-page', [
-            'title' => 'إدارة التصنيفات',
+            'title' => __('app.page_title_manage_subtypes'),
             'subtypes' => $query->latest()->paginate($this->perPage),
         ]);
     }

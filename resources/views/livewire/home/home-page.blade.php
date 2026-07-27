@@ -5,51 +5,51 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <div class="hero-badge animate-in">
-                        <i class="bi bi-lightning-charge-fill"></i> المنصة الرياضية الأولى
+                        <i class="bi bi-lightning-charge-fill"></i> {{ __('app.hero_tagline') }}
                     </div>
                     <h1 class="hero-title mb-4 animate-in animate-delay-1">
-                        إدارة البطولات<br>
-                        <span class="text-gold">بشكل احترافي</span>
+                        {{ __('app.hero_title') }}<br>
+                        <span class="text-gold">{{ __('app.hero_title2') }}</span>
                     </h1>
                     <p class="hero-subtitle mb-5 animate-in animate-delay-2">
-                        منصة متكاملة لإدارة البطولات والمسابقات الرياضية، تتبع الفرق واللاعبين، وتسجيل المباريات والنتائج في الوقت الحقيقي.
+                        {{ __('app.hero_desc') }}
                     </p>
                     <div class="d-flex gap-3 flex-wrap animate-in animate-delay-3">
                         @auth
                             <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('user.dashboard') }}" class="btn btn-primary-sport btn-lg">
-                                <i class="bi bi-speedometer2 me-2"></i> لوحة التحكم
+                                <i class="bi bi-speedometer2 me-2"></i> {{ __('app.dashboard') }}
                             </a>
                         @else
                             <a href="{{ route('register') }}" class="btn btn-primary-sport btn-lg">
-                                <i class="bi bi-rocket-takeoff me-2"></i> سجل مجاناً
+                                <i class="bi bi-rocket-takeoff me-2"></i> {{ __('app.cta_register') }}
                             </a>
                         @endauth
                         <a href="{{ route('competitions.index') }}" class="btn btn-outline-sport btn-lg">
-                            <i class="bi bi-trophy me-2"></i> تصفح البطولات
+                            <i class="bi bi-trophy me-2"></i> {{ __('app.cta_browse') }}
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-5 d-none d-lg-block text-center">
                     <div class="position-relative">
-                        <div class="hero-shape" style="width:350px;height:350px;top:-20px;right:20px;"></div>
-                        <div class="hero-shape" style="width:200px;height:200px;bottom:20px;left:0;"></div>
+                        <div class="hero-shape hero-shape-lg" style="top:-20px;right:20px;"></div>
+                        <div class="hero-shape hero-shape-md" style="bottom:20px;left:0;"></div>
                         <div class="position-relative" style="z-index:2;">
-                            <div class="d-inline-flex flex-column align-items-center gap-3 p-4 rounded-4" style="background:rgba(255,255,255,0.04);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.08);">
+                            <div class="d-inline-flex flex-column align-items-center gap-3 p-4 rounded-4 hero-stats-panel">
                                 <div class="d-flex gap-4">
                                     <div class="text-center">
-                                        <div class="text-gold fw-bold" style="font-size:2.5rem;">{{ $stats['competitions'] ?? 0 }}</div>
-                                        <small style="color:rgba(255,255,255,0.5);">بطولة</small>
+                                        <div class="text-gold fw-bold fs-4xl">{{ $stats['competitions'] ?? 0 }}</div>
+                                        <small class="text-chrome-subtle">{{ __('app.stat_competition') }}</small>
                                     </div>
-                                    <div style="width:1px;background:rgba(255,255,255,0.1);"></div>
+                                    <div class="hero-stat-vdiv"></div>
                                     <div class="text-center">
-                                        <div class="text-gold fw-bold" style="font-size:2.5rem;">{{ $stats['teams'] ?? 0 }}</div>
-                                        <small style="color:rgba(255,255,255,0.5);">فريق</small>
+                                        <div class="text-gold fw-bold fs-4xl">{{ $stats['teams'] ?? 0 }}</div>
+                                        <small class="text-chrome-subtle">{{ __('app.stat_team') }}</small>
                                     </div>
                                 </div>
-                                <div style="width:100%;height:1px;background:rgba(255,255,255,0.08);"></div>
+                                <div class="hero-stat-hdiv"></div>
                                 <div class="text-center">
-                                    <div class="text-gold fw-bold" style="font-size:2.5rem;">{{ $stats['players'] ?? 0 }}</div>
-                                    <small style="color:rgba(255,255,255,0.5);">لاعب مسجل</small>
+                                    <div class="text-gold fw-bold fs-4xl">{{ $stats['players'] ?? 0 }}</div>
+                                    <small class="text-chrome-subtle">{{ __('app.stat_player') }}</small>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div style="position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to top, #f5f6fa, transparent);"></div>
+        <div class="hero-gradient-bottom-tall"></div>
     </section>
 
     {{-- Stats Section --}}
@@ -70,25 +70,25 @@
                             <i class="bi bi-trophy"></i>
                         </div>
                         <div class="stat-number">{{ $stats['competitions'] ?? 0 }}</div>
-                        <div class="stat-label">بطولة نشطة</div>
+                        <div class="stat-label">{{ __('app.active_competition_stat') }}</div>
                     </div>
                 </div>
                 <div class="col-md-4 animate-in animate-delay-2">
                     <div class="stat-card">
-                        <div class="stat-icon bg-success bg-opacity-10" style="color:#16a34a;">
+                        <div class="stat-icon stat-icon-green">
                             <i class="bi bi-shield-check"></i>
                         </div>
                         <div class="stat-number">{{ $stats['teams'] ?? 0 }}</div>
-                        <div class="stat-label">فريق مسجل</div>
+                        <div class="stat-label">{{ __('app.registered_team_stat') }}</div>
                     </div>
                 </div>
                 <div class="col-md-4 animate-in animate-delay-3">
                     <div class="stat-card">
-                        <div class="stat-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;">
+                        <div class="stat-icon stat-icon-blue">
                             <i class="bi bi-people-fill"></i>
                         </div>
                         <div class="stat-number">{{ $stats['players'] ?? 0 }}</div>
-                        <div class="stat-label">لاعب</div>
+                        <div class="stat-label">{{ __('app.player_stat_label') }}</div>
                     </div>
                 </div>
             </div>
@@ -99,9 +99,9 @@
     <section class="py-5 mt-4">
         <div class="container">
             <div class="section-header">
-                <div class="section-badge"><i class="bi bi-fire"></i> الأحدث</div>
-                <h2>البطولات النشطة</h2>
-                <p>تابع أحدث البطولات والمسابقات الرياضية المسجلة في المنصة</p>
+                <div class="section-badge"><i class="bi bi-fire"></i> {{ __('app.latest') }}</div>
+                <h2>{{ __('app.active_competitions_section') }}</h2>
+                <p>{{ __('app.active_competitions_desc') }}</p>
             </div>
 
             @if($activeCompetitions->count())
@@ -116,7 +116,7 @@
                                         <x-status-badge domain="competition" status="{{ $competition->status }}" set="bi" />
                                     </div>
                                     @if($competition->description)
-                                        <p class="text-muted mb-3" style="font-size:0.9rem;line-height:1.6;">
+                                        <p class="text-muted mb-3 fs-md lh-relaxed">
                                             {{ Str::limit($competition->description, 120) }}
                                         </p>
                                     @endif
@@ -134,8 +134,8 @@
             @else
                 <div class="empty-state">
                     <i class="bi bi-trophy d-block"></i>
-                    <h4>لا توجد بطولات نشطة حالياً</h4>
-                    <p>سيتم إضافة البطولات قريباً</p>
+                    <h4>{{ __('app.no_active_competitions') }}</h4>
+                    <p>{{ __('app.competitions_coming_soon') }}</p>
                 </div>
             @endif
 
@@ -149,12 +149,12 @@
 
     {{-- Latest Teams --}}
     @if($teams->count())
-    <section class="py-5" style="background:#fff;">
+    <section class="py-5 bg-white">
         <div class="container">
             <div class="section-header">
-                <div class="section-badge"><i class="bi bi-shield-fill"></i> الفرق</div>
-                <h2>أحدث الفرق المسجلة</h2>
-                <p>تعرف على الفرق المشاركة في البطولات</p>
+                <div class="section-badge"><i class="bi bi-shield-fill"></i> {{ __('app.featured_teams') }}</div>
+                <h2>{{ __('app.latest_teams_desc') }}</h2>
+                <p>{{ __('app.browse_teams_desc') }}</p>
             </div>
 
             <div class="row g-4 justify-content-center">
@@ -162,7 +162,7 @@
                     <div class="col-6 col-md-4 col-lg-2">
                         <div class="team-card">
                             @if($team->logo)
-                                <img src="{{ asset('uploads/teams/' . $team->logo) }}" alt="{{ $team->name }}" class="rounded-circle mb-3" width="72" height="72" style="object-fit: cover; border: 3px solid var(--primary);">
+                                <img src="{{ asset('uploads/teams/' . $team->logo) }}" alt="{{ $team->name }}" class="rounded-circle mb-3 logo-ring" width="72" height="72">
                             @else
                                 <div class="team-avatar bg-gold text-dark mx-auto">
                                     {{ mb_substr($team->name, 0, 1) }}
@@ -170,7 +170,7 @@
                             @endif
                             <h6 class="mb-1 fw-bold">{{ $team->name }}</h6>
                             @if($team->points)
-                                <small class="text-muted"><i class="bi bi-star-fill text-gold"></i> {{ $team->points }} نقطة</small>
+                                <small class="text-muted"><i class="bi bi-star-fill text-gold"></i> {{ $team->points }} {{ __('app.points') }}</small>
                             @endif
                         </div>
                     </div>
@@ -187,23 +187,23 @@
     @endif
 
     {{-- CTA Section --}}
-    <section class="py-5" style="background: var(--gradient-hero); position: relative; overflow: hidden;">
+    <section class="py-5 cta-section">
         <div class="container text-center position-relative" style="z-index:2;">
-            <h2 class="text-white fw-bold mb-3" style="font-size:2rem;">هل أنت مستعد للبدء؟</h2>
-            <p class="mb-4" style="color:rgba(255,255,255,0.6); max-width:500px; margin:0 auto;">
-                انضم إلى منصة تورناتك وأدر بطولتك الخاصة أو سجّل فريقك وشارك في المسابقات الرياضية
+            <h2 class="text-white fw-bold mb-3 cta-title">{{ __('app.are_you_ready') }}</h2>
+            <p class="mb-4 cta-desc">
+                {{ __('app.cta_join_desc') }}
             </p>
             @auth
                 <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('user.dashboard') }}" class="btn btn-primary-sport btn-lg">
-                    <i class="bi bi-speedometer2 me-2"></i> لوحة التحكم
+                    <i class="bi bi-speedometer2 me-2"></i> {{ __('app.dashboard') }}
                 </a>
             @else
                 <a href="{{ route('register') }}" class="btn btn-primary-sport btn-lg">
-                    <i class="bi bi-rocket-takeoff me-2"></i> سجل مجاناً الآن
+                    <i class="bi bi-rocket-takeoff me-2"></i> {{ __('app.sign_up_now') }}
                 </a>
             @endauth
         </div>
-        <div class="hero-shape" style="width:300px;height:300px;top:-100px;left:-100px;"></div>
+        <div class="hero-shape hero-shape-md" style="top:-100px;left:-100px;"></div>
         <div class="hero-shape" style="width:200px;height:200px;bottom:-80px;right:-80px;"></div>
     </section>
 </div>

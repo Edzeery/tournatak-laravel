@@ -1,20 +1,20 @@
 <div>
-    <section class="hero-sports text-white" style="min-height:300px;">
+    <section class="hero-sports hero-sports-sm text-white">
         <div class="container hero-content">
-            <div class="text-center" style="position:relative;z-index:2;">
-                <div class="hero-badge mx-auto mb-3" style="display:inline-flex;">
-                    <i class="bi bi-trophy-fill"></i> جميع البطولات
+            <div class="text-center position-relative" style="z-index:2;">
+                <div class="hero-badge mx-auto mb-3 d-inline-flex">
+                    <i class="bi bi-trophy-fill"></i> {{ __('app.all_competitions') }}
                 </div>
-                <h1 class="fw-bold mb-3" style="font-size:2.5rem;">البطولات والمسابقات</h1>
-                <p style="color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto;">
-                    تصفح جميع البطولات والمسابقات الرياضية المسجلة في المنصة
+                <h1 class="fw-bold mb-3 fs-4xl">{{ __('app.competitions_hero_title') }}</h1>
+                <p class="text-theme-muted hero-desc">
+                    {{ __('app.competitions_hero_desc') }}
                 </p>
             </div>
         </div>
-        <div style="position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top, #f5f6fa, transparent);"></div>
+        <div class="hero-gradient-bottom"></div>
     </section>
 
-    <div class="container py-5" style="margin-top:-20px;">
+    <div class="container py-5 mt-neg-20">
         @if($competitions->count())
             <div class="row g-4">
                 @foreach($competitions as $competition)
@@ -29,7 +29,7 @@
                                 @if($competition->type)
                                     <span class="badge-sport mb-2 d-inline-block">{{ $competition->type->name }}</span>
                                 @endif
-                                <p class="text-muted mb-3" style="font-size:0.9rem;line-height:1.6;">
+                                <p class="text-muted mb-3 fs-md lh-tight">
                                     {{ Str::limit($competition->description, 120) }}
                                 </p>
                                 <div class="card-meta">
@@ -39,8 +39,8 @@
                                     @endif
                                 </div>
                                 @if($competition->organizer)
-                                    <div class="mt-2" style="font-size:0.85rem;color:#94a3b8;">
-                                        <i class="bi bi-person"></i> المنظم: {{ $competition->organizer->name }}
+                                    <div class="mt-2 fs-base text-chrome-muted">
+                                        <i class="bi bi-person"></i> {{ __('app.organizer_label') }} {{ $competition->organizer->name }}
                                     </div>
                                 @endif
                             </div>
@@ -55,8 +55,8 @@
         @else
             <div class="empty-state">
                 <i class="bi bi-trophy d-block"></i>
-                <h4>لا توجد بطولات حالياً</h4>
-                <p>سيتم عرض البطولات هنا بعد الموافقة عليها</p>
+                <h4>{{ __('app.no_competitions_yet') }}</h4>
+                <p>{{ __('app.competitions_coming_soon_public') }}</p>
             </div>
         @endif
     </div>

@@ -33,7 +33,7 @@ class PlayersPage extends Component
     {
         $player = Player::findOrFail($id);
         $player->delete();
-        session()->flash('success', 'تم حذف اللاعب بنجاح');
+        session()->flash('success', __('app.player_deleted'));
     }
 
     public function render()
@@ -44,7 +44,7 @@ class PlayersPage extends Component
                 ->orWhereHas('team', fn($tq) => $tq->where('name', 'like', "%{$this->search}%")));
 
         return view('livewire.admin.players.players-page', [
-            'title' => 'إدارة اللاعبين',
+            'title' => __('app.page_title_manage_players'),
             'players' => $query->latest()->paginate($this->perPage),
         ]);
     }

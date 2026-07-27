@@ -22,39 +22,11 @@
     <div class="error-page">
         <div class="error-icon"><i class="bi bi-shield-lock"></i></div>
         <div class="error-code">403</div>
-        <div class="error-title">
-            @if(app()->getLocale() === 'ar')
-                الوصول ممنوع
-            @elseif(app()->getLocale() === 'fr')
-                Accès refusé
-            @elseif(app()->getLocale() === 'es')
-                Acceso denegado
-            @else
-                Access Denied
-            @endif
-        </div>
-        <div class="error-message">
-            @if(app()->getLocale() === 'ar')
-                عذراً، ليس لديك صلاحية للوصول إلى هذه الصفحة.<br>تواصل مع المسؤول إذا كنت تعتقد أن هذا خطأ.
-            @elseif(app()->getLocale() === 'fr')
-                Désolé, vous n'avez pas la permission d'accéder à cette page.<br>Contactez l'administrateur si vous pensez qu'il s'agit d'une erreur.
-            @elseif(app()->getLocale() === 'es')
-                Lo sentimos, no tienes permiso para acceder a esta página.<br>Contacta al administrador si crees que esto es un error.
-            @else
-                Sorry, you don't have permission to access this page.<br>Please contact the administrator if you believe this is an error.
-            @endif
-        </div>
+        <div class="error-title">{{ __('app.error_403_title') }}</div>
+        <div class="error-message">{!! __('app.error_403_message') !!}</div>
         <a href="{{ route('home') }}" class="error-btn">
             <i class="bi bi-house-fill"></i>
-            @if(app()->getLocale() === 'ar')
-                العودة للرئيسية
-            @elseif(app()->getLocale() === 'fr')
-                Retour à l'accueil
-            @elseif(app()->getLocale() === 'es')
-                Volver al inicio
-            @else
-                Go Home
-            @endif
+            {{ __('app.back_to_home') }}
         </a>
     </div>
 </body>

@@ -1,19 +1,19 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.subtypes.index') }}" class="text-decoration-none" style="color:var(--primary);">التصنيفات</a></li>
-            <li class="breadcrumb-item active">تعديل التصنيف</li>
+        <ol class="breadcrumb fs-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.subtypes.index') }}" class="breadcrumb-link">{{ __('app.subtypes') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('app.edit_subtype') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-pencil text-gold"></i> تعديل التصنيف</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $subtype->name }}</p>
+            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-pencil text-gold"></i> {{ __('app.edit_subtype') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ $subtype->name }}</p>
         </div>
-        <a href="{{ route('admin.subtypes.index') }}" class="btn btn-outline-secondary" style="border-radius:8px;">
-            <i class="bi bi-arrow-right"></i> رجوع
+        <a href="{{ route('admin.subtypes.index') }}" class="btn btn-outline-secondary rounded-md">
+            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
         </a>
     </div>
 
@@ -29,17 +29,17 @@
             <form wire:submit="update">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">الاسم (عربي)</label>
+                        <label class="form-label fw-bold">{{ __('app.name_arabic') }}</label>
                         <input type="text" class="form-control" wire:model="name" required>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">الاسم (إنجليزي)</label>
+                        <label class="form-label fw-bold">{{ __('app.name_english') }}</label>
                         <input type="text" class="form-control" wire:model="en_name" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-warning px-4" wire:loading.attr="disabled">
-                    <span wire:loading.remove wire:target="update"><i class="bi bi-check-lg"></i> حفظ التعديلات</span>
-                    <span wire:loading wire:target="update"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                    <span wire:loading.remove wire:target="update"><i class="bi bi-check-lg"></i> {{ __('app.save_changes') }}</span>
+                    <span wire:loading wire:target="update"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                 </button>
             </form>
         </div>

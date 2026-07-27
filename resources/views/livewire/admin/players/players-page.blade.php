@@ -1,18 +1,18 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-person-badge-fill text-gold"></i> إدارة اللاعبين</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">عرض وإدارة اللاعبين المسجلين</p>
+            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-person-badge-fill text-gold"></i> {{ __('app.player_management') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ __('app.players_desc') }}</p>
         </div>
         <a href="{{ route('admin.players.create') }}" class="btn btn-warning">
-            <i class="bi bi-plus-lg"></i> إضافة لاعب
+            <i class="bi bi-plus-lg"></i> {{ __('app.add_player') }}
         </a>
     </div>
 
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item active">اللاعبون</li>
+        <ol class="breadcrumb fs-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('app.players') }}</li>
         </ol>
     </nav>
 
@@ -20,12 +20,12 @@
         <div class="card-body">
             <form wire:submit="resetPage" class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
-                    <input type="text" class="form-control" placeholder="بحث بالاسم أو الفريق..." wire:model.live.debounce.300ms="search">
+                    <label class="form-label fw-bold fs-base">{{ __('app.search') }}</label>
+                    <input type="text" class="form-control" placeholder="{{ __('app.search_players_placeholder') }}" wire:model.live.debounce.300ms="search" aria-label="{{ __('app.search') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">العرض</label>
-                    <select class="form-select" wire:model.live="perPage">
+                    <label class="form-label fw-bold fs-base">{{ __('app.per_page_display') }}</label>
+                    <select class="form-select" wire:model.live="perPage" aria-label="{{ __('app.per_page') }}">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
@@ -46,23 +46,23 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>الصورة</th>
-                            <th>الاسم</th>
-                            <th>الفريق</th>
-                            <th>الرقم</th>
-                            <th>المركز</th>
-                            <th class="text-center">إجراءات</th>
+                            <th>{{ __('app.image') }}</th>
+                            <th>{{ __('app.name') }}</th>
+                            <th>{{ __('app.teams') }}</th>
+                            <th>{{ __('app.number') }}</th>
+                            <th>{{ __('app.center') }}</th>
+                            <th class="text-center">{{ __('app.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($players as $player)
                             <tr wire:key="{{ $player->id }}">
-                                <td style="color:#94a3b8;">{{ $player->id }}</td>
+                                <td class="text-chrome-muted">{{ $player->id }}</td>
                                 <td>
                                     @if($player->image)
-                                        <img src="{{ $player->image }}" alt="" class="rounded-circle" style="width:38px;height:38px;object-fit:cover;border:2px solid var(--primary);">
+                                        <img src="{{ $player->image }}" alt="" class="rounded-circle object-cover border-chrome" style="width:38px;height:38px;border:2px solid var(--primary);">
                                     @else
-                                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width:38px;height:38px;font-size:0.85rem;">
+                                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold w-38 h-38 fs-base">
                                             {{ mb_substr($player->user->name ?? '?', 0, 1) }}
                                         </div>
                                     @endif
@@ -72,12 +72,14 @@
                                 <td><span class="badge-sport">{{ $player->number ?? '-' }}</span></td>
                                 <td>{{ $player->position->name ?? $player->position_text ?? '-' }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.players.edit', $player) }}" class="btn btn-sm btn-outline-primary" style="border-radius:8px;">
+                                    <a href="{{ route('admin.players.edit', $player) }}" class="btn btn-sm btn-outline-primary rounded-md"
+                                        aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                                    <button class="btn btn-sm btn-outline-danger rounded-md"
                                             wire:click="delete({{ $player->id }})"
-                                            wire:confirm="هل أنت متأكد من حذف هذا اللاعب؟">
+                                            wire:confirm="{{ __('app.confirm_delete_player') }}"
+                                            aria-label="{{ __('app.delete') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -85,7 +87,7 @@
                         @empty
                             <tr wire:loading.remove>
                                 <td colspan="7">
-                                    <x-empty-state icon="bi-person-raised-hand" title="{{ __('No Players Found') }}" message="{{ __('No results found. Start by adding a new item.') }}" />
+                                    <x-empty-state icon="bi-person-raised-hand" title="{{ __('app.players') }}" message="{{ __('app.no_results_found') }}" />
                                 </td>
                             </tr>
                         @endforelse

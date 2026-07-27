@@ -14,8 +14,6 @@ class UserDashboardPage extends Component
     {
         $user = auth()->user();
         $user->load('player', 'teams');
-        $isAr = app()->getLocale() === 'ar';
-
         $stats = [
             'teams' => $user->teams()->count(),
             'competitions' => $user->competitions()->count(),
@@ -41,8 +39,7 @@ class UserDashboardPage extends Component
         }
 
         return view('livewire.user.user-dashboard-page', [
-            'title' => $isAr ? 'لوحة التحكم' : 'Dashboard',
-            'isAr' => $isAr,
+            'title' => __('app.page_title_dashboard'),
             'user' => $user,
             'stats' => $stats,
             'recentMatches' => $recentMatches,

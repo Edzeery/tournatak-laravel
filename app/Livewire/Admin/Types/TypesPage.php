@@ -33,14 +33,14 @@ class TypesPage extends Component
     {
         $type = CompetitionType::findOrFail($id);
         $type->update(['is_active' => !$type->is_active]);
-        session()->flash('success', $type->is_active ? 'تم تفعيل النوع بنجاح' : 'تم إلغاء تفعيل النوع بنجاح');
+        session()->flash('success', $type->is_active ? __('app.type_toggled_active') : __('app.type_toggled_inactive'));
     }
 
     public function delete($id)
     {
         $type = CompetitionType::findOrFail($id);
         $type->delete();
-        session()->flash('success', 'تم حذف النوع بنجاح');
+        session()->flash('success', __('app.type_deleted'));
     }
 
     public function render()
@@ -51,7 +51,7 @@ class TypesPage extends Component
                 ->orWhere('slug', 'like', "%{$this->search}%"));
 
         return view('livewire.admin.types.types-page', [
-            'title' => 'إدارة الأنواع',
+            'title' => __('app.page_title_manage_types'),
             'types' => $query->orderBy('sort_order')->latest()->paginate($this->perPage),
         ]);
     }

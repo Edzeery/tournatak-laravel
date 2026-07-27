@@ -1,18 +1,18 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}" class="text-decoration-none" style="color:var(--primary);">المستخدمون</a></li>
-            <li class="breadcrumb-item active">إضافة جديدة</li>
+        <ol class="breadcrumb fs-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}" class="breadcrumb-link">{{ __('app.users') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('app.add_new') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-person-plus text-gold"></i> إضافة مستخدم جديد</h4>
+            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-person-plus text-gold"></i> {{ __('app.add_user') }} {{ __('app.new') }}</h4>
         </div>
-        <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary" style="border-radius:8px;">
-            <i class="bi bi-arrow-right"></i> رجوع
+        <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary rounded-md">
+            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
         </a>
     </div>
 
@@ -32,44 +32,44 @@
             <form wire:submit="store">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">الاسم الكامل</label>
-                        <input type="text" class="form-control" wire:model="name" required placeholder="الاسم الكامل">
+                        <label class="form-label fw-bold">{{ __('app.full_name') }}</label>
+                        <input type="text" class="form-control" wire:model="name" required placeholder="{{ __('app.full_name') }}">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">اسم المستخدم</label>
+                        <label class="form-label fw-bold">{{ __('app.username') }}</label>
                         <input type="text" class="form-control" wire:model="username" required placeholder="username">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">البريد الإلكتروني</label>
+                        <label class="form-label fw-bold">{{ __('app.email') }}</label>
                         <input type="email" class="form-control" wire:model="email" required placeholder="email@example.com">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">كلمة المرور</label>
+                        <label class="form-label fw-bold">{{ __('app.password') }}</label>
                         <input type="password" class="form-control" wire:model="password" required placeholder="••••••••">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">الدور</label>
+                        <label class="form-label fw-bold">{{ __('app.role') }}</label>
                         <select class="form-select" wire:model="role" required>
-                            <option value="viewer">مشاهد</option>
-                            <option value="competitor">مشارك</option>
-                            <option value="captain">قائد</option>
-                            <option value="player">لاعب</option>
-                            <option value="organizer">منظم</option>
-                            <option value="admin">مدير</option>
-                            <option value="user">مستخدم</option>
+                            <option value="viewer">{{ __('app.viewer') }}</option>
+                            <option value="competitor">{{ __('app.competitor') }}</option>
+                            <option value="captain">{{ __('app.captain') }}</option>
+                            <option value="player">{{ __('app.player_role') }}</option>
+                            <option value="organizer">{{ __('app.organizer') }}</option>
+                            <option value="admin">{{ __('app.admin_role') }}</option>
+                            <option value="user">{{ __('app.user_role') }}</option>
                         </select>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">التحقق</label>
+                        <label class="form-label fw-bold">{{ __('app.verified') }}</label>
                         <select class="form-select" wire:model="is_verified">
-                            <option value="1">موثق</option>
-                            <option value="0">غير موثق</option>
+                            <option value="1">{{ __('app.verified') }}</option>
+                            <option value="0">{{ __('app.unverified') }}</option>
                         </select>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-warning px-4" wire:loading.attr="disabled">
-                    <span wire:loading.remove wire:target="store"><i class="bi bi-check-lg"></i> حفظ المستخدم</span>
-                    <span wire:loading wire:target="store"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                    <span wire:loading.remove wire:target="store"><i class="bi bi-check-lg"></i> {{ __('app.save_user') }}</span>
+                    <span wire:loading wire:target="store"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                 </button>
             </form>
         </div>

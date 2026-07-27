@@ -5,7 +5,7 @@
 }
 
 .footer-sports::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -34,4 +34,16 @@
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     color: rgba(255, 255, 255, 0.4);
     font-size: 0.85rem;
+}
+.footer-sports .footer-desc {
+    color: #fff9;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+.footer-sports li {
+    color: #fff9;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-weight: 500;
 }

@@ -13,30 +13,30 @@
                     </span>
                 </a>
                 <h1 class="text-white fw-bold mb-3" style="font-size:2.5rem; line-height:1.3;">
-                    انضم إلى<br>
-                    <span class="text-gold">مجتمع الرياضة</span>
+                    {{ __('app.join') }}<br>
+                    <span class="text-gold">{{ __('app.join_community') }}</span>
                 </h1>
                 <p style="color:rgba(255,255,255,0.5); font-size:1.1rem; max-width:420px;">
-                    أنشئ حسابك مجاناً وابدأ في إدارة بطولاتك أو تسجيل فريقك والمشاركة في المسابقات الرياضية.
+                    {{ __('app.register_desc') }}
                 </p>
                 <div class="d-flex flex-column gap-3 mt-4">
                     <div class="d-flex align-items-center gap-3" style="color:rgba(255,255,255,0.4);">
                         <div class="bg-gold bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;min-width:40px;">
                             <i class="bi bi-trophy text-gold"></i>
                         </div>
-                        <span style="font-size:0.95rem;">إنشاء وإدارة البطولات</span>
+                        <span style="font-size:0.95rem;">{{ __('app.feature_manage') }}</span>
                     </div>
                     <div class="d-flex align-items-center gap-3" style="color:rgba(255,255,255,0.4);">
                         <div class="bg-gold bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;min-width:40px;">
                             <i class="bi bi-shield-check text-gold"></i>
                         </div>
-                        <span style="font-size:0.95rem;">تسجيل الفرق واللاعبين</span>
+                        <span style="font-size:0.95rem;">{{ __('app.feature_register') }}</span>
                     </div>
                     <div class="d-flex align-items-center gap-3" style="color:rgba(255,255,255,0.4);">
                         <div class="bg-gold bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;min-width:40px;">
                             <i class="bi bi-graph-up-arrow text-gold"></i>
                         </div>
-                        <span style="font-size:0.95rem;">متابعة النتائج والإحصائيات</span>
+                        <span style="font-size:0.95rem;">{{ __('app.feature_track') }}</span>
                     </div>
                 </div>
             </div>
@@ -56,8 +56,8 @@
                     <div class="auth-logo">
                         <i class="bi bi-person-plus text-dark"></i>
                     </div>
-                    <h2>إنشاء حساب جديد</h2>
-                    <p class="auth-subtitle">أنشئ حسابك وابدأ رحلتك الرياضية</p>
+                    <h2>{{ __('app.create_new_account') }}</h2>
+                    <p class="auth-subtitle">{{ __('app.register_subtitle') }}</p>
 
                     @if($errors->any())
                         <div class="alert alert-danger d-flex align-items-center gap-2 mb-4" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.2);color:#fca5a5;">
@@ -73,73 +73,73 @@
                     <form wire:submit="register">
                         <div class="row g-3">
                             <div class="col-6">
-                                <label class="form-label">اسم المستخدم</label>
+                                <label class="form-label">{{ __('app.username') }}</label>
                                 <div class="position-relative">
                                     <i class="bi bi-at position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                    <input type="text" class="form-control" style="padding-right:36px;" placeholder="username" wire:model="username" required>
+                                    <input type="text" class="form-control" style="padding-inline-end:36px;" placeholder="username" wire:model="username" required>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label">الاسم الكامل</label>
+                                <label class="form-label">{{ __('app.full_name') }}</label>
                                 <div class="position-relative">
                                     <i class="bi bi-person position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                    <input type="text" class="form-control" style="padding-right:36px;" placeholder="محمد أحمد" wire:model="name" required>
+                                    <input type="text" class="form-control" style="padding-inline-end:36px;" placeholder="محمد أحمد" wire:model="name" required>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3 mt-3">
-                            <label class="form-label">البريد الإلكتروني</label>
+                            <label class="form-label">{{ __('app.email') }}</label>
                             <div class="position-relative">
                                 <i class="bi bi-envelope position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                <input type="email" class="form-control" style="padding-right:42px;" placeholder="example@email.com" wire:model="email" required>
+                                <input type="email" class="form-control" style="padding-inline-end:42px;" placeholder="example@email.com" wire:model="email" required>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">نوع الحساب</label>
+                            <label class="form-label">{{ __('app.account_type') }}</label>
                             <div class="position-relative">
                                 <i class="bi bi-person-badge position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);z-index:5;"></i>
-                                <select class="form-select" style="padding-right:42px;" wire:model="role" required>
-                                    <option value="viewer">مشاهد</option>
-                                    <option value="competitor">مشارك في مسابقات</option>
-                                    <option value="captain">قائد فريق</option>
-                                    <option value="player">لاعب</option>
-                                    <option value="organizer">منظم بطولات</option>
-                                    <option value="user">مستخدم عادي</option>
+                                <select class="form-select" style="padding-inline-end:42px;" wire:model="role" required>
+                                    <option value="viewer">{{ __('app.viewer') }}</option>
+                                    <option value="competitor">{{ __('app.role_competitor') }}</option>
+                                    <option value="captain">{{ __('app.role_captain') }}</option>
+                                    <option value="player">{{ __('app.role_player') }}</option>
+                                    <option value="organizer">{{ __('app.role_organizer') }}</option>
+                                    <option value="user">{{ __('app.role_user') }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row g-3">
                             <div class="col-6">
-                                <label class="form-label">كلمة المرور</label>
+                                <label class="form-label">{{ __('app.password') }}</label>
                                 <div class="position-relative">
                                     <i class="bi bi-lock position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                    <input type="password" class="form-control" style="padding-right:36px;" placeholder="••••••••" wire:model="password" required>
+                                    <input type="password" class="form-control" style="padding-inline-end:36px;" placeholder="••••••••" wire:model="password" required>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label class="form-label">تأكيد كلمة المرور</label>
+                                <label class="form-label">{{ __('app.confirm_password') }}</label>
                                 <div class="position-relative">
                                     <i class="bi bi-lock-fill position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                    <input type="password" class="form-control" style="padding-right:36px;" placeholder="••••••••" wire:model="password_confirmation" required>
+                                    <input type="password" class="form-control" style="padding-inline-end:36px;" placeholder="••••••••" wire:model="password_confirmation" required>
                                 </div>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary-sport w-100 py-3 fw-bold mt-4" style="font-size:1.05rem;" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="register">
-                                <i class="bi bi-rocket-takeoff me-2"></i> إنشاء الحساب
+                                <i class="bi bi-rocket-takeoff me-2"></i> {{ __('app.create_account') }}
                             </span>
                             <span wire:loading wire:target="register">
-                                <span class="spinner-border spinner-border-sm me-2"></span> جاري الإنشاء...
+                                <span class="spinner-border spinner-border-sm me-2"></span> {{ __('app.creating') }}
                             </span>
                         </button>
                     </form>
 
-                    <div class="auth-divider">أو</div>
+                    <div class="auth-divider">{{ __('app.or') }}</div>
 
                     <div class="text-center">
-                        <span style="color:rgba(255,255,255,0.5);">لديك حساب بالفعل؟</span>
-                        <a href="{{ route('login') }}" class="auth-link">تسجيل الدخول</a>
+                        <span style="color:rgba(255,255,255,0.5);">{{ __('app.has_account') }}</span>
+                        <a href="{{ route('login') }}" class="auth-link">{{ __('app.login_now') }}</a>
                     </div>
                 </div>
             </div>

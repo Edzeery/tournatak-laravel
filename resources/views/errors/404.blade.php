@@ -22,39 +22,11 @@
     <div class="error-page">
         <div class="error-icon"><i class="bi bi-trophy"></i></div>
         <div class="error-code">404</div>
-        <div class="error-title">
-            @if(app()->getLocale() === 'ar')
-                الصفحة غير موجودة
-            @elseif(app()->getLocale() === 'fr')
-                Page introuvable
-            @elseif(app()->getLocale() === 'es')
-                Página no encontrada
-            @else
-                Page Not Found
-            @endif
-        </div>
-        <div class="error-message">
-            @if(app()->getLocale() === 'ar')
-                عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها.<br>تحقق من العنوان أو عد إلى الصفحة الرئيسية.
-            @elseif(app()->getLocale() === 'fr')
-                Désolé, la page que vous recherchez est introuvable ou a été déplacée.<br>Vérifiez l'URL ou retournez à l'accueil.
-            @elseif(app()->getLocale() === 'es')
-                Lo sentimos, la página que buscas no se encuentra o ha sido movida.<br>Verifica la URL o vuelve a la página principal.
-            @else
-                Sorry, the page you're looking for doesn't exist or has been moved.<br>Please check the URL or go back to the homepage.
-            @endif
-        </div>
+        <div class="error-title">{{ __('app.error_404_title') }}</div>
+        <div class="error-message">{!! __('app.error_404_message') !!}</div>
         <a href="{{ route('home') }}" class="error-btn">
             <i class="bi bi-house-fill"></i>
-            @if(app()->getLocale() === 'ar')
-                العودة للرئيسية
-            @elseif(app()->getLocale() === 'fr')
-                Retour à l'accueil
-            @elseif(app()->getLocale() === 'es')
-                Volver al inicio
-            @else
-                Go Home
-            @endif
+            {{ __('app.back_to_home') }}
         </a>
     </div>
 </body>

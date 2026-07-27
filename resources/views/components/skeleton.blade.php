@@ -12,7 +12,7 @@
                 <div class="skeleton-avatar skeleton-pulse"></div>
                 <div class="flex-grow-1">
                     <div class="skeleton-line skeleton-pulse mb-2" style="width:{{ rand(40,75) }}%;"></div>
-                    <div class="skeleton-line skeleton-pulse" style="width:{{ rand(20,50) }}%;opacity:0.5;"></div>
+                    <div class="skeleton-line skeleton-pulse opacity-50" style="width:{{ rand(20,50) }}%;"></div>
                 </div>
                 <div class="d-flex gap-2">
                     <div class="skeleton-btn skeleton-pulse"></div>
@@ -26,7 +26,7 @@
     <div class="row g-4">
         @foreach(range(1, $rows) as $i)
             <div class="col-md-6 col-lg-4">
-                <div class="card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;">
+                <div class="card card-dark rounded-xl">
                     <div class="card-body p-4">
                         <div class="skeleton-line skeleton-pulse mb-3" style="width:60%;height:20px;"></div>
                         <div class="skeleton-line skeleton-pulse mb-2" style="width:100%;"></div>

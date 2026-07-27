@@ -12,7 +12,7 @@ class CompetitionsPage extends Component
     public function render()
     {
         return view('livewire.public.competitions-page', [
-            'title' => 'البطولات',
+            'title' => __('app.page_title_competitions'),
             'competitions' => Competition::where('approval_status', 'approved')
                 ->with(['type', 'subtype', 'organizer'])
                 ->latest()

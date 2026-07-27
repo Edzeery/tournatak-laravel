@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إعادة تعيين كلمة المرور</title>
+    <title>{{ __('app.reset_password_title') }}</title>
     <style>
         body { margin:0; padding:0; background:#0a0e1a; font-family:'Cairo',Tahoma,Arial,sans-serif; color:#fff; }
         .container { max-width:560px; margin:40px auto; background:#111827; border-radius:16px; padding:48px 40px; border:1px solid rgba(255,193,7,0.15); }
@@ -21,23 +21,23 @@
             <span>🏆 {{ config('app.name') }}</span>
         </div>
 
-        <h1>إعادة تعيين كلمة المرور</h1>
+        <h1>{{ __('app.reset_password_title') }}</h1>
         <p>
-            تلقينا طلباً لإعادة تعيين كلمة المرور الخاص بحسابك.
-            <br>انقر على الزر أدناه لإنشاء كلمة مرور جديدة.
+            {{ __('app.email_reset_request') }}
+            <br>{{ __('app.email_reset_click_below') }}
         </p>
 
         <a href="{{ route('password.reset', ['token' => $token, 'email' => $email]) }}" class="btn">
-            إعادة تعيين كلمة المرور
+            {{ __('app.reset_password_button') }}
         </a>
 
         <p style="font-size:0.85rem;">
-            إذا لم تطلب إعادة تعيين كلمة المرور، يمكنك تجاهل هذه الرسالة بأمان.
+            {{ __('app.email_reset_not_you') }}
         </p>
 
         <div class="footer">
-            <p>هذه رسالة تلقائية، يرجى عدم الرد عليها.</p>
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. جميع الحقوق محفوظة.</p>
+            <p>{{ __('app.auto_message') }}</p>
+            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('app.all_rights_reserved') }}</p>
         </div>
     </div>
 </body>

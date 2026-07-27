@@ -134,7 +134,7 @@ class TeamStaffPage extends Component
                 'start_date' => $this->staffForm['start_date'] ?: null,
                 'end_date' => $this->staffForm['end_date'] ?: null,
             ]);
-            session()->flash('success', 'تم تحديث بيانات الموظف بنجاح');
+            session()->flash('success', __('app.staff_saved'));
         } else {
             TeamStaff::create([
                 'team_id' => $this->teamId,
@@ -144,7 +144,7 @@ class TeamStaffPage extends Component
                 'start_date' => $this->staffForm['start_date'] ?: null,
                 'end_date' => $this->staffForm['end_date'] ?: null,
             ]);
-            session()->flash('success', 'تم إضافة الموظف بنجاح');
+            session()->flash('success', __('app.staff_saved'));
         }
 
         $this->closeModal();
@@ -155,7 +155,7 @@ class TeamStaffPage extends Component
     {
         $record = TeamStaff::findOrFail($id);
         $record->delete();
-        session()->flash('success', 'تم حذف الموظف بنجاح');
+        session()->flash('success', __('app.staff_deleted'));
         $this->loadStaff();
     }
 
@@ -167,7 +167,7 @@ class TeamStaffPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-staff-page', [
-            'title' => 'الطاقم الفني - ' . $this->team->name,
+            'title' => __('app.staff') . ' - ' . $this->team->name,
             'staffRoles' => TeamStaff::STAFF_ROLES,
             'staffIcons' => TeamStaff::STAFF_ICONS,
         ]);

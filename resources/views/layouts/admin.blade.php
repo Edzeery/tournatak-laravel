@@ -19,6 +19,8 @@
 
 <body>
 
+    <a href="#main-content" class="visually-hidden-focusable position-absolute top-0 start-0 m-2 px-3 py-2 rounded skip-to-content">{{ __('app.skip_to_content') }}</a>
+
     {{-- Preloader --}}
     <div id="preloader" class="preloader">
         <div class="preloader-inner">
@@ -33,8 +35,8 @@
     {{-- Sidebar --}}
     <aside class="admin-sidebar" id="sidebar">
         <div class="sidebar-header d-flex align-items-center justify-content-between">
-            <a href="{{ route('home') }}" class="text-decoration-none d-flex align-items-center gap-2">
-                <div class="bg-gold text-dark rounded-3 d-flex align-items-center justify-content-center w-38 h-38 fs-lg fw-bold">
+            <a href="{{ route('home') }}" class="text-decoration-none d-flex align-items-center gap-2 sidebar-logo">
+                <div class="sidebar-logo-icon">
                     <i class="bi bi-trophy-fill"></i>
                 </div>
                 <div>
@@ -42,121 +44,187 @@
                     <small class="text-chrome-subtle fs-xs">{{ $title ?? __('app.dashboard') }}</small>
                 </div>
             </a>
-            <button class="sidebar-collapse-btn d-none d-lg-flex" onclick="toggleSidebarCollapse()" title="{{ __('app.toggle_sidebar') }}" aria-label="{{ __('app.toggle_sidebar') }}">
-                <i class="bi bi-chevron-left" id="collapseIcon"></i>
-            </button>
             <button class="btn btn-sm d-lg-none border-0 bg-transparent text-chrome-muted fs-xl" onclick="toggleSidebar()" aria-label="{{ __('app.close_sidebar') }}">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
 
-        <div class="sidebar-section">
-            <div class="sidebar-label">{{ __('app.main_menu') }}</div>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
-                        href="{{ route('admin.dashboard') }}" data-tooltip="{{ __('app.dashboard') }}">
-                        <i class="bi bi-grid-1x2-fill"></i>
-                        <span>{{ __('app.dashboard') }}</span>
-                    </a>
-                </li>
-            </ul>
+        <div class="sidebar-user-section d-none d-lg-flex">
+            <div class="sidebar-user-avatar">
+                {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
+            </div>
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
+                <div class="sidebar-user-role">{{ Auth::user()->role ?? 'admin' }}</div>
+            </div>
         </div>
 
-        <div class="sidebar-section">
-            <div class="sidebar-label">{{ __('app.management') }}</div>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
-                        href="{{ route('admin.users.index') }}" data-tooltip="{{ __('app.users') }}">
-                        <i class="bi bi-people-fill"></i> <span>{{ __('app.users') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }}"
-                        href="{{ route('admin.teams.index') }}" data-tooltip="{{ __('app.teams') }}">
-                        <i class="bi bi-shield-fill"></i> <span>{{ __('app.teams') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.players.*') ? 'active' : '' }}"
-                        href="{{ route('admin.players.index') }}" data-tooltip="{{ __('app.players') }}">
-                        <i class="bi bi-person-badge-fill"></i> <span>{{ __('app.players') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.matches.*') ? 'active' : '' }}"
-                        href="{{ route('admin.matches.index') }}" data-tooltip="{{ __('app.matches') }}">
-                        <i class="bi bi-calendar-event-fill"></i>
-                        <span>{{ __('app.matches') }}</span>
-                    </a>
-                </li>
-            </ul>
+        <div class="sidebar-nav-scroll">
+            <div class="sidebar-section">
+                <div class="sidebar-label">{{ __('app.main_menu') }}</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                            href="{{ route('admin.dashboard') }}" data-tooltip="{{ __('app.dashboard') }}">
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            <span>{{ __('app.dashboard') }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">{{ __('app.management') }}</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
+                            href="{{ route('admin.users.index') }}" data-tooltip="{{ __('app.users') }}">
+                            <i class="bi bi-people-fill"></i> <span>{{ __('app.users') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }} {{ request()->routeIs('admin.teams.*') ? 'open' : '' }}"
+                            href="#" onclick="toggleSubmenu(this, 'submenu-teams')" data-tooltip="{{ __('app.teams') }}">
+                            <i class="bi bi-shield-fill"></i> <span>{{ __('app.teams') }}</span>
+                            <i class="bi bi-chevron-down nav-link-arrow"></i>
+                        </a>
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.teams.*') ? 'show' : '' }}" id="submenu-teams">
+                            <a class="nav-link {{ request()->routeIs('admin.teams.index') ? 'active' : '' }}"
+                                href="{{ route('admin.teams.index') }}">
+                                <i class="bi bi-list-ul"></i> <span>{{ __('app.all_teams') }}</span>
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.teams.create') ? 'active' : '' }}"
+                                href="{{ route('admin.teams.create') }}">
+                                <i class="bi bi-plus-circle"></i> <span>{{ __('app.add_team') }}</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.players.*') ? 'active' : '' }} {{ request()->routeIs('admin.players.*') ? 'open' : '' }}"
+                            href="#" onclick="toggleSubmenu(this, 'submenu-players')" data-tooltip="{{ __('app.players') }}">
+                            <i class="bi bi-person-badge-fill"></i> <span>{{ __('app.players') }}</span>
+                            <i class="bi bi-chevron-down nav-link-arrow"></i>
+                        </a>
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.players.*') ? 'show' : '' }}" id="submenu-players">
+                            <a class="nav-link {{ request()->routeIs('admin.players.index') ? 'active' : '' }}"
+                                href="{{ route('admin.players.index') }}">
+                                <i class="bi bi-list-ul"></i> <span>{{ __('app.all_players') }}</span>
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.players.create') ? 'active' : '' }}"
+                                href="{{ route('admin.players.create') }}">
+                                <i class="bi bi-plus-circle"></i> <span>{{ __('app.add_player') }}</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.matches.*') ? 'active' : '' }} {{ request()->routeIs('admin.matches.*') ? 'open' : '' }}"
+                            href="#" onclick="toggleSubmenu(this, 'submenu-matches')" data-tooltip="{{ __('app.matches') }}">
+                            <i class="bi bi-calendar-event-fill"></i>
+                            <span>{{ __('app.matches') }}</span>
+                            <i class="bi bi-chevron-down nav-link-arrow"></i>
+                        </a>
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.matches.*') ? 'show' : '' }}" id="submenu-matches">
+                            <a class="nav-link {{ request()->routeIs('admin.matches.index') ? 'active' : '' }}"
+                                href="{{ route('admin.matches.index') }}">
+                                <i class="bi bi-list-ul"></i> <span>{{ __('app.all_matches') }}</span>
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.matches.create') ? 'active' : '' }}"
+                                href="{{ route('admin.matches.create') }}">
+                                <i class="bi bi-plus-circle"></i> <span>{{ __('app.add_match') }}</span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">{{ __('app.competitions') }}</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.competitions.*') ? 'active' : '' }} {{ request()->routeIs('admin.competitions.*') ? 'open' : '' }}"
+                            href="#" onclick="toggleSubmenu(this, 'submenu-competitions')" data-tooltip="{{ __('app.competitions') }}">
+                            <i class="bi bi-trophy-fill"></i>
+                            <span>{{ __('app.competitions') }}</span>
+                            <i class="bi bi-chevron-down nav-link-arrow"></i>
+                        </a>
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.competitions.*') ? 'show' : '' }}" id="submenu-competitions">
+                            <a class="nav-link {{ request()->routeIs('admin.competitions.index') ? 'active' : '' }}"
+                                href="{{ route('admin.competitions.index') }}">
+                                <i class="bi bi-list-ul"></i> <span>{{ __('app.all_competitions') }}</span>
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.competitions.create') ? 'active' : '' }}"
+                                href="{{ route('admin.competitions.create') }}">
+                                <i class="bi bi-plus-circle"></i> <span>{{ __('app.add_competition') }}</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.types.*') ? 'active' : '' }}"
+                            href="{{ route('admin.types.index') }}" data-tooltip="{{ __('app.types') }}">
+                            <i class="bi bi-tags-fill"></i> <span>{{ __('app.types') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.subtypes.*') ? 'active' : '' }}"
+                            href="{{ route('admin.subtypes.index') }}" data-tooltip="{{ __('app.subtypes') }}">
+                            <i class="bi bi-bookmark-fill"></i>
+                            <span>{{ __('app.subtypes') }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">{{ __('app.system') }}</div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.positions.*') ? 'active' : '' }}"
+                            href="{{ route('admin.positions.index') }}" data-tooltip="{{ __('app.positions') }}">
+                            <i class="bi bi-geo-alt-fill"></i> <span>{{ __('app.positions') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.trash*') ? 'active' : '' }}"
+                            href="{{ route('admin.trash') }}" data-tooltip="{{ __('app.trash') }}">
+                            <i class="bi bi-trash3"></i> <span>{{ __('app.trash') }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.security-log*') ? 'active' : '' }}"
+                            href="{{ route('admin.security-log') }}" data-tooltip="{{ __('app.security_log') }}">
+                            <i class="bi bi-shield-check"></i> <span>{{ __('app.security_log') }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <div class="sidebar-section">
-            <div class="sidebar-label">{{ __('app.competitions') }}</div>
+        <div class="sidebar-footer">
+            <div class="sidebar-footer-user d-lg-none">
+                <div class="sidebar-user-avatar sidebar-user-avatar-sm">
+                    {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
+                </div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
+                    <div class="sidebar-user-role">{{ Auth::user()->role ?? 'admin' }}</div>
+                </div>
+            </div>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.competitions.*') ? 'active' : '' }}"
-                        href="{{ route('admin.competitions.index') }}" data-tooltip="{{ __('app.competitions') }}">
-                        <i class="bi bi-trophy-fill"></i>
-                        <span>{{ __('app.competitions') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.types.*') ? 'active' : '' }}"
-                        href="{{ route('admin.types.index') }}" data-tooltip="{{ __('app.types') }}">
-                        <i class="bi bi-tags-fill"></i> <span>{{ __('app.types') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.subtypes.*') ? 'active' : '' }}"
-                        href="{{ route('admin.subtypes.index') }}" data-tooltip="{{ __('app.subtypes') }}">
-                        <i class="bi bi-bookmark-fill"></i>
-                        <span>{{ __('app.subtypes') }}</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="sidebar-section sidebar-section-bottom">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.positions.*') ? 'active' : '' }}"
-                        href="{{ route('admin.positions.index') }}" data-tooltip="{{ __('app.positions') }}">
-                        <i class="bi bi-geo-alt-fill"></i> <span>{{ __('app.positions') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.trash*') ? 'active' : '' }}"
-                        href="{{ route('admin.trash') }}" data-tooltip="{{ __('app.trash') }}">
-                        <i class="bi bi-trash3"></i> <span>{{ __('app.trash') }}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.security-log*') ? 'active' : '' }}"
-                        href="{{ route('admin.security-log') }}" data-tooltip="{{ __('app.security_log') }}">
-                        <i class="bi bi-shield-check"></i> <span>{{ __('app.security_log') }}</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="sidebar-section mt-2 pt-3 border-top border-chrome">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
+                    <a class="nav-link" href="{{ route('home') }}" data-tooltip="{{ __('app.back_to_site') }}">
                         <i class="bi bi-box-arrow-left"></i>
-                        {{ __('app.back_to_site') }}
+                        <span>{{ __('app.back_to_site') }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="nav-link w-100 text-end text-danger" type="submit">
-                            <i class="bi bi-box-arrow-left"></i>
-                            {{ __('app.logout') }}
+                        <button class="nav-link nav-link-logout w-100" type="submit" data-tooltip="{{ __('app.logout') }}">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>{{ __('app.logout') }}</span>
                         </button>
                     </form>
                 </li>
@@ -164,11 +232,16 @@
         </div>
     </aside>
 
+    {{-- Sidebar Collapse Toggle (outside sidebar) --}}
+    <button class="sidebar-collapse-toggle" id="collapseToggle" onclick="toggleSidebarCollapse()" title="{{ __('app.toggle_sidebar') }}" aria-label="{{ __('app.toggle_sidebar') }}">
+        <i class="bi bi-chevron-{{ isRtl() ? 'left' : 'right' }}" id="collapseIcon"></i>
+    </button>
+
     {{-- Backdrop for mobile --}}
     <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
 
     {{-- Main Content --}}
-    <div class="admin-main">
+    <div class="admin-main" id="main-content">
         <div class="admin-topbar">
             <div class="d-flex align-items-center gap-3">
                 <button class="btn btn-sm d-lg-none btn-gold-outline" onclick="toggleSidebar()" aria-label="{{ __('app.toggle_sidebar') }}">
@@ -185,15 +258,15 @@
                     <i class="bi theme-icon"></i>
                 </button>
                 <livewire:user.notification-bell />
-                <div class="d-flex align-items-center gap-2">
-                    <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold w-36 h-36 fs-base">
+                <a href="{{ route('user.profile') }}" class="d-flex align-items-center gap-2 text-decoration-none topbar-user">
+                    <div class="topbar-user-avatar">
                         {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
                     </div>
                     <div class="d-none d-md-block">
-                        <div class="fw-bold fs-base">{{ Auth::user()->name ?? 'Admin' }}</div>
-                        <small class="text-theme-muted fs-xs">{{ Auth::user()->role ?? 'admin' }}</small>
+                        <div class="fw-bold fs-base text-theme-primary">{{ Auth::user()->name ?? 'Admin' }}</div>
+                        <small class="text-theme-muted fs-xs">{{ ucfirst(Auth::user()->role ?? 'admin') }}</small>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -255,14 +328,15 @@
         var htmlEl = document.documentElement;
 
         function applySidebarState() {
+            var isRtl = document.documentElement.dir === 'rtl';
             if (sidebarCollapsed && window.innerWidth >= 992) {
                 sidebar.classList.add('collapsed');
                 htmlEl.classList.add('sidebar-collapsed');
-                if (collapseIcon) collapseIcon.className = 'bi bi-chevron-right';
+                if (collapseIcon) collapseIcon.className = 'bi bi-chevron-' + (isRtl ? 'left' : 'right');
             } else {
                 sidebar.classList.remove('collapsed');
                 htmlEl.classList.remove('sidebar-collapsed');
-                if (collapseIcon) collapseIcon.className = 'bi bi-chevron-left';
+                if (collapseIcon) collapseIcon.className = 'bi bi-chevron-' + (isRtl ? 'right' : 'left');
             }
         }
 
@@ -277,6 +351,30 @@
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('show');
             document.getElementById('sidebarBackdrop').classList.toggle('show');
+        }
+
+        function toggleSubmenu(link, submenuId) {
+            var submenu = document.getElementById(submenuId);
+            if (!submenu) return;
+
+            var isOpen = submenu.classList.contains('show');
+
+            // Close all other submenus
+            document.querySelectorAll('.sidebar-submenu.show').forEach(function(el) {
+                if (el.id !== submenuId) {
+                    el.classList.remove('show');
+                    el.previousElementSibling.classList.remove('open');
+                }
+            });
+
+            // Toggle current
+            if (isOpen) {
+                submenu.classList.remove('show');
+                link.classList.remove('open');
+            } else {
+                submenu.classList.add('show');
+                link.classList.add('open');
+            }
         }
     </script>
     @livewireScripts

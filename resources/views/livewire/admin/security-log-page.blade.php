@@ -23,6 +23,7 @@
                     </label>
                     <input type="text" class="form-control" wire:model.live.debounce.300ms="search"
                         placeholder="{{ __('app.search') }}..."
+                        aria-label="{{ __('app.search') }}"
                         style="border-radius:8px;border:1px solid #e2e8f0;font-size:0.85rem;padding:0.5rem 0.75rem;">
                 </div>
                 <div class="col-md-3">

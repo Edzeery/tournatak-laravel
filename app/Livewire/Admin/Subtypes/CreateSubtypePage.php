@@ -23,14 +23,14 @@ class CreateSubtypePage extends Component
             'en_name' => $this->en_name,
         ]);
 
-        session()->flash('success', 'تم إنشاء النوع الفرعي بنجاح');
+        session()->flash('success', __('app.subtype_created'));
         return redirect()->route('admin.subtypes.index');
     }
 
     public function render()
     {
         return view('livewire.admin.subtypes.create-subtype-page', [
-            'title' => 'إضافة تصنيف',
+            'title' => __('app.page_title_add_subtype'),
         ]);
     }
 }

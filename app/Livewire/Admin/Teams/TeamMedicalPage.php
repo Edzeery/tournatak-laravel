@@ -33,27 +33,36 @@ class TeamMedicalPage extends Component
         'notes' => '',
     ];
 
-    public const RECORD_TYPES = [
-        'injury' => 'إصابة',
-        'illness' => 'مرض',
-        'checkup' => 'فحص طبي',
-        'surgery' => 'جراحة',
-        'rehabilitation' => 'تأهيل',
-    ];
+    public static function getRecordTypes(): array
+    {
+        return [
+            'injury' => __('app.sub_injury'),
+            'illness' => __('app.disease'),
+            'checkup' => __('app.medical_checkup'),
+            'surgery' => __('app.surgery'),
+            'rehabilitation' => __('app.rehabilitation'),
+        ];
+    }
 
-    public const SEVERITY_LEVELS = [
-        'minor' => 'طفيف',
-        'moderate' => 'متوسط',
-        'severe' => 'شديد',
-        'critical' => 'حرج',
-    ];
+    public static function getSeverityLevels(): array
+    {
+        return [
+            'minor' => __('app.severity_minor'),
+            'moderate' => __('app.severity_moderate'),
+            'severe' => __('app.severity_severe'),
+            'critical' => __('app.severity_critical'),
+        ];
+    }
 
-    public const STATUS_OPTIONS = [
-        'active' => 'نشط',
-        'recovering' => 'تعافي',
-        'returned' => 'عاد',
-        'long_term' => 'إصابات طويلة',
-    ];
+    public static function getStatusOptions(): array
+    {
+        return [
+            'active' => __('app.active_status'),
+            'recovering' => __('app.recovering_status'),
+            'returned' => __('app.returned_status'),
+            'long_term' => __('app.long_term_status'),
+        ];
+    }
 
     protected $listeners = ['closeModal'];
 
@@ -161,10 +170,10 @@ class TeamMedicalPage extends Component
         if ($this->editingRecordId) {
             $record = TeamMedicalRecord::findOrFail($this->editingRecordId);
             $record->update($data);
-            session()->flash('success', 'تم تحديث السجل الطبي بنجاح');
+            session()->flash('success', __('app.medical_record_saved'));
         } else {
             TeamMedicalRecord::create(array_merge($data, ['team_id' => $this->teamId]));
-            session()->flash('success', 'تم إضافة السجل الطبي بنجاح');
+            session()->flash('success', __('app.medical_record_saved'));
         }
 
         $this->closeModal();
@@ -175,7 +184,7 @@ class TeamMedicalPage extends Component
     {
         $record = TeamMedicalRecord::findOrFail($id);
         $record->delete();
-        session()->flash('success', 'تم حذف السجل الطبي بنجاح');
+        session()->flash('success', __('app.medical_record_deleted'));
         $this->loadRecords();
     }
 
@@ -197,10 +206,10 @@ class TeamMedicalPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-medical-page', [
-            'title' => 'السجلات الطبية - ' . $this->team->name,
-            'recordTypes' => self::RECORD_TYPES,
-            'severityLevels' => self::SEVERITY_LEVELS,
-            'statusOptions' => self::STATUS_OPTIONS,
+            'title' => __('app.medical_record') . ' - ' . $this->team->name,
+            'recordTypes' => self::getRecordTypes(),
+            'severityLevels' => self::getSeverityLevels(),
+            'statusOptions' => self::getStatusOptions(),
         ]);
     }
 }

@@ -1,20 +1,20 @@
 <div>
     <section class="hero-sports text-white" style="min-height:280px;">
         <div class="container hero-content">
-            <div class="d-flex align-items-center gap-4" style="position:relative;z-index:2;">
+            <div class="d-flex align-items-center gap-4 position-relative" style="z-index:2;">
                 @if($player->image)
-                    <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->name ?? '' }}" class="rounded-circle" width="110" height="110" style="object-fit:cover;border:4px solid rgba(255,255,255,0.3);">
+                    <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->name ?? '' }}" class="rounded-circle object-cover player-hero-img" width="110" height="110">
                 @else
-                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-gold text-dark fw-bold" style="width:110px;height:110px;font-size:2.5rem;">
-                        {{ mb_substr($player->name ?? 'ل', 0, 1) }}
+                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-gold text-dark fw-bold w-110 h-110 fs-4xl">
+                        {{ mb_substr($player->name ?? 'P', 0, 1) }}
                     </div>
                 @endif
                 <div>
                     @if($player->number)
-                        <span class="badge bg-gold text-dark mb-1" style="font-size:0.9rem;">#{{ $player->number }}</span>
+                        <span class="badge bg-gold text-dark mb-1 fs-md">#{{ $player->number }}</span>
                     @endif
-                    <h1 class="fw-bold mb-1" style="font-size:2rem;">{{ $player->name ?? 'لاعب' }}</h1>
-                    <p style="color:rgba(255,255,255,0.7);margin:0;">
+                    <h1 class="fw-bold mb-1 fs-3xl">{{ $player->name ?? __('app.player_fallback') }}</h1>
+                    <p class="player-hero-subtitle">
                         @if($player->team)
                             <i class="bi bi-shield-fill"></i>
                             <a href="{{ route('teams.show', $player->team->id) }}" class="text-white text-decoration-underline">{{ $player->team->name }}</a>
@@ -25,80 +25,77 @@
                         @endif
                     </p>
                     @if($player->is_captain)
-                        <span class="badge bg-warning text-dark mt-1" style="font-size:0.75rem;">قائد الفريق (C)</span>
+                        <span class="badge bg-warning text-dark mt-1 fs-sm">{{ __('app.captain_badge') }}</span>
                     @endif
                 </div>
             </div>
         </div>
-        <div style="position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top, #f5f6fa, transparent);"></div>
+        <div class="hero-gradient-bottom"></div>
     </section>
 
-    <div class="container py-5" style="margin-top:-20px;">
+    <div class="container py-5 mt-neg-20">
         <div class="row g-4">
             {{-- Main Info --}}
             <div class="col-lg-8">
-                {{-- Bio --}}
                 @if($player->bio)
                     <div class="card border-0 mb-4">
                         <div class="card-body">
-                            <h6 class="fw-bold mb-2" style="color:var(--dark);">
-                                <i class="bi bi-person-lines-fill text-gold"></i> نبذة
+                            <h6 class="fw-bold mb-2 text-theme-primary">
+                                <i class="bi bi-person-lines-fill text-gold"></i> {{ __('app.bio') }}
                             </h6>
-                            <p style="font-size:0.9rem;line-height:1.7;color:#555;">{{ $player->bio }}</p>
+                            <p class="fs-md player-bio-text">{{ $player->bio }}</p>
                         </div>
                     </div>
                 @endif
 
-                {{-- Stats Summary --}}
                 <div class="row g-3 mb-4">
                     <div class="col-4">
-                        <div class="card border-0 text-center" style="border-radius:12px;">
+                        <div class="card border-0 text-center rounded-lg-custom">
                             <div class="card-body py-3">
-                                <div class="fw-bold" style="font-size:1.8rem;color:var(--primary);">{{ $totalGoals }}</div>
-                                <small class="text-muted" style="font-size:0.8rem;">هدف</small>
+                                <div class="fw-bold fs-2xl text-gold">{{ $totalGoals }}</div>
+                                <small class="text-muted player-stat-sm">{{ __('app.goals_abbr') }}</small>
                             </div>
                         </div>
                     </div>
                     <div class="col-4">
-                        <div class="card border-0 text-center" style="border-radius:12px;">
+                        <div class="card border-0 text-center rounded-lg-custom">
                             <div class="card-body py-3">
-                                <div class="fw-bold" style="font-size:1.8rem;color:var(--primary);">{{ $player->lineups()->count() }}</div>
-                                <small class="text-muted" style="font-size:0.8rem;">مباراة</small>
+                                <div class="fw-bold fs-2xl text-gold">{{ $player->lineups()->count() }}</div>
+                                <small class="text-muted player-stat-sm">{{ __('app.match') }}</small>
                             </div>
                         </div>
                     </div>
                     <div class="col-4">
-                        <div class="card border-0 text-center" style="border-radius:12px;">
+                        <div class="card border-0 text-center rounded-lg-custom">
                             <div class="card-body py-3">
-                                <div class="fw-bold" style="font-size:1.8rem;color:var(--primary);">{{ $player->lineups()->where('is_starter', true)->count() }}</div>
-                                <small class="text-muted" style="font-size:0.8rem;"> titular</small>
+                                <div class="fw-bold fs-2xl text-gold">{{ $player->lineups()->where('is_starter', true)->count() }}</div>
+                                <small class="text-muted player-stat-sm">{{ __('app.lineup') }}</small>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Goals --}}
                 @if($goals->count())
                     <div class="card border-0 mb-4">
                         <div class="card-body">
-                            <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                                <i class="bi bi-circle-fill text-gold" style="font-size:0.7rem;"></i> الأهداف
+                            <h6 class="fw-bold mb-3 text-theme-primary">
+                                <i class="bi bi-circle-fill text-gold fs-xs"></i> {{ __('app.goals') }}
                             </h6>
                             <div class="table-responsive">
                                 <table class="table align-middle mb-0">
                                     <thead>
                                         <tr>
-                                            <th style="font-size:0.8rem;">المباراة</th>
-                                            <th style="font-size:0.8rem;">التاريخ</th>
+                                            <th class="fs-xs">{{ __('app.match') }}</th>
+                                            <th class="fs-xs">{{ __('app.date') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($goals as $goal)
                                             <tr>
-                                                <td style="font-size:0.85rem;">
+                                                <td class="fs-base">
                                                     {{ $goal->match->team1->name ?? '?' }} vs {{ $goal->match->team2->name ?? '?' }}
                                                 </td>
-                                                <td style="font-size:0.8rem;color:#94a3b8;">
+                                                <td class="text-theme-muted fs-xs">
                                                     {{ formatDate($goal->match->match_date) ?? '—' }}
                                                 </td>
                                             </tr>
@@ -110,30 +107,29 @@
                     </div>
                 @endif
 
-                {{-- Season Stats --}}
                 @if($seasonStats->count())
                     <div class="card border-0 mb-4">
                         <div class="card-body">
-                            <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                                <i class="bi bi-bar-chart-line text-gold"></i> إحصائيات المواسم
+                            <h6 class="fw-bold mb-3 text-theme-primary">
+                                <i class="bi bi-bar-chart-line text-gold"></i> {{ __('app.season_stats') }}
                             </h6>
                             <div class="table-responsive">
                                 <table class="table align-middle mb-0">
                                     <thead>
                                         <tr>
-                                            <th style="font-size:0.8rem;">البطولة</th>
-                                            <th style="font-size:0.8rem;text-align:center;">م</th>
-                                            <th style="font-size:0.8rem;text-align:center;">هدف</th>
-                                            <th style="font-size:0.8rem;text-align:center;">تمريرة</th>
+                                            <th class="fs-xs">{{ __('app.competitions') }}</th>
+                                            <th class="text-center fs-xs">{{ __('app.matches_abbr') }}</th>
+                                            <th class="text-center fs-xs">{{ __('app.goals_abbr') }}</th>
+                                            <th class="text-center fs-xs">{{ __('app.assists') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($seasonStats as $stat)
                                             <tr>
-                                                <td style="font-size:0.85rem;">{{ $stat->competition->name ?? '—' }}</td>
-                                                <td class="text-center" style="font-size:0.85rem;">{{ $stat->matches_played ?? 0 }}</td>
-                                                <td class="text-center fw-bold" style="font-size:0.85rem;color:var(--primary);">{{ $stat->goals ?? 0 }}</td>
-                                                <td class="text-center" style="font-size:0.85rem;">{{ $stat->assists ?? 0 }}</td>
+                                                <td class="fs-base">{{ $stat->competition->name ?? '—' }}</td>
+                                                <td class="text-center fs-base">{{ $stat->matches_played ?? 0 }}</td>
+                                                <td class="text-center fw-bold fs-base text-gold">{{ $stat->goals ?? 0 }}</td>
+                                                <td class="text-center fs-base">{{ $stat->assists ?? 0 }}</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -148,50 +144,50 @@
             <div class="col-lg-4">
                 <div class="card border-0 mb-4">
                     <div class="card-body">
-                        <h6 class="fw-bold mb-3" style="color:var(--dark);">
-                            <i class="bi bi-info-circle text-gold"></i> معلومات اللاعب
+                        <h6 class="fw-bold mb-3 text-theme-primary">
+                            <i class="bi bi-info-circle text-gold"></i> {{ __('app.player_info') }}
                         </h6>
                         <div class="d-flex flex-column gap-2">
                             @if($player->position)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">المركز</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->position->name }}</span>
+                                    <span class="text-muted fs-base">{{ __('app.center') }}</span>
+                                    <span class="fw-bold fs-base">{{ $player->position->name }}</span>
                                 </div>
                             @endif
                             @if($player->date_of_birth)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">تاريخ الميلاد</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ formatDate($player->date_of_birth) }}</span>
+                                    <span class="text-muted fs-base">{{ __('app.date_of_birth') }}</span>
+                                    <span class="fw-bold fs-base">{{ formatDate($player->date_of_birth) }}</span>
                                 </div>
                             @endif
                             @if($player->nationality)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">الجنسية</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->nationality }}</span>
+                                    <span class="text-muted fs-base">{{ __('app.nationality') }}</span>
+                                    <span class="fw-bold fs-base">{{ $player->nationality }}</span>
                                 </div>
                             @endif
                             @if($player->height)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">الطول</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->height }} سم</span>
+                                    <span class="text-muted fs-base">{{ __('app.height') }}</span>
+                                    <span class="fw-bold fs-base">{{ $player->height }} {{ __('app.cm') }}</span>
                                 </div>
                             @endif
                             @if($player->weight)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">الوزن</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->weight }} كغ</span>
+                                    <span class="text-muted fs-base">{{ __('app.weight') }}</span>
+                                    <span class="fw-bold fs-base">{{ $player->weight }} {{ __('app.kg') }}</span>
                                 </div>
                             @endif
                             @if($player->foot)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">القدم</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->foot === 'right' ? 'يمين' : ($player->foot === 'left' ? 'يسار' : 'كلتاهما') }}</span>
+                                    <span class="text-muted fs-base">{{ __('app.foot') }}</span>
+                                    <span class="fw-bold fs-base">{{ $player->foot === 'right' ? __('app.right') : ($player->foot === 'left' ? __('app.left') : __('app.both')) }}</span>
                                 </div>
                             @endif
                             @if($player->sport_type)
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted" style="font-size:0.85rem;">نوع الرياضة</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->sport_type === 'football' ? 'كرة قدم' : 'فوتسال' }}</span>
+                                    <span class="text-muted fs-base">{{ __('app.sport_type_label') }}</span>
+                                    <span class="fw-bold fs-base">{{ $player->sport_type === 'football' ? __('app.football') : __('app.futsal') }}</span>
                                 </div>
                             @endif
                         </div>

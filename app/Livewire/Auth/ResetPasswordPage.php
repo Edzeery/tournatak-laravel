@@ -47,17 +47,17 @@ class ResetPasswordPage extends Component
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            session()->flash('success', 'تم إعادة تعيين كلمة المرور بنجاح. يمكنك الآن تسجيل الدخول.');
+            session()->flash('success', __('app.password_reset_success'));
             return redirect()->route('login');
         }
 
-        $this->addError('email', 'رابط إعادة التعيين غير صالح أو انتهت صلاحيته.');
+        $this->addError('email', __('app.invalid_reset_link'));
     }
 
     public function render()
     {
         return view('livewire.auth.reset-password-page', [
-            'title' => 'إعادة تعيين كلمة المرور',
+            'title' => __('app.page_title_reset_password'),
         ]);
     }
 }

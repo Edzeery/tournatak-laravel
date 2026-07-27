@@ -14,19 +14,19 @@ class CompetitionsPage extends Component
     public function approve($id)
     {
         Competition::where('id', $id)->update(['approval_status' => 'approved']);
-        session()->flash('success', 'تمت الموافقة على البطولة');
+        session()->flash('success', __('app.competition_approved'));
     }
 
     public function reject($id)
     {
         Competition::where('id', $id)->update(['approval_status' => 'rejected']);
-        session()->flash('error', 'تم رفض البطولة');
+        session()->flash('error', __('app.competition_rejected'));
     }
 
     public function render()
     {
         return view('livewire.admin.competitions.competitions-page', [
-            'title' => 'إدارة البطولات',
+            'title' => __('app.manage_competitions'),
             'competitions' => Competition::with('organizer')->latest()->paginate(10),
         ]);
     }

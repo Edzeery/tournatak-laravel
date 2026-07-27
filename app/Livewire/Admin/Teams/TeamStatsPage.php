@@ -171,10 +171,10 @@ class TeamStatsPage extends Component
             TeamSeasonStat::where('id', $this->editingStatId)
                 ->where('team_id', $this->teamId)
                 ->update($data);
-            session()->flash('success', 'تم تحديث الإحصائية بنجاح');
+            session()->flash('success', __('app.team_stat_saved'));
         } else {
             TeamSeasonStat::create($data);
-            session()->flash('success', 'تم إضافة الإحصائية بنجاح');
+            session()->flash('success', __('app.team_stat_saved'));
         }
 
         $this->closeModal();
@@ -209,7 +209,7 @@ class TeamStatsPage extends Component
         }
 
         $this->loadStats();
-        session()->flash('success', 'تم حذف الإحصائية بنجاح');
+        session()->flash('success', __('app.team_stat_deleted'));
     }
 
     public function getTotalWinsProperty()
@@ -273,7 +273,7 @@ class TeamStatsPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-stats-page', [
-            'title' => 'إحصائيات الفريق - ' . $this->team->name,
+            'title' => __('app.team_stats') . ' - ' . $this->team->name,
         ]);
     }
 }

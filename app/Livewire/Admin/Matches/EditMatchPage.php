@@ -44,7 +44,7 @@ class EditMatchPage extends Component
         ]);
 
         if ($this->team1_id === $this->team2_id) {
-            session()->flash('error', 'يجب أن يكون الفريقان مختلفين');
+            session()->flash('error', __('app.teams_must_be_different'));
             return;
         }
 
@@ -58,14 +58,14 @@ class EditMatchPage extends Component
             'score_team2' => $this->score_team2,
         ]);
 
-        session()->flash('success', 'تم تحديث المباراة بنجاح');
+        session()->flash('success', __('app.match_updated'));
         return redirect()->route('admin.matches.index');
     }
 
     public function render()
     {
         return view('livewire.admin.matches.edit-match-page', [
-            'title' => 'تعديل مباراة',
+            'title' => __('app.edit_match'),
             'match' => $this->match,
             'competitions' => Competition::orderBy('name')->get(),
             'teams' => Team::orderBy('name')->get(),

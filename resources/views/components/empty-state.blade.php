@@ -14,7 +14,7 @@
         <h5 class="text-white fw-bold mb-2">{{ $title }}</h5>
     @endif
     @if($message)
-        <p class="mb-0" style="color:rgba(255,255,255,0.45);max-width:400px;margin:0 auto;">
+        <p class="mb-0 empty-state-msg">
             {{ $message }}
         </p>
     @endif

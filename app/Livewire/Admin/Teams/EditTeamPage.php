@@ -40,14 +40,14 @@ class EditTeamPage extends Component
             'points' => $this->points,
         ]);
 
-        session()->flash('success', 'تم تحديث الفريق بنجاح');
+        session()->flash('success', __('app.team_updated'));
         return redirect()->route('admin.teams.index');
     }
 
     public function render()
     {
         return view('livewire.admin.teams.edit-team-page', [
-            'title' => 'تعديل فريق',
+            'title' => __('app.edit_team'),
             'team' => $this->team,
             'users' => User::orderBy('name')->get(),
         ]);

@@ -16,16 +16,30 @@ body {
 
 // ---- Scrollbar ----
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--chrome-bg);
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--primary);
+    background: var(--primary-hover);
     border-radius: 4px;
+
+    &:hover {
+        background: var(--primary);
+    }
+}
+
+/* Hide scrollbar on admin panel */
+.admin-main {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 // ---- Utility Classes ----

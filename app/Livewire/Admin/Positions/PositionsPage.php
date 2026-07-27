@@ -111,10 +111,10 @@ class PositionsPage extends Component
 
         if ($this->editingPositionId) {
             Position::findOrFail($this->editingPositionId)->update($this->positionForm);
-            session()->flash('success', 'تم تحديث المركز بنجاح');
+            session()->flash('success', __('app.position_updated'));
         } else {
             Position::create($this->positionForm);
-            session()->flash('success', 'تم إضافة المركز بنجاح');
+            session()->flash('success', __('app.position_created'));
         }
 
         $this->closeModal();
@@ -123,7 +123,7 @@ class PositionsPage extends Component
     public function deletePosition($id)
     {
         Position::findOrFail($id)->delete();
-        session()->flash('success', 'تم حذف المركز بنجاح');
+        session()->flash('success', __('app.position_deleted'));
     }
 
     public function updatedSearch()
@@ -139,7 +139,7 @@ class PositionsPage extends Component
     public function render()
     {
         return view('livewire.admin.positions.positions-page', [
-            'title' => 'إدارة المراكز',
+            'title' => __('app.page_title_manage_positions'),
             'positions' => $this->positions(),
         ]);
     }

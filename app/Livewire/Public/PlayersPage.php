@@ -12,7 +12,7 @@ class PlayersPage extends Component
     public function render()
     {
         return view('livewire.public.players-page', [
-            'title' => 'اللاعبون',
+            'title' => __('app.page_title_players'),
             'players' => Player::with(['user', 'team'])
                 ->withCount('goals')
                 ->latest()

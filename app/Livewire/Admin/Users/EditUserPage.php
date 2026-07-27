@@ -2,6 +2,7 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
+use App\Services\UserService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
@@ -29,36 +30,26 @@ class EditUserPage extends Component
 
     public function update()
     {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|min:3|unique:users,username,' . $this->user->id,
-            'email' => 'required|email|unique:users,email,' . $this->user->id,
-            'role' => 'required|in:viewer,competitor,captain,player,organizer,admin,user',
-        ]);
+        $service = app(UserService::class);
+        $this->validate($service->getUpdateValidationRules($this->user));
 
-        $data = [
+        $service->update($this->user, [
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
+            'password' => $this->password,
             'role' => $this->role,
             'is_verified' => (bool) $this->is_verified,
-        ];
+        ]);
 
-        if ($this->password) {
-            $data['password'] = Hash::make($this->password);
-        }
-
-        $this->user->update($data);
-        $this->user->syncRoles([$this->role]);
-
-        session()->flash('success', 'تم تحديث المستخدم بنجاح');
+        session()->flash('success', __('app.user_updated'));
         return redirect()->route('admin.users.index');
     }
 
     public function render()
     {
         return view('livewire.admin.users.edit-user-page', [
-            'title' => 'تعديل مستخدم',
+            'title' => __('app.page_title_edit_user'),
             'user' => $this->user,
         ]);
     }

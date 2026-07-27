@@ -36,10 +36,10 @@
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="text-decoration-none" style="color:var(--primary);">المباريات</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.matches') }}</a></li>
             <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="text-decoration-none" style="color:var(--primary);">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
-            <li class="breadcrumb-item active">التشكيلة</li>
+            <li class="breadcrumb-item active">{{ __('app.lineup') }}</li>
         </ol>
     </nav>
 
@@ -75,13 +75,13 @@
     <div class="d-flex justify-content-center gap-3 mb-4">
         <div class="team-tab text-center {{ $activeTeam === 1 ? 'active' : '' }}" wire:click="switchTeamAndOpen(1)" style="min-width:180px;">
             <i class="bi bi-shield-fill" style="color:#3949ab;"></i>
-            <span class="text-white fw-bold ms-1">{{ $match->team1->name ?? 'الفريق الأول' }}</span>
-            <div class="text-white-50 mt-1" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }} أساسي + {{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }} بديل</div>
+            <span class="text-white fw-bold ms-1">{{ $match->team1->name ?? __('app.team1_name') }}</span>
+            <div class="text-white-50 mt-1" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }} {{ __('app.starters') }} + {{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }} {{ __('app.substitutes') }}</div>
         </div>
         <div class="team-tab text-center {{ $activeTeam === 2 ? 'active' : '' }}" wire:click="switchTeamAndOpen(2)" style="min-width:180px;">
             <i class="bi bi-shield-fill" style="color:#e53935;"></i>
-            <span class="text-white fw-bold ms-1">{{ $match->team2->name ?? 'الفريق الثاني' }}</span>
-            <div class="text-white-50 mt-1" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }} أساسي + {{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }} بديل</div>
+            <span class="text-white fw-bold ms-1">{{ $match->team2->name ?? __('app.team2_name') }}</span>
+            <div class="text-white-50 mt-1" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }} {{ __('app.starters') }} + {{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }} {{ __('app.substitutes') }}</div>
         </div>
     </div>
 
@@ -94,7 +94,7 @@
                     {{-- Formation Selector --}}
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center gap-2">
-                            <span class="text-white-50" style="font-size:0.85rem;">التشكيلة:</span>
+                            <span class="text-white-50" style="font-size:0.85rem;">{{ __('app.formation') }}:</span>
                             <div class="dropdown">
                                 <button class="formation-badge team{{ $activeTeam }}-jersey text-white dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                     {{ $activeTeam === 1 ? $selectedFormation1 : $selectedFormation2 }}
@@ -108,7 +108,7 @@
                             </div>
                         </div>
                         <button class="btn btn-sm btn-warning" wire:click="switchTeamAndOpen({{ $activeTeam }})">
-                            <i class="bi bi-plus-lg"></i> إضافة لاعب
+                            <i class="bi bi-plus-lg"></i> {{ __('app.add_player') }}
                         </button>
                     </div>
 
@@ -136,7 +136,7 @@
             <div class="lineup-actions-card p-3 mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold text-white mb-0">
-                        <i class="bi bi-shield-fill" style="color:#3949ab;"></i> {{ $match->team1->name ?? 'الفريق ١' }}
+                        <i class="bi bi-shield-fill" style="color:#3949ab;"></i> {{ $match->team1->name ?? __('app.team1_name') }}
                     </h6>
                     <button class="btn btn-sm btn-outline-warning" wire:click="switchTeamAndOpen(1)" style="border-radius:8px;">
                         <i class="bi bi-plus"></i>
@@ -146,7 +146,7 @@
                 {{-- Starters --}}
                 <div class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-warning text-dark" style="font-size:0.7rem;">الأساسيون</span>
+                        <span class="badge bg-warning text-dark" style="font-size:0.7rem;">{{ __('app.starters') }}</span>
                         <span class="text-white-50" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team1Lineup->filter(fn($l) => $l->is_starter) as $lineup)
@@ -164,19 +164,20 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})">
+                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                    aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
                                         wire:click="deleteLineup({{ $lineup->id }})"
-                                        wire:confirm="هل أنت متأكد؟">
+                                        wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                         </div>
                     @empty
                         <div class="text-center py-2">
-                            <small class="text-white-50"><i class="bi bi-inbox"></i> لا يوجد لاعبين</small>
+                            <small class="text-white-50"><i class="bi bi-inbox"></i> {{ __('app.no_players') }}</small>
                         </div>
                     @endforelse
                 </div>
@@ -184,7 +185,7 @@
                 {{-- Substitutes --}}
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-secondary" style="font-size:0.7rem;">البدلاء</span>
+                        <span class="badge bg-secondary" style="font-size:0.7rem;">{{ __('app.substitutes') }}</span>
                         <span class="text-white-50" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team1Lineup->filter(fn($l) => !$l->is_starter) as $lineup)
@@ -200,19 +201,20 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})">
+                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                    aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
                                         wire:click="deleteLineup({{ $lineup->id }})"
-                                        wire:confirm="هل أنت متأكد؟">
+                                        wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                         </div>
                     @empty
                         <div class="text-center py-2">
-                            <small class="text-white-50"><i class="bi bi-inbox"></i> لا يوجد بدلاء</small>
+                            <small class="text-white-50"><i class="bi bi-inbox"></i> {{ __('app.no_substitutes') }}</small>
                         </div>
                     @endforelse
                 </div>
@@ -222,7 +224,7 @@
             <div class="lineup-actions-card p-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="fw-bold text-white mb-0">
-                        <i class="bi bi-shield-fill" style="color:#e53935;"></i> {{ $match->team2->name ?? 'الفريق ٢' }}
+                        <i class="bi bi-shield-fill" style="color:#e53935;"></i> {{ $match->team2->name ?? __('app.team2_name') }}
                     </h6>
                     <button class="btn btn-sm btn-outline-warning" wire:click="switchTeamAndOpen(2)" style="border-radius:8px;">
                         <i class="bi bi-plus"></i>
@@ -232,7 +234,7 @@
                 {{-- Starters --}}
                 <div class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-warning text-dark" style="font-size:0.7rem;">الأساسيون</span>
+                        <span class="badge bg-warning text-dark" style="font-size:0.7rem;">{{ __('app.starters') }}</span>
                         <span class="text-white-50" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team2Lineup->filter(fn($l) => $l->is_starter) as $lineup)
@@ -250,19 +252,20 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})">
+                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                    aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
                                         wire:click="deleteLineup({{ $lineup->id }})"
-                                        wire:confirm="هل أنت متأكد؟">
+                                        wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                         </div>
                     @empty
                         <div class="text-center py-2">
-                            <small class="text-white-50"><i class="bi bi-inbox"></i> لا يوجد لاعبين</small>
+                            <small class="text-white-50"><i class="bi bi-inbox"></i> {{ __('app.no_players') }}</small>
                         </div>
                     @endforelse
                 </div>
@@ -270,7 +273,7 @@
                 {{-- Substitutes --}}
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-secondary" style="font-size:0.7rem;">البدلاء</span>
+                        <span class="badge bg-secondary" style="font-size:0.7rem;">{{ __('app.substitutes') }}</span>
                         <span class="text-white-50" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team2Lineup->filter(fn($l) => !$l->is_starter) as $lineup)
@@ -286,19 +289,20 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})">
+                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                    aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
                                         wire:click="deleteLineup({{ $lineup->id }})"
-                                        wire:confirm="هل أنت متأكد؟">
+                                        wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
                         </div>
                     @empty
                         <div class="text-center py-2">
-                            <small class="text-white-50"><i class="bi bi-inbox"></i> لا يوجد بدلاء</small>
+                            <small class="text-white-50"><i class="bi bi-inbox"></i> {{ __('app.no_substitutes') }}</small>
                         </div>
                     @endforelse
                 </div>
@@ -308,17 +312,17 @@
 
     {{-- Add/Edit Modal --}}
     @if($showModal)
-        <div class="modal d-block" tabindex="-1" style="background:rgba(0,0,0,0.6); backdrop-filter:blur(4px);" wire:click.self="closeModal">
+        <div class="modal d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="lineupModalTitle" style="background:rgba(0,0,0,0.6); backdrop-filter:blur(4px);" wire:click.self="closeModal">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="background:#1a1e2e; border:1px solid rgba(255,193,7,0.2); border-radius:16px;" @click.away="closeModal">
                     <div class="modal-header border-bottom" style="border-color:rgba(255,255,255,0.1) !important;">
-                        <h5 class="modal-title fw-bold text-white">
+                        <h5 class="modal-title fw-bold text-white" id="lineupModalTitle">
                             <i class="bi bi-people-fill text-gold"></i>
-                            {{ $editingLineupId ? 'تعديل' : 'إضافة' }} لاعب
+                            {{ $editingLineupId ? __('app.edit_player') : __('app.add_player') }}
                             <span class="text-gold mx-1">-</span>
                             {{ $activeTeam === 1 ? ($match->team1->name ?? '') : ($match->team2->name ?? '') }}
                         </h5>
-                        <button type="button" class="btn-close btn-close-white" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close btn-close-white" aria-label="Close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         @if($errors->any())
@@ -330,21 +334,21 @@
 
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label fw-bold text-white-50">اللاعب</label>
+                                <label class="form-label fw-bold text-white-50">{{ __('app.player') }}</label>
                                 <select class="form-select" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.player_id">
-                                    <option value="">-- اختر لاعب --</option>
+                                    <option value="">-- {{ __('app.choose_player_lineup') }} --</option>
                                     @foreach($players as $player)
                                         <option value="{{ $player->id }}">{{ $player->name }} ({{ $player->number ?? '-' }})</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-bold text-white-50">المركز</label>
+                                <label class="form-label fw-bold text-white-50">{{ __('app.position') }}</label>
                                 <select class="form-select" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.position_id">
-                                    <option value="">-- اختر المركز --</option>
+                                    <option value="">-- {{ __('app.choose_position_lineup') }} --</option>
                                     @php
                                         $grouped = $positions->groupBy('category');
-                                        $cats = ['goalkeeper' => 'حراسة', 'defender' => 'دفاع', 'midfielder' => 'وسط', 'forward' => 'هجوم'];
+                                        $cats = ['goalkeeper' => __('app.goalkeeper'), 'defender' => __('app.defender'), 'midfielder' => __('app.midfielder'), 'forward' => __('app.forward')];
                                     @endphp
                                     @foreach($cats as $catKey => $catLabel)
                                         @if($grouped->has($catKey))
@@ -358,47 +362,47 @@
                                 </select>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label fw-bold text-white-50">رقم القميص</label>
+                                <label class="form-label fw-bold text-white-50">{{ __('app.jersey_number') }}</label>
                                 <input type="number" class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.jersey_number" min="0" max="99">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label fw-bold text-white-50">أساسي</label>
+                                <label class="form-label fw-bold text-white-50">{{ __('app.is_starter') }}</label>
                                 <div class="form-check form-switch mt-2">
                                     <input class="form-check-input" type="checkbox" wire:model="lineupForm.is_starter" id="isStarterCheck">
                                     <label class="form-check-label fw-bold text-white" for="isStarterCheck">
-                                        {{ $lineupForm['is_starter'] ? 'أساسي' : 'بديل' }}
+                                        {{ $lineupForm['is_starter'] ? __('app.is_starter') : __('app.is_bench') }}
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label fw-bold text-white-50">قائد</label>
+                                <label class="form-label fw-bold text-white-50">{{ __('app.is_captain_label') }}</label>
                                 <div class="form-check form-switch mt-2">
                                     <input class="form-check-input" type="checkbox" wire:model="lineupForm.is_captain" id="isCaptainCheck">
                                     <label class="form-check-label fw-bold text-white" for="isCaptainCheck">
-                                        {{ $lineupForm['is_captain'] ? 'قائد' : 'عادي' }}
+                                        {{ $lineupForm['is_captain'] ? __('app.is_captain_label') : __('app.is_normal') }}
                                     </label>
                                 </div>
                             </div>
                             <div class="col-md-3 d-flex align-items-end">
                                 <button class="btn btn-sm btn-outline-info w-100" wire:click="$set('lineupForm.is_starter', true); $set('lineupForm.is_captain', false);" style="border-radius:8px;">
-                                    <i class="bi bi-star"></i> إضافة كأساسي
+                                    <i class="bi bi-star"></i> {{ __('app.add_as_starter') }}
                                 </button>
                             </div>
 
                             @if(!$lineupForm['is_starter'])
                                 <div class="col-12"><hr style="border-color:rgba(255,255,255,0.1);"></div>
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold text-white-50">دقيقة الدخول</label>
+                                    <label class="form-label fw-bold text-white-50">{{ __('app.minute_in') }}</label>
                                     <input type="number" class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.minute_in" min="0" max="120">
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold text-white-50">دقيقة الخروج</label>
+                                    <label class="form-label fw-bold text-white-50">{{ __('app.minute_out') }}</label>
                                     <input type="number" class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.minute_out" min="0" max="120">
                                 </div>
                                 <div class="col-md-4">
-                                    <label class="form-label fw-bold text-white-50">سبب التبديل</label>
+                                    <label class="form-label fw-bold text-white-50">{{ __('app.sub_reason') }}</label>
                                     <select class="form-select" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.sub_reason">
-                                        <option value="">-- لا يوجد --</option>
+                                        <option value="">-- {{ __('app.no_substitutes') }} --</option>
                                         @foreach($subReasons as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
                                         @endforeach
@@ -407,16 +411,16 @@
                             @endif
 
                             <div class="col-12">
-                                <label class="form-label fw-bold text-white-50">ملاحظات الأداء</label>
-                                <textarea class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.performance_notes" rows="2" placeholder="ملاحظات حول أداء اللاعب..."></textarea>
+                                <label class="form-label fw-bold text-white-50">{{ __('app.performance_notes') }}</label>
+                                <textarea class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.performance_notes" rows="2" placeholder="{{ __('app.performance_notes_placeholder') }}"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer border-top" style="border-color:rgba(255,255,255,0.1) !important;">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">إلغاء</button>
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
                         <button type="button" class="btn btn-warning px-4" wire:click="saveLineup" wire:loading.attr="disabled" style="border-radius:8px;">
-                            <span wire:loading.remove wire:target="saveLineup"><i class="bi bi-check-lg"></i> حفظ</span>
-                            <span wire:loading wire:target="saveLineup"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                            <span wire:loading.remove wire:target="saveLineup"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
+                            <span wire:loading wire:target="saveLineup"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>
                     </div>
                 </div>

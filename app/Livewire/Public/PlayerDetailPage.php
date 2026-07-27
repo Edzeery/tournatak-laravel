@@ -29,7 +29,7 @@ class PlayerDetailPage extends Component
         $totalGoals = $goals->count();
 
         return view('livewire.public.player-detail-page', [
-            'title' => $this->player->name ?? 'لاعب',
+            'title' => $this->player->name ?? __('app.page_title_player_detail'),
             'player' => $this->player,
             'goals' => $goals,
             'totalGoals' => $totalGoals,

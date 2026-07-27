@@ -6,7 +6,7 @@
 [data-bs-theme="light"] {
     // Brand
     --primary: #ffc107;
-    --primary-hover: #e0a800;
+    --primary-hover: #e0a800b2;
     --primary-glow: rgba(255, 193, 7, 0.35);
     --accent: #00d4aa;
     --accent-2: #3b82f6;
@@ -32,8 +32,8 @@
     --chrome-bg-2: #111827;
     --chrome-bg-3: #1a1f35;
     --chrome-border: rgba(255, 255, 255, 0.06);
-    --chrome-text: rgba(255, 255, 255, 0.55);
-    --chrome-text-hover: rgba(255, 255, 255, 0.8);
+    --chrome-text: rgba(10, 14, 26, 0.4);
+    --chrome-text-hover: rgba(94, 92, 92, 0.8);
 
     // Named darks (keep for backward compat)
     --dark: #0a0e1a;
@@ -41,9 +41,23 @@
     --dark-3: #1e293b;
 
     // Gradients
-    --gradient-hero: linear-gradient(135deg, #0a0e1a 0%, #111827 40%, #1a1f35 100%);
-    --gradient-gold: linear-gradient(135deg, #ffc107 0%, #ff9800 50%, #f57c00 100%);
-    --gradient-dark: linear-gradient(180deg, rgba(10, 14, 26, 0) 0%, #0a0e1a 100%);
+    --gradient-hero: linear-gradient(
+        135deg,
+        #0a0e1a 0%,
+        #111827 40%,
+        #1a1f35 100%
+    );
+    --gradient-gold: linear-gradient(
+        135deg,
+        #ffc107 0%,
+        #ff9800 50%,
+        #f57c00 100%
+    );
+    --gradient-dark: linear-gradient(
+        180deg,
+        rgba(10, 14, 26, 0) 0%,
+        #0a0e1a 100%
+    );
 
     // Shadows
     --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.06);
@@ -67,6 +81,10 @@
     --input-color: #1e293b;
     --input-focus-border: var(--primary);
     --input-focus-shadow: 0 0 0 3px var(--primary-glow);
+
+    --bs-dropdown-link-hover-color: var(--text-primary);
+    --bs-dropdown-link-active-color: var(--primary);
+    --bs-dropdown-link-hover-bg: var(--primary-hover);
 }
 
 [data-bs-theme="dark"] {
@@ -105,4 +123,7 @@
     --input-color: #e2e8f0;
     --input-focus-border: var(--primary);
     --input-focus-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
+
+    --chrome-text: rgba(255, 255, 255, 0.55);
+    --chrome-text-hover: rgba(255, 255, 255, 0.8);
 }

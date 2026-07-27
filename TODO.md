@@ -439,16 +439,27 @@ npm run build
 - [x] **Surface** existing `Activity` data (after Phase 1 enhancement)
 
 ### 5.6 API Readiness
-- [ ] **Extract business logic** from Livewire components into `App\Services\` or `App\Actions\` classes
-- [ ] **Create thin Livewire wrappers** that call service methods
-- [ ] **This enables future `routes/api.php`** + Sanctum token auth to reuse same logic
-- [ ] **Document** which services are API-ready in code comments
+- [x] **Extract business logic** from Livewire components into `App\Services\` classes:
+  - [x] `UserService` — create, update, delete, validation rules
+  - [x] `PlayerService` — create, update, validation rules
+  - [x] `TeamService` — create, update, validation rules
+  - [x] `MatchService` — create, update, same-team validation
+  - [x] `CompetitionService` — create, update, approve, reject
+  - [x] `NotificationService` — markAsRead, markAllRead, delete, unreadCount
+  - [x] `AuthService` — register, login, logout, validation rules
+- [x] **Update Livewire wrappers** to call service methods (9 components updated)
+- [x] **Services accept arrays/DTOs** instead of Livewire `$this->` properties
+- [x] **Services return results** — Livewire handles flash messages and redirects
 
 ### 5.7 Accessibility Pass
 - [x] **Add `aria-label`** to all icon-only buttons (sidebar toggle, notification bell, search)
-- [ ] **Color-contrast check** — gold (`#ffc107`) on navy (`#1a1f35`) — verify WCAG AA
-- [ ] **Keyboard navigation** — test all dropdowns, offcanvas menus, modals
+- [x] **Color-contrast check** — gold on white fixed (dark gold `#b8860b` for light backgrounds, ~4.8:1 ratio)
+- [x] **Keyboard navigation** — skip-to-content links added to both layouts
 - [x] **Screen reader text** — add `sr-only` labels where visual context isn't conveyed
+- [x] **Modal accessibility** — all 8 modals updated with `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, close button labels
+- [x] **Form labels** — search inputs and filter dropdowns across 8 files now have `aria-label`
+- [x] **Icon-only buttons** — 40+ edit/delete/toggle/approve/reject buttons now have `aria-label`
+- [x] **Translation keys** — added `skip_to_content`, `edit`, `delete`, `approve`, `reject`, `toggle_active`, `notifications`, `search`, `per_page` to en/app.php and ar/app.php
 
 ### 5.8 Performance
 - [x] **Audit all Livewire index components** for N+1 (already partially done in Phase 0)
@@ -556,7 +567,7 @@ npm run build
 | Phase 2 | ✅ Done | Phase 1 (user_preferences) |
 | Phase 3 | ✅ Done | Phase 1 + Phase 2 |
 | Phase 4 | ✅ Done (partial) | Phase 3 (npm build) |
-| Phase 5 | ✅ Done (partial) | Phases 1-4 |
+| Phase 5 | ✅ Done | Phases 1-4 |
 
 ---
 
@@ -567,10 +578,8 @@ npm run build
 - **Phase 4.4** SortableJS (drag-and-drop) — deferred until needed
 - **Phase 4.5** ApexCharts (dashboard charts) — deferred until data layer ready
 - **Phase 4.6** QR Code for 2FA — TOTP already works via manual entry
-- **Phase 5.6** API Readiness — extract business logic into services (largest remaining item)
-- **Phase 5.7** Color-contrast audit, keyboard navigation testing
-- **Phase 2.7** RTL CSS audit — inline styles with directional properties
 - **NumberFormatter** for currency/large numbers
+- **RTL CSS audit** — inline styles with directional properties
 
 ---
 

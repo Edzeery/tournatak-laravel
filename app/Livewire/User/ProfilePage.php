@@ -45,13 +45,13 @@ class ProfilePage extends Component
             $this->hasProfile = true;
         }
 
-        session()->flash('success', 'تم تحديث الملف الشخصي بنجاح');
+        session()->flash('success', __('app.profile_updated'));
     }
 
     public function render()
     {
         return view('livewire.user.profile-page', [
-            'title' => 'الملف الشخصي',
+            'title' => __('app.page_title_profile'),
             'user' => auth()->user(),
         ]);
     }

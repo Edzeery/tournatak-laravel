@@ -1,26 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'اللاعبون')
+@section('title', __('app.players'))
 
 @section('content')
 <div>
-    {{-- Page Header --}}
-    <section class="hero-sports text-white" style="min-height:300px;">
+    <section class="hero-sports hero-sports-sm text-white">
         <div class="container hero-content">
-            <div class="text-center" style="position:relative;z-index:2;">
-                <div class="hero-badge mx-auto mb-3" style="display:inline-flex;">
-                    <i class="bi bi-people-fill"></i> جميع اللاعبين
+            <div class="text-center position-relative" style="z-index:2;">
+                <div class="hero-badge mx-auto mb-3 d-inline-flex">
+                    <i class="bi bi-people-fill"></i> {{ __('app.all_players') }}
                 </div>
-                <h1 class="fw-bold mb-3" style="font-size:2.5rem;">اللاعبون</h1>
-                <p style="color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto;">
-                    تعرف على اللاعبين المسجلين في المنصة وإحصائياتهم
+                <h1 class="fw-bold mb-3 fs-4xl">{{ __('app.players_hero_title') }}</h1>
+                <p class="text-theme-muted hero-desc">
+                    {{ __('app.players_hero_desc') }}
                 </p>
             </div>
         </div>
-        <div style="position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top, #f5f6fa, transparent);"></div>
+        <div class="hero-gradient-bottom"></div>
     </section>
 
-    <div class="container py-5" style="margin-top:-20px;">
+    <div class="container py-5 mt-neg-20">
         @php
             $players = \App\Models\Player::with(['user', 'team'])
                 ->withCount('goals')
@@ -34,13 +33,13 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="team-card h-100">
                             @if($player->image)
-                                <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->user->name ?? '' }}" class="rounded-circle mb-3" width="80" height="80" style="object-fit: cover; border: 3px solid var(--primary);">
+                                <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->user->name ?? '' }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
                             @else
-                                <div class="team-avatar mx-auto" style="background:rgba(59,130,246,0.15);color:#3b82f6;">
-                                    {{ mb_substr($player->user->name ?? 'ل', 0, 1) }}
+                                <div class="team-avatar mx-auto player-avatar-blue">
+                                    {{ mb_substr($player->user->name ?? 'P', 0, 1) }}
                                 </div>
                             @endif
-                            <h6 class="mb-1 fw-bold">{{ $player->user->name ?? 'لاعب' }}</h6>
+                            <h6 class="mb-1 fw-bold">{{ $player->user->name ?? __('app.player_fallback') }}</h6>
                             @if($player->team)
                                 <small class="text-muted d-block mb-2">
                                     <i class="bi bi-shield"></i> {{ $player->team->name }}
@@ -51,7 +50,7 @@
                                     <span class="badge-sport">#{{ $player->number }}</span>
                                 @endif
                                 <span class="badge-sport">
-                                    <i class="bi bi-circle-fill" style="font-size:0.5rem;"></i> {{ $player->goals_count }} هدف
+                                    <i class="bi bi-circle-fill fs-2xs"></i> {{ $player->goals_count }} {{ __('app.goals') }}
                                 </span>
                             </div>
                         </div>
@@ -65,8 +64,8 @@
         @else
             <div class="empty-state">
                 <i class="bi bi-person d-block"></i>
-                <h4>لا يوجد لاعبون حالياً</h4>
-                <p>سيتم عرض اللاعبين هنا قريباً</p>
+                <h4>{{ __('app.no_players_yet') }}</h4>
+                <p>{{ __('app.players_coming_soon') }}</p>
             </div>
         @endif
     </div>

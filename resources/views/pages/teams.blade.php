@@ -1,26 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'الفرق')
+@section('title', __('app.teams'))
 
 @section('content')
 <div>
-    {{-- Page Header --}}
-    <section class="hero-sports text-white" style="min-height:300px;">
+    <section class="hero-sports hero-sports-sm text-white">
         <div class="container hero-content">
-            <div class="text-center" style="position:relative;z-index:2;">
-                <div class="hero-badge mx-auto mb-3" style="display:inline-flex;">
-                    <i class="bi bi-shield-fill"></i> جميع الفرق
+            <div class="text-center position-relative" style="z-index:2;">
+                <div class="hero-badge mx-auto mb-3 d-inline-flex">
+                    <i class="bi bi-shield-fill"></i> {{ __('app.all_teams') }}
                 </div>
-                <h1 class="fw-bold mb-3" style="font-size:2.5rem;">الفرق المسجلة</h1>
-                <p style="color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto;">
-                    تعرف على الفرق المشاركة في البطولات والمسابقات
+                <h1 class="fw-bold mb-3 fs-4xl">{{ __('app.teams_hero_title') }}</h1>
+                <p class="text-theme-muted hero-desc">
+                    {{ __('app.teams_hero_desc') }}
                 </p>
             </div>
         </div>
-        <div style="position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top, #f5f6fa, transparent);"></div>
+        <div class="hero-gradient-bottom"></div>
     </section>
 
-    <div class="container py-5" style="margin-top:-20px;">
+    <div class="container py-5 mt-neg-20">
         @php
             $teams = \App\Models\Team::with('captain')->latest()->paginate(12);
         @endphp
@@ -31,7 +30,7 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="team-card h-100">
                             @if($team->logo)
-                                <img src="{{ asset('uploads/teams/' . $team->logo) }}" alt="{{ $team->name }}" class="rounded-circle mb-3" width="80" height="80" style="object-fit: cover; border: 3px solid var(--primary);">
+                                <img src="{{ asset('uploads/teams/' . $team->logo) }}" alt="{{ $team->name }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
                             @else
                                 <div class="team-avatar bg-gold text-dark mx-auto">
                                     {{ mb_substr($team->name, 0, 1) }}
@@ -44,7 +43,7 @@
                                 </small>
                             @endif
                             <span class="badge-sport">
-                                <i class="bi bi-star-fill"></i> {{ $team->points ?? 0 }} نقطة
+                                <i class="bi bi-star-fill"></i> {{ $team->points ?? 0 }} {{ __('app.points') }}
                             </span>
                         </div>
                     </div>
@@ -57,8 +56,8 @@
         @else
             <div class="empty-state">
                 <i class="bi bi-shield d-block"></i>
-                <h4>لا توجد فرق حالياً</h4>
-                <p>سيتم عرض الفرق هنا قريباً</p>
+                <h4>{{ __('app.no_teams_yet') }}</h4>
+                <p>{{ __('app.teams_coming_soon') }}</p>
             </div>
         @endif
     </div>

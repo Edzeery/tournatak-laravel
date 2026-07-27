@@ -33,7 +33,7 @@ class MatchesPage extends Component
     {
         $match = Match_::findOrFail($id);
         $match->delete();
-        session()->flash('success', 'تم حذف المباراة بنجاح');
+        session()->flash('success', __('app.match_deleted'));
     }
 
     public function render()
@@ -45,7 +45,7 @@ class MatchesPage extends Component
                 ->orWhereHas('team2', fn($tq) => $tq->where('name', 'like', "%{$this->search}%")));
 
         return view('livewire.admin.matches.matches-page', [
-            'title' => 'إدارة المباريات',
+            'title' => __('app.matches'),
             'matches' => $query->latest('match_date')->paginate($this->perPage),
         ]);
     }

@@ -153,13 +153,13 @@ class TeamFormationsPage extends Component
                 Formation::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             $formation->update($data);
-            session()->flash('success', 'تم تحديث التشكيلة بنجاح');
+            session()->flash('success', __('app.formation_saved'));
         } else {
             if ($this->formationForm['is_default']) {
                 Formation::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             Formation::create(array_merge($data, ['team_id' => $this->teamId]));
-            session()->flash('success', 'تم إضافة التشكيلة بنجاح');
+            session()->flash('success', __('app.formation_saved'));
         }
 
         $this->closeModal();
@@ -170,7 +170,7 @@ class TeamFormationsPage extends Component
     {
         $formation = Formation::findOrFail($id);
         $formation->delete();
-        session()->flash('success', 'تم حذف التشكيلة بنجاح');
+        session()->flash('success', __('app.formation_deleted'));
         $this->loadFormations();
     }
 
@@ -238,7 +238,7 @@ class TeamFormationsPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-formations-page', [
-            'title' => 'التشكيلات - ' . $this->team->name,
+            'title' => __('app.formations') . ' - ' . $this->team->name,
         ]);
     }
 }

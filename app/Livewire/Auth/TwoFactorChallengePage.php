@@ -63,17 +63,17 @@ class TwoFactorChallengePage extends Component
             Session::forget('2fa_user_id');
             session()->regenerate();
 
-            session()->flash('warning', 'لقد استخدمت رمز الاسترداد. يُنصح بإعداد المصادقة الثنائية مرة أخرى.');
+            session()->flash('warning', __('app.recovery_code_used'));
             return redirect()->intended(route('admin.dashboard'));
         }
 
-        $this->addError('code', 'الرمز غير صحيح. يرجى المحاولة مرة أخرى.');
+        $this->addError('code', __('app.invalid_code'));
     }
 
     public function render()
     {
         return view('livewire.auth.two-factor-challenge-page', [
-            'title' => 'المصادقة الثنائية',
+            'title' => __('app.page_title_two_factor_auth'),
         ]);
     }
 }

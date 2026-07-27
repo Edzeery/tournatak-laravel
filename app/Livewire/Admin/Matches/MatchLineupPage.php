@@ -33,13 +33,16 @@ class MatchLineupPage extends Component
         'performance_notes' => null,
     ];
 
-    private static $subReasons = [
-        'tactical' => 'تكتيكي',
-        'injury' => 'إصابة',
-        'red_card' => 'بطاقة حمراء',
-        'yellow_card' => 'بطاقة صفراء',
-        'fatigue' => 'إرهاق',
-    ];
+    private static function getSubReasons(): array
+    {
+        return [
+            'tactical' => __('app.sub_tactical'),
+            'injury' => __('app.sub_injury'),
+            'red_card' => __('app.sub_red_card'),
+            'yellow_card' => __('app.sub_yellow_card'),
+            'fatigue' => __('app.sub_fatigue'),
+        ];
+    }
 
     public $selectedFormation1 = null;
     public $selectedFormation2 = null;
@@ -200,7 +203,7 @@ class MatchLineupPage extends Component
             'lineupForm.jersey_number' => 'nullable|integer|min:0|max:99',
             'lineupForm.minute_in' => 'nullable|integer|min:0|max:120',
             'lineupForm.minute_out' => 'nullable|integer|min:0|max:120',
-            'lineupForm.sub_reason' => 'nullable|in:' . implode(',', array_keys(self::$subReasons)),
+            'lineupForm.sub_reason' => 'nullable|in:' . implode(',', array_keys(self::getSubReasons())),
             'lineupForm.is_captain' => 'required|boolean',
         ]);
 
@@ -208,7 +211,7 @@ class MatchLineupPage extends Component
 
         $player = Player::findOrFail($this->lineupForm['player_id']);
         if ($player->team_id !== $teamId) {
-            session()->flash('error', 'اللاعب لا ينتمي لهذا الفريق');
+            session()->flash('error', __('app.player_not_in_team'));
             return;
         }
 
@@ -225,7 +228,7 @@ class MatchLineupPage extends Component
                 'is_captain' => $this->lineupForm['is_captain'],
                 'performance_notes' => $this->lineupForm['performance_notes'],
             ]);
-            session()->flash('success', 'تم تحديث التشكيلة بنجاح');
+            session()->flash('success', __('app.lineup_updated'));
         } else {
             MatchLineup::create([
                 'match_id' => $this->matchId,
@@ -240,7 +243,7 @@ class MatchLineupPage extends Component
                 'is_captain' => $this->lineupForm['is_captain'],
                 'performance_notes' => $this->lineupForm['performance_notes'],
             ]);
-            session()->flash('success', 'تم إضافة التشكيلة بنجاح');
+            session()->flash('success', __('app.lineup_added'));
         }
 
         $this->closeModal();
@@ -275,7 +278,7 @@ class MatchLineupPage extends Component
     public function deleteLineup($id)
     {
         MatchLineup::findOrFail($id)->delete();
-        session()->flash('success', 'تم حذف التشكيلة بنجاح');
+        session()->flash('success', __('app.lineup_deleted'));
         $this->loadLineups();
     }
 
@@ -343,13 +346,13 @@ class MatchLineupPage extends Component
         $positions = Position::where('sport_type', 'football')->where('is_active', true)->orderBy('sort_order')->get();
 
         return view('livewire.admin.matches.lineup-page', [
-            'title' => 'إدارة التشكيلة - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
+            'title' => __('app.page_title_match_lineup') . ' - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
             'match' => $this->match,
             'team1Lineup' => $this->team1Lineup,
             'team2Lineup' => $this->team2Lineup,
             'players' => $players,
             'positions' => $positions,
-            'subReasons' => self::$subReasons,
+            'subReasons' => self::getSubReasons(),
             'pitchData1' => $this->getPitchData(1),
             'pitchData2' => $this->getPitchData(2),
         ]);

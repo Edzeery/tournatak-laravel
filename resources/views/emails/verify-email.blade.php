@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تفعيل الحساب</title>
+    <title>{{ __('app.email_verify_title') }}</title>
     <style>
         body { margin:0; padding:0; background:#0a0e1a; font-family:'Cairo',Tahoma,Arial,sans-serif; color:#fff; }
         .container { max-width:560px; margin:40px auto; background:#111827; border-radius:16px; padding:48px 40px; border:1px solid rgba(255,193,7,0.15); }
@@ -21,23 +21,23 @@
             <span>🏆 {{ config('app.name') }}</span>
         </div>
 
-        <h1>تفعيل حسابك</h1>
+        <h1>{{ __('app.email_verify_heading') }}</h1>
         <p>
-            شكراً لتسجيلك في {{ config('app.name') }}!
-            <br>انقر على الزر أدناه لتفعيل حسابك والبدء في استخدام المنصة.
+            {{ __('app.email_verify_thanks', ['name' => config('app.name')]) }}
+            <br>{{ __('app.email_verify_click_below') }}
         </p>
 
         <a href="{{ route('verification.verify', ['id' => $userId, 'hash' => $token]) }}" class="btn">
-            تفعيل الحساب
+            {{ __('app.email_verify_button') }}
         </a>
 
         <p style="font-size:0.85rem;">
-            إذا لم تقم بإنشاء هذا الحساب، يُرجى تجاهل هذه الرسالة بأمان.
+            {{ __('app.email_not_you') }}
         </p>
 
         <div class="footer">
-            <p>هذه رسالة تلقائية، يرجى عدم الرد عليها.</p>
-            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. جميع الحقوق محفوظة.</p>
+            <p>{{ __('app.auto_message') }}</p>
+            <p>&copy; {{ date('Y') }} {{ config('app.name') }}. {{ __('app.all_rights_reserved') }}</p>
         </div>
     </div>
 </body>

@@ -6,6 +6,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\UserNotification;
+use App\Services\NotificationService;
 
 #[Layout('layouts.app')]
 class NotificationsPage extends Component
@@ -16,22 +17,17 @@ class NotificationsPage extends Component
 
     public function markAsRead(int $id): void
     {
-        $notification = UserNotification::where('user_id', auth()->id())->find($id);
-        if ($notification && !$notification->is_read) {
-            $notification->update(['is_read' => true]);
-        }
+        app(NotificationService::class)->markAsRead(auth()->id(), $id);
     }
 
     public function markAllRead(): void
     {
-        UserNotification::where('user_id', auth()->id())
-            ->where('is_read', false)
-            ->update(['is_read' => true]);
+        app(NotificationService::class)->markAllRead(auth()->id());
     }
 
     public function deleteNotification(int $id): void
     {
-        UserNotification::where('user_id', auth()->id())->find($id)?->delete();
+        app(NotificationService::class)->delete(auth()->id(), $id);
     }
 
     public function render()

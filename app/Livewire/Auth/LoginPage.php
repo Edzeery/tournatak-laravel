@@ -20,7 +20,7 @@ class LoginPage extends Component
         $throttleKey = 'login:' . request()->ip();
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
-            session()->flash('error', 'لقد تجاوزت الحد المسموح. يرجى المحاولة بعد ' . $seconds . ' ثانية.');
+            session()->flash('error', __('app.rate_limit_exceeded', ['seconds' => $seconds]));
             return;
         }
 
@@ -33,7 +33,7 @@ class LoginPage extends Component
 
             if (!$user->is_verified) {
                 Auth::logout();
-                return redirect()->route('home')->with('error', 'يرجى تفعيل حسابك أولاً');
+                return redirect()->route('home')->with('error', __('app.activate_account_first'));
             }
 
             SecurityActivityLogger::login($user);
@@ -46,18 +46,18 @@ class LoginPage extends Component
             }
 
             session()->regenerate();
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'مرحباً بك ' . $user->name);
+            return redirect()->intended(route('admin.dashboard'))->with('success', __('app.welcome_back') . ' ' . $user->name);
         }
 
         SecurityActivityLogger::failedLogin($this->identifier);
         RateLimiter::hit($throttleKey, 60);
-        return back()->withInput()->withErrors(['identifier' => 'بيانات تسجيل الدخول غير صحيحة']);
+        return back()->withInput()->withErrors(['identifier' => __('app.invalid_credentials')]);
     }
 
     public function render()
     {
         return view('livewire.auth.login-page', [
-            'title' => 'تسجيل الدخول',
+            'title' => __('app.page_title_login'),
         ]);
     }
 }

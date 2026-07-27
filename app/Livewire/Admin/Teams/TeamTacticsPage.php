@@ -29,32 +29,44 @@ class TeamTacticsPage extends Component
         'is_default' => false,
     ];
 
-    public const PRESSING_STYLES = [
-        'high' => 'ضغط عالي',
-        'medium' => 'ضغط متوسط',
-        'low' => 'ضغط منخفض',
-        'mixed' => 'مختلط',
-    ];
+    public static function getPressingStyles(): array
+    {
+        return [
+            'high' => __('app.pressing_high'),
+            'medium' => __('app.pressing_medium'),
+            'low' => __('app.pressing_low'),
+            'mixed' => __('app.mixed'),
+        ];
+    }
 
-    public const BUILD_UP_STYLES = [
-        'from_back' => 'بناء من الخلف',
-        'quick_counter' => 'هجمات سريعة',
-        'long_ball' => 'كرة طويلة',
-        'mixed' => 'مختلط',
-    ];
+    public static function getBuildUpStyles(): array
+    {
+        return [
+            'from_back' => __('app.build_from_back'),
+            'quick_counter' => __('app.quick_counter'),
+            'long_ball' => __('app.long_ball'),
+            'mixed' => __('app.mixed'),
+        ];
+    }
 
-    public const DEFENSE_STYLES = [
-        'zone' => 'دفاع مناطقي',
-        'man_to_man' => 'دفاع شخصي',
-        'mixed' => 'مختلط',
-    ];
+    public static function getDefenseStyles(): array
+    {
+        return [
+            'zone' => __('app.zone_defense'),
+            'man_to_man' => __('app.man_to_man'),
+            'mixed' => __('app.mixed'),
+        ];
+    }
 
-    public const ATTACK_STYLES = [
-        'wing_play' => 'هجوم أجنحة',
-        'central' => 'هجوم مركزي',
-        'balanced' => 'هجوم متوازن',
-        'counter_attack' => 'هجوم مضاد',
-    ];
+    public static function getAttackStyles(): array
+    {
+        return [
+            'wing_play' => __('app.wing_play'),
+            'central' => __('app.central_attack'),
+            'balanced' => __('app.balanced_attack'),
+            'counter_attack' => __('app.counter_attack'),
+        ];
+    }
 
     public const FORMATION_OPTIONS = [
         '4-4-2', '4-3-3', '3-5-2', '4-2-3-1', '5-3-2', '4-1-4-1', '3-4-3',
@@ -156,13 +168,13 @@ class TeamTacticsPage extends Component
                 TeamTactic::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             $tactic->update($data);
-            session()->flash('success', 'تم تحديث التكتيك بنجاح');
+            session()->flash('success', __('app.tactic_saved'));
         } else {
             if ($this->tacticForm['is_default']) {
                 TeamTactic::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             TeamTactic::create(array_merge($data, ['team_id' => $this->teamId]));
-            session()->flash('success', 'تم إضافة التكتيك بنجاح');
+            session()->flash('success', __('app.tactic_saved'));
         }
 
         $this->closeModal();
@@ -173,7 +185,7 @@ class TeamTacticsPage extends Component
     {
         $tactic = TeamTactic::findOrFail($id);
         $tactic->delete();
-        session()->flash('success', 'تم حذف التكتيك بنجاح');
+        session()->flash('success', __('app.tactic_deleted'));
         $this->loadTactics();
     }
 
@@ -185,11 +197,11 @@ class TeamTacticsPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-tactics-page', [
-            'title' => 'التكتيكات - ' . $this->team->name,
-            'pressingStyles' => self::PRESSING_STYLES,
-            'buildUpStyles' => self::BUILD_UP_STYLES,
-            'defenseStyles' => self::DEFENSE_STYLES,
-            'attackStyles' => self::ATTACK_STYLES,
+            'title' => __('app.tactics') . ' - ' . $this->team->name,
+            'pressingStyles' => self::getPressingStyles(),
+            'buildUpStyles' => self::getBuildUpStyles(),
+            'defenseStyles' => self::getDefenseStyles(),
+            'attackStyles' => self::getAttackStyles(),
             'formationOptions' => self::FORMATION_OPTIONS,
         ]);
     }

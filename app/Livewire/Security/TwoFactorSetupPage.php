@@ -45,7 +45,7 @@ class TwoFactorSetupPage extends Component
         $user = auth()->user();
 
         if (!Hash::check($this->password, $user->password)) {
-            $this->addError('password', 'كلمة المرور غير صحيحة.');
+            $this->addError('password', __('app.wrong_password'));
             return;
         }
 
@@ -86,7 +86,7 @@ class TwoFactorSetupPage extends Component
         );
 
         if (!$valid) {
-            $this->addError('verificationCode', 'الرمز غير صحيح. يرجى التأكد من إدخال الرمز الصحيح من تطبيق المصادقة.');
+            $this->addError('verificationCode', __('app.invalid_2fa_code'));
             return;
         }
 
@@ -118,7 +118,7 @@ class TwoFactorSetupPage extends Component
         $user = auth()->user();
 
         if (!Hash::check($this->password, $user->password)) {
-            $this->addError('password', 'كلمة المرور غير صحيحة.');
+            $this->addError('password', __('app.wrong_password'));
             return;
         }
 
@@ -136,7 +136,7 @@ class TwoFactorSetupPage extends Component
         $this->recoveryCodes = [];
 
         SecurityActivityLogger::twoFactorDisabled($user);
-        session()->flash('success', 'تم إلغاء تفعيل المصادقة الثنائية.');
+        session()->flash('success', __('app.two_factor_disabled'));
     }
 
     public function generateNewRecoveryCodes()
@@ -148,7 +148,7 @@ class TwoFactorSetupPage extends Component
         $user = auth()->user();
 
         if (!Hash::check($this->password, $user->password)) {
-            $this->addError('password', 'كلمة المرور غير صحيحة.');
+            $this->addError('password', __('app.wrong_password'));
             return;
         }
 
@@ -160,7 +160,7 @@ class TwoFactorSetupPage extends Component
         $this->showRecoveryCodes = true;
         $this->password = '';
 
-        session()->flash('success', 'تم إنشاء رموز استرداد جديدة.');
+        session()->flash('success', __('app.recovery_codes_generated'));
     }
 
     protected function generateRecoveryCodes($user)
@@ -190,7 +190,7 @@ class TwoFactorSetupPage extends Component
     public function render()
     {
         return view('livewire.security.two-factor-setup-page', [
-            'title' => 'إعداد المصادقة الثنائية',
+            'title' => __('app.page_title_two_factor_setup'),
         ]);
     }
 }

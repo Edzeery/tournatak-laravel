@@ -1,20 +1,20 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">الفرق</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.teams') }}</a></li>
             <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none" style="color:var(--primary);">{{ $team->name }}</a></li>
-            <li class="breadcrumb-item active">التشكيلات</li>
+            <li class="breadcrumb-item active">{{ __('app.formations') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-diagram-3-fill text-gold"></i> التشكيلات</h4>
+            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-diagram-3-fill text-gold"></i> {{ __('app.formations') }}</h4>
             <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $team->name }}</p>
         </div>
         <button class="btn btn-warning" wire:click="openModal">
-            <i class="bi bi-plus-lg"></i> إضافة تشكيلة
+            <i class="bi bi-plus-lg"></i> {{ __('app.add_formation') }}
         </button>
     </div>
 
@@ -22,8 +22,8 @@
         <div class="card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
-                    <input type="text" class="form-control" placeholder="بحث بالاسم أو الكود..." wire:model.live.debounce.300ms="search">
+                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.search') }}</label>
+                    <input type="text" class="form-control" placeholder="{{ __('app.search_by_name_or_code') }}" wire:model.live.debounce.300ms="search">
                 </div>
             </div>
         </div>
@@ -44,11 +44,11 @@
                             </div>
                             <div class="d-flex gap-1">
                                 <span class="badge {{ $formation->sport_type === 'football' ? 'bg-success' : 'bg-info' }}" style="font-size:0.7rem;">
-                                    {{ $formation->sport_type === 'football' ? 'كرة قدم' : 'صالة' }}
+                                    {{ $formation->sport_type === 'football' ? __('app.football') : __('app.futsal') }}
                                 </span>
                                 @if($formation->is_default)
                                     <span class="badge bg-warning text-dark" style="font-size:0.7rem;">
-                                        <i class="bi bi-star-fill"></i> افتراضي
+                                        <i class="bi bi-star-fill"></i> {{ __('app.default_badge') }}
                                     </span>
                                 @endif
                             </div>
@@ -83,7 +83,7 @@
                             </button>
                             <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
                                     wire:click="deleteFormation({{ $formation->id }})"
-                                    wire:confirm="هل أنت متأكد من حذف هذه التشكيلة؟">
+                                    wire:confirm="{{ __('app.confirm_delete_formation') }}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -96,10 +96,10 @@
                     <div class="card-body py-5 text-center">
                         <div class="empty-state py-3">
                             <i class="bi bi-diagram-3 d-block" style="font-size:2.5rem;"></i>
-                            <h5>لا توجد تشكيلات</h5>
-                            <p class="text-muted">لم يتم إضافة أي تشكيلة بعد</p>
+                            <h5>{{ __('app.no_formations') }}</h5>
+                            <p class="text-muted">{{ __('app.no_formations_desc') }}</p>
                             <button class="btn btn-warning" wire:click="openModal">
-                                <i class="bi bi-plus-lg"></i> إضافة تشكيلة
+                                <i class="bi bi-plus-lg"></i> {{ __('app.add_formation') }}
                             </button>
                         </div>
                     </div>
@@ -109,33 +109,33 @@
     </div>
 
     @if($showModal)
-        <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="formationModalTitle" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="border-radius:16px;" wire:click.stop>
                     <div class="modal-header border-0 pb-0">
-                        <h5 class="modal-title fw-bold">
+                        <h5 class="modal-title fw-bold" id="formationModalTitle">
                             <i class="bi bi-diagram-3-fill text-gold"></i>
-                            {{ $editingFormationId ? 'تعديل التشكيلة' : 'إضافة تشكيلة' }}
+                            {{ $editingFormationId ? __('app.edit_formation') : __('app.add_formation') }}
                         </h5>
-                        <button type="button" class="btn-close" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close" aria-label="Close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">اسم التشكيلة</label>
-                                <input type="text" class="form-control" placeholder="مثال: التشكيلة الأساسية" wire:model="formationForm.name">
+                                <label class="form-label fw-bold">{{ __('app.formation_name') }}</label>
+                                <input type="text" class="form-control" placeholder="{{ __('app.formation_name_placeholder') }}" wire:model="formationForm.name">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">نوع الرياضة</label>
+                                <label class="form-label fw-bold">{{ __('app.sport_type') }}</label>
                                 <select class="form-select" wire:model.live="formationForm.sport_type">
-                                    <option value="football">كرة قدم</option>
-                                    <option value="futsal">كرة قدم صالة</option>
+                                    <option value="football">{{ __('app.football') }}</option>
+                                    <option value="futsal">{{ __('app.futsal') }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">كود التشكيلة</label>
+                                <label class="form-label fw-bold">{{ __('app.formation_code') }}</label>
                                 <select class="form-select" wire:model.live="formationForm.formation_code">
                                     @if($formationForm['sport_type'] === 'football')
                                         @foreach($footballFormations as $fc)
@@ -149,19 +149,19 @@
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">التشكيل الافتراضي</label>
+                                <label class="form-label fw-bold">{{ __('app.default_formation') }}</label>
                                 <div class="form-check form-switch mt-2">
                                     <input class="form-check-input" type="checkbox" wire:model="formationForm.is_default" id="isDefaultFormation">
-                                    <label class="form-check-label fw-bold" for="isDefaultFormation">تشكيل افتراضي</label>
+                                    <label class="form-check-label fw-bold" for="isDefaultFormation">{{ __('app.default_formation') }}</label>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">الوصف</label>
-                            <textarea class="form-control" rows="2" placeholder="وصف التشكيلة..." wire:model="formationForm.description"></textarea>
+                            <label class="form-label fw-bold">{{ __('app.description') }}</label>
+                            <textarea class="form-control" rows="2" placeholder="{{ __('app.description_placeholder') }}" wire:model="formationForm.description"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">معاينة التشكيلة</label>
+                            <label class="form-label fw-bold">{{ __('app.formation_preview') }}</label>
                             <div class="text-center p-3 bg-light rounded" style="border:1px dashed #ccc;">
                                 <svg viewBox="0 0 200 140" style="width:100%;max-width:360px;height:auto;">
                                     <defs>
@@ -186,10 +186,10 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">إلغاء</button>
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
                         <button type="button" class="btn btn-warning px-4" wire:click="saveFormation" wire:loading.attr="disabled" style="border-radius:8px;">
-                            <span wire:loading.remove wire:target="saveFormation"><i class="bi bi-check-lg"></i> حفظ</span>
-                            <span wire:loading wire:target="saveFormation"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                            <span wire:loading.remove wire:target="saveFormation"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
+                            <span wire:loading wire:target="saveFormation"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>
                     </div>
                 </div>

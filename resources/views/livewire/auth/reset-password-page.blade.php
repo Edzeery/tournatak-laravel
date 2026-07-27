@@ -8,7 +8,7 @@
                 <div class="auth-card">
                     <div class="text-center d-lg-none mb-4">
                         <a href="{{ route('home') }}" class="text-decoration-none">
-                            <span class="text-gold fw-bold" style="font-size:1.5rem;">
+                            <span class="text-gold fw-bold fs-xl">
                                 <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
                             </span>
                         </a>
@@ -17,15 +17,15 @@
                     <div class="auth-logo">
                         <i class="bi bi-shield-lock-fill text-dark"></i>
                     </div>
-                    <h2>إعادة تعيين كلمة المرور</h2>
-                    <p class="auth-subtitle">أدخل كلمة المرور الجديدة لحسابك</p>
+                    <h2>{{ __('app.reset_password_title') }}</h2>
+                    <p class="auth-subtitle">{{ __('app.reset_password_subtitle') }}</p>
 
                     @if($errors->any())
-                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.2);color:#fca5a5;">
+                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4 alert-dark-danger">
                             <i class="bi bi-exclamation-triangle-fill"></i>
                             <div>
                                 @foreach($errors->all() as $error)
-                                    <div style="font-size:0.85rem;">{{ $error }}</div>
+                                    <div class="fs-base">{{ $error }}</div>
                                 @endforeach
                             </div>
                         </div>
@@ -35,44 +35,44 @@
                         <input type="hidden" wire:model="token">
 
                         <div class="mb-3">
-                            <label class="form-label">البريد الإلكتروني</label>
+                            <label class="form-label">{{ __('app.email') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-envelope position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                <input type="email" class="form-control" style="padding-right:42px;" placeholder="example@email.com" wire:model="email" required>
+                                <i class="bi bi-envelope position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
+                                <input type="email" class="form-control" style="padding-inline-end:42px;" placeholder="example@email.com" wire:model="email" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">كلمة المرور الجديدة</label>
+                            <label class="form-label">{{ __('app.new_password') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-lock position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                <input type="password" class="form-control" style="padding-right:42px;" placeholder="••••••••" wire:model="password" required>
+                                <i class="bi bi-lock position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
+                                <input type="password" class="form-control" style="padding-inline-end:42px;" placeholder="••••••••" wire:model="password" required>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label">تأكيد كلمة المرور</label>
+                            <label class="form-label">{{ __('app.confirm_password') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-lock-fill position-absolute" style="right:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.3);"></i>
-                                <input type="password" class="form-control" style="padding-right:42px;" placeholder="••••••••" wire:model="password_confirmation" required>
+                                <i class="bi bi-lock-fill position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
+                                <input type="password" class="form-control" style="padding-inline-end:42px;" placeholder="••••••••" wire:model="password_confirmation" required>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary-sport w-100 py-3 fw-bold" style="font-size:1.05rem;" wire:loading.attr="disabled">
+                        <button type="submit" class="btn btn-primary-sport w-100 py-3 fw-bold fs-lg" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="resetPassword">
-                                <i class="bi bi-check-circle me-2"></i> إعادة تعيين كلمة المرور
+                                <i class="bi bi-check-circle me-2"></i> {{ __('app.reset_password_button') }}
                             </span>
                             <span wire:loading wire:target="resetPassword">
-                                <span class="spinner-border spinner-border-sm me-2"></span> جاري الحفظ...
+                                <span class="spinner-border spinner-border-sm me-2"></span> {{ __('app.saving') }}
                             </span>
                         </button>
                     </form>
 
-                    <div class="auth-divider">أو</div>
+                    <div class="auth-divider">{{ __('app.or') }}</div>
 
                     <div class="text-center">
-                        <a href="{{ route('login') }}" class="auth-link" style="font-size:0.95rem;">
-                            <i class="bi bi-arrow-right me-1"></i> العودة لتسجيل الدخول
+                        <a href="{{ route('login') }}" class="auth-link fs-md">
+                            <i class="bi bi-arrow-right me-1"></i> {{ __('app.back_to_login') }}
                         </a>
                     </div>
                 </div>

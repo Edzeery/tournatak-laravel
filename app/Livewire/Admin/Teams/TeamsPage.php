@@ -33,7 +33,7 @@ class TeamsPage extends Component
     {
         $team = Team::findOrFail($id);
         $team->delete();
-        session()->flash('success', 'تم حذف الفريق بنجاح');
+        session()->flash('success', __('app.team_deleted'));
     }
 
     public function render()
@@ -43,7 +43,7 @@ class TeamsPage extends Component
             ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"));
 
         return view('livewire.admin.teams.teams-page', [
-            'title' => 'إدارة الفرق',
+            'title' => __('app.manage_teams'),
             'teams' => $query->latest()->paginate($this->perPage),
         ]);
     }

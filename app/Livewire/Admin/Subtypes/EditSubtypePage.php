@@ -31,14 +31,14 @@ class EditSubtypePage extends Component
             'en_name' => $this->en_name,
         ]);
 
-        session()->flash('success', 'تم تحديث النوع الفرعي بنجاح');
+        session()->flash('success', __('app.subtype_updated'));
         return redirect()->route('admin.subtypes.index');
     }
 
     public function render()
     {
         return view('livewire.admin.subtypes.edit-subtype-page', [
-            'title' => 'تعديل تصنيف',
+            'title' => __('app.page_title_edit_subtype'),
             'subtype' => $this->subtype,
         ]);
     }

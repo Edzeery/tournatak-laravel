@@ -38,6 +38,10 @@ class DashboardPage extends Component
             ->limit(5)
             ->get();
 
+        $matchStatuses = Match_::select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
         $topScorers = Goal::select('player_id', DB::raw('count(*) as goals'))
             ->with('player.user', 'player.team')
             ->groupBy('player_id')
@@ -45,12 +49,35 @@ class DashboardPage extends Component
             ->limit(5)
             ->get();
 
+        $monthlyGoals = Goal::select(
+                DB::raw('MONTH(matches.match_date) as month'),
+                DB::raw('count(*) as total')
+            )
+            ->join('matches', 'goals.match_id', '=', 'matches.id')
+            ->whereYear('matches.match_date', now()->year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month')
+            ->toArray();
+
+        $competitionStats = Competition::select(
+                DB::raw('CASE status WHEN "draft" THEN 0 WHEN "upcoming" THEN 1 WHEN "ongoing" THEN 2 WHEN "completed" THEN 3 END as sort_order'),
+                'status',
+                DB::raw('count(*) as total')
+            )
+            ->groupBy('status')
+            ->orderBy('sort_order')
+            ->pluck('total', 'status');
+
         return view('livewire.admin.dashboard-page', [
-            'title' => 'لوحة التحكم',
+            'title' => __('app.page_title_dashboard'),
             'stats' => $stats,
             'activities' => Activity::with('user')->latest()->limit(10)->get(),
             'recentMatches' => $recentMatches,
             'topScorers' => $topScorers,
+            'matchStatuses' => $matchStatuses,
+            'monthlyGoals' => $monthlyGoals,
+            'competitionStats' => $competitionStats,
         ]);
     }
 }

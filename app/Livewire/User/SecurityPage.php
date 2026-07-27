@@ -11,7 +11,7 @@ class SecurityPage extends Component
     public function render()
     {
         return view('livewire.user.security-page', [
-            'title' => 'الأمان',
+            'title' => __('app.page_title_security'),
         ]);
     }
 }

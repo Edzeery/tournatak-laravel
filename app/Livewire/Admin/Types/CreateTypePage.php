@@ -45,14 +45,14 @@ class CreateTypePage extends Component
             'is_active' => true,
         ]);
 
-        session()->flash('success', 'تم إنشاء النوع بنجاح');
+        session()->flash('success', __('app.type_created'));
         return redirect()->route('admin.types.index');
     }
 
     public function render()
     {
         return view('livewire.admin.types.create-type-page', [
-            'title' => 'إضافة نوع',
+            'title' => __('app.page_title_add_type'),
             'subtypes' => CompetitionSubtype::orderBy('name')->get(),
         ]);
     }

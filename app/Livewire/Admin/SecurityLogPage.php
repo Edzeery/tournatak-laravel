@@ -52,7 +52,7 @@ class SecurityLogPage extends Component
             'records' => $this->getRecords(),
             'users' => User::orderBy('name')->pluck('name', 'id'),
             'eventTypes' => Activity::distinct()->pluck('event')->filter()->sort()->values(),
-            'title' => 'سجل الأمان',
+            'title' => __('app.security_log'),
         ]);
     }
 }

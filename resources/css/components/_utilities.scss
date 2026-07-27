@@ -3,36 +3,84 @@
 // ============================================
 
 // ---- Font Sizes ----
-.fs-2xs { font-size: 0.6rem !important; }
-.fs-xs { font-size: 0.7rem !important; }
-.fs-sm { font-size: 0.75rem !important; }
-.fs-base { font-size: 0.85rem !important; }
-.fs-md { font-size: 0.9rem !important; }
-.fs-lg { font-size: 1.1rem !important; }
-.fs-xl { font-size: 1.3rem !important; }
-.fs-2xl { font-size: 1.8rem !important; }
-.fs-3xl { font-size: 2rem !important; }
-.fs-4xl { font-size: 2.5rem !important; }
+.fs-2xs {
+    font-size: 0.6rem !important;
+}
+.fs-xs {
+    font-size: 0.7rem !important;
+}
+.fs-sm {
+    font-size: 0.75rem !important;
+}
+.fs-base {
+    font-size: 0.85rem !important;
+}
+.fs-md {
+    font-size: 0.9rem !important;
+}
+.fs-lg {
+    font-size: 1.1rem !important;
+}
+.fs-xl {
+    font-size: 1.3rem !important;
+}
+.fs-2xl {
+    font-size: 1.8rem !important;
+}
+.fs-3xl {
+    font-size: 2rem !important;
+}
+.fs-4xl {
+    font-size: 2.5rem !important;
+}
 
 // ---- Theme-aware text colors ----
-.text-theme-primary { color: var(--text-primary) !important; }
-.text-theme-secondary { color: var(--text-secondary) !important; }
-.text-theme-muted { color: var(--text-muted) !important; }
+.text-theme-primary {
+    color: var(--text-primary) !important;
+}
+.text-theme-secondary {
+    color: var(--text-secondary) !important;
+}
+.text-theme-muted {
+    color: var(--text-muted) !important;
+}
 
 // ---- Border Radius ----
-.rounded-xs { border-radius: 4px !important; }
-.rounded-sm-custom { border-radius: 6px !important; }
-.rounded-md { border-radius: 8px !important; }
-.rounded-lg-custom { border-radius: 12px !important; }
-.rounded-xl { border-radius: 16px !important; }
+.rounded-xs {
+    border-radius: 4px !important;
+}
+.rounded-sm-custom {
+    border-radius: 6px !important;
+}
+.rounded-md {
+    border-radius: 8px !important;
+}
+.rounded-lg-custom {
+    border-radius: 12px !important;
+}
+.rounded-xl {
+    border-radius: 16px !important;
+}
 
 // ---- Chrome / Dark surfaces ----
-.bg-chrome { background-color: var(--chrome-bg) !important; }
-.bg-chrome-2 { background-color: var(--chrome-bg-2) !important; }
-.bg-chrome-3 { background-color: var(--chrome-bg-3) !important; }
-.border-chrome { border-color: var(--chrome-border) !important; }
-.text-chrome-muted { color: var(--chrome-text) !important; }
-.text-chrome-subtle { color: var(--chrome-text-subtle) !important; }
+.bg-chrome {
+    background-color: var(--chrome-bg) !important;
+}
+.bg-chrome-2 {
+    background-color: var(--chrome-bg-2) !important;
+}
+.bg-chrome-3 {
+    background-color: var(--chrome-bg-3) !important;
+}
+.border-chrome {
+    border-color: var(--chrome-border) !important;
+}
+.text-chrome-muted {
+    color: var(--chrome-text) !important;
+}
+.text-chrome-subtle {
+    color: var(--chrome-text-subtle) !important;
+}
 
 // ---- Card variants ----
 .card-surface {
@@ -69,27 +117,61 @@
 }
 
 // ---- Sizing utilities ----
-.w-32 { width: 32px !important; }
-.h-32 { height: 32px !important; }
-.w-36 { width: 36px !important; }
-.h-36 { height: 36px !important; }
-.w-38 { width: 38px !important; }
-.h-38 { height: 38px !important; }
-.w-44 { width: 44px !important; }
-.h-44 { height: 44px !important; }
-.w-80 { width: 80px !important; }
-.h-80 { height: 80px !important; }
-.w-110 { width: 110px !important; }
-.h-110 { height: 110px !important; }
-.min-w-140 { min-width: 140px !important; }
-.min-w-180 { min-width: 180px !important; }
+.w-32 {
+    width: 32px !important;
+}
+.h-32 {
+    height: 32px !important;
+}
+.w-36 {
+    width: 36px !important;
+}
+.h-36 {
+    height: 36px !important;
+}
+.w-38 {
+    width: 38px !important;
+}
+.h-38 {
+    height: 38px !important;
+}
+.w-44 {
+    width: 44px !important;
+}
+.h-44 {
+    height: 44px !important;
+}
+.w-80 {
+    width: 80px !important;
+}
+.h-80 {
+    height: 80px !important;
+}
+.w-110 {
+    width: 110px !important;
+}
+.h-110 {
+    height: 110px !important;
+}
+.min-w-140 {
+    min-width: 140px !important;
+}
+.min-w-180 {
+    min-width: 180px !important;
+}
 
 // ---- Object fit ----
-.object-cover { object-fit: cover !important; }
+.object-cover {
+    object-fit: cover !important;
+}
 
 // ---- Line height ----
-.lh-1 { line-height: 1 !important; }
-.lh-tight { line-height: 1.2 !important; }
+.lh-1 {
+    line-height: 1 !important;
+}
+.lh-tight {
+    line-height: 1.2 !important;
+}
 
 // ---- Hero gradient overlay ----
 .hero-gradient-bottom {
@@ -174,14 +256,26 @@
 }
 
 // ---- Section spacing ----
-.mb-neg-20 { margin-bottom: -20px; }
+.mb-neg-20 {
+    margin-bottom: -20px;
+}
 
 // ---- Badge sizes ----
-.badge-xs { font-size: 0.6rem !important; }
-.badge-sm { font-size: 0.7rem !important; }
-.badge-base { font-size: 0.75rem !important; }
-.badge-md { font-size: 0.8rem !important; }
-.badge-lg { font-size: 0.9rem !important; }
+.badge-xs {
+    font-size: 0.6rem !important;
+}
+.badge-sm {
+    font-size: 0.7rem !important;
+}
+.badge-base {
+    font-size: 0.75rem !important;
+}
+.badge-md {
+    font-size: 0.8rem !important;
+}
+.badge-lg {
+    font-size: 0.9rem !important;
+}
 
 // ---- Stat number ----
 .stat-number-lg {
@@ -215,4 +309,343 @@
 // ---- Modal header/footer border ----
 .border-modal {
     border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.text-primary {
+    --bs-text-opacity: 1;
+    color: rgba(var(--primary), var(--bs-text-opacity)) !important;
+}
+
+.nav {
+    --bs-nav-link-padding-x: 1rem;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-font-weight: ;
+    --bs-nav-link-color: var(--bs-link-color);
+    --bs-nav-link-hover-color: var(--bs-link-hover-color);
+    --bs-nav-link-disabled-color: var(--bs-secondary-color);
+    display: flex;
+    flex-wrap: wrap;
+    padding-inline: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+// ---- Avatar sizes ----
+.avatar-lg {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+}
+.avatar-md {
+    width: 72px;
+    height: 72px;
+}
+
+// ---- Logo ring (team/player images) ----
+.logo-ring {
+    border: 3px solid var(--primary);
+    object-fit: cover;
+}
+
+// ---- Constrained containers ----
+.container-page-sm {
+    max-width: 800px;
+}
+.container-page-md {
+    max-width: 900px;
+}
+
+// ---- Info rows (dashboard) ----
+.info-row {
+    background: var(--bg-body);
+}
+
+// ---- Verified badge ----
+.badge-verified {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+// ---- Language dropdown items ----
+.lang-item-active {
+    color: var(--primary);
+    font-weight: 600;
+}
+.lang-item-inactive {
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+}
+
+// ---- Notification filter buttons ----
+.notif-filter-active {
+    background: var(--primary);
+    color: #000;
+    font-weight: 600;
+    border-radius: 8px;
+}
+.notif-filter {
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.notif-badge-count {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--primary);
+}
+
+// ---- Notification page items ----
+.notif-page-item {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.notif-page-item-unread {
+    background: rgba(255, 193, 7, 0.04);
+}
+.notif-page-item-read {
+    background: rgba(255, 255, 255, 0.02);
+}
+.notif-page-item:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+}
+.notif-page-icon {
+    background: rgba(255, 193, 7, 0.1);
+    color: var(--primary);
+}
+.notif-page-title-unread {
+    color: #fff;
+}
+.notif-page-title-read {
+    color: rgba(255, 255, 255, 0.7);
+}
+.notif-page-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    flex-shrink: 0;
+}
+.notif-page-del {
+    background: none;
+    border: none;
+}
+
+// ---- Empty state message ----
+.empty-state-msg {
+    color: rgba(255, 255, 255, 0.45);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+// ---- Theme text colors ----
+.text-green {
+    color: #16a34a;
+}
+.text-blue {
+    color: #3b82f6;
+}
+.text-green-light {
+    color: #10b981;
+}
+.text-purple {
+    color: #a855f7;
+}
+.text-slate {
+    color: #cbd5e1;
+}
+
+// ---- Line height ----
+.lh-relaxed {
+    line-height: 1.6;
+}
+
+// ---- Player avatar (blue variant) ----
+.player-avatar-blue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+// ---- Dropdown width ----
+.dropdown-w-160 {
+    min-width: 160px;
+}
+
+// ---- Theme dark text ----
+.text-dark-theme {
+    color: var(--dark) !important;
+}
+
+// ---- Admin stat icon variants ----
+.stat-icon-blue-bright {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+.stat-icon-amber {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+.stat-icon-red {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+.stat-icon-cyan {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+}
+.stat-icon-dark-red {
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+}
+
+// ---- Scorer rank badge ----
+.scorer-rank {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+}
+
+// ---- Action button (small) ----
+.action-btn-sm {
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+}
+
+// ---- Team detail ----
+.team-hero-img {
+    object-fit: cover;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.team-hero-avatar {
+    width: 100px;
+    height: 100px;
+    font-size: 2.5rem;
+}
+
+.team-hero-name {
+    font-size: 2rem;
+}
+
+.team-hero-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+}
+
+.team-player-card {
+    background: rgba(0, 0, 0, 0.02);
+    transition: all 0.2s;
+}
+
+.team-player-avatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.team-staff-avatar {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+}
+
+.team-staff-icon {
+    font-size: 0.9rem;
+}
+
+.team-empty-icon {
+    font-size: 2rem;
+}
+
+.team-formation-badge {
+    font-size: 0.7rem;
+}
+
+.team-member-name {
+    font-size: 0.85rem;
+}
+
+.team-member-role {
+    font-size: 0.75rem;
+}
+
+// ---- Badge sizes for detail pages ----
+.badge-count {
+    font-size: 0.75rem;
+}
+
+.badge-points {
+    font-size: 0.85rem;
+}
+
+.badge-formation-default {
+    font-size: 0.7rem;
+}
+
+// ---- Section title (dark) ----
+.section-title-dark {
+    color: var(--dark);
+}
+
+// ---- Section description ----
+.section-desc {
+    font-size: 0.9rem;
+}
+
+// ---- Player row on team detail ----
+.player-row-avatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+}
+
+// ---- Staff/formation item name ----
+.item-name {
+    font-size: 0.85rem;
+}
+
+.item-sub {
+    font-size: 0.75rem;
+}
+
+// ---- Activity table cell ----
+.activity-cell {
+    font-size: 0.9rem;
+}
+
+.activity-date {
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+// ---- Empty state icon (large) ----
+.empty-icon-lg {
+    font-size: 2.5rem;
+}
+
+// ---- Hero gradient bottom (80px) ----
+.hero-gradient-bottom-sm {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to top, #f5f6fa, transparent);
+}
+
+// ---- Input icon right ----
+.input-icon-right {
+    padding-inline-end: 42px;
+}
+
+.input-icon-pos {
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
 }

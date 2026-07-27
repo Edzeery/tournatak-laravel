@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Competitions;
 use App\Models\Competition;
 use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Services\CompetitionService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -20,33 +21,27 @@ class CreateCompetitionPage extends Component
 
     public function store()
     {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'type_id' => 'required|exists:competition_types,id',
-            'subtype_id' => 'required|exists:competition_subtypes,id',
-        ]);
+        $service = app(CompetitionService::class);
+        $this->validate($service->getValidationRules());
 
-        Competition::create([
+        $service->create([
             'name' => $this->name,
             'type_id' => $this->type_id,
             'subtype_id' => $this->subtype_id,
-            'organizer_id' => auth()->id(),
             'location' => $this->location,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'description' => $this->description,
-            'approval_status' => 'pending',
-            'status' => 'draft',
         ]);
 
-        session()->flash('success', 'تم إنشاء البطولة بنجاح');
+        session()->flash('success', __('app.competition_created'));
         return redirect()->route('admin.competitions.index');
     }
 
     public function render()
     {
         return view('livewire.admin.competitions.create-competition-page', [
-            'title' => 'إضافة بطولة',
+            'title' => __('app.page_title_add_competition'),
             'types' => CompetitionType::where('is_active', true)->get(),
             'subtypes' => CompetitionSubtype::all(),
         ]);

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Players;
 use App\Models\Player;
 use App\Models\User;
 use App\Models\Team;
+use App\Services\PlayerService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -49,48 +50,34 @@ class EditPlayerPage extends Component
 
     public function update()
     {
-        $this->validate([
-            'user_id' => 'required|exists:users,id',
-            'team_id' => 'required|exists:teams,id',
-            'number' => 'nullable|integer|min:0',
-            'position_text' => 'nullable|string|max:255',
-            'image' => 'nullable|string|max:255',
-            'position_id' => 'nullable|exists:positions,id',
-            'date_of_birth' => 'nullable|date',
-            'nationality' => 'nullable|string|max:255',
-            'height' => 'nullable|integer|min:0',
-            'weight' => 'nullable|integer|min:0',
-            'foot' => 'nullable|in:right,left,both',
-            'sport_type' => 'required|in:football,futsal',
-            'bio' => 'nullable|string|max:5000',
-            'is_captain' => 'boolean',
-        ]);
+        $service = app(PlayerService::class);
+        $this->validate($service->getValidationRules());
 
-        $this->player->update([
+        $service->update($this->player, [
             'user_id' => $this->user_id,
             'team_id' => $this->team_id,
             'number' => $this->number,
             'position_text' => $this->position_text,
             'image' => $this->image,
-            'position_id' => $this->position_id ?: null,
-            'date_of_birth' => $this->date_of_birth ?: null,
-            'nationality' => $this->nationality ?: null,
-            'height' => $this->height ?: null,
-            'weight' => $this->weight ?: null,
-            'foot' => $this->foot ?: null,
+            'position_id' => $this->position_id,
+            'date_of_birth' => $this->date_of_birth,
+            'nationality' => $this->nationality,
+            'height' => $this->height,
+            'weight' => $this->weight,
+            'foot' => $this->foot,
             'sport_type' => $this->sport_type,
-            'bio' => $this->bio ?: null,
+            'bio' => $this->bio,
             'is_captain' => $this->is_captain,
         ]);
 
-        session()->flash('success', 'تم تحديث اللاعب بنجاح');
+        session()->flash('success', __('app.player_updated'));
         return redirect()->route('admin.players.index');
     }
 
     public function render()
     {
         return view('livewire.admin.players.edit-player-page', [
-            'title' => 'تعديل لاعب',
+            'title' => __('app.page_title_edit_player'),
             'player' => $this->player,
             'users' => User::orderBy('name')->get(),
             'teams' => Team::orderBy('name')->get(),

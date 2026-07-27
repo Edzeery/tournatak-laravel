@@ -14,7 +14,7 @@ class HomePage extends Component
     public function render()
     {
         return view('livewire.home.home-page', [
-            'title' => 'الرئيسية',
+            'title' => __('app.home'),
             'stats' => [
                 'competitions' => Competition::count(),
                 'teams' => Team::count(),

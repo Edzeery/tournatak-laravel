@@ -22,39 +22,11 @@
     <div class="error-page">
         <div class="error-icon"><i class="bi bi-gear-wide-connected"></i></div>
         <div class="error-code">500</div>
-        <div class="error-title">
-            @if(app()->getLocale() === 'ar')
-                خطأ في الخادم
-            @elseif(app()->getLocale() === 'fr')
-                Erreur interne du serveur
-            @elseif(app()->getLocale() === 'es')
-                Error interno del servidor
-            @else
-                Internal Server Error
-            @endif
-        </div>
-        <div class="error-message">
-            @if(app()->getLocale() === 'ar')
-                عذراً، حدث خطأ غير متوقع في الخادم.<br>حاول مرة أخرى لاحقاً أو عد إلى الصفحة الرئيسية.
-            @elseif(app()->getLocale() === 'fr')
-                Désolé, une erreur inattendue s'est produite.<br>Veuillez réessayer plus tard ou retourner à l'accueil.
-            @elseif(app()->getLocale() === 'es')
-                Lo sentimos, ocurrió un error inesperado en el servidor.<br>Intenta de nuevo más tarde o vuelve a la página principal.
-            @else
-                Sorry, something went wrong on our end.<br>Please try again later or return to the homepage.
-            @endif
-        </div>
+        <div class="error-title">{{ __('app.error_500_title') }}</div>
+        <div class="error-message">{!! __('app.error_500_message') !!}</div>
         <a href="{{ route('home') }}" class="error-btn">
             <i class="bi bi-house-fill"></i>
-            @if(app()->getLocale() === 'ar')
-                العودة للرئيسية
-            @elseif(app()->getLocale() === 'fr')
-                Retour à l'accueil
-            @elseif(app()->getLocale() === 'es')
-                Volver al inicio
-            @else
-                Go Home
-            @endif
+            {{ __('app.back_to_home') }}
         </a>
     </div>
 </body>

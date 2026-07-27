@@ -1,18 +1,18 @@
 <div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-shield-fill text-gold"></i> إدارة الفرق</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">عرض وإدارة الفرق المسجلة</p>
+            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-shield-fill text-gold"></i> {{ __('app.team_management') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ __('app.teams_desc') }}</p>
         </div>
         <a href="{{ route('admin.teams.create') }}" class="btn btn-warning">
-            <i class="bi bi-plus-lg"></i> إضافة فريق
+            <i class="bi bi-plus-lg"></i> {{ __('app.add_team') }}
         </a>
     </div>
 
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item active">الفرق</li>
+        <ol class="breadcrumb fs-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item active">{{ __('app.teams') }}</li>
         </ol>
     </nav>
 
@@ -20,11 +20,11 @@
         <div class="card-body">
             <form wire:submit="resetPage" class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
-                    <input type="text" class="form-control" placeholder="بحث باسم الفريق..." wire:model.live.debounce.300ms="search">
+                    <label class="form-label fw-bold fs-base">{{ __('app.search') }}</label>
+                    <input type="text" class="form-control" placeholder="{{ __('app.search_teams_placeholder') }}" wire:model.live.debounce.300ms="search">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">العرض</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.per_page_display') }}</label>
                     <select class="form-select" wire:model.live="perPage">
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -46,22 +46,22 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>الشعار</th>
-                            <th>اسم الفريق</th>
-                            <th>القائد</th>
-                            <th>النقاط</th>
-                            <th class="text-center">إجراءات</th>
+                            <th>{{ __('app.logo') }}</th>
+                            <th>{{ __('app.team_name') }}</th>
+                            <th>{{ __('app.captain') }}</th>
+                            <th>{{ __('app.points') }}</th>
+                            <th class="text-center">{{ __('app.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($teams as $team)
                             <tr wire:key="{{ $team->id }}">
-                                <td style="color:#94a3b8;">{{ $team->id }}</td>
+                                <td class="text-chrome-muted">{{ $team->id }}</td>
                                 <td>
                                     @if($team->logo)
-                                        <img src="{{ $team->logo }}" alt="{{ $team->name }}" class="rounded-circle" style="width:38px;height:38px;object-fit:cover;border:2px solid var(--primary);">
+                                        <img src="{{ $team->logo }}" alt="{{ $team->name }}" class="rounded-circle object-cover border-chrome" style="width:38px;height:38px;border:2px solid var(--primary);">
                                     @else
-                                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width:38px;height:38px;font-size:0.85rem;">
+                                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold w-38 h-38 fs-base">
                                             {{ mb_substr($team->name, 0, 1) }}
                                         </div>
                                     @endif
@@ -70,17 +70,19 @@
                                 <td>{{ $team->captain->name ?? '-' }}</td>
                                 <td><span class="badge-sport"><i class="bi bi-star-fill"></i> {{ $team->points }}</span></td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.teams.edit', $team) }}" class="btn btn-sm btn-outline-primary" style="border-radius:8px;">
+                                    <a href="{{ route('admin.teams.edit', $team) }}" class="btn btn-sm btn-outline-primary rounded-md"
+                                        aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="{{ route('admin.teams.staff', $team->id) }}" class="btn btn-sm btn-outline-info" title="الطاقم"><i class="bi bi-people"></i></a>
-                                    <a href="{{ route('admin.teams.formations', $team->id) }}" class="btn btn-sm btn-outline-success" title="التشكيلات"><i class="bi bi-grid-3x3-gap"></i></a>
-                                    <a href="{{ route('admin.teams.tactics', $team->id) }}" class="btn btn-sm btn-outline-warning" title="التكتيكات"><i class="bi bi-diagram-3"></i></a>
-                                    <a href="{{ route('admin.teams.medical', $team->id) }}" class="btn btn-sm btn-outline-danger" title="السجل الطبي"><i class="bi bi-heart-pulse"></i></a>
-                                    <a href="{{ route('admin.teams.stats', $team->id) }}" class="btn btn-sm btn-outline-primary" title="الإحصائيات"><i class="bi bi-bar-chart"></i></a>
-                                    <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                                    <a href="{{ route('admin.teams.staff', $team->id) }}" class="btn btn-sm btn-outline-info" title="{{ __('app.technical_staff') }}" aria-label="{{ __('app.technical_staff') }}"><i class="bi bi-people"></i></a>
+                                    <a href="{{ route('admin.teams.formations', $team->id) }}" class="btn btn-sm btn-outline-success" title="{{ __('app.formations') }}" aria-label="{{ __('app.formations') }}"><i class="bi bi-grid-3x3-gap"></i></a>
+                                    <a href="{{ route('admin.teams.tactics', $team->id) }}" class="btn btn-sm btn-outline-warning" title="{{ __('app.type') }}" aria-label="{{ __('app.type') }}"><i class="bi bi-diagram-3"></i></a>
+                                    <a href="{{ route('admin.teams.medical', $team->id) }}" class="btn btn-sm btn-outline-danger" title="{{ __('app.medical') }}" aria-label="{{ __('app.medical') }}"><i class="bi bi-heart-pulse"></i></a>
+                                    <a href="{{ route('admin.teams.stats', $team->id) }}" class="btn btn-sm btn-outline-primary" title="{{ __('app.results') }}" aria-label="{{ __('app.results') }}"><i class="bi bi-bar-chart"></i></a>
+                                    <button class="btn btn-sm btn-outline-danger rounded-md"
                                             wire:click="delete({{ $team->id }})"
-                                            wire:confirm="هل أنت متأكد من حذف هذا الفريق؟">
+                                            wire:confirm="{{ __('app.confirm_delete_team') }}"
+                                            aria-label="{{ __('app.delete') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -88,7 +90,7 @@
                         @empty
                             <tr wire:loading.remove>
                                 <td colspan="6">
-                                    <x-empty-state icon="bi-people" title="{{ __('No Teams Found') }}" message="{{ __('No results found. Start by adding a new item.') }}" />
+                                    <x-empty-state icon="bi-people" title="{{ __('app.teams') }}" message="{{ __('app.no_results_found') }}" />
                                 </td>
                             </tr>
                         @endforelse

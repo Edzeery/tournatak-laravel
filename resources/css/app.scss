@@ -25,6 +25,7 @@
 @import 'components/dropdowns';
 @import 'components/spinner';
 @import 'components/social';
+@import 'components/pagination';
 @import 'components/utilities';
 
 /* ---- Layouts ---- */
@@ -40,6 +41,8 @@
 @import 'pages/team-cards';
 @import 'pages/auth';
 @import 'pages/empty-state';
+@import 'pages/profile';
+@import 'pages/dashboard';
 
 /* ---- Admin Panel ---- */
 @import 'panels/admin';

@@ -24,7 +24,7 @@ class ForgotPasswordPage extends Component
 
         if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
             $seconds = RateLimiter::availableIn($throttleKey);
-            session()->flash('error', 'لقد تجاوزت الحد المسموح. يرجى المحاولة بعد ' . $seconds . ' ثانية.');
+            session()->flash('error', __('app.rate_limit_exceeded', ['seconds' => $seconds]));
             return;
         }
 
@@ -38,19 +38,19 @@ class ForgotPasswordPage extends Component
             );
 
             if ($status === Password::RESET_LINK_SENT) {
-                session()->flash('success', 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.');
+                session()->flash('success', __('app.reset_link_sent'));
                 return;
             }
         }
 
         // Always show success to prevent email enumeration
-        session()->flash('success', 'إذا كان البريد الإلكتروني مسجلاً، ستتلقى رسالة تحتوي على رابط إعادة تعيين كلمة المرور.');
+        session()->flash('success', __('app.reset_link_if_registered'));
     }
 
     public function render()
     {
         return view('livewire.auth.forgot-password-page', [
-            'title' => 'نسيت كلمة المرور',
+            'title' => __('app.page_title_forgot_password'),
         ]);
     }
 }

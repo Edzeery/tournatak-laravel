@@ -1,20 +1,20 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">الفرق</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.teams') }}</a></li>
             <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none" style="color:var(--primary);">{{ $team->name }}</a></li>
-            <li class="breadcrumb-item active">التكتيكات</li>
+            <li class="breadcrumb-item active">{{ __('app.tactics') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-lightning-charge-fill text-gold"></i> التكتيكات</h4>
+            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-lightning-charge-fill text-gold"></i> {{ __('app.tactics') }}</h4>
             <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $team->name }}</p>
         </div>
         <button class="btn btn-warning" wire:click="openModal">
-            <i class="bi bi-plus-lg"></i> إضافة تكتيك
+            <i class="bi bi-plus-lg"></i> {{ __('app.add_tactic') }}
         </button>
     </div>
 
@@ -22,8 +22,8 @@
         <div class="card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
-                    <input type="text" class="form-control" placeholder="بحث بالاسم أو التشكيلة..." wire:model.live.debounce.300ms="search">
+                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.search') }}</label>
+                    <input type="text" class="form-control" placeholder="{{ __('app.search_by_name_or_formation') }}" wire:model.live.debounce.300ms="search">
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                             <h6 class="fw-bold mb-0">{{ $tactic->name }}</h6>
                             @if($tactic->is_default)
                                 <span class="badge bg-warning text-dark" style="font-size:0.7rem;">
-                                    <i class="bi bi-star-fill"></i> افتراضي
+                                    <i class="bi bi-star-fill"></i> {{ __('app.default_badge') }}
                                 </span>
                             @endif
                         </div>
@@ -76,7 +76,7 @@
                             </button>
                             <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
                                     wire:click="deleteTactic({{ $tactic->id }})"
-                                    wire:confirm="هل أنت متأكد من حذف هذا التكتيك؟">
+                                    wire:confirm="{{ __('app.confirm_delete_tactic') }}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
@@ -89,10 +89,10 @@
                     <div class="card-body py-5 text-center">
                         <div class="empty-state py-3">
                             <i class="bi bi-lightning-charge d-block" style="font-size:2.5rem;"></i>
-                            <h5>لا توجد تكتيكات</h5>
-                            <p class="text-muted">لم يتم إضافة أي تكتيك بعد</p>
+                            <h5>{{ __('app.no_tactics') }}</h5>
+                            <p class="text-muted">{{ __('app.no_tactics_desc') }}</p>
                             <button class="btn btn-warning" wire:click="openModal">
-                                <i class="bi bi-plus-lg"></i> إضافة تكتيك
+                                <i class="bi bi-plus-lg"></i> {{ __('app.add_tactic') }}
                             </button>
                         </div>
                     </div>
@@ -102,25 +102,25 @@
     </div>
 
     @if($showModal)
-        <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tacticModalTitle" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content" style="border-radius:16px;" wire:click.stop>
                     <div class="modal-header border-0 pb-0">
-                        <h5 class="modal-title fw-bold">
+                        <h5 class="modal-title fw-bold" id="tacticModalTitle">
                             <i class="bi bi-lightning-charge-fill text-gold"></i>
-                            {{ $editingTacticId ? 'تعديل التكتيك' : 'إضافة تكتيك' }}
+                            {{ $editingTacticId ? __('app.edit_tactic') : __('app.add_tactic') }}
                         </h5>
-                        <button type="button" class="btn-close" wire:click="closeModal"></button>
+                        <button type="button" class="btn-close" aria-label="Close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label fw-bold">اسم التكتيك</label>
-                            <input type="text" class="form-control" placeholder="مثال: التكتيك الأساسي" wire:model="tacticForm.name">
+                            <label class="form-label fw-bold">{{ __('app.tactic_name') }}</label>
+                            <input type="text" class="form-control" placeholder="{{ __('app.tactic_name_placeholder') }}" wire:model="tacticForm.name">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">أسلوب الضغط</label>
+                                <label class="form-label fw-bold">{{ __('app.pressing_style') }}</label>
                                 <div class="d-flex flex-column gap-2">
                                     @foreach($pressingStyles as $key => $label)
                                         <div class="form-check">
@@ -131,7 +131,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">أسلوب البناء</label>
+                                <label class="form-label fw-bold">{{ __('app.build_up_style') }}</label>
                                 <div class="d-flex flex-column gap-2">
                                     @foreach($buildUpStyles as $key => $label)
                                         <div class="form-check">
@@ -145,7 +145,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">أسلوب الدفاع</label>
+                                <label class="form-label fw-bold">{{ __('app.defense_style_label') }}</label>
                                 <div class="d-flex flex-column gap-2">
                                     @foreach($defenseStyles as $key => $label)
                                         <div class="form-check">
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">أسلوب الهجوم</label>
+                                <label class="form-label fw-bold">{{ __('app.attack_style') }}</label>
                                 <div class="d-flex flex-column gap-2">
                                     @foreach($attackStyles as $key => $label)
                                         <div class="form-check">
@@ -170,33 +170,33 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">التشكيلة المستخدمة</label>
+                                <label class="form-label fw-bold">{{ __('app.formation_used') }}</label>
                                 <select class="form-select" wire:model="tacticForm.formation_used">
-                                    <option value="">بدون تشكيلة</option>
+                                    <option value="">{{ __('app.no_formation') }}</option>
                                     @foreach($formationOptions as $fo)
                                         <option value="{{ $fo }}">{{ $fo }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">التكتيك الافتراضي</label>
+                                <label class="form-label fw-bold">{{ __('app.default_tactic') }}</label>
                                 <div class="form-check form-switch mt-2">
                                     <input class="form-check-input" type="checkbox" wire:model="tacticForm.is_default" id="isDefaultTactic">
-                                    <label class="form-check-label fw-bold" for="isDefaultTactic">تكتيك افتراضي</label>
+                                    <label class="form-check-label fw-bold" for="isDefaultTactic">{{ __('app.default_tactic') }}</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">ملاحظات</label>
-                            <textarea class="form-control" rows="3" placeholder="ملاحظات إضافية حول التكتيك..." wire:model="tacticForm.notes"></textarea>
+                            <label class="form-label fw-bold">{{ __('app.tactic_notes') }}</label>
+                            <textarea class="form-control" rows="3" placeholder="{{ __('app.tactic_notes_placeholder') }}" wire:model="tacticForm.notes"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">إلغاء</button>
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
                         <button type="button" class="btn btn-warning px-4" wire:click="saveTactic" wire:loading.attr="disabled" style="border-radius:8px;">
-                            <span wire:loading.remove wire:target="saveTactic"><i class="bi bi-check-lg"></i> حفظ</span>
-                            <span wire:loading wire:target="saveTactic"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                            <span wire:loading.remove wire:target="saveTactic"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
+                            <span wire:loading wire:target="saveTactic"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use App\Services\AuthService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
@@ -19,38 +20,25 @@ class RegisterPage extends Component
 
     public function register()
     {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|min:3|max:255|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:viewer,competitor,captain,player,organizer,user',
-        ]);
+        $service = app(AuthService::class);
+        $this->validate($service->getRegisterValidationRules());
 
-        $user = User::create([
+        $service->register([
             'name' => $this->name,
             'username' => $this->username,
             'email' => $this->email,
-            'password' => Hash::make($this->password),
+            'password' => $this->password,
             'role' => $this->role,
-            'is_verified' => false,
         ]);
 
-        $user->assignRole($this->role);
-
-        SecurityActivityLogger::accountCreated($user);
-
-        // Send verification email
-        $user->sendEmailVerificationNotification();
-
-        session()->flash('success', 'تم إنشاء الحساب بنجاح. يرجى التحقق من بريدك الإلكتروني لتفعيل الحساب.');
+        session()->flash('success', __('app.account_created'));
         return redirect()->route('login');
     }
 
     public function render()
     {
         return view('livewire.auth.register-page', [
-            'title' => 'إنشاء حساب',
+            'title' => __('app.page_title_register'),
         ]);
     }
 }

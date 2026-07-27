@@ -12,7 +12,7 @@ class TeamsPage extends Component
     public function render()
     {
         return view('livewire.public.teams-page', [
-            'title' => 'الفرق',
+            'title' => __('app.page_title_teams'),
             'teams' => Team::with('captain')->latest()->paginate(12),
         ]);
     }

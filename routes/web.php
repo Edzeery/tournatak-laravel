@@ -35,12 +35,17 @@ use App\Livewire\Public\TeamDetailPage;
 use App\Livewire\Public\PlayerDetailPage;
 use App\Livewire\Auth\LoginPage;
 use App\Livewire\Auth\RegisterPage;
+use App\Livewire\Auth\ForgotPasswordPage;
+use App\Livewire\Auth\ResetPasswordPage;
+use App\Livewire\Auth\TwoFactorChallengePage;
 use App\Livewire\Home\HomePage;
 use App\Livewire\Public\CompetitionsPage as PublicCompetitionsPage;
 use App\Livewire\Public\TeamsPage as PublicTeamsPage;
 use App\Livewire\Public\PlayersPage as PublicPlayersPage;
 use App\Livewire\User\ProfilePage;
 use App\Livewire\User\UserDashboardPage;
+use App\Livewire\User\SecurityPage;
+use App\Livewire\Security\TwoFactorSetupPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,11 +54,17 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/lang/{locale}', function ($locale) {
-    if (!in_array($locale, ['ar', 'en'])) {
+    if (!in_array($locale, ['ar', 'en', 'fr', 'es'])) {
         abort(400);
     }
     session(['locale' => $locale]);
     app()->setLocale($locale);
+
+    // Persist to user preference if authenticated
+    if (auth()->check() && auth()->user()->preference) {
+        auth()->user()->preference->update(['locale' => $locale]);
+    }
+
     return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
 })->name('lang.switch');
 
@@ -79,9 +90,27 @@ Route::get('/players/{playerId}', PlayerDetailPage::class)->name('players.show')
 Route::middleware('guest')->group(function () {
     Route::get('/login', LoginPage::class)->name('login');
     Route::get('/register', RegisterPage::class)->name('register');
+    Route::get('/forgot-password', ForgotPasswordPage::class)->name('password.request');
+    Route::get('/reset-password/{token}', ResetPasswordPage::class)->name('password.reset');
+    Route::get('/2fa/challenge', TwoFactorChallengePage::class)->name('2fa.challenge');
 });
 
-Route::post('/logout', function () {
+Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
+    $user = \App\Models\User::find($id);
+
+    if (!$user || cache()->pull("email_verification_{$user->id}_{$hash}") === null) {
+        abort(403, 'رابط التفعيل غير صالح أو انتهت صلاحيته.');
+    }
+
+    $user->update(['is_verified' => true, 'email_verified_at' => now()]);
+
+    \App\Services\SecurityActivityLogger::emailVerified($user);
+
+    return redirect()->route('login')->with('success', 'تم تفعيل حسابك بنجاح! يمكنك الآن تسجيل الدخول.');
+})->name('verification.verify');
+
+Route::middleware('auth')->post('/logout', function () {
+    \App\Services\SecurityActivityLogger::logout(auth()->user());
     auth()->logout();
     session()->invalidate();
     session()->regenerateToken();
@@ -96,6 +125,8 @@ Route::post('/logout', function () {
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', UserDashboardPage::class)->name('dashboard');
     Route::get('/profile', ProfilePage::class)->name('profile');
+    Route::get('/security', SecurityPage::class)->name('security');
+    Route::get('/security/2fa', TwoFactorSetupPage::class)->name('2fa-setup');
 });
 
 // Alias route for profile (used in layout)
@@ -160,4 +191,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     // Positions
     Route::get('/positions', PositionsPage::class)->name('positions.index');
+
+    // Trash
+    Route::get('/trash', \App\Livewire\Admin\TrashPage::class)->name('trash');
+
+    // Security Log
+    Route::get('/security-log', \App\Livewire\Admin\SecurityLogPage::class)->name('security-log');
 });

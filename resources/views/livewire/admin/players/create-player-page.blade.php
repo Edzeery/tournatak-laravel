@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">تاريخ الميلاد</label>
-                        <input type="date" class="form-control" wire:model="date_of_birth">
+                        <input type="text" class="form-control flatpickr-input" wire:model="date_of_birth" placeholder="{{ __('app.select_date') }}" data-date-format="Y-m-d" data-alt-format="d/m/Y">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">الجنسية</label>

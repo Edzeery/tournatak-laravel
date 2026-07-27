@@ -28,14 +28,12 @@ class PlayerDetailPage extends Component
         $goals = $this->player->goals()->with('match')->latest()->get();
         $totalGoals = $goals->count();
 
-        $seasonStats = $this->player->seasonStats()->with('competition')->get();
-
         return view('livewire.public.player-detail-page', [
             'title' => $this->player->name ?? 'لاعب',
             'player' => $this->player,
             'goals' => $goals,
             'totalGoals' => $totalGoals,
-            'seasonStats' => $seasonStats,
+            'seasonStats' => $this->player->seasonStats()->with('competition')->get(),
         ]);
     }
 }

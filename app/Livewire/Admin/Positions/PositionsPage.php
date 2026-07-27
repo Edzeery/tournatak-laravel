@@ -3,13 +3,16 @@
 namespace App\Livewire\Admin\Positions;
 
 use App\Models\Position;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('layouts.admin')]
 class PositionsPage extends Component
 {
-    public $positions = [];
+    use WithPagination;
+
     public $showModal = false;
     public $editingPositionId = null;
     public $search = '';
@@ -27,14 +30,18 @@ class PositionsPage extends Component
 
     protected $listeners = ['closeModal'];
 
+    public function updatingSearch(): void { $this->resetPage(); }
+    public function updatingFilterSport(): void { $this->resetPage(); }
+
     public function mount(): void
     {
-        $this->loadPositions();
+        //
     }
 
-    public function loadPositions()
+    #[Computed]
+    public function positions()
     {
-        $this->positions = Position::query()
+        return Position::query()
             ->when($this->search, function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
                     ->orWhere('name_en', 'like', "%{$this->search}%")
@@ -45,7 +52,7 @@ class PositionsPage extends Component
             })
             ->orderBy('sport_type')
             ->orderBy('sort_order')
-            ->get();
+            ->paginate(20);
     }
 
     public function openModal()
@@ -111,30 +118,29 @@ class PositionsPage extends Component
         }
 
         $this->closeModal();
-        $this->loadPositions();
     }
 
     public function deletePosition($id)
     {
         Position::findOrFail($id)->delete();
         session()->flash('success', 'تم حذف المركز بنجاح');
-        $this->loadPositions();
     }
 
     public function updatedSearch()
     {
-        $this->loadPositions();
+        //
     }
 
     public function updatedFilterSport()
     {
-        $this->loadPositions();
+        //
     }
 
     public function render()
     {
         return view('livewire.admin.positions.positions-page', [
             'title' => 'إدارة المراكز',
+            'positions' => $this->positions(),
         ]);
     }
 }

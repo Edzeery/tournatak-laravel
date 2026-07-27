@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Position extends Model
 {
@@ -33,5 +34,23 @@ class Position extends Model
     public function matchLineups(): HasMany
     {
         return $this->hasMany(MatchLineup::class);
+    }
+
+    public static function cachedActive(?string $sportType = null): \Illuminate\Support\Collection
+    {
+        $key = 'positions_active_' . ($sportType ?? 'all');
+
+        return Cache::tags(['positions'])->remember($key, 3600, function () use ($sportType) {
+            $query = static::where('is_active', true)->orderBy('sort_order');
+            if ($sportType) {
+                $query->where('sport_type', $sportType);
+            }
+            return $query->get();
+        });
+    }
+
+    public static function bustCache(): void
+    {
+        Cache::tags(['positions'])->flush();
     }
 }

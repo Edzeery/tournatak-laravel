@@ -13,6 +13,7 @@ class UserDashboardPage extends Component
     public function render()
     {
         $user = auth()->user();
+        $user->load('player', 'teams');
         $isAr = app()->getLocale() === 'ar';
 
         $stats = [

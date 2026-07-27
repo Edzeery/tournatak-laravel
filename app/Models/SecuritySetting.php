@@ -18,6 +18,7 @@ class SecuritySetting extends Model
         'twofa_app',
         'twofa_sms',
         'notify_on_login',
+        'twofa_app_secret',
     ];
 
     protected $hidden = [

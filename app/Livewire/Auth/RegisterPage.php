@@ -5,6 +5,7 @@ use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
+use App\Services\SecurityActivityLogger;
 
 #[Layout('layouts.app')]
 class RegisterPage extends Component
@@ -37,13 +38,12 @@ class RegisterPage extends Component
 
         $user->assignRole($this->role);
 
-        // Create profile
-        $user->profile()->create(['full_name' => $this->name]);
+        SecurityActivityLogger::accountCreated($user);
 
-        // Create security settings
-        $user->securitySetting()->create([]);
+        // Send verification email
+        $user->sendEmailVerificationNotification();
 
-        session()->flash('success', 'تم إنشاء الحساب بنجاح. يرجى تفعيل حسابك.');
+        session()->flash('success', 'تم إنشاء الحساب بنجاح. يرجى التحقق من بريدك الإلكتروني لتفعيل الحساب.');
         return redirect()->route('login');
     }
 

@@ -16,7 +16,11 @@
         </ol>
     </nav>
 
-    <div class="card border-0" wire:loading.opacity>
+    <div wire:loading>
+        <x-skeleton type="table" :rows="5" />
+    </div>
+
+    <div class="card border-0" wire:loading.remove>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table align-middle mb-0">
@@ -67,12 +71,9 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr>
+                            <tr wire:loading.remove>
                                 <td colspan="8">
-                                    <div class="empty-state py-3">
-                                        <i class="bi bi-trophy d-block" style="font-size:2.5rem;"></i>
-                                        <h5>لا توجد بطولات</h5>
-                                    </div>
+                                    <x-empty-state icon="bi-trophy" title="{{ __('No Competitions Found') }}" message="{{ __('No results found. Start by adding a new item.') }}" />
                                 </td>
                             </tr>
                         @endforelse

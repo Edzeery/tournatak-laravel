@@ -39,7 +39,7 @@ class DashboardPage extends Component
             ->get();
 
         $topScorers = Goal::select('player_id', DB::raw('count(*) as goals'))
-            ->with('player.user')
+            ->with('player.user', 'player.team')
             ->groupBy('player_id')
             ->orderByDesc('goals')
             ->limit(5)
@@ -48,7 +48,7 @@ class DashboardPage extends Component
         return view('livewire.admin.dashboard-page', [
             'title' => 'لوحة التحكم',
             'stats' => $stats,
-            'activities' => Activity::latest()->limit(10)->get(),
+            'activities' => Activity::with('user')->latest()->limit(10)->get(),
             'recentMatches' => $recentMatches,
             'topScorers' => $topScorers,
         ]);

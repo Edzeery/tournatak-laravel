@@ -35,7 +35,11 @@
         </div>
     </div>
 
-    <div class="card border-0" wire:loading.opacity>
+    <div wire:loading>
+        <x-skeleton type="table" :rows="5" />
+    </div>
+
+    <div class="card border-0" wire:loading.remove>
         <div class="card-body">
             @if($positions->count())
                 <div class="table-responsive">
@@ -96,15 +100,8 @@
                     </table>
                 </div>
             @else
-                <div class="text-center py-5">
-                    <div class="empty-state">
-                        <i class="bi bi-geo-alt d-block" style="font-size:2.5rem;"></i>
-                        <h5>لا توجد مراكز</h5>
-                        <p class="text-muted">لم يتم إضافة أي مراكز بعد</p>
-                        <button class="btn btn-warning" wire:click="openModal">
-                            <i class="bi bi-plus-lg"></i> إضافة مركز
-                        </button>
-                    </div>
+                <div class="text-center py-5" wire:loading.remove>
+                    <x-empty-state icon="bi-geo-alt" title="{{ __('No Positions Found') }}" message="{{ __('No results found. Start by adding a new item.') }}" />
                 </div>
             @endif
         </div>

@@ -1,8 +1,8 @@
-@php $isAr = app()->getLocale() === 'ar'; @endphp
+@php $isRtl = isRtl(); @endphp
 <div>
     {{-- Welcome Hero --}}
     <div class="card border-0 mb-4 animate-fade-in" style="background: var(--gradient-hero);overflow:hidden;position:relative;">
-        <div style="position:absolute;top:-50px;{{ app()->getLocale() === 'ar' ? 'right' : 'left' }}:-50px;width:300px;height:300px;background:radial-gradient(circle,rgba(255,193,7,0.1) 0%,transparent 70%);border-radius:50%;"></div>
+        <div style="position:absolute;top:-50px;{{ isRtl() ? 'right' : 'left' }}:-50px;width:300px;height:300px;background:radial-gradient(circle,rgba(255,193,7,0.1) 0%,transparent 70%);border-radius:50%;"></div>
         <div class="card-body p-4 position-relative" style="z-index:2;">
             <div class="row align-items-center">
                 <div class="col-md-8">

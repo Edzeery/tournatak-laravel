@@ -147,14 +147,14 @@ class MatchLineupPage extends Component
 
     public function loadLineups()
     {
-        $this->team1Lineup = MatchLineup::with(['player', 'position'])
+        $this->team1Lineup = MatchLineup::with(['player.user', 'position'])
             ->where('match_id', $this->matchId)
             ->where('team_id', $this->match->team1_id)
             ->orderBy('is_starter', 'desc')
             ->orderBy('jersey_number')
             ->get();
 
-        $this->team2Lineup = MatchLineup::with(['player', 'position'])
+        $this->team2Lineup = MatchLineup::with(['player.user', 'position'])
             ->where('match_id', $this->matchId)
             ->where('team_id', $this->match->team2_id)
             ->orderBy('is_starter', 'desc')

@@ -1,0 +1,147 @@
+/* Tournatak - Bootstrap 5 + custom theme */
+@import 'bootstrap/scss/bootstrap';
+
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'flatpickr/dist/flatpickr.min.css';
+
+/* Flatpickr dark theme override */
+.flatpickr-calendar {
+    background: #1a1f35 !important;
+    border: 1px solid rgba(255,193,7,0.15) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4) !important;
+}
+.flatpickr-day {
+    color: rgba(255,255,255,0.8) !important;
+    border-radius: 8px !important;
+}
+.flatpickr-day:hover {
+    background: rgba(255,193,7,0.15) !important;
+    border-color: rgba(255,193,7,0.3) !important;
+}
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+    background: var(--primary, #ffc107) !important;
+    border-color: var(--primary, #ffc107) !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+.flatpickr-months .flatpickr-month {
+    color: #fff !important;
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    color: #fff !important;
+}
+.flatpickr-weekday {
+    color: rgba(255,255,255,0.4) !important;
+}
+span.flatpickr-weekday {
+    color: rgba(255,255,255,0.4) !important;
+}
+.flatpickr-current-month .flatpickr-prev_month,
+.flatpickr-current-month .flatpickr-next_month {
+    color: rgba(255,255,255,0.5) !important;
+}
+.flatpickr-current-month .flatpickr-prev_month:hover,
+.flatpickr-current-month .flatpickr-next_month:hover {
+    color: var(--primary, #ffc107) !important;
+}
+.dayContainer {
+    padding: 4px !important;
+}
+.flatpickr-innerContainer {
+    background: transparent !important;
+}
+
+button i {
+    font-size: 1rem !important;
+}
+
+/* Empty State */
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,193,7,0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: rgba(255,193,7,0.4);
+}
+
+/* Skeleton Loader */
+@keyframes skeletonPulse {
+    0% { opacity: 0.06; }
+    50% { opacity: 0.12; }
+    100% { opacity: 0.06; }
+}
+.skeleton-pulse {
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+.skeleton-line {
+    height: 14px;
+    border-radius: 6px;
+}
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+.skeleton-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+}
+
+/* SweetAlert2 Dark Theme Override */
+.swal2-popup.swal-tournatak {
+    background: #1a1f35 !important;
+    border: 1px solid rgba(255,193,7,0.12);
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
+}
+.swal2-popup.swal-tournatak .swal2-title {
+    color: #fff !important;
+}
+.swal2-popup.swal-tournatak .swal2-html-container {
+    color: rgba(255,255,255,0.6) !important;
+    margin: 0.5em 1.5em 0 !important;
+}
+.swal2-popup.swal-tournatak .swal2-actions {
+    margin-top: 1.5em !important;
+}
+.swal2-popup.swal-tournatak .swal2-styled {
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 10px 24px !important;
+}
+
+/* Toast styles */
+.swal2-popup.swal2-toast {
+    background: #1a1f35 !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3) !important;
+    color: #fff !important;
+    font-family: 'Cairo', sans-serif !important;
+}
+.swal2-popup.swal2-toast .swal2-title {
+    color: #fff !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+}
+.swal2-popup.swal2-toast .swal2-timer-progress-bar {
+    background: #ffc107 !important;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-pulse { animation: none; opacity: 0.08; }
+    .empty-state-icon { animation: none; }
+}

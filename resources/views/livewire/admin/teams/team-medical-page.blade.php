@@ -245,11 +245,11 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">تاريخ الإصابة</label>
-                                <input type="date" class="form-control" wire:model="recordForm.injury_date">
+                                <input type="text" class="form-control flatpickr-input" wire:model="recordForm.injury_date" placeholder="{{ __('app.select_date') }}" data-date-format="Y-m-d" data-alt-format="d/m/Y">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">العودة المتوقعة</label>
-                                <input type="date" class="form-control" wire:model="recordForm.expected_return">
+                                <input type="text" class="form-control flatpickr-input" wire:model="recordForm.expected_return" placeholder="{{ __('app.select_date') }}" data-date-format="Y-m-d" data-alt-format="d/m/Y">
                             </div>
                         </div>
                         <div class="mb-3">

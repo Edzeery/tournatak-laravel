@@ -37,7 +37,7 @@ class MatchEventsPage extends Component
 
     public function loadEvents()
     {
-        $this->events = MatchEvent::with(['player', 'relatedPlayer'])
+        $this->events = MatchEvent::with(['player.user', 'relatedPlayer.user'])
             ->where('match_id', $this->matchId)
             ->orderBy('minute')
             ->orderBy('added_time')
@@ -137,8 +137,8 @@ class MatchEventsPage extends Component
 
     public function render()
     {
-        $team1Players = Player::where('team_id', $this->match->team1_id)->orderBy('number')->get();
-        $team2Players = Player::where('team_id', $this->match->team2_id)->orderBy('number')->get();
+        $team1Players = Player::with('user')->where('team_id', $this->match->team1_id)->orderBy('number')->get();
+        $team2Players = Player::with('user')->where('team_id', $this->match->team2_id)->orderBy('number')->get();
 
         $activeTeamPlayers = $this->eventForm['team_id'] == $this->match->team1_id
             ? $team1Players

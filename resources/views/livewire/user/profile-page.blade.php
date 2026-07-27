@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">تاريخ الميلاد</label>
-                                <input type="date" class="form-control" wire:model="profile_date_birth">
+                                <input type="text" class="form-control flatpickr-input" wire:model="profile_date_birth" placeholder="{{ __('app.select_date') }}" data-date-format="Y-m-d" data-alt-format="d/m/Y">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-warning px-4" wire:loading.attr="disabled">

@@ -64,11 +64,11 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">تاريخ البداية</label>
-                        <input type="datetime-local" class="form-control" wire:model="start_date">
+                        <input type="text" class="form-control flatpickr-input" wire:model="start_date" placeholder="{{ __('app.select_date_time') }}" data-enable-time="true" data-date-format="Y-m-d H:i" data-alt-format="d/m/Y H:i">
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">تاريخ النهاية</label>
-                        <input type="datetime-local" class="form-control" wire:model="end_date">
+                        <input type="text" class="form-control flatpickr-input" wire:model="end_date" placeholder="{{ __('app.select_date_time') }}" data-enable-time="true" data-date-format="Y-m-d H:i" data-alt-format="d/m/Y H:i">
                     </div>
                     <div class="col-12 mb-3">
                         <label class="form-label fw-bold">الوصف</label>

@@ -141,8 +141,7 @@
 
             <div class="text-center mt-5">
                 <a href="{{ route('competitions.index') }}" class="btn btn-outline-sport">
-                    {{ app()->getLocale() === 'ar' ? 'عرض جميع البطولات' : 'View All Competitions' }}
-                    <i class="bi bi-arrow-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }} me-1"></i>
+                    {{ __('app.competitions') }} <i class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }} me-1"></i>
                 </a>
             </div>
         </div>
@@ -180,8 +179,7 @@
 
             <div class="text-center mt-5">
                 <a href="{{ route('teams.index') }}" class="btn btn-outline-sport">
-                    {{ app()->getLocale() === 'ar' ? 'عرض جميع الفرق' : 'View All Teams' }}
-                    <i class="bi bi-arrow-{{ app()->getLocale() === 'ar' ? 'left' : 'right' }} me-1"></i>
+                    {{ __('app.teams') }} <i class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }} me-1"></i>
                 </a>
             </div>
         </div>

@@ -80,6 +80,9 @@
                                 <input type="checkbox" class="form-check-input" wire:model="remember" id="remember">
                                 <label class="form-check-label" for="remember" style="font-size:0.9rem;">تذكرني</label>
                             </div>
+                            <a href="{{ route('password.request') }}" style="font-size:0.85rem;color:rgba(255,193,7,0.8);text-decoration:none;">
+                                نسيت كلمة المرور؟
+                            </a>
                         </div>
                         <button type="submit" class="btn btn-primary-sport w-100 py-3 fw-bold" style="font-size:1.05rem;" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="login">

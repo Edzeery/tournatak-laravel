@@ -8,18 +8,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Mail\VerificationEmail;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasRoles, HasFactory, Notifiable;
+    use HasRoles, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'name',
         'username',
@@ -29,21 +28,11 @@ class User extends Authenticatable
         'is_verified',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -58,6 +47,11 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function preference(): HasOne
+    {
+        return $this->hasOne(UserPreference::class);
+    }
+
     public function securitySetting(): HasOne
     {
         return $this->hasOne(SecuritySetting::class);
@@ -66,6 +60,11 @@ class User extends Authenticatable
     public function verifications(): HasMany
     {
         return $this->hasMany(Verification::class);
+    }
+
+    public function recoveryCodes(): HasMany
+    {
+        return $this->hasMany(TwoFactorRecoveryCode::class);
     }
 
     public function teams(): HasMany
@@ -96,5 +95,17 @@ class User extends Authenticatable
     public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        Mail::to($this->email)->send(new ResetPasswordMail($token, $this->email));
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $token = \Illuminate\Support\Str::random(60);
+        cache()->put("email_verification_{$this->id}_{$token}", true, 60 * 60 * 24);
+        Mail::to($this->email)->send(new VerificationEmail($this->id, $token));
     }
 }

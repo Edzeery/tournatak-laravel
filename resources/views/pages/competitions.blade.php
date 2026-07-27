@@ -46,7 +46,7 @@
                                     {{ Str::limit($competition->description, 120) }}
                                 </p>
                                 <div class="card-meta">
-                                    <span><i class="bi bi-calendar-event"></i> {{ $competition->start_date?->format('Y/m/d') }}</span>
+                                    <span><i class="bi bi-calendar-event"></i> {{ formatDate($competition->start_date) }}</span>
                                     @if($competition->location)
                                         <span><i class="bi bi-geo-alt"></i> {{ Str::limit($competition->location, 25) }}</span>
                                     @endif

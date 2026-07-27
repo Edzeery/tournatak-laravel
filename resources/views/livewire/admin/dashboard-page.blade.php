@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-3 col-6">
             <div class="stat-card">
-                <div class="stat-icon " style=" background-color: rgb(255, 193 ,7,0.2) !important; ">
+                <div class="stat-icon bg-gold bg-opacity-10"  >
                     <i class="bi bi-trophy-fill text-gold"></i>
                 </div>
                 <div class="stat-number">{{ $stats['competitions'] }}</div>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-md-3 col-6">
             <div class="stat-card">
-                <div class="stat-icon bg-success bg-opacity-20" style="color:#16a34a;">
+                <div class="stat-icon bg-success bg-opacity-10" style="color:#16a34a;">
                     <i class="bi bi-shield-fill"></i>
                 </div>
                 <div class="stat-number">{{ $stats['teams'] }}</div>
@@ -169,7 +169,7 @@
                                             <td class="fw-bold" style="font-size:0.85rem;">
                                                 {{ $match->team2->name ?? '—' }}</td>
                                             <td style="font-size:0.8rem;color:#94a3b8;">
-                                                {{ $match->match_date?->format('d/m') ?? '—' }}</td>
+                                                {{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>
                                             <td>
                                                 <a href="{{ route('admin.matches.lineup', $match) }}"
                                                     class="btn btn-sm btn-outline-success"

@@ -1,6 +1,6 @@
 <div>
 @if(auth()->check())
-<li class="nav-item" wire:click="toggle" x-data="{ open: @entangle('open') }" @click.outside="open = false" style="position:relative;">
+<div class="nav-item" wire:click="toggle" x-data="{ open: @entangle('open') }" @click.outside="open = false" style="position:relative;">
     <button class="nav-link position-relative" style="background:none;border:none;cursor:pointer;padding:0.5rem;">
         <i class="bi bi-bell" style="font-size:1.1rem;"></i>
         @if($unreadCount > 0)
@@ -11,7 +11,8 @@
     </button>
 
     @if($open)
-    <div class="dropdown-menu dropdown-menu-end border-0 shadow-lg show" style="border-radius:14px;min-width:360px;max-width:400px;position:absolute;top:100%;right:0;z-index:1050;background:#1a1f35;" wire:click.away="open = false">
+    <div class="border-0 shadow-lg show" wire:click.away="open = false"
+        style="border-radius:14px;min-width:360px;max-width:400px;position:absolute;top:100%;{{ isRtl() ? 'left:0' : 'right:0' }};z-index:1050;background:#1a1f35;overflow:hidden;">
         <div class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom" style="border-color:rgba(255,255,255,0.06) !important;">
             <span class="fw-bold text-white" style="font-size:0.95rem;">
                 <i class="bi bi-bell-fill text-gold me-2"></i> {{ __('app.notifications') }}
@@ -52,13 +53,13 @@
 
         @if(count($notifications) > 0)
         <div class="px-3 py-2 border-top text-center" style="border-color:rgba(255,255,255,0.06) !important;">
-            <a href="{{ route('user.profile') }}" style="color:var(--primary);font-size:0.85rem;font-weight:600;text-decoration:none;">
+            <a href="{{ route('user.notifications') }}" style="color:var(--primary);font-size:0.85rem;font-weight:600;text-decoration:none;">
                 {{ __('app.view_all_notifications') }} <i class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }} ms-1"></i>
             </a>
         </div>
         @endif
     </div>
     @endif
-</li>
+</div>
 @endif
 </div>

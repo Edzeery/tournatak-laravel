@@ -1,0 +1,34 @@
+@keyframes skeletonPulse {
+    0% { opacity: 0.06; }
+    50% { opacity: 0.12; }
+    100% { opacity: 0.06; }
+}
+
+.skeleton-pulse {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+    height: 14px;
+    border-radius: 6px;
+}
+
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.skeleton-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton-pulse { animation: none; opacity: 0.08; }
+    .empty-state-icon { animation: none; }
+}

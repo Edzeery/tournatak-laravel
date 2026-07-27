@@ -1,0 +1,18 @@
+.nav-item {
+    list-style: none;
+}
+
+.dropdown-menu {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+[dir="rtl"] .dropdown-menu-end {
+    left: 0 !important;
+    right: auto !important;
+}
+
+[dir="ltr"] .dropdown-menu-end {
+    right: 0 !important;
+    left: auto !important;
+}

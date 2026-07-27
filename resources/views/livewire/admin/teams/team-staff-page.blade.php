@@ -48,10 +48,10 @@
                         @endif
                         <div class="text-muted mb-2" style="font-size:0.75rem;">
                             @if($member->start_date)
-                                <div><i class="bi bi-calendar-event"></i> {{ $member->start_date->format('Y/m/d') }}</div>
+                                <div><i class="bi bi-calendar-event"></i> {{ formatDate($member->start_date) }}</div>
                             @endif
                             @if($member->end_date)
-                                <div><i class="bi bi-calendar-check"></i> {{ $member->end_date->format('Y/m/d') }}</div>
+                                <div><i class="bi bi-calendar-check"></i> {{ formatDate($member->end_date) }}</div>
                             @endif
                         </div>
                         <div class="d-flex gap-1 justify-content-center mt-auto pt-2 border-top">

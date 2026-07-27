@@ -57,7 +57,7 @@
             <div class="text-center px-4">
                 <div class="text-gold fw-bold fs-1" style="line-height:1;">VS</div>
                 @if($match->match_date)
-                    <div class="text-white-50 mt-1" style="font-size:0.8rem;">{{ $match->match_date->format('d/m/Y H:i') }}</div>
+                    <div class="text-white-50 mt-1" style="font-size:0.8rem;">{{ formatDateTime($match->match_date) }}</div>
                 @endif
             </div>
             <div class="text-center" style="min-width:140px;">

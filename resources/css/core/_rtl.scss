@@ -1,0 +1,65 @@
+[dir="ltr"] .me-auto {
+    margin-right: 0 !important;
+    margin-left: auto !important;
+}
+
+[dir="ltr"] .ms-auto {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+}
+
+[dir="ltr"] .me-1,
+[dir="ltr"] .me-2 {
+    margin-right: 0 !important;
+}
+
+[dir="ltr"] .ms-1,
+[dir="ltr"] .ms-2 {
+    margin-left: 0 !important;
+}
+
+[dir="ltr"] .text-start {
+    text-align: right !important;
+}
+
+[dir="ltr"] .text-end {
+    text-align: left !important;
+}
+
+[dir="ltr"] .pe-0,
+[dir="ltr"] .pe-3 {
+    padding-right: 0 !important;
+}
+
+[dir="ltr"] .ps-0,
+[dir="ltr"] .ps-3 {
+    padding-left: 0 !important;
+}
+
+[dir="ltr"] .border-end {
+    border-right: 1px solid transparent !important;
+}
+
+[dir="ltr"] .border-start {
+    border-left: 1px solid transparent !important;
+}
+
+[dir="rtl"] .hero-sports::before {
+    right: -20%;
+    left: auto;
+}
+
+[dir="rtl"] .hero-sports::after {
+    left: -10%;
+    right: auto;
+}
+
+[dir="ltr"] .hero-sports::before {
+    left: -20%;
+    right: auto;
+}
+
+[dir="ltr"] .hero-sports::after {
+    right: -10%;
+    left: auto;
+}

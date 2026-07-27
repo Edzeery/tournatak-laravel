@@ -1,0 +1,29 @@
+.progress-bar-top {
+    position: fixed;
+    top: 0;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-gold);
+    z-index: 10000;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+[dir="rtl"] .progress-bar-top {
+    right: 0;
+}
+[dir="ltr"] .progress-bar-top {
+    left: 0;
+}
+
+.progress-bar-top.active {
+    width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .preloader-ring,
+    .preloader-logo,
+    .progress-bar-top {
+        animation: none;
+        transition: none;
+    }
+}

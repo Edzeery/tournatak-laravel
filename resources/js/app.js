@@ -1,12 +1,41 @@
 import './bootstrap';
+import * as bootstrap from 'bootstrap';
 import 'flatpickr';
 import 'flatpickr/dist/l10n/ar.js';
 import 'flatpickr/dist/l10n/fr.js';
 import 'flatpickr/dist/l10n/es.js';
 import Swal from 'sweetalert2';
 
-// Make SweetAlert2 globally available for Livewire
 window.Swal = Swal;
+window.bootstrap = bootstrap;
+
+// ============================================
+// Theme Toggle (Dark / Light)
+// ============================================
+(function initTheme() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    updateThemeIcon(theme);
+})();
+
+window.toggleTheme = function () {
+    const current = document.documentElement.getAttribute('data-bs-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-bs-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+};
+
+function updateThemeIcon(theme) {
+    document.querySelectorAll('.theme-icon').forEach(icon => {
+        if (icon.classList) {
+            icon.classList.toggle('bi-moon-stars', theme === 'light');
+            icon.classList.toggle('bi-sun-fill', theme === 'dark');
+        }
+    });
+}
 
 // Initialize all flatpickr inputs with class "flatpickr-input"
 document.addEventListener('livewire:initialized', () => {

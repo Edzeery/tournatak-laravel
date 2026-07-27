@@ -44,6 +44,7 @@ use App\Livewire\Public\TeamsPage as PublicTeamsPage;
 use App\Livewire\Public\PlayersPage as PublicPlayersPage;
 use App\Livewire\User\ProfilePage;
 use App\Livewire\User\UserDashboardPage;
+use App\Livewire\User\NotificationsPage;
 use App\Livewire\User\SecurityPage;
 use App\Livewire\Security\TwoFactorSetupPage;
 use Illuminate\Support\Facades\Route;
@@ -125,6 +126,7 @@ Route::middleware('auth')->post('/logout', function () {
 Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/dashboard', UserDashboardPage::class)->name('dashboard');
     Route::get('/profile', ProfilePage::class)->name('profile');
+    Route::get('/notifications', NotificationsPage::class)->name('notifications');
     Route::get('/security', SecurityPage::class)->name('security');
     Route::get('/security/2fa', TwoFactorSetupPage::class)->name('2fa-setup');
 });

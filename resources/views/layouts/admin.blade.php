@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="color-scheme" content="light dark">
     <title>{{ config('app.name') }} - {{ $title ?? __('app.dashboard') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
@@ -12,8 +13,6 @@
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     @statusKitAssets(['bi'])
     @livewireStyles
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
     @stack('styles')
 </head>
@@ -35,20 +34,18 @@
     <aside class="admin-sidebar" id="sidebar">
         <div class="sidebar-header d-flex align-items-center justify-content-between">
             <a href="{{ route('home') }}" class="text-decoration-none d-flex align-items-center gap-2">
-                <div class="bg-gold text-dark rounded-3 d-flex align-items-center justify-content-center"
-                    style="width:38px;height:38px;font-size:1.1rem;font-weight:800;">
+                <div class="bg-gold text-dark rounded-3 d-flex align-items-center justify-content-center w-38 h-38 fs-lg fw-bold">
                     <i class="bi bi-trophy-fill"></i>
                 </div>
                 <div>
-                    <div class="text-white fw-bold" style="font-size:1rem;">{{ config('app.name') }}</div>
-                    <small style="color:rgba(255,255,255,0.3);font-size:0.7rem;">{{ $title ?? __('app.dashboard') }}</small>
+                    <div class="text-white fw-bold fs-base">{{ config('app.name') }}</div>
+                    <small class="text-chrome-subtle fs-xs">{{ $title ?? __('app.dashboard') }}</small>
                 </div>
             </a>
             <button class="sidebar-collapse-btn d-none d-lg-flex" onclick="toggleSidebarCollapse()" title="{{ __('app.toggle_sidebar') }}" aria-label="{{ __('app.toggle_sidebar') }}">
                 <i class="bi bi-chevron-left" id="collapseIcon"></i>
             </button>
-            <button class="btn btn-sm d-lg-none" onclick="toggleSidebar()" aria-label="{{ __('app.close_sidebar') }}"
-                style="color:rgba(255,255,255,0.5);background:none;border:none;font-size:1.2rem;">
+            <button class="btn btn-sm d-lg-none border-0 bg-transparent text-chrome-muted fs-xl" onclick="toggleSidebar()" aria-label="{{ __('app.close_sidebar') }}">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -123,8 +120,7 @@
             </ul>
         </div>
 
-        <div class="sidebar-section"
-            style="margin-top:auto;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.06);">
+        <div class="sidebar-section sidebar-section-bottom">
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.positions.*') ? 'active' : '' }}"
@@ -147,7 +143,7 @@
             </ul>
         </div>
 
-        <div class="sidebar-section mt-2 pt-3" style="border-top:1px solid rgba(255,255,255,0.06);">
+        <div class="sidebar-section mt-2 pt-3 border-top border-chrome">
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
@@ -175,24 +171,27 @@
     <div class="admin-main">
         <div class="admin-topbar">
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-sm d-lg-none" onclick="toggleSidebar()" aria-label="{{ __('app.toggle_sidebar') }}"
-                    style="background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.2);border-radius:8px;color:var(--primary);">
+                <button class="btn btn-sm d-lg-none btn-gold-outline" onclick="toggleSidebar()" aria-label="{{ __('app.toggle_sidebar') }}">
                     <i class="bi bi-list"></i>
                 </button>
-                <h5 class="mb-0 fw-bold" style="color:var(--dark);font-size:1.1rem;">{{ $title ?? __('app.dashboard') }}
+                <h5 class="mb-0 fw-bold text-theme-primary fs-lg">{{ $title ?? __('app.dashboard') }}
                 </h5>
             </div>
             <div class="d-flex align-items-center gap-3">
-                @include('components.language-switcher')
+                <ul class="nav align-items-center mb-0 p-0 list-unstyled">
+                    @include('components.language-switcher')
+                </ul>
+                <button class="btn btn-sm d-flex align-items-center justify-content-center w-36 h-36 rounded-md" onclick="toggleTheme()" aria-label="{{ __('app.toggle_theme') }}">
+                    <i class="bi theme-icon"></i>
+                </button>
                 <livewire:user.notification-bell />
                 <div class="d-flex align-items-center gap-2">
-                    <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold"
-                        style="width:36px;height:36px;font-size:0.85rem;">
+                    <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold w-36 h-36 fs-base">
                         {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
                     </div>
                     <div class="d-none d-md-block">
-                        <div class="fw-bold" style="font-size:0.85rem;">{{ Auth::user()->name ?? 'Admin' }}</div>
-                        <small style="color:#94a3b8;font-size:0.7rem;">{{ Auth::user()->role ?? 'admin' }}</small>
+                        <div class="fw-bold fs-base">{{ Auth::user()->name ?? 'Admin' }}</div>
+                        <small class="text-theme-muted fs-xs">{{ Auth::user()->role ?? 'admin' }}</small>
                     </div>
                 </div>
             </div>

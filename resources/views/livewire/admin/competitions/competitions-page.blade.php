@@ -46,9 +46,9 @@
                                 </td>
                                 <td>{{ $competition->organizer->name ?? '-' }}</td>
                                 <td style="font-size:0.85rem;">
-                                    {{ $competition->start_date?->format('Y/m/d') ?? '-' }}
+                                    {{ formatDate($competition->start_date) ?? '-' }}
                                     <i class="bi bi-arrow-left text-muted mx-1"></i>
-                                    {{ $competition->end_date?->format('Y/m/d') ?? '-' }}
+                                    {{ formatDate($competition->end_date) ?? '-' }}
                                 </td>
                                 <td>
                                     <x-status-badge domain="competition" status="{{ $competition->status }}" set="bi" />

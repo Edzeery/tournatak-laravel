@@ -31,6 +31,7 @@ class Player extends Model
 
     protected $casts = [
         'number' => 'integer',
+        'date_of_birth' => 'date',
         'is_captain' => 'boolean',
     ];
 

@@ -70,7 +70,7 @@
                                     </span>
                                 </td>
                                 <td style="font-size:0.85rem;color:#94a3b8;">
-                                    {{ $match->match_date?->format('Y/m/d H:i') ?? '-' }}
+                                    {{ formatDateTime($match->match_date) ?? '-' }}
                                 </td>
                                 <td>
                                     <x-status-badge domain="match" status="{{ $match->status }}" set="bi" />

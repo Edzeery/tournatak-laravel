@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="color-scheme" content="light dark">
     <meta name="description" content="{{ config('app.name') }} - {{ __('app.platform_desc') }}">
     <title>{{ config('app.name', 'Tournatak') }} - {{ $title ?? __('app.home') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,7 +12,6 @@
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     @statusKitAssets(['bi'])
     @livewireStyles
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('styles')
 </head>
 <body class="bg-body">
@@ -63,6 +63,11 @@
                 </ul>
                 <ul class="navbar-nav {{ isRtl() ? 'ms-auto' : 'me-auto' }} mb-2 mb-lg-0 align-items-lg-center">
                     @include('components.language-switcher')
+                    <li class="nav-item">
+                        <button class="nav-link border-0 bg-transparent d-flex align-items-center" onclick="toggleTheme()" aria-label="{{ __('app.toggle_theme') }}">
+                            <i class="bi theme-icon"></i>
+                        </button>
+                    </li>
                     <livewire:user.notification-bell />
                     @auth
                         @if(auth()->user()->hasRole('admin'))
@@ -79,13 +84,13 @@
                             </li>
                         @endif
                         <li class="nav-item dropdown ms-2">
-                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3 py-2 rounded-pill" href="#" data-bs-toggle="dropdown" style="background: rgba(255,193,7,0.1); border: 1px solid rgba(255,193,7,0.2);">
-                                <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center" style="width:32px;height:32px;font-size:0.85rem;font-weight:800;">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3 py-2 rounded-pill btn-gold-outline" href="#" data-bs-toggle="dropdown">
+                                <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold fs-base w-32 h-32">
                                     {{ mb_substr(Auth::user()->name, 0, 1) }}
                                 </div>
-                                <span class="d-none d-lg-inline text-white fw-bold" style="font-size:0.9rem;">{{ Auth::user()->name }}</span>
+                                <span class="d-none d-lg-inline text-white fw-bold fs-md">{{ Auth::user()->name }}</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg" style="border-radius:12px;min-width:200px;">
+                            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-lg-custom" style="min-width:200px;">
                                 <li class="px-3 py-2 border-bottom">
                                     <div class="fw-bold text-dark">{{ Auth::user()->name }}</div>
                                     <small class="text-muted">{{ Auth::user()->email }}</small>
@@ -120,7 +125,7 @@
                             </a>
                         </li>
                         <li class="nav-item ms-1">
-                            <a class="btn btn-warning btn-sm px-3 py-2 fw-bold" href="{{ route('register') }}" style="border-radius:50px;">
+                            <a class="btn btn-warning btn-sm px-3 py-2 fw-bold rounded-pill" href="{{ route('register') }}">
                                 <i class="bi bi-rocket-takeoff"></i> {{ __('app.get_started') }}
                             </a>
                         </li>
@@ -129,8 +134,8 @@
             </div>
 
             {{-- Mobile offcanvas nav --}}
-            <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel" style="background:#0a0e1a;">
-                <div class="offcanvas-header border-bottom" style="border-color:rgba(255,255,255,0.06) !important;">
+            <div class="offcanvas offcanvas-end d-lg-none offcanvas-dark" tabindex="-1" id="mobileNav" aria-labelledby="mobileNavLabel">
+                <div class="offcanvas-header border-bottom border-chrome-bottom">
                     <a class="navbar-brand text-gold" href="{{ route('home') }}">
                         <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
                     </a>
@@ -139,51 +144,51 @@
                 <div class="offcanvas-body">
                     <ul class="nav flex-column gap-1">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                            <a class="nav-link nav-link-mobile {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                                 <i class="bi bi-house-door me-2"></i> {{ __('app.home') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('competitions.*') ? 'active' : '' }}" href="{{ route('competitions.index') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                            <a class="nav-link nav-link-mobile {{ request()->routeIs('competitions.*') ? 'active' : '' }}" href="{{ route('competitions.index') }}">
                                 <i class="bi bi-trophy me-2"></i> {{ __('app.competitions') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('teams.*') ? 'active' : '' }}" href="{{ route('teams.index') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                            <a class="nav-link nav-link-mobile {{ request()->routeIs('teams.*') ? 'active' : '' }}" href="{{ route('teams.index') }}">
                                 <i class="bi bi-shield-check me-2"></i> {{ __('app.teams') }}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('players.*') ? 'active' : '' }}" href="{{ route('players.index') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                            <a class="nav-link nav-link-mobile {{ request()->routeIs('players.*') ? 'active' : '' }}" href="{{ route('players.index') }}">
                                 <i class="bi bi-people me-2"></i> {{ __('app.players') }}
                             </a>
                         </li>
                     </ul>
-                    <hr style="border-color:rgba(255,255,255,0.06);">
+                    <hr class="border-chrome">
                     @auth
                         <ul class="nav flex-column gap-1">
                             @if(auth()->user()->hasRole('admin'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.dashboard') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                                    <a class="nav-link nav-link-mobile" href="{{ route('admin.dashboard') }}">
                                         <i class="bi bi-grid-1x2 me-2"></i> {{ __('app.dashboard') }}
                                     </a>
                                 </li>
                             @else
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('user.dashboard') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                                    <a class="nav-link nav-link-mobile" href="{{ route('user.dashboard') }}">
                                         <i class="bi bi-person-badge me-2"></i> {{ __('app.my_account') }}
                                     </a>
                                 </li>
                             @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.profile') }}" style="color:rgba(255,255,255,0.7);font-weight:600;padding:12px 16px;border-radius:10px;">
+                                <a class="nav-link nav-link-mobile" href="{{ route('user.profile') }}">
                                     <i class="bi bi-person me-2"></i> {{ __('app.profile') }}
                                 </a>
                             </li>
                             <li class="nav-item mt-2">
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
-                                    <button class="nav-link w-100 text-start" type="submit" style="color:#ef4444;font-weight:600;padding:12px 16px;border-radius:10px;background:none;border:none;cursor:pointer;">
+                                    <button class="nav-link w-100 text-start btn-logout" type="submit">
                                         <i class="bi bi-box-arrow-left me-2"></i> {{ __('app.logout') }}
                                     </button>
                                 </form>
@@ -200,10 +205,15 @@
                         </div>
                     @endauth
                     <div class="mt-4">
-                        <div class="fw-bold mb-2" style="color:rgba(255,255,255,0.5);font-size:0.85rem;"><i class="bi bi-globe2 me-2"></i>{{ __('app.platform_name') }}</div>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2 rounded-md" onclick="toggleTheme()">
+                                <i class="bi theme-icon"></i> <span>{{ __('app.toggle_theme') }}</span>
+                            </button>
+                        </div>
+                        <div class="fw-bold mb-2 text-chrome-muted fs-base"><i class="bi bi-globe2 me-2"></i>{{ __('app.platform_name') }}</div>
                         <div class="d-flex flex-wrap gap-2">
                             @foreach(['ar' => '🇸🇦 العربية', 'en' => '🇬🇧 English', 'fr' => '🇫🇷 Français', 'es' => '🇪🇸 Español'] as $code => $label)
-                                <a href="{{ route('lang.switch', $code) }}" class="btn btn-sm {{ app()->getLocale() === $code ? '' : '' }}" style="border-radius:8px;font-size:0.85rem;font-weight:600;{{ app()->getLocale() === $code ? 'background:rgba(255,193,7,0.15);color:#ffc107;border:1px solid rgba(255,193,7,0.3);' : 'background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.08);' }}">{{ $label }}</a>
+                                <a href="{{ route('lang.switch', $code) }}" class="btn btn-sm rounded-md fw-bold fs-base {{ app()->getLocale() === $code ? 'lang-btn-active' : 'lang-btn-inactive' }}">{{ $label }}</a>
                             @endforeach
                         </div>
                     </div>
@@ -242,7 +252,7 @@
                     <div class="footer-brand text-gold mb-3">
                         <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
                     </div>
-                    <p style="color: rgba(255,255,255,0.5); max-width: 300px;">
+                    <p class="text-chrome-muted" style="max-width: 300px;">
                         {{ __('app.platform_desc') }}
                     </p>
                     <div class="d-flex gap-3 mt-3">
@@ -274,7 +284,7 @@
                 </div>
                 <div class="col-lg-4">
                     <h6 class="text-white fw-bold mb-3">{{ __('app.contact_us') }}</h6>
-                    <ul class="list-unstyled d-flex flex-column gap-2" style="color:rgba(255,255,255,0.5);">
+                    <ul class="list-unstyled d-flex flex-column gap-2 text-chrome-muted">
                         <li><i class="bi bi-envelope-fill text-gold me-2"></i> info@tournatak.com</li>
                         <li><i class="bi bi-telephone-fill text-gold me-2"></i> +213 XX XX XX XX</li>
                         <li><i class="bi bi-geo-alt-fill text-gold me-2"></i> {{ __('app.algeria') }}</li>

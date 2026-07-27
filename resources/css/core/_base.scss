@@ -1,0 +1,75 @@
+// ============================================
+// Base Styles - Theme Aware
+// ============================================
+
+* {
+    font-family: 'Cairo', sans-serif;
+    list-style: none;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// ---- Scrollbar ----
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--chrome-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+// ---- Utility Classes ----
+.text-gold {
+    color: var(--primary) !important;
+}
+
+.bg-gold {
+    --bs-bg-opacity: 1;
+    background-color: rgba(255, 251, 7, var(--bs-bg-opacity)) !important;
+}
+
+.border-gold {
+    border-color: var(--primary) !important;
+}
+
+.text-muted-2 {
+    color: var(--text-muted) !important;
+}
+
+.text-theme-primary {
+    color: var(--text-primary) !important;
+}
+
+.text-theme-secondary {
+    color: var(--text-secondary) !important;
+}
+
+.bg-theme-body {
+    background-color: var(--bg-body) !important;
+}
+
+.bg-theme-surface {
+    background-color: var(--bg-surface) !important;
+}
+
+.bg-theme-surface-alt {
+    background-color: var(--bg-surface-alt) !important;
+}
+
+.bg-theme-elevated {
+    background-color: var(--bg-elevated) !important;
+}
+
+.border-theme {
+    border-color: var(--border-color) !important;
+}

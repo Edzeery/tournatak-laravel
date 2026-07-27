@@ -153,10 +153,10 @@
                                     </span>
                                 </td>
                                 <td style="font-size:0.85rem;color:#94a3b8;">
-                                    {{ $record->injury_date?->format('Y/m/d') ?? '—' }}
+                                    {{ formatDate($record->injury_date) ?? '—' }}
                                 </td>
                                 <td style="font-size:0.85rem;color:#94a3b8;">
-                                    {{ $record->expected_return?->format('Y/m/d') ?? '—' }}
+                                    {{ formatDate($record->expected_return) ?? '—' }}
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-sm btn-outline-primary" style="border-radius:8px;" wire:click="editRecord({{ $record->id }})">

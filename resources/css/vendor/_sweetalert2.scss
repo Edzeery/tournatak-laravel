@@ -1,0 +1,44 @@
+.swal2-popup.swal-tournatak {
+    background: #1a1f35 !important;
+    border: 1px solid rgba(255, 193, 7, 0.12);
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+}
+
+.swal2-popup.swal-tournatak .swal2-title {
+    color: #fff !important;
+}
+
+.swal2-popup.swal-tournatak .swal2-html-container {
+    color: rgba(255, 255, 255, 0.6) !important;
+    margin: 0.5em 1.5em 0 !important;
+}
+
+.swal2-popup.swal-tournatak .swal2-actions {
+    margin-top: 1.5em !important;
+}
+
+.swal2-popup.swal-tournatak .swal2-styled {
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 10px 24px !important;
+}
+
+.swal2-popup.swal2-toast {
+    background: #1a1f35 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3) !important;
+    color: #fff !important;
+    font-family: 'Cairo', sans-serif !important;
+}
+
+.swal2-popup.swal2-toast .swal2-title {
+    color: #fff !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+}
+
+.swal2-popup.swal2-toast .swal2-timer-progress-bar {
+    background: #ffc107 !important;
+}

@@ -1,0 +1,59 @@
+.flatpickr-calendar {
+    background: #1a1f35 !important;
+    border: 1px solid rgba(255, 193, 7, 0.15) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+.flatpickr-day {
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 8px !important;
+}
+
+.flatpickr-day:hover {
+    background: rgba(255, 193, 7, 0.15) !important;
+    border-color: rgba(255, 193, 7, 0.3) !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+    background: var(--primary, #ffc107) !important;
+    border-color: var(--primary, #ffc107) !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+
+.flatpickr-months .flatpickr-month {
+    color: #fff !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    color: #fff !important;
+}
+
+.flatpickr-weekday {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+span.flatpickr-weekday {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.flatpickr-current-month .flatpickr-prev_month,
+.flatpickr-current-month .flatpickr-next_month {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.flatpickr-current-month .flatpickr-prev_month:hover,
+.flatpickr-current-month .flatpickr-next_month:hover {
+    color: var(--primary, #ffc107) !important;
+}
+
+.dayContainer {
+    padding: 4px !important;
+}
+
+.flatpickr-innerContainer {
+    background: transparent !important;
+}

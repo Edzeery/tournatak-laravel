@@ -95,7 +95,7 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background:#f8f9fa;">
                             <small class="text-muted"><i class="bi bi-calendar me-1"></i> {{ $isAr ? 'التسجيل' : 'Joined' }}</small>
-                            <small class="fw-bold" style="font-size:0.8rem;">{{ $user->created_at->format('d/m/Y') }}</small>
+                            <small class="fw-bold" style="font-size:0.8rem;">{{ formatDate($user->created_at) }}</small>
                         </div>
                         <div class="d-flex justify-content-between align-items-center p-2 rounded-3" style="background:#f8f9fa;">
                             <small class="text-muted"><i class="bi bi-check-circle me-1"></i> {{ $isAr ? 'الحالة' : 'Status' }}</small>
@@ -139,7 +139,7 @@
                                                 </span>
                                             </td>
                                             <td class="fw-bold" style="font-size:0.85rem;">{{ $match->team2->name ?? '—' }}</td>
-                                            <td style="font-size:0.8rem;color:#94a3b8;">{{ $match->match_date?->format('d/m') ?? '—' }}</td>
+                                            <td style="font-size:0.8rem;color:#94a3b8;">{{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

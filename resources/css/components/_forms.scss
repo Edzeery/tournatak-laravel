@@ -1,0 +1,35 @@
+.form-control,
+.form-select {
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--input-color);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--input-focus-border);
+    box-shadow: var(--input-focus-shadow);
+    background-color: var(--input-bg);
+    color: var(--input-color);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.form-check-input {
+    background-color: var(--input-bg);
+    border-color: var(--input-border);
+}
+
+.form-check-label {
+    color: var(--text-primary);
+}

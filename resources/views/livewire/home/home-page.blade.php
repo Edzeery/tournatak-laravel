@@ -121,7 +121,7 @@
                                         </p>
                                     @endif
                                     <div class="card-meta">
-                                        <span><i class="bi bi-calendar-event"></i> {{ $competition->start_date?->format('Y/m/d') }}</span>
+                                        <span><i class="bi bi-calendar-event"></i> {{ formatDate($competition->start_date) }}</span>
                                         @if($competition->organizer)
                                             <span><i class="bi bi-person"></i> {{ $competition->organizer->name }}</span>
                                         @endif

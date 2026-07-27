@@ -99,7 +99,7 @@
                                                     {{ $goal->match->team1->name ?? '?' }} vs {{ $goal->match->team2->name ?? '?' }}
                                                 </td>
                                                 <td style="font-size:0.8rem;color:#94a3b8;">
-                                                    {{ $goal->match->match_date?->format('d/m/Y') ?? '—' }}
+                                                    {{ formatDate($goal->match->match_date) ?? '—' }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -161,7 +161,7 @@
                             @if($player->date_of_birth)
                                 <div class="d-flex justify-content-between">
                                     <span class="text-muted" style="font-size:0.85rem;">تاريخ الميلاد</span>
-                                    <span class="fw-bold" style="font-size:0.85rem;">{{ $player->date_of_birth->format('d/m/Y') }}</span>
+                                    <span class="fw-bold" style="font-size:0.85rem;">{{ formatDate($player->date_of_birth) }}</span>
                                 </div>
                             @endif
                             @if($player->nationality)

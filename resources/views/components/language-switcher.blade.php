@@ -1,7 +1,8 @@
 @php $currentLocale = app()->getLocale(); @endphp
 <li class="nav-item">
     <div class="dropdown">
-        <button class="nav-link dropdown-toggle d-flex align-items-center gap-1" data-bs-toggle="dropdown" style="background:none;border:none;color:rgba(255,255,255,0.7) !important;">
+        <button class="nav-link dropdown-toggle d-flex align-items-center gap-1" data-bs-toggle="dropdown"
+         style="background:none;border:none;color:rgba(255,255,255,0.7) !important;">
             <i class="bi bi-globe2"></i>
             <span class="d-none d-lg-inline" style="font-size:0.85rem;">{{ match($currentLocale) { 'ar' => 'عربي', 'en' => 'EN', 'fr' => 'FR', 'es' => 'ES', default => 'EN' } }}</span>
         </button>

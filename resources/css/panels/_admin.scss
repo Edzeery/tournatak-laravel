@@ -1,7 +1,7 @@
 /* ============================================
-   Tournatak - Admin Panel Styles
+   Admin Panel - Sidebar, Topbar, Layout
    ============================================ */
-* { font-family: 'Cairo', sans-serif; }
+
 /* ---- Sidebar ---- */
 .admin-sidebar {
     min-height: 100vh;
@@ -17,12 +17,10 @@
 }
 
 [dir="rtl"] .admin-sidebar {
-
     border-left: 1px solid rgba(255, 193, 7, 0.1);
 }
 
 [dir="ltr"] .admin-sidebar {
-
     border-right: 1px solid rgba(255, 193, 7, 0.1);
 }
 
@@ -99,16 +97,16 @@
 
 .admin-main {
     min-height: 100vh;
-    background: #f5f6fa;
+    background: var(--bg-body);
 }
 
 /* ---- Topbar ---- */
 .admin-topbar {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--bg-surface);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 16px 24px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -174,15 +172,8 @@
 }
 
 @keyframes adminFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ---- Breadcrumbs ---- */
@@ -192,13 +183,13 @@
     margin: 0;
 }
 
-[dir="rtl"] .breadcrumb-item+.breadcrumb-item::before {
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
     float: right;
     padding-left: var(--bs-breadcrumb-item-padding-x);
 }
 
-[dir="ltr"] .breadcrumb-item+.breadcrumb-item::before {
+[dir="ltr"] .breadcrumb-item + .breadcrumb-item::before {
     content: ">";
 }
 
@@ -227,7 +218,6 @@
 
 /* ---- Print ---- */
 @media print {
-
     .admin-sidebar,
     .admin-topbar,
     .sidebar-toggle {
@@ -276,20 +266,20 @@
     margin: 0;
 }
 
-/* Collapsed main content offset */
 [dir="rtl"].sidebar-collapsed .admin-main {
     margin-right: 72px;
     margin-left: 0;
 }
+
 [dir="ltr"].sidebar-collapsed .admin-main {
     margin-left: 72px;
     margin-right: 0;
 }
 
-/* Collapsed sidebar tooltip on hover */
 .admin-sidebar.collapsed .nav-link {
     position: relative;
 }
+
 .admin-sidebar.collapsed .nav-link::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -307,34 +297,37 @@
     opacity: 0;
     transition: opacity 0.2s ease;
     z-index: 200;
-    border: 1px solid rgba(255,193,7,0.15);
+    border: 1px solid rgba(255, 193, 7, 0.15);
 }
+
 [dir="ltr"] .admin-sidebar.collapsed .nav-link::after {
     left: 100%;
     right: auto;
     margin-left: 12px;
     margin-right: 0;
 }
+
 [dir="rtl"] .admin-sidebar.collapsed .nav-link::after {
     right: 100%;
     left: auto;
     margin-right: 12px;
     margin-left: 0;
 }
+
 .admin-sidebar.collapsed .nav-link:hover::after {
     opacity: 1;
 }
 
-/* Collapse toggle button */
 .sidebar-collapse-btn {
     background: none;
     border: none;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255, 255, 255, 0.4);
     cursor: pointer;
     padding: 4px;
     font-size: 1rem;
     transition: color 0.2s;
 }
+
 .sidebar-collapse-btn:hover {
     color: var(--primary);
 }

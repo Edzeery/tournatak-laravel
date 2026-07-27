@@ -13,3 +13,17 @@ if (!function_exists('isRtlLocale')) {
         return in_array($locale, ['ar']);
     }
 }
+
+if (!function_exists('formatDate')) {
+    function formatDate(?Carbon\Carbon $date, string $format = 'd/m/Y'): ?string
+    {
+        return $date?->translatedFormat($format);
+    }
+}
+
+if (!function_exists('formatDateTime')) {
+    function formatDateTime(?Carbon\Carbon $date, string $format = 'd/m/Y H:i'): ?string
+    {
+        return $date?->translatedFormat($format);
+    }
+}

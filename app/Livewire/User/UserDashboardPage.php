@@ -42,6 +42,7 @@ class UserDashboardPage extends Component
 
         return view('livewire.user.user-dashboard-page', [
             'title' => $isAr ? 'لوحة التحكم' : 'Dashboard',
+            'isAr' => $isAr,
             'user' => $user,
             'stats' => $stats,
             'recentMatches' => $recentMatches,

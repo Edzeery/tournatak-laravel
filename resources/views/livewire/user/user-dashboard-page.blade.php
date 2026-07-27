@@ -82,7 +82,7 @@
                             {{ mb_substr($user->name, 0, 1) }}
                         </div>
                         <h5 class="fw-bold mb-0 text-theme-primary">{{ $user->name }}</h5>
-                        <small class="text-theme-muted">@{{ $user->username }}</small>
+                        <small class="text-theme-muted">{{ $user->username }}</small>
                     </div>
                     <div class="d-flex flex-column gap-2">
                         <div class="d-flex justify-content-between align-items-center p-2 rounded-3 info-row">

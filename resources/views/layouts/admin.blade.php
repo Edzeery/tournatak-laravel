@@ -19,7 +19,8 @@
 
 <body>
 
-    <a href="#main-content" class="visually-hidden-focusable position-absolute top-0 start-0 m-2 px-3 py-2 rounded skip-to-content">{{ __('app.skip_to_content') }}</a>
+    <a href="#main-content"
+        class="visually-hidden-focusable position-absolute top-0 start-0 m-2 px-3 py-2 rounded skip-to-content">{{ __('app.skip_to_content') }}</a>
 
     {{-- Preloader --}}
     <div id="preloader" class="preloader">
@@ -44,7 +45,8 @@
                     <small class="text-chrome-subtle fs-xs">{{ $title ?? __('app.dashboard') }}</small>
                 </div>
             </a>
-            <button class="btn btn-sm d-lg-none border-0 bg-transparent text-chrome-muted fs-xl" onclick="toggleSidebar()" aria-label="{{ __('app.close_sidebar') }}">
+            <button class="btn btn-sm d-lg-none border-0 bg-transparent text-chrome-muted fs-xl"
+                onclick="toggleSidebar()" aria-label="{{ __('app.close_sidebar') }}">
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
@@ -85,11 +87,13 @@
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }} {{ request()->routeIs('admin.teams.*') ? 'open' : '' }}"
-                            href="#" onclick="toggleSubmenu(this, 'submenu-teams')" data-tooltip="{{ __('app.teams') }}">
+                            href="#" onclick="toggleSubmenu(this, 'submenu-teams')"
+                            data-tooltip="{{ __('app.teams') }}">
                             <i class="bi bi-shield-fill"></i> <span>{{ __('app.teams') }}</span>
                             <i class="bi bi-chevron-down nav-link-arrow"></i>
                         </a>
-                        <div class="sidebar-submenu {{ request()->routeIs('admin.teams.*') ? 'show' : '' }}" id="submenu-teams">
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.teams.*') ? 'show' : '' }}"
+                            id="submenu-teams">
                             <a class="nav-link {{ request()->routeIs('admin.teams.index') ? 'active' : '' }}"
                                 href="{{ route('admin.teams.index') }}">
                                 <i class="bi bi-list-ul"></i> <span>{{ __('app.all_teams') }}</span>
@@ -103,11 +107,13 @@
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.players.*') ? 'active' : '' }} {{ request()->routeIs('admin.players.*') ? 'open' : '' }}"
-                            href="#" onclick="toggleSubmenu(this, 'submenu-players')" data-tooltip="{{ __('app.players') }}">
+                            href="#" onclick="toggleSubmenu(this, 'submenu-players')"
+                            data-tooltip="{{ __('app.players') }}">
                             <i class="bi bi-person-badge-fill"></i> <span>{{ __('app.players') }}</span>
                             <i class="bi bi-chevron-down nav-link-arrow"></i>
                         </a>
-                        <div class="sidebar-submenu {{ request()->routeIs('admin.players.*') ? 'show' : '' }}" id="submenu-players">
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.players.*') ? 'show' : '' }}"
+                            id="submenu-players">
                             <a class="nav-link {{ request()->routeIs('admin.players.index') ? 'active' : '' }}"
                                 href="{{ route('admin.players.index') }}">
                                 <i class="bi bi-list-ul"></i> <span>{{ __('app.all_players') }}</span>
@@ -121,12 +127,14 @@
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.matches.*') ? 'active' : '' }} {{ request()->routeIs('admin.matches.*') ? 'open' : '' }}"
-                            href="#" onclick="toggleSubmenu(this, 'submenu-matches')" data-tooltip="{{ __('app.matches') }}">
+                            href="#" onclick="toggleSubmenu(this, 'submenu-matches')"
+                            data-tooltip="{{ __('app.matches') }}">
                             <i class="bi bi-calendar-event-fill"></i>
                             <span>{{ __('app.matches') }}</span>
                             <i class="bi bi-chevron-down nav-link-arrow"></i>
                         </a>
-                        <div class="sidebar-submenu {{ request()->routeIs('admin.matches.*') ? 'show' : '' }}" id="submenu-matches">
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.matches.*') ? 'show' : '' }}"
+                            id="submenu-matches">
                             <a class="nav-link {{ request()->routeIs('admin.matches.index') ? 'active' : '' }}"
                                 href="{{ route('admin.matches.index') }}">
                                 <i class="bi bi-list-ul"></i> <span>{{ __('app.all_matches') }}</span>
@@ -145,12 +153,14 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.competitions.*') ? 'active' : '' }} {{ request()->routeIs('admin.competitions.*') ? 'open' : '' }}"
-                            href="#" onclick="toggleSubmenu(this, 'submenu-competitions')" data-tooltip="{{ __('app.competitions') }}">
+                            href="#" onclick="toggleSubmenu(this, 'submenu-competitions')"
+                            data-tooltip="{{ __('app.competitions') }}">
                             <i class="bi bi-trophy-fill"></i>
                             <span>{{ __('app.competitions') }}</span>
                             <i class="bi bi-chevron-down nav-link-arrow"></i>
                         </a>
-                        <div class="sidebar-submenu {{ request()->routeIs('admin.competitions.*') ? 'show' : '' }}" id="submenu-competitions">
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.competitions.*') ? 'show' : '' }}"
+                            id="submenu-competitions">
                             <a class="nav-link {{ request()->routeIs('admin.competitions.index') ? 'active' : '' }}"
                                 href="{{ route('admin.competitions.index') }}">
                                 <i class="bi bi-list-ul"></i> <span>{{ __('app.all_competitions') }}</span>
@@ -222,7 +232,8 @@
                 <li class="nav-item">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button class="nav-link nav-link-logout w-100" type="submit" data-tooltip="{{ __('app.logout') }}">
+                        <button class="nav-link nav-link-logout w-100" type="submit"
+                            data-tooltip="{{ __('app.logout') }}">
                             <i class="bi bi-box-arrow-right"></i>
                             <span>{{ __('app.logout') }}</span>
                         </button>
@@ -233,7 +244,8 @@
     </aside>
 
     {{-- Sidebar Collapse Toggle (outside sidebar) --}}
-    <button class="sidebar-collapse-toggle" id="collapseToggle" onclick="toggleSidebarCollapse()" title="{{ __('app.toggle_sidebar') }}" aria-label="{{ __('app.toggle_sidebar') }}">
+    <button class="sidebar-collapse-toggle" id="collapseToggle" onclick="toggleSidebarCollapse()"
+        title="{{ __('app.toggle_sidebar') }}" aria-label="{{ __('app.toggle_sidebar') }}">
         <i class="bi bi-chevron-{{ isRtl() ? 'left' : 'right' }}" id="collapseIcon"></i>
     </button>
 
@@ -242,43 +254,82 @@
 
     {{-- Main Content --}}
     <div class="admin-main" id="main-content">
-        <div class="admin-topbar">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-sm d-lg-none btn-gold-outline" onclick="toggleSidebar()" aria-label="{{ __('app.toggle_sidebar') }}">
-                    <i class="bi bi-list"></i>
-                </button>
-                <h5 class="mb-0 fw-bold text-theme-primary fs-lg">{{ $title ?? __('app.dashboard') }}
-                </h5>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <ul class="nav align-items-center mb-0 p-0 list-unstyled">
-                    @include('components.language-switcher')
-                </ul>
-                <button class="btn btn-sm d-flex align-items-center justify-content-center w-36 h-36 rounded-md" onclick="toggleTheme()" aria-label="{{ __('app.toggle_theme') }}">
-                    <i class="bi theme-icon"></i>
-                </button>
-                <livewire:user.notification-bell />
-                <a href="{{ route('user.profile') }}" class="d-flex align-items-center gap-2 text-decoration-none topbar-user">
-                    <div class="topbar-user-avatar">
-                        {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
-                    </div>
-                    <div class="d-none d-md-block">
-                        <div class="fw-bold fs-base text-theme-primary">{{ Auth::user()->name ?? 'Admin' }}</div>
-                        <small class="text-theme-muted fs-xs">{{ ucfirst(Auth::user()->role ?? 'admin') }}</small>
-                    </div>
-                </a>
+        <div class="admin-topbar-bg">
+            <div class="admin-topbar mx-auto">
+
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-sm d-lg-none btn-gold-outline" onclick="toggleSidebar()"
+                        aria-label="{{ __('app.toggle_sidebar') }}">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <h5 class="mb-0 fw-bold text-theme-primary fs-lg">{{ $title ?? __('app.dashboard') }}
+                    </h5>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <ul class="nav align-items-center mb-0 p-0 list-unstyled">
+                        @include('components.language-switcher')
+                    </ul>
+                    <button class="btn btn-sm d-flex align-items-center justify-content-center w-36 h-36 rounded-md"
+                        onclick="toggleTheme()" aria-label="{{ __('app.toggle_theme') }}">
+                        <i class="bi theme-icon"></i>
+                    </button>
+                    <livewire:user.notification-bell />
+                    <a href="{{ route('user.profile') }}"
+                        class="d-flex align-items-center gap-2 text-decoration-none topbar-user">
+                        <div class="topbar-user-avatar">
+                            {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
+                        </div>
+                        <div class="d-none d-md-block">
+                            <div class="fw-bold fs-base text-theme-primary">{{ Auth::user()->name ?? 'Admin' }}</div>
+                            <small
+                                class="text-theme-muted fs-xs">{{ ucfirst(Auth::user()->role ?? 'admin') }}</small>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="p-4 admin-content">
+        <div class="p-4 admin-content mx-auto container">
             @if (session('success'))
                 @push('scripts')
-                <script>document.addEventListener('livewire:navigated', () => { Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: '{{ addslashes(session("success")) }}', showConfirmButton: false, timer: 4000, timerProgressBar: true, background: '#1a1f35', color: '#fff', borderColor: 'rgba(22,163,74,0.3)', iconColor: '#16a34a' }); });</script>
+                    <script>
+                        document.addEventListener('livewire:navigated', () => {
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'success',
+                                title: '{{ addslashes(session('success')) }}',
+                                showConfirmButton: false,
+                                timer: 4000,
+                                timerProgressBar: true,
+                                background: '#1a1f35',
+                                color: '#fff',
+                                borderColor: 'rgba(22,163,74,0.3)',
+                                iconColor: '#16a34a'
+                            });
+                        });
+                    </script>
                 @endpush
             @endif
             @if (session('error'))
                 @push('scripts')
-                <script>document.addEventListener('livewire:navigated', () => { Swal.fire({ toast: true, position: 'top-end', icon: 'error', title: '{{ addslashes(session("error")) }}', showConfirmButton: false, timer: 5000, timerProgressBar: true, background: '#1a1f35', color: '#fff', borderColor: 'rgba(239,68,68,0.3)', iconColor: '#ef4444' }); });</script>
+                    <script>
+                        document.addEventListener('livewire:navigated', () => {
+                            Swal.fire({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'error',
+                                title: '{{ addslashes(session('error')) }}',
+                                showConfirmButton: false,
+                                timer: 5000,
+                                timerProgressBar: true,
+                                background: '#1a1f35',
+                                color: '#fff',
+                                borderColor: 'rgba(239,68,68,0.3)',
+                                iconColor: '#ef4444'
+                            });
+                        });
+                    </script>
                 @endpush
             @endif
 

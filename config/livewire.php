@@ -234,7 +234,7 @@ return [
     |
     */
 
-    'pagination_theme' => 'bootstrap-5',
+    'pagination_theme' => 'bootstrap',
 
     /*
     |---------------------------------------------------------------------------

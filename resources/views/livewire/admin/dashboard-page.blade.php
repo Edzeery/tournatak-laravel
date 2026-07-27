@@ -10,7 +10,8 @@
 
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb fs-md">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
+                    class="text-decoration-none breadcrumb-link">{{ __('app.dashboard') }}</a></li>
             <li class="breadcrumb-item active">{{ __('app.home') }}</li>
         </ol>
     </nav>
@@ -173,7 +174,8 @@
                                             <td class="text-center">
                                                 @if ($match->status === 'completed')
                                                     <span class="badge bg-dark rounded-pill px-3 fs-md">
-                                                        {{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}
+                                                        {{ $match->score_team1 ?? 0 }} -
+                                                        {{ $match->score_team2 ?? 0 }}
                                                     </span>
                                                 @else
                                                     <span class="badge bg-secondary rounded-pill badge-count">
@@ -186,11 +188,13 @@
                                             <td class="activity-date">
                                                 {{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>
                                             <td>
-                                                <a href="{{ route('admin.matches.lineup', $match) }}" class="btn btn-sm btn-outline-success action-btn-sm"
+                                                <a href="{{ route('admin.matches.lineup', $match) }}"
+                                                    class="btn btn-sm btn-outline-success action-btn-sm"
                                                     title="{{ __('app.lineup') }}">
                                                     <i class="bi bi-people-fill"></i>
                                                 </a>
-                                                <a href="{{ route('admin.matches.events', $match) }}" class="btn btn-sm btn-outline-warning action-btn-sm"
+                                                <a href="{{ route('admin.matches.events', $match) }}"
+                                                    class="btn btn-sm btn-outline-warning action-btn-sm"
                                                     title="{{ __('app.events') }}">
                                                     <i class="bi bi-clock-history"></i>
                                                 </a>
@@ -214,65 +218,17 @@
                             <i class="bi bi-award-fill text-gold"></i> {{ __('app.top_scorers') }}
                         </h6>
                         @foreach ($topScorers as $idx => $scorer)
-                            <div class="d-flex align-items-center gap-3 {{ !$loop->last ? 'pb-2 mb-2 border-bottom' : '' }}">
-                                <span class="badge bg-{{ $idx === 0 ? 'warning text-dark' : ($idx === 1 ? 'secondary' : 'dark') }} rounded-circle scorer-rank">
+                            <div
+                                class="d-flex align-items-center gap-3 {{ !$loop->last ? 'pb-2 mb-2 border-bottom' : '' }}">
+                                <span
+                                    class="badge bg-{{ $idx === 0 ? 'warning text-dark' : ($idx === 1 ? 'secondary' : 'dark') }} rounded-circle scorer-rank">
                                     {{ $idx + 1 }}
                                 </span>
                                 <div class="flex-grow-1">
                                     <div class="fw-bold item-name">
                                         {{ $scorer->player->name ?? '—' }}</div>
                                     <small class="text-muted item-sub">{{ $scorer->player->team->name ?? '' }}</small>
-    @push('scripts')
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof ApexCharts === 'undefined') return;
-
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const textColor = isDark ? '#c1c1c1' : '#6c757d';
-        const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-
-        ApexCharts.exec('chart-monthly-goals', 'destroy');
-        ApexCharts.exec('chart-match-status', 'destroy');
-
-        var monthlyChart = new ApexCharts(document.querySelector('#chart-monthly-goals'), {
-            chart: { type: 'bar', height: 260, toolbar: { show: false }, fontFamily: 'inherit' },
-            series: [{ name: '{{ __("app.goals") }}', data: array_values(@js($monthlyGoals ?: [])) }],
-            xaxis: { categories: @php
-                $mLabels = [];
-                for ($m = 1; $m <= 12; $m++) $mLabels[] = Carbon\Carbon::create()->month($m)->locale(app()->getLocale())->shortName;
-            @endphp @js($mLabels), labels: { style: { colors: textColor } } },
-            yaxis: { labels: { style: { colors: textColor } } },
-            grid: { borderColor: gridColor },
-            colors: ['#ffc107'],
-            plotOptions: { bar: { borderRadius: 6, columnWidth: '50%' } },
-            dataLabels: { enabled: false },
-            tooltip: { theme: isDark ? 'dark' : 'light' },
-        });
-        monthlyChart.render();
-
-        var statusLabels = @php
-            $sLabels = [];
-            $sLabels['completed'] = __('app.status_completed');
-            $sLabels['in_progress'] = __('app.status_in_progress');
-            $sLabels['scheduled'] = __('app.status_scheduled');
-            $sLabels['upcoming'] = __('app.upcoming');
-        @endphp @js($sLabels);
-
-        var matchStatusChart = new ApexCharts(document.querySelector('#chart-match-status'), {
-            chart: { type: 'donut', height: 260, fontFamily: 'inherit' },
-            series: array_values(@js($matchStatuses->toArray())),
-            labels: array_keys(@js($matchStatuses->toArray())).map(function(k) { return statusLabels[k] || k; }),
-            colors: ['#16a34a', '#f59e0b', '#3b82f6'],
-            plotOptions: { pie: { donut: { size: '65%', labels: { show: true, total: { show: true, label: '{{ __("app.total") }}' } } } } },
-            legend: { position: 'bottom', labels: { colors: textColor } },
-            dataLabels: { enabled: false },
-            tooltip: { theme: isDark ? 'dark' : 'light' },
-        });
-        matchStatusChart.render();
-    });
-    </script>
-    @endpush
-</div>
+                                </div>
                                 <span class="badge bg-danger rounded-pill fs-sm">{{ $scorer->goals }}</span>
                             </div>
                         @endforeach
@@ -294,9 +250,9 @@
                         <thead>
                             <tr>
                                 <th class="fs-xs">#</th>
-                                <th class="fs-xs">{{__("app.event")}}</th>
-                                <th class="fs-xs">{{__("app.by")}}</th>
-                                <th class="fs-xs">{{__("app.date")}}</th>
+                                <th class="fs-xs">{{ __('app.event') }}</th>
+                                <th class="fs-xs">{{ __('app.by') }}</th>
+                                <th class="fs-xs">{{ __('app.date') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -321,3 +277,125 @@
         </div>
     </div>
 </div>
+
+{{-- ✅ خارج أي حلقة، يُنفَّذ مرة واحدة فقط لكل تحميل صفحة --}}
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof ApexCharts === 'undefined') return;
+
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const textColor = isDark ? '#c1c1c1' : '#6c757d';
+            const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+
+            ApexCharts.exec('chart-monthly-goals', 'destroy');
+            ApexCharts.exec('chart-match-status', 'destroy');
+
+            var monthlyChart = new ApexCharts(document.querySelector('#chart-monthly-goals'), {
+                chart: {
+                    type: 'bar',
+                    height: 260,
+                    toolbar: {
+                        show: false
+                    },
+                    fontFamily: 'inherit'
+                },
+                series: [{
+                    name: '{{ __('app.goals') }}',
+                    data: @js(array_values($monthlyGoals ?: []))
+                }],
+                xaxis: {
+                    categories: @php
+                        $mLabels = [];
+                        for ($m = 1; $m <= 12; $m++) {
+                            $mLabels[] = Carbon\Carbon::create()
+                                ->month($m)
+                                ->locale(app()->getLocale())->shortMonthName;
+                        }
+                    @endphp @js($mLabels),
+                    labels: {
+                        style: {
+                            colors: textColor
+                        }
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        style: {
+                            colors: textColor
+                        }
+                    }
+                },
+                grid: {
+                    borderColor: gridColor
+                },
+                colors: ['#ffc107'],
+                plotOptions: {
+                    bar: {
+                        borderRadius: 6,
+                        columnWidth: '50%'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                tooltip: {
+                    theme: isDark ? 'dark' : 'light'
+                },
+            });
+            monthlyChart.render();
+
+            @php
+                $sLabels = [
+                    'completed' => __('app.status_completed'),
+                    'in_progress' => __('app.status_in_progress'),
+                    'scheduled' => __('app.status_scheduled'),
+                    'upcoming' => __('app.upcoming'),
+                ];
+
+                $statusValues = array_values($matchStatuses->toArray());
+                $statusLabelsMapped = array_map(function ($k) use ($sLabels) {
+                    return $sLabels[$k] ?? $k;
+                }, array_keys($matchStatuses->toArray()));
+            @endphp
+
+            var matchStatusChart = new ApexCharts(document.querySelector('#chart-match-status'), {
+                chart: {
+                    type: 'donut',
+                    height: 260,
+                    fontFamily: 'inherit'
+                },
+                series: @js($statusValues),
+                labels: @js($statusLabelsMapped),
+                colors: ['#16a34a', '#f59e0b', '#3b82f6'],
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '65%',
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: '{{ __('app.total') }}'
+                                }
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        colors: textColor
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                tooltip: {
+                    theme: isDark ? 'dark' : 'light'
+                },
+            });
+            matchStatusChart.render();
+        });
+    </script>
+@endpush

@@ -472,7 +472,7 @@
 
 // ---- Theme dark text ----
 .text-dark-theme {
-    color: var(--dark) !important;
+    color: var(--text-primary) !important;
 }
 
 // ---- Admin stat icon variants ----
@@ -590,7 +590,7 @@
 
 // ---- Section title (dark) ----
 .section-title-dark {
-    color: var(--dark);
+    color: var(--text-primary);
 }
 
 // ---- Section description ----

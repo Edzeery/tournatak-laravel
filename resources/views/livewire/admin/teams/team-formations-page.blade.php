@@ -1,0 +1,199 @@
+<div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb" style="font-size:0.85rem;">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">لوحة التحكم</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">الفرق</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none" style="color:var(--primary);">{{ $team->name }}</a></li>
+            <li class="breadcrumb-item active">التشكيلات</li>
+        </ol>
+    </nav>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-diagram-3-fill text-gold"></i> التشكيلات</h4>
+            <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $team->name }}</p>
+        </div>
+        <button class="btn btn-warning" wire:click="openModal">
+            <i class="bi bi-plus-lg"></i> إضافة تشكيلة
+        </button>
+    </div>
+
+    <div class="card border-0 mb-4">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold" style="font-size:0.85rem;">بحث</label>
+                    <input type="text" class="form-control" placeholder="بحث بالاسم أو الكود..." wire:model.live.debounce.300ms="search">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3" wire:loading.opacity>
+        @forelse($formations as $formation)
+            @php
+                $positions = is_array($formation->positions_data) ? $formation->positions_data : json_decode($formation->positions_data ?? '[]', true);
+            @endphp
+            <div class="col-md-6 col-lg-4" wire:key="{{ $formation->id }}">
+                <div class="card border-0 h-100" style="border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div>
+                                <h6 class="fw-bold mb-1">{{ $formation->name }}</h6>
+                                <span class="badge bg-primary-subtle text-primary fw-bold" style="font-size:0.8rem;">{{ $formation->formation_code }}</span>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <span class="badge {{ $formation->sport_type === 'football' ? 'bg-success' : 'bg-info' }}" style="font-size:0.7rem;">
+                                    {{ $formation->sport_type === 'football' ? 'كرة قدم' : 'صالة' }}
+                                </span>
+                                @if($formation->is_default)
+                                    <span class="badge bg-warning text-dark" style="font-size:0.7rem;">
+                                        <i class="bi bi-star-fill"></i> افتراضي
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="text-center my-2">
+                            <svg viewBox="0 0 200 140" style="width:100%;max-width:280px;height:auto;">
+                                <defs>
+                                    <linearGradient id="pitchGrad{{ $formation->id }}" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#2d8a4e;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#1e6b36;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <rect x="5" y="5" width="190" height="130" rx="4" fill="url(#pitchGrad{{ $formation->id }})" stroke="#fff" stroke-width="1" opacity="0.95"/>
+                                <line x1="100" y1="5" x2="100" y2="135" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <circle cx="100" cy="70" r="18" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <rect x="60" y="5" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <rect x="60" y="105" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                @foreach($positions as $pos)
+                                    <circle cx="{{ ($pos['x'] / 100) * 190 + 5 }}" cy="{{ ($pos['y'] / 100) * 130 + 5 }}" r="5" fill="#fff" stroke="#f0c040" stroke-width="1.5"/>
+                                @endforeach
+                            </svg>
+                        </div>
+
+                        @if($formation->description)
+                            <p class="text-muted mb-2" style="font-size:0.8rem;">{{ Str::limit($formation->description, 80) }}</p>
+                        @endif
+
+                        <div class="d-flex gap-1 justify-content-end pt-2 border-top">
+                            <button class="btn btn-sm btn-outline-primary" style="border-radius:8px;" wire:click="editFormation({{ $formation->id }})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                                    wire:click="deleteFormation({{ $formation->id }})"
+                                    wire:confirm="هل أنت متأكد من حذف هذه التشكيلة؟">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="col-12">
+                <div class="card border-0">
+                    <div class="card-body py-5 text-center">
+                        <div class="empty-state py-3">
+                            <i class="bi bi-diagram-3 d-block" style="font-size:2.5rem;"></i>
+                            <h5>لا توجد تشكيلات</h5>
+                            <p class="text-muted">لم يتم إضافة أي تشكيلة بعد</p>
+                            <button class="btn btn-warning" wire:click="openModal">
+                                <i class="bi bi-plus-lg"></i> إضافة تشكيلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforelse
+    </div>
+
+    @if($showModal)
+        <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content" style="border-radius:16px;" wire:click.stop>
+                    <div class="modal-header border-0 pb-0">
+                        <h5 class="modal-title fw-bold">
+                            <i class="bi bi-diagram-3-fill text-gold"></i>
+                            {{ $editingFormationId ? 'تعديل التشكيلة' : 'إضافة تشكيلة' }}
+                        </h5>
+                        <button type="button" class="btn-close" wire:click="closeModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">اسم التشكيلة</label>
+                                <input type="text" class="form-control" placeholder="مثال: التشكيلة الأساسية" wire:model="formationForm.name">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">نوع الرياضة</label>
+                                <select class="form-select" wire:model.live="formationForm.sport_type">
+                                    <option value="football">كرة قدم</option>
+                                    <option value="futsal">كرة قدم صالة</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">كود التشكيلة</label>
+                                <select class="form-select" wire:model.live="formationForm.formation_code">
+                                    @if($formationForm['sport_type'] === 'football')
+                                        @foreach($footballFormations as $fc)
+                                            <option value="{{ $fc }}">{{ $fc }}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($futsalFormations as $fc)
+                                            <option value="{{ $fc }}">{{ $fc }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">التشكيل الافتراضي</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" wire:model="formationForm.is_default" id="isDefaultFormation">
+                                    <label class="form-check-label fw-bold" for="isDefaultFormation">تشكيل افتراضي</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">الوصف</label>
+                            <textarea class="form-control" rows="2" placeholder="وصف التشكيلة..." wire:model="formationForm.description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">معاينة التشكيلة</label>
+                            <div class="text-center p-3 bg-light rounded" style="border:1px dashed #ccc;">
+                                <svg viewBox="0 0 200 140" style="width:100%;max-width:360px;height:auto;">
+                                    <defs>
+                                        <linearGradient id="modalPitchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#2d8a4e;stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#1e6b36;stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="5" y="5" width="190" height="130" rx="4" fill="url(#modalPitchGrad)" stroke="#fff" stroke-width="1"/>
+                                    <line x1="100" y1="5" x2="100" y2="135" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <circle cx="100" cy="70" r="18" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <rect x="60" y="5" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <rect x="60" y="105" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    @foreach($selectedPositions as $pos)
+                                        <circle cx="{{ ($pos['x'] / 100) * 190 + 5 }}" cy="{{ ($pos['y'] / 100) * 130 + 5 }}" r="5" fill="#fff" stroke="#f0c040" stroke-width="1.5"/>
+                                    @endforeach
+                                </svg>
+                                <div class="mt-2">
+                                    <span class="badge bg-primary fw-bold">{{ $formationForm['formation_code'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">إلغاء</button>
+                        <button type="button" class="btn btn-warning px-4" wire:click="saveFormation" wire:loading.attr="disabled" style="border-radius:8px;">
+                            <span wire:loading.remove wire:target="saveFormation"><i class="bi bi-check-lg"></i> حفظ</span>
+                            <span wire:loading wire:target="saveFormation"><span class="spinner-border spinner-border-sm"></span> جاري الحفظ...</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+</div>

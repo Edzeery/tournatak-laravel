@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Player extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'team_id',
+        'number',
+        'position',
+        'image',
+        'position_id',
+        'date_of_birth',
+        'nationality',
+        'height',
+        'weight',
+        'foot',
+        'sport_type',
+        'bio',
+        'is_captain',
+    ];
+
+    protected $casts = [
+        'number' => 'integer',
+        'is_captain' => 'boolean',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function goals(): HasMany
+    {
+        return $this->hasMany(Goal::class);
+    }
+
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function medicalRecords(): HasMany
+    {
+        return $this->hasMany(TeamMedicalRecord::class);
+    }
+
+    public function lineups(): HasMany
+    {
+        return $this->hasMany(MatchLineup::class);
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(MatchEvent::class);
+    }
+
+    public function seasonStats(): HasMany
+    {
+        return $this->hasMany(PlayerSeasonStat::class);
+    }
+
+    public function getNameAttribute(): ?string
+    {
+        return $this->user->name ?? null;
+    }
+}

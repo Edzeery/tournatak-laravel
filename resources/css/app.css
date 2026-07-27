@@ -1,0 +1,4 @@
+/* Tournatak - No Tailwind, using Bootstrap 5 + custom public/css/app.css */
+button i {
+    font-size: 1rem !important;
+}

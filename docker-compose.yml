@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: tournatak-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/tournatak.ini
+    networks:
+      - tournatak-network
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: tournatak-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - tournatak-network
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.4
+    container_name: tournatak-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tournatak_laravel
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: tournatak
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - tournatak-network
+
+  redis:
+    image: redis:alpine
+    container_name: tournatak-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    networks:
+      - tournatak-network
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: tournatak-mailpit
+    restart: unless-stopped
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - tournatak-network
+
+networks:
+  tournatak-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local

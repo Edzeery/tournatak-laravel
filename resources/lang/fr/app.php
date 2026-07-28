@@ -205,7 +205,7 @@ return [
     'sign_up_now' => 'S\'inscrire gratuitement',
 
     // Page d'inscription supplémentaire
-    'join_community' => 'Rejoignez la communauté sportive',
+    'join_community' => ' la communauté sportive',
     'register_desc' => 'Créez votre compte gratuit et commencez à gérer vos tournois, inscrire votre équipe et participer aux compétitions sportives.',
     'feature_manage' => 'Créer et gérer des tournois',
     'feature_register' => 'Inscrire des équipes et des joueurs',

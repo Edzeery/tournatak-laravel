@@ -133,6 +133,8 @@ class MatchLineupPage extends Component
 
     public function mount(Match_ $match): void
     {
+        $this->authorize('update', $match);
+
         $this->matchId = $match->id;
         $this->match = $match->load(['team1', 'team2']);
         $this->formationsList = [
@@ -318,6 +320,7 @@ class MatchLineupPage extends Component
                 'jersey_number' => $player->jersey_number ?? '',
                 'is_captain' => $player->is_captain,
                 'lineup_id' => $player->id,
+                'photo' => $player->player->image ?? null,
             ];
         }
 

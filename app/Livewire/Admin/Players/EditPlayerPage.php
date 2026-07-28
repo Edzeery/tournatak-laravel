@@ -30,6 +30,8 @@ class EditPlayerPage extends Component
 
     public function mount(Player $player)
     {
+        $this->authorize('update', $player);
+
         $this->player = $player;
         $this->user_id = $player->user_id;
         $this->team_id = $player->team_id;

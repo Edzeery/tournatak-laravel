@@ -38,6 +38,6 @@ test('user cannot login with invalid credentials', function () {
 });
 
 test('unauthenticated user is redirected to login from admin', function () {
-    $response = $this->get('/admin/dashboard');
+    $response = $this->get('/panel/dashboard');
     $response->assertRedirect('/login');
 });

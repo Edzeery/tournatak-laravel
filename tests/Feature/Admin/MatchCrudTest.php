@@ -9,14 +9,14 @@ test('admin can access matches index', function () {
     $admin = User::factory()->create();
     $admin->assignRole('admin');
 
-    $this->actingAs($admin)->get('/admin/matches')->assertStatus(200);
+    $this->actingAs($admin)->get('/panel/matches')->assertStatus(200);
 });
 
 test('admin can access create match page', function () {
     $admin = User::factory()->create();
     $admin->assignRole('admin');
 
-    $this->actingAs($admin)->get('/admin/matches/create')->assertStatus(200);
+    $this->actingAs($admin)->get('/panel/matches/create')->assertStatus(200);
 });
 
 test('admin can access edit match page', function () {
@@ -29,7 +29,7 @@ test('admin can access edit match page', function () {
         'team2_id' => $team2->id,
     ]);
 
-    $this->actingAs($admin)->get("/admin/matches/{$match->id}/edit")->assertStatus(200);
+    $this->actingAs($admin)->get("/panel/matches/{$match->id}/edit")->assertStatus(200);
 });
 
 test('admin can access match lineup page', function () {
@@ -42,7 +42,7 @@ test('admin can access match lineup page', function () {
         'team2_id' => $team2->id,
     ]);
 
-    $this->actingAs($admin)->get("/admin/matches/{$match->id}/lineup")->assertStatus(200);
+    $this->actingAs($admin)->get("/panel/matches/{$match->id}/lineup")->assertStatus(200);
 });
 
 test('admin can access match stats page', function () {
@@ -55,7 +55,7 @@ test('admin can access match stats page', function () {
         'team2_id' => $team2->id,
     ]);
 
-    $this->actingAs($admin)->get("/admin/matches/{$match->id}/stats")->assertStatus(200);
+    $this->actingAs($admin)->get("/panel/matches/{$match->id}/stats")->assertStatus(200);
 });
 
 test('admin can access match events page', function () {
@@ -68,16 +68,16 @@ test('admin can access match events page', function () {
         'team2_id' => $team2->id,
     ]);
 
-    $this->actingAs($admin)->get("/admin/matches/{$match->id}/events")->assertStatus(200);
+    $this->actingAs($admin)->get("/panel/matches/{$match->id}/events")->assertStatus(200);
 });
 
 test('guest cannot access admin matches', function () {
-    $this->get('/admin/matches')->assertRedirect('/login');
+    $this->get('/panel/matches')->assertRedirect('/login');
 });
 
 test('non-admin cannot access admin matches', function () {
     $user = User::factory()->create();
     $user->assignRole('user');
 
-    $this->actingAs($user)->get('/admin/matches')->assertForbidden();
+    $this->actingAs($user)->get('/panel/matches')->assertForbidden();
 });

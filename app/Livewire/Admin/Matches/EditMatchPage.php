@@ -21,6 +21,8 @@ class EditMatchPage extends Component
 
     public function mount(Match_ $match)
     {
+        $this->authorize('update', $match);
+
         $this->match = $match;
         $this->competition_id = $match->competition_id;
         $this->team1_id = $match->team1_id;

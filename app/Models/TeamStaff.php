@@ -21,6 +21,7 @@ class TeamStaff extends Model
         'manager' => 'المدير الرياضي',
         'nutritionist' => 'أخصائي تغذية',
         'analyst' => 'محلل أداء',
+        'captain' => 'قائد الفريق',
     ];
 
     const STAFF_ICONS = [
@@ -34,6 +35,7 @@ class TeamStaff extends Model
         'manager' => 'bi-person-badge',
         'nutritionist' => 'bi-cup-straw',
         'analyst' => 'bi-bar-chart-line',
+        'captain' => 'bi-star-fill',
     ];
 
     protected $fillable = [

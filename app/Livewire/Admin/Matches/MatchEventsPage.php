@@ -30,6 +30,8 @@ class MatchEventsPage extends Component
 
     public function mount(Match_ $match): void
     {
+        $this->authorize('update', $match);
+
         $this->matchId = $match->id;
         $this->match = $match->load(['team1', 'team2']);
         $this->loadEvents();

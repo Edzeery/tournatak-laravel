@@ -32,6 +32,8 @@ class TeamsPage extends Component
     public function delete($id)
     {
         $team = Team::findOrFail($id);
+        $this->authorize('delete', $team);
+
         $team->delete();
         session()->flash('success', __('app.team_deleted'));
     }

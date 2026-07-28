@@ -32,6 +32,8 @@ class PlayersPage extends Component
     public function delete($id)
     {
         $player = Player::findOrFail($id);
+        $this->authorize('delete', $player);
+
         $player->delete();
         session()->flash('success', __('app.player_deleted'));
     }

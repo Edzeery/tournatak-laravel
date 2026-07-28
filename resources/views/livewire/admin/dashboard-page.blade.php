@@ -310,7 +310,7 @@
                         for ($m = 1; $m <= 12; $m++) {
                             $mLabels[] = Carbon\Carbon::create()
                                 ->month($m)
-                                ->locale(app()->getLocale())->shortMonthName;
+                                ->locale(app()->getLocale())->translatedFormat('M');
                         }
                     @endphp @js($mLabels),
                     labels: {

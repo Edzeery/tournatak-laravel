@@ -32,6 +32,8 @@ class MatchesPage extends Component
     public function delete($id)
     {
         $match = Match_::findOrFail($id);
+        $this->authorize('delete', $match);
+
         $match->delete();
         session()->flash('success', __('app.match_deleted'));
     }

@@ -16,7 +16,7 @@ test('user can register with valid data', function () {
         ->set('email', 'test@example.com')
         ->set('password', 'password123')
         ->set('password_confirmation', 'password123')
-        ->set('role', 'viewer')
+        ->set('role', 'user')
         ->call('register')
         ->assertRedirect(route('login'));
 
@@ -35,7 +35,7 @@ test('user cannot register with duplicate email', function () {
         ->set('email', 'existing@example.com')
         ->set('password', 'password123')
         ->set('password_confirmation', 'password123')
-        ->set('role', 'viewer')
+        ->set('role', 'user')
         ->call('register')
         ->assertHasErrors(['email']);
 });

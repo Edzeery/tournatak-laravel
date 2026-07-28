@@ -99,7 +99,7 @@ class AuthService
             'username' => 'required|string|min:3|max:255|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:viewer,competitor,captain,player,organizer,user',
+            'role' => 'required|in:user,competitor,captain,player,organizer,admin',
         ];
     }
 }

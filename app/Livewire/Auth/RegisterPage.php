@@ -16,7 +16,7 @@ class RegisterPage extends Component
     public string $email = '';
     public string $password = '';
     public string $password_confirmation = '';
-    public string $role = 'viewer';
+    public string $role = 'user';
 
     public function register()
     {

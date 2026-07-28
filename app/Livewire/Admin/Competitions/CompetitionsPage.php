@@ -13,13 +13,19 @@ class CompetitionsPage extends Component
 
     public function approve($id)
     {
-        Competition::where('id', $id)->update(['approval_status' => 'approved']);
+        $competition = Competition::findOrFail($id);
+        $this->authorize('update', $competition);
+
+        $competition->update(['approval_status' => 'approved']);
         session()->flash('success', __('app.competition_approved'));
     }
 
     public function reject($id)
     {
-        Competition::where('id', $id)->update(['approval_status' => 'rejected']);
+        $competition = Competition::findOrFail($id);
+        $this->authorize('update', $competition);
+
+        $competition->update(['approval_status' => 'rejected']);
         session()->flash('error', __('app.competition_rejected'));
     }
 

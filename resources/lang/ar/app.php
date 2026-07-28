@@ -205,7 +205,7 @@ return [
     'sign_up_now' => 'سجل مجاناً الآن',
 
     // Register Page Extra
-    'join_community' => 'انضم إلى مجتمع الرياضة',
+    'join_community' => 'مجتمع البطولات ',
     'register_desc' => 'أنشئ حسابك مجاناً وابدأ في إدارة بطولاتك وتسجيل فرقك ومشاركتك في المسابقات الرياضية.',
     'feature_manage' => 'إنشاء وإدارة البطولات',
     'feature_register' => 'تسجيل الفرق واللاعبين',

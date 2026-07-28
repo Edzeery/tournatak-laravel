@@ -78,13 +78,16 @@
             <div class="sidebar-section">
                 <div class="sidebar-label">{{ __('app.management') }}</div>
                 <ul class="nav flex-column">
+                    @can('manage users')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}"
                             href="{{ route('admin.users.index') }}" data-tooltip="{{ __('app.users') }}">
                             <i class="bi bi-people-fill"></i> <span>{{ __('app.users') }}</span>
                         </a>
                     </li>
+                    @endcan
 
+                    @can('manage teams')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.teams.*') ? 'active' : '' }} {{ request()->routeIs('admin.teams.*') ? 'open' : '' }}"
                             href="#" onclick="toggleSubmenu(this, 'submenu-teams')"
@@ -104,7 +107,9 @@
                             </a>
                         </div>
                     </li>
+                    @endcan
 
+                    @can('manage players')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.players.*') ? 'active' : '' }} {{ request()->routeIs('admin.players.*') ? 'open' : '' }}"
                             href="#" onclick="toggleSubmenu(this, 'submenu-players')"
@@ -124,7 +129,9 @@
                             </a>
                         </div>
                     </li>
+                    @endcan
 
+                    @can('manage matches')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.matches.*') ? 'active' : '' }} {{ request()->routeIs('admin.matches.*') ? 'open' : '' }}"
                             href="#" onclick="toggleSubmenu(this, 'submenu-matches')"
@@ -145,12 +152,14 @@
                             </a>
                         </div>
                     </li>
+                    @endcan
                 </ul>
             </div>
 
             <div class="sidebar-section">
                 <div class="sidebar-label">{{ __('app.competitions') }}</div>
                 <ul class="nav flex-column">
+                    @can('manage competitions')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.competitions.*') ? 'active' : '' }} {{ request()->routeIs('admin.competitions.*') ? 'open' : '' }}"
                             href="#" onclick="toggleSubmenu(this, 'submenu-competitions')"
@@ -171,6 +180,8 @@
                             </a>
                         </div>
                     </li>
+                    @endcan
+                    @can('manage competition types')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.types.*') ? 'active' : '' }}"
                             href="{{ route('admin.types.index') }}" data-tooltip="{{ __('app.types') }}">
@@ -184,18 +195,22 @@
                             <span>{{ __('app.subtypes') }}</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </div>
 
             <div class="sidebar-section">
                 <div class="sidebar-label">{{ __('app.system') }}</div>
                 <ul class="nav flex-column">
+                    @can('manage settings')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.positions.*') ? 'active' : '' }}"
                             href="{{ route('admin.positions.index') }}" data-tooltip="{{ __('app.positions') }}">
                             <i class="bi bi-geo-alt-fill"></i> <span>{{ __('app.positions') }}</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('manage admin users')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.trash*') ? 'active' : '' }}"
                             href="{{ route('admin.trash') }}" data-tooltip="{{ __('app.trash') }}">
@@ -208,6 +223,7 @@
                             <i class="bi bi-shield-check"></i> <span>{{ __('app.security_log') }}</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </div>
         </div>

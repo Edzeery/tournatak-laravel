@@ -104,7 +104,10 @@
             $playerName = $pos['player_name'] ?? '';
             $jerseyNum = $pos['jersey_number'] ?? '';
             $isCaptain = $pos['is_captain'] ?? false;
+            $photo = $pos['photo'] ?? null;
+            $photoUrl = $photo ? asset('uploads/players/' . $photo) : null;
             $r = 20;
+            $uid = 'p-' . md5($sportType . $jerseyClass . $idx);
         @endphp
 
         {{-- Outer glow for captain --}}
@@ -115,17 +118,44 @@
         {{-- Shadow --}}
         <circle cx="{{ $px }}" cy="{{ $py + 2 }}" r="{{ $r }}" fill="rgba(0,0,0,0.3)"/>
 
-        {{-- Jersey circle --}}
-        <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r }}"
-                fill="{{ $jerseyClass === 'team2-jersey' ? '#c62828' : '#1a237e' }}"
-                stroke="{{ $isCaptain ? '#ffc107' : 'rgba(255,255,255,0.9)' }}"
-                stroke-width="{{ $isCaptain ? 3 : 2 }}"/>
+        @if($photoUrl)
+            {{-- Clip path for photo --}}
+            <defs>
+                <clipPath id="clip-{{ $uid }}">
+                    <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r }}"/>
+                </clipPath>
+            </defs>
 
-        {{-- Jersey number --}}
-        <text x="{{ $px }}" y="{{ $py }}" text-anchor="middle" dominant-baseline="central"
-              font-family="Cairo, sans-serif" font-size="13" font-weight="800" fill="#ffffff">
-            {{ $jerseyNum ?: $label }}
-        </text>
+            {{-- Photo circle --}}
+            <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r }}"
+                    fill="{{ $jerseyClass === 'team2-jersey' ? '#c62828' : '#1a237e' }}"
+                    stroke="{{ $isCaptain ? '#ffc107' : 'rgba(255,255,255,0.9)' }}"
+                    stroke-width="{{ $isCaptain ? 3 : 2 }}"/>
+            <image href="{{ $photoUrl }}"
+                   x="{{ $px - $r }}" y="{{ $py - $r }}"
+                   width="{{ $r * 2 }}" height="{{ $r * 2 }}"
+                   clip-path="url(#clip-{{ $uid }})"
+                   preserveAspectRatio="xMidYMid slice"/>
+
+            {{-- Jersey number overlay (small, bottom-right) --}}
+            @if($jerseyNum)
+                <circle cx="{{ $px + $r - 4 }}" cy="{{ $py + $r - 4 }}" r="7" fill="rgba(0,0,0,0.75)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+                <text x="{{ $px + $r - 4 }}" y="{{ $py + $r - 4 }}" text-anchor="middle" dominant-baseline="central"
+                      font-family="Cairo, sans-serif" font-size="7" font-weight="800" fill="#ffffff">{{ $jerseyNum }}</text>
+            @endif
+        @else
+            {{-- Jersey circle with number --}}
+            <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r }}"
+                    fill="{{ $jerseyClass === 'team2-jersey' ? '#c62828' : '#1a237e' }}"
+                    stroke="{{ $isCaptain ? '#ffc107' : 'rgba(255,255,255,0.9)' }}"
+                    stroke-width="{{ $isCaptain ? 3 : 2 }}"/>
+
+            {{-- Initials or jersey number --}}
+            <text x="{{ $px }}" y="{{ $py }}" text-anchor="middle" dominant-baseline="central"
+                  font-family="Cairo, sans-serif" font-size="13" font-weight="800" fill="#ffffff">
+                {{ $jerseyNum ?: mb_substr($playerName, 0, 1) ?: $label }}
+            </text>
+        @endif
 
         {{-- Player name below --}}
         @if($playerName)

@@ -205,7 +205,7 @@ return [
     'sign_up_now' => 'Regístrate gratis ahora',
 
     // Página de registro extras
-    'join_community' => 'Únete a la comunidad deportiva',
+    'join_community' => ' la comunidad deportiva',
     'register_desc' => 'Crea tu cuenta gratuita y comienza a gestionar tus torneos, registrar tu equipo y participar en competiciones deportivas.',
     'feature_manage' => 'Crear y gestionar torneos',
     'feature_register' => 'Registrar equipos y jugadores',

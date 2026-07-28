@@ -30,6 +30,7 @@ class SecuritySetting extends Model
         'twofa_app' => 'boolean',
         'twofa_sms' => 'boolean',
         'notify_on_login' => 'boolean',
+        'twofa_app_secret' => 'encrypted',
     ];
 
     public function user(): BelongsTo

@@ -23,6 +23,8 @@ class EditCompetitionPage extends Component
 
     public function mount(Competition $competition)
     {
+        $this->authorize('update', $competition);
+
         $this->competition = $competition;
         $this->name = $competition->name;
         $this->type_id = $competition->type_id;

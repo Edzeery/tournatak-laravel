@@ -205,7 +205,7 @@ return [
     'sign_up_now' => 'Sign Up Free Now',
 
     // Register Page Extra
-    'join_community' => 'Join the Sports Community',
+    'join_community' => ' the Sports Community',
     'register_desc' => 'Create your free account and start managing your tournaments, registering your team, and participating in sports competitions.',
     'feature_manage' => 'Create and manage tournaments',
     'feature_register' => 'Register teams and players',

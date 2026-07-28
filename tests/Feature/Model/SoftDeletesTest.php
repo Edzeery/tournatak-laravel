@@ -34,7 +34,7 @@ test('admin can access trash page', function () {
     $admin = User::factory()->create();
     $admin->assignRole('admin');
 
-    $response = $this->actingAs($admin)->get('/admin/trash');
+    $response = $this->actingAs($admin)->get('/panel/trash');
     $response->assertStatus(200);
 });
 
@@ -42,6 +42,6 @@ test('admin can access security log page', function () {
     $admin = User::factory()->create();
     $admin->assignRole('admin');
 
-    $response = $this->actingAs($admin)->get('/admin/security-log');
+    $response = $this->actingAs($admin)->get('/panel/security-log');
     $response->assertStatus(200);
 });

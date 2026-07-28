@@ -140,65 +140,99 @@ Route::middleware(['auth'])->get('/profile', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Admin Routes
+| Admin Routes — Permission-scoped sub-groups
 |--------------------------------------------------------------------------
+| URL prefix: /panel (visible URL) | Route names: admin.* (unchanged)
+| Outer wrapper: auth only. Inner groups: permission: middleware per section.
 */
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', DashboardPage::class)->name('dashboard');
+Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () {
 
-    // Users
-    Route::get('/users', UsersPage::class)->name('users.index');
-    Route::get('/users/create', CreateUserPage::class)->name('users.create');
-    Route::get('/users/{user}/edit', EditUserPage::class)->name('users.edit');
+    // ── Dashboard (any authenticated with view dashboard) ─────────────
+    Route::middleware(['permission:view dashboard'])->group(function () {
+        Route::get('/dashboard', DashboardPage::class)->name('dashboard');
+    });
 
-    // Competitions
-    Route::get('/competitions', CompetitionsPage::class)->name('competitions.index');
-    Route::get('/competitions/create', CreateCompetitionPage::class)->name('competitions.create');
-    Route::get('/competitions/{competition}/edit', EditCompetitionPage::class)->name('competitions.edit');
+    // ── User Management ──────────────────────────────────────────────
+    Route::middleware(['permission:manage users'])->group(function () {
+        Route::get('/users', UsersPage::class)->name('users.index');
+        Route::get('/users/create', CreateUserPage::class)->name('users.create');
+        Route::get('/users/{user}/edit', EditUserPage::class)->name('users.edit');
+    });
 
-    // Teams
-    Route::get('/teams', TeamsPage::class)->name('teams.index');
-    Route::get('/teams/create', CreateTeamPage::class)->name('teams.create');
-    Route::get('/teams/{team}/edit', EditTeamPage::class)->name('teams.edit');
+    // ── Competition Management ───────────────────────────────────────
+    Route::middleware(['permission:manage competitions'])->group(function () {
+        Route::get('/competitions', CompetitionsPage::class)->name('competitions.index');
+        Route::get('/competitions/create', CreateCompetitionPage::class)->name('competitions.create');
+        Route::get('/competitions/{competition}/edit', EditCompetitionPage::class)->name('competitions.edit');
+    });
 
-    // Players
-    Route::get('/players', PlayersPage::class)->name('players.index');
-    Route::get('/players/create', CreatePlayerPage::class)->name('players.create');
-    Route::get('/players/{player}/edit', EditPlayerPage::class)->name('players.edit');
+    // ── Competition Types ────────────────────────────────────────────
+    Route::middleware(['permission:manage competition types'])->group(function () {
+        Route::get('/types', TypesPage::class)->name('types.index');
+        Route::get('/types/create', CreateTypePage::class)->name('types.create');
+        Route::get('/types/{type}/edit', EditTypePage::class)->name('types.edit');
+    });
 
-    // Competition Types
-    Route::get('/types', TypesPage::class)->name('types.index');
-    Route::get('/types/create', CreateTypePage::class)->name('types.create');
-    Route::get('/types/{type}/edit', EditTypePage::class)->name('types.edit');
+    // ── Competition Subtypes ─────────────────────────────────────────
+    Route::middleware(['permission:manage competition types'])->group(function () {
+        Route::get('/subtypes', SubtypesPage::class)->name('subtypes.index');
+        Route::get('/subtypes/create', CreateSubtypePage::class)->name('subtypes.create');
+        Route::get('/subtypes/{subtype}/edit', EditSubtypePage::class)->name('subtypes.edit');
+    });
 
-    // Competition Subtypes
-    Route::get('/subtypes', SubtypesPage::class)->name('subtypes.index');
-    Route::get('/subtypes/create', CreateSubtypePage::class)->name('subtypes.create');
-    Route::get('/subtypes/{subtype}/edit', EditSubtypePage::class)->name('subtypes.edit');
+    // ── Team Management ─────────────────────────────────────────────
+    Route::middleware(['permission:manage teams'])->group(function () {
+        Route::get('/teams', TeamsPage::class)->name('teams.index');
+        Route::get('/teams/create', CreateTeamPage::class)->name('teams.create');
+        Route::get('/teams/{team}/edit', EditTeamPage::class)->name('teams.edit');
+    });
 
-    // Matches
-    Route::get('/matches', MatchesPage::class)->name('matches.index');
-    Route::get('/matches/create', CreateMatchPage::class)->name('matches.create');
-    Route::get('/matches/{match}/edit', EditMatchPage::class)->name('matches.edit');
+    // ── Team Sub-pages (granular permissions — coach scoped) ─────────
+    Route::middleware(['permission:manage team formations'])->group(function () {
+        Route::get('/teams/{team}/formations', TeamFormationsPage::class)->name('teams.formations');
+    });
+    Route::middleware(['permission:manage team tactics'])->group(function () {
+        Route::get('/teams/{team}/tactics', TeamTacticsPage::class)->name('teams.tactics');
+    });
+    Route::middleware(['permission:manage team medical'])->group(function () {
+        Route::get('/teams/{team}/medical', TeamMedicalPage::class)->name('teams.medical');
+    });
+    Route::middleware(['permission:manage team staff'])->group(function () {
+        Route::get('/teams/{team}/staff', TeamStaffPage::class)->name('teams.staff');
+    });
+    Route::middleware(['permission:manage teams'])->group(function () {
+        Route::get('/teams/{team}/stats', TeamStatsPage::class)->name('teams.stats');
+    });
 
-    // Team sub-pages
-    Route::get('/teams/{team}/staff', TeamStaffPage::class)->name('teams.staff');
-    Route::get('/teams/{team}/formations', TeamFormationsPage::class)->name('teams.formations');
-    Route::get('/teams/{team}/tactics', TeamTacticsPage::class)->name('teams.tactics');
-    Route::get('/teams/{team}/medical', TeamMedicalPage::class)->name('teams.medical');
-    Route::get('/teams/{team}/stats', TeamStatsPage::class)->name('teams.stats');
+    // ── Player Management ────────────────────────────────────────────
+    Route::middleware(['permission:manage players'])->group(function () {
+        Route::get('/players', PlayersPage::class)->name('players.index');
+        Route::get('/players/create', CreatePlayerPage::class)->name('players.create');
+        Route::get('/players/{player}/edit', EditPlayerPage::class)->name('players.edit');
+    });
 
-    // Match sub-pages
-    Route::get('/matches/{match}/lineup', MatchLineupPage::class)->name('matches.lineup');
-    Route::get('/matches/{match}/events', MatchEventsPage::class)->name('matches.events');
-    Route::get('/matches/{match}/stats', MatchStatsPage::class)->name('matches.stats');
+    // ── Match Management ─────────────────────────────────────────────
+    Route::middleware(['permission:manage matches'])->group(function () {
+        Route::get('/matches', MatchesPage::class)->name('matches.index');
+        Route::get('/matches/create', CreateMatchPage::class)->name('matches.create');
+        Route::get('/matches/{match}/edit', EditMatchPage::class)->name('matches.edit');
+        Route::get('/matches/{match}/lineup', MatchLineupPage::class)->name('matches.lineup');
+        Route::get('/matches/{match}/events', MatchEventsPage::class)->name('matches.events');
+        Route::get('/matches/{match}/stats', MatchStatsPage::class)->name('matches.stats');
+    });
 
-    // Positions
-    Route::get('/positions', PositionsPage::class)->name('positions.index');
+    // ── Positions ────────────────────────────────────────────────────
+    Route::middleware(['permission:manage settings'])->group(function () {
+        Route::get('/positions', PositionsPage::class)->name('positions.index');
+    });
 
-    // Trash
-    Route::get('/trash', \App\Livewire\Admin\TrashPage::class)->name('trash');
+    // ── Trash (admin only) ───────────────────────────────────────────
+    Route::middleware(['permission:manage admin users'])->group(function () {
+        Route::get('/trash', \App\Livewire\Admin\TrashPage::class)->name('trash');
+    });
 
-    // Security Log
-    Route::get('/security-log', \App\Livewire\Admin\SecurityLogPage::class)->name('security-log');
+    // ── Security Log (admin only) ────────────────────────────────────
+    Route::middleware(['permission:manage admin users'])->group(function () {
+        Route::get('/security-log', \App\Livewire\Admin\SecurityLogPage::class)->name('security-log');
+    });
 });

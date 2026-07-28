@@ -20,6 +20,8 @@ class EditUserPage extends Component
 
     public function mount(User $user)
     {
+        $this->authorize('update', $user);
+
         $this->user = $user;
         $this->name = $user->name;
         $this->username = $user->username;

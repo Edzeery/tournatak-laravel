@@ -38,6 +38,8 @@ class UsersPage extends Component
     public function delete($id)
     {
         $user = User::findOrFail($id);
+        $this->authorize('delete', $user);
+
         $user->delete();
         session()->flash('success', __('app.user_deleted'));
     }

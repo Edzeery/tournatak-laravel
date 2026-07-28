@@ -17,6 +17,8 @@ class EditTeamPage extends Component
 
     public function mount(Team $team)
     {
+        $this->authorize('update', $team);
+
         $this->team = $team;
         $this->name = $team->name;
         $this->captain_id = $team->captain_id;

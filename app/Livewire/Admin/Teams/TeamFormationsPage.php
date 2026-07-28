@@ -42,6 +42,8 @@ class TeamFormationsPage extends Component
 
     public function mount(Team $team): void
     {
+        $this->authorize('update', $team);
+
         $this->teamId = $team->id;
         $this->team = $team;
         $this->loadFormations();

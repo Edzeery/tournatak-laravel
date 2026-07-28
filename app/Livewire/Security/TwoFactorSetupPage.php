@@ -172,7 +172,7 @@ class TwoFactorSetupPage extends Component
 
             TwoFactorRecoveryCode::create([
                 'user_id' => $user->id,
-                'code' => $code,
+                'code' => Hash::make($code),
             ]);
         }
         $this->recoveryCodes = $codes;

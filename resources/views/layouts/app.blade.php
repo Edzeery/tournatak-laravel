@@ -51,7 +51,7 @@
 
             {{-- Desktop nav --}}
             <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
-                <ul class="navbar-nav {{ isRtl() ? 'ms-auto' : 'me-auto' }} mb-2 mb-lg-0">
+                <ul class="navbar-nav {{ isRtl() ? 'me-auto' : 'ms-auto' }} mb-2 mb-lg-0 p-0">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
                             href="{{ route('home') }}">
@@ -78,7 +78,7 @@
                     </li>
                 </ul>
                 <ul
-                    class="navbar-nav {{ isRtl() ? 'ms-auto' : 'me-auto' }} mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
+                    class="navbar-nav {{ isRtl() ? 'me-auto' : 'ms-auto' }} mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
                     @include('components.language-switcher')
                     <li class="nav-item">
                         <button class="nav-link border-0 bg-transparent d-flex align-items-center"

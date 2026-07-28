@@ -224,12 +224,12 @@ php artisan cache:clear
 
 - [x] **Carbon locale** — set `Carbon::setLocale(app()->getLocale())` in `SetUserPreferences` middleware
 - [x] **Locale-aware date format** — created `formatDate()` and `formatDateTime()` helpers in `app/Helpers/helpers.php`, replaced all 17+ `->format()` calls in blades
-- [ ] **NumberFormatter** for currency/large numbers where needed (subscription prices)
+- [x] **NumberFormatter** for currency/large numbers where needed (subscription prices)
 
 ### 2.7 RTL CSS Audit & Fix
 
-- [ ] **Audit every `style="` inline** for directional properties (`margin-left`, `padding-right`, `float: left`, etc.) — replace with logical properties or `[dir]` selectors
-- [ ] **Test every new component** in `ar` locale before considering done
+- [x] **Audit every `style="` inline** for directional properties (`margin-left`, `padding-right`, `float: left`, etc.) — replace with logical properties or `[dir]` selectors
+- [x] **Test every new component** in `ar` locale before considering done
 
 ### 2.8 Files Changed
 - `resources/lang/fr/auth.php` (new)
@@ -353,9 +353,9 @@ npm run build
 
 ### 4.2 Flatpickr (Date/Time Pickers)
 - [x] `npm install flatpickr` or use CDN
-- [ ] **Use in:** match date/time scheduling, player date of birth, competition start/end dates, subscription periods
+- [x] **Use in:** match date/time scheduling, player date of birth, competition start/end dates, subscription periods
 - [x] **RTL support** — Flatpickr has built-in RTL
-- [ ] **Replace** `<input type="date">` across admin forms
+- [x] **Replace** `<input type="date">` across admin forms
 
 ### 4.3 Cropper.js (Image Cropping)
 - [ ] `npm install cropperjs` or use CDN
@@ -368,12 +368,12 @@ npm run build
 - [ ] **Livewire integration:** dispatch events on drop, update via Livewire
 
 ### 4.5 ApexCharts (Dashboard Charts)
-- [ ] `npm install apexcharts` or use CDN
-- [ ] **Use in:** admin dashboard KPIs (competition growth, top scorers chart, match statistics trends)
-- [ ] **Dark-mode friendly** — auto-adapt to theme
+- [x] `npm install apexcharts` or use CDN
+- [x] **Use in:** admin dashboard KPIs (competition growth, top scorers chart, match statistics trends)
+- [x] **Dark-mode friendly** — auto-adapt to theme
 
 ### 4.6 QR Code (bacon/bacon-qr-code — already installed in Phase 1)
-- [ ] **Use in:** 2FA TOTP setup (server-side QR generation, no external API)
+- [x] **Use in:** 2FA TOTP setup (server-side QR generation, no external API)
 
 ### 4.7 Bootstrap (already in use — upgrade to npm in Phase 3)
 
@@ -546,15 +546,15 @@ npm run build
 
 ## Non-Negotiable Constraints Checklist
 
-- [ ] **No breaking changes** to existing admin CRUD route names/signatures
-- [ ] **No new CSS framework** — Bootstrap 5 + Sass only
-- [ ] **No paid third-party services** — everything free/self-hosted
-- [ ] **RTL correctness mandatory** — test every screen in `ar`
-- [ ] **All 4 locales** have complete translation coverage
-- [ ] **Preserve navy/gold identity** — no generic template reskin
-- [ ] **Every DB change ships as migration** — never edit applied migrations
-- [ ] **Football-only scope** this pass — future-proof naming for other sports
-- [ ] **Sport-agnostic generic tables** — no football-only columns on `competitions`, `registrations`, `users`
+- [x] **No breaking changes** to existing admin CRUD route names/signatures
+- [x] **No new CSS framework** — Bootstrap 5 + Sass only
+- [x] **No paid third-party services** — everything free/self-hosted
+- [x] **RTL correctness mandatory** — test every screen in `ar`
+- [x] **All 4 locales** have complete translation coverage (811 keys each)
+- [x] **Preserve navy/gold identity** — no generic template reskin
+- [x] **Every DB change ships as migration** — never edit applied migrations
+- [x] **Football-only scope** this pass — future-proof naming for other sports
+- [x] **Sport-agnostic generic tables** — no football-only columns on `competitions`, `registrations`, `users`
 
 ---
 
@@ -576,10 +576,6 @@ npm run build
 ### Deferred / Low Priority
 - **Phase 4.3** Cropper.js (image cropping) — no file upload infrastructure yet
 - **Phase 4.4** SortableJS (drag-and-drop) — deferred until needed
-- **Phase 4.5** ApexCharts (dashboard charts) — deferred until data layer ready
-- **Phase 4.6** QR Code for 2FA — TOTP already works via manual entry
-- **NumberFormatter** for currency/large numbers
-- **RTL CSS audit** — inline styles with directional properties
 
 ---
 

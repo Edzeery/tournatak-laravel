@@ -5,6 +5,8 @@ import 'flatpickr/dist/l10n/ar.js';
 import 'flatpickr/dist/l10n/fr.js';
 import 'flatpickr/dist/l10n/es.js';
 import Swal from 'sweetalert2';
+
+
 import ApexCharts from 'apexcharts';
 
 window.Swal = Swal;

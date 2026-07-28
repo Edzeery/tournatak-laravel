@@ -8,9 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+
     css: {
         preprocessorOptions: {
             scss: {
+                style: "compressed", // الحل
                 silenceDeprecations: [
                     "import",
                     "global-builtin",
@@ -19,5 +21,10 @@ export default defineConfig({
                 ],
             },
         },
-    }, 
+    },
+
+    build: {
+        cssMinify: "lightningcss",
+
+    },
 });

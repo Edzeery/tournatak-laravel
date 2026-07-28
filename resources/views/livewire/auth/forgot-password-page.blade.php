@@ -1,6 +1,6 @@
 <div class="auth-wrapper">
     <div class="hero-shape hero-shape-lg" style="top:-300px;right:-200px;"></div>
-    <div class="hero-shape" style="width:400px;height:400px;bottom:-200px;left:-150px;"></div>
+    <div class="hero-shape hero-shape-auth-2 rtl-left"></div>
 
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">

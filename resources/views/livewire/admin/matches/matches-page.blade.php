@@ -61,7 +61,7 @@
                                 <td>{{ $match->competition->name ?? '-' }}</td>
                                 <td class="fw-bold">
                                     {{ $match->team1->name ?? '?' }}
-                                    <span class="mx-1 fw-bold" style="color:#b8860b">vs</span>
+                                    <span class="mx-1 fw-bold text-gold-dark">vs</span>
                                     {{ $match->team2->name ?? '?' }}
                                 </td>
                                 <td>

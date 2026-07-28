@@ -58,7 +58,7 @@
                             <tr wire:key="{{ $type->id }}">
                                 <td class="text-chrome-muted">{{ $type->id }}</td>
                                 <td class="fw-bold">{{ $type->name }}</td>
-                                <td><code class="rounded-xs" style="background:rgba(255,193,7,0.1);color:#b8860b;padding:2px 8px;">{{ $type->slug }}</code></td>
+                                <td><code class="rounded-xs badge-type-gold">{{ $type->slug }}</code></td>
                                 <td>{{ $type->subtype->name ?? '-' }}</td>
                                 <td>
                                     @if($type->is_active)

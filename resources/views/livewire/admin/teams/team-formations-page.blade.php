@@ -1,17 +1,17 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.teams') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none" style="color:var(--primary);">{{ $team->name }}</a></li>
+        <ol class="breadcrumb breadcrumb-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="breadcrumb-link">{{ __('app.teams') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="breadcrumb-link">{{ $team->name }}</a></li>
             <li class="breadcrumb-item active">{{ __('app.formations') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-diagram-3-fill text-gold"></i> {{ __('app.formations') }}</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $team->name }}</p>
+            <h4 class="fw-bold mb-1 text-dark-theme"><i class="bi bi-diagram-3-fill text-gold"></i> {{ __('app.formations') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ $team->name }}</p>
         </div>
         <button class="btn btn-warning" wire:click="openModal">
             <i class="bi bi-plus-lg"></i> {{ __('app.add_formation') }}
@@ -22,7 +22,7 @@
         <div class="card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.search') }}</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.search') }}</label>
                     <input type="text" class="form-control" placeholder="{{ __('app.search_by_name_or_code') }}" wire:model.live.debounce.300ms="search">
                 </div>
             </div>
@@ -35,19 +35,20 @@
                 $positions = is_array($formation->positions_data) ? $formation->positions_data : json_decode($formation->positions_data ?? '[]', true);
             @endphp
             <div class="col-md-6 col-lg-4" wire:key="{{ $formation->id }}">
-                <div class="card border-0 h-100" style="border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                <div class="card border-0 h-100 rounded-lg-custom shadow-sm">
                     <div class="card-body p-3">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <div>
                                 <h6 class="fw-bold mb-1">{{ $formation->name }}</h6>
-                                <span class="badge bg-primary-subtle text-primary fw-bold" style="font-size:0.8rem;">{{ $formation->formation_code }}</span>
+                                <span class="badge bg-primary-subtle text-primary fw-bold fs-08">{{ $formation->formation_code }}</span>
                             </div>
                             <div class="d-flex gap-1">
-                                <span class="badge {{ $formation->sport_type === 'football' ? 'bg-success' : 'bg-info' }}" style="font-size:0.7rem;">
+                                <span class="badge {{ $formation->sport_type === 'football' ? 'bg-success' : 'bg-info' }} fs-xs">
+
                                     {{ $formation->sport_type === 'football' ? __('app.football') : __('app.futsal') }}
                                 </span>
                                 @if($formation->is_default)
-                                    <span class="badge bg-warning text-dark" style="font-size:0.7rem;">
+                                    <span class="badge bg-warning text-dark fs-xs">
                                         <i class="bi bi-star-fill"></i> {{ __('app.default_badge') }}
                                     </span>
                                 @endif
@@ -74,14 +75,14 @@
                         </div>
 
                         @if($formation->description)
-                            <p class="text-muted mb-2" style="font-size:0.8rem;">{{ Str::limit($formation->description, 80) }}</p>
+                            <p class="text-muted mb-2 fs-08">{{ Str::limit($formation->description, 80) }}</p>
                         @endif
 
                         <div class="d-flex gap-1 justify-content-end pt-2 border-top">
-                            <button class="btn btn-sm btn-outline-primary" style="border-radius:8px;" wire:click="editFormation({{ $formation->id }})">
+                            <button class="btn btn-sm btn-outline-primary rounded-md" wire:click="editFormation({{ $formation->id }})">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                            <button class="btn btn-sm btn-outline-danger rounded-md"
                                     wire:click="deleteFormation({{ $formation->id }})"
                                     wire:confirm="{{ __('app.confirm_delete_formation') }}">
                                 <i class="bi bi-trash"></i>
@@ -95,7 +96,7 @@
                 <div class="card border-0">
                     <div class="card-body py-5 text-center">
                         <div class="empty-state py-3">
-                            <i class="bi bi-diagram-3 d-block" style="font-size:2.5rem;"></i>
+                            <i class="bi bi-diagram-3 d-block fs-4xl"></i>
                             <h5>{{ __('app.no_formations') }}</h5>
                             <p class="text-muted">{{ __('app.no_formations_desc') }}</p>
                             <button class="btn btn-warning" wire:click="openModal">
@@ -109,9 +110,9 @@
     </div>
 
     @if($showModal)
-        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="formationModalTitle" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+        <div class="modal fade show d-block modal-overlay-blur" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="formationModalTitle" wire:click.self="closeModal">
             <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content" style="border-radius:16px;" wire:click.stop>
+                <div class="modal-content rounded-xl" wire:click.stop>
                     <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title fw-bold" id="formationModalTitle">
                             <i class="bi bi-diagram-3-fill text-gold"></i>
@@ -186,8 +187,8 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
-                        <button type="button" class="btn btn-warning px-4" wire:click="saveFormation" wire:loading.attr="disabled" style="border-radius:8px;">
+                        <button type="button" class="btn btn-secondary rounded-md" wire:click="closeModal">{{ __('app.cancel') }}</button>
+                        <button type="button" class="btn btn-warning px-4 rounded-md" wire:click="saveFormation" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="saveFormation"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
                             <span wire:loading wire:target="saveFormation"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>

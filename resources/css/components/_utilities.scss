@@ -79,7 +79,7 @@
     color: var(--chrome-text) !important;
 }
 .text-chrome-subtle {
-    color: var(--chrome-text-subtle) !important;
+    color: var(--bs-primary-text-emphasis) !important;
 }
 
 // ---- Card variants ----
@@ -386,8 +386,8 @@
 }
 .notif-filter {
     border-radius: 8px;
-    color: rgba(255, 255, 255, 0.6);
-    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--chrome-text);
+    border-color: var(--chrome-text-hover);
 }
 .notif-badge-count {
     background: rgba(255, 193, 7, 0.2);
@@ -415,11 +415,12 @@
     color: var(--primary);
 }
 .notif-page-title-unread {
-    color: #fff;
+    color: var(--text-primary);
 }
 .notif-page-title-read {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary);
 }
+
 .notif-page-dot {
     width: 8px;
     height: 8px;
@@ -649,4 +650,217 @@
     right: 14px;
     top: 50%;
     transform: translateY(-50%);
+}
+
+// ---- Slate text colors ----
+.text-slate-400 { color: #94a3b8; }
+.text-slate-500 { color: #64748b; }
+.text-slate-600 { color: #475569; }
+.text-slate-700 { color: #334155; }
+.text-slate { color: #cbd5e1; }
+
+// ---- White opacity text ----
+.text-faded-30 { color: rgba(255, 255, 255, 0.3); }
+.text-faded-40 { color: rgba(255, 255, 255, 0.4); }
+.text-faded-50 { color: rgba(255, 255, 255, 0.5); }
+
+// ---- Gold variants ----
+.text-gold-muted { color: rgba(255, 193, 7, 0.8); }
+.text-gold-dark { color: #b8860b; }
+
+// ---- Error faded ----
+.text-error-faded { color: #fca5a5; }
+
+// ---- Font sizes (fine-grained) ----
+.fs-08 { font-size: 0.8rem !important; }
+.fs-095 { font-size: 0.95rem !important; }
+.fs-105 { font-size: 1.05rem !important; }
+.fs-14 { font-size: 1.4rem !important; }
+.fs-18 { font-size: 1.8rem !important; }
+.fs-22 { font-size: 2.2rem !important; }
+
+// ---- Sizing (additional) ----
+.w-40 { width: 40px !important; }
+.h-40 { height: 40px !important; }
+.min-w-40 { min-width: 40px !important; }
+.w-140 { width: 140px !important; }
+.min-w-60 { min-width: 60px !important; }
+.min-w-50 { min-width: 50px !important; }
+
+// ---- Position ----
+.pos-rel-z2 { position: relative; z-index: 2; }
+
+// ---- Table utilities (light admin tables) ----
+.th-head {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+.th-cell {
+    font-size: 0.78rem;
+    color: #64748b;
+    padding: 0.85rem 1rem;
+}
+.th-cell-sm {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+.border-row-light {
+    border-bottom: 1px solid #f1f5f9;
+}
+.border-row-chrome {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.cell-pad {
+    padding: 0.75rem 1rem;
+}
+.cell-pad-lg {
+    padding: 14px 20px;
+}
+
+// ---- White card ----
+.card-white {
+    border-radius: 12px;
+    background: #fff;
+}
+
+// ---- Input filter (light admin) ----
+.input-filter {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+}
+
+// ---- Input icon (smaller padding) ----
+.input-icon-right-sm {
+    padding-inline-end: 36px;
+}
+
+// ---- Button reset (light) ----
+.btn-reset-light {
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    background: #f8fafc;
+    font-size: 0.8rem;
+}
+
+// ---- Progress thin ----
+.progress-thin {
+    height: 10px;
+    border-radius: 5px;
+}
+.progress-fill {
+    border-radius: 5px;
+}
+
+// ---- Avatar gradient (amber) ----
+.avatar-gradient-amber {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+// ---- Badge active green ----
+.badge-active-green {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+// ---- Badge type gold ----
+.badge-type-gold {
+    background: rgba(255, 193, 7, 0.12);
+    color: #ffc107;
+    padding: 4px 10px;
+}
+
+// ---- Modal overlay blur ----
+.modal-overlay-blur {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+// ---- Error alert dark ----
+.error-alert-dark {
+    background: rgba(229, 57, 53, 0.15);
+    border-color: rgba(229, 57, 53, 0.3);
+    color: #ef9a9a;
+}
+
+// ---- Background light ----
+.bg-light-50 {
+    background: #f8f9fa;
+}
+.bg-light-surface {
+    background: #f8fafc;
+}
+
+// ---- Text truncate custom ----
+.text-truncate-sm {
+    max-width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// ---- Breadcrumb base ----
+.breadcrumb-base {
+    font-size: 0.85rem;
+}
+
+// ---- Summary card ----
+.summary-card {
+    background: #f8f9fa;
+}
+
+// ---- Dark table header (trash) ----
+.th-dark {
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    padding: 14px 20px;
+}
+
+// ---- Pitch wrapper ----
+.pitch-wrapper {
+    aspect-ratio: 2/3;
+    max-height: 520px;
+}
+
+// ---- Match header min-width ----
+.mw-140 {
+    min-width: 140px;
+}
+
+// ---- Nav tab padding (team tabs) ----
+.nav-tab-team {
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+.nav-tab-team.active {
+    border-color: var(--primary);
+    background: rgba(255, 193, 7, 0.1);
+}
+.nav-tab-team:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+// ---- Direction LTR ----
+.dir-ltr {
+    direction: ltr;
+}
+
+// ---- Min height chart ----
+.min-vh-260 {
+    min-height: 260px;
+}
+
+// ---- Sizing 56 ----
+.w-56 {
+    width: 56px !important;
+}
+.h-56 {
+    height: 56px !important;
 }

@@ -1,17 +1,17 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.teams') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none" style="color:var(--primary);">{{ $team->name }}</a></li>
+        <ol class="breadcrumb breadcrumb-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="breadcrumb-link">{{ __('app.teams') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="breadcrumb-link">{{ $team->name }}</a></li>
             <li class="breadcrumb-item active">{{ __('app.medical_record') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-heart-pulse-fill text-gold"></i> {{ __('app.medical_record') }}</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">{{ $team->name }}</p>
+            <h4 class="fw-bold mb-1 text-dark-theme"><i class="bi bi-heart-pulse-fill text-gold"></i> {{ __('app.medical_record') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ $team->name }}</p>
         </div>
         <button class="btn btn-warning" wire:click="openModal">
             <i class="bi bi-plus-lg"></i> {{ __('app.add_medical_record') }}
@@ -26,33 +26,33 @@
             $longTermCount = collect($medicalRecords)->where('status', 'long_term')->count();
         @endphp
         <div class="col-md-3 col-6">
-            <div class="card border-0 text-center" style="border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
-                    <div class="fw-bold" style="font-size:1.8rem;color:#dc3545;">{{ $activeCount }}</div>
+                    <div class="fw-bold fs-18" style="color:#dc3545;">{{ $activeCount }}</div>
                     <small class="text-muted fw-bold">{{ __('app.status_active') }}</small>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-6">
-            <div class="card border-0 text-center" style="border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
-                    <div class="fw-bold" style="font-size:1.8rem;color:#ffc107;">{{ $recoveringCount }}</div>
+                    <div class="fw-bold fs-18" style="color:#ffc107;">{{ $recoveringCount }}</div>
                     <small class="text-muted fw-bold">{{ __('app.status_recovering') }}</small>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-6">
-            <div class="card border-0 text-center" style="border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
-                    <div class="fw-bold" style="font-size:1.8rem;color:#198754;">{{ $returnedCount }}</div>
+                    <div class="fw-bold fs-18" style="color:#198754;">{{ $returnedCount }}</div>
                     <small class="text-muted fw-bold">{{ __('app.status_returned') }}</small>
                 </div>
             </div>
         </div>
         <div class="col-md-3 col-6">
-            <div class="card border-0 text-center" style="border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
-                    <div class="fw-bold" style="font-size:1.8rem;color:#6f42c1;">{{ $longTermCount }}</div>
+                    <div class="fw-bold fs-18" style="color:#6f42c1;">{{ $longTermCount }}</div>
                     <small class="text-muted fw-bold">{{ __('app.status_long_term') }}</small>
                 </div>
             </div>
@@ -63,11 +63,11 @@
         <div class="card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-md-4">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.search') }}</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.search') }}</label>
                     <input type="text" class="form-control" placeholder="{{ __('app.search') }}" wire:model.live.debounce.300ms="search">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.filter_by_status') }}</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.filter_by_status') }}</label>
                     <select class="form-select" wire:model.live="filterStatus" aria-label="{{ __('app.search') }}">
                         <option value="">{{ __('app.all') }}</option>
                         @foreach($statusOptions as $key => $label)
@@ -76,7 +76,7 @@
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.filter_by_type') }}</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.filter_by_type') }}</label>
                     <select class="form-select" wire:model.live="filterType" aria-label="{{ __('app.search') }}">
                         <option value="">{{ __('app.all') }}</option>
                         @foreach($recordTypes as $key => $label)
@@ -109,7 +109,7 @@
                             <tr wire:key="{{ $record->id }}">
                                 <td class="fw-bold">{{ $record->player->user->name ?? '—' }}</td>
                                 <td>
-                                    <span class="badge bg-light text-dark fw-bold" style="font-size:0.75rem;">
+                                    <span class="badge bg-light text-dark fw-bold fs-sm">
                                         {{ $recordTypes[$record->record_type] ?? $record->record_type }}
                                     </span>
                                 </td>
@@ -152,17 +152,17 @@
                                         {{ $statusOptions[$record->status] ?? $record->status }}
                                     </span>
                                 </td>
-                                <td style="font-size:0.85rem;color:#94a3b8;">
+                                <td class="fs-base text-slate-400">
                                     {{ formatDate($record->injury_date) ?? '—' }}
                                 </td>
-                                <td style="font-size:0.85rem;color:#94a3b8;">
+                                <td class="fs-base text-slate-400">
                                     {{ formatDate($record->expected_return) ?? '—' }}
                                 </td>
                                 <td class="text-center">
-                                    <button class="btn btn-sm btn-outline-primary" style="border-radius:8px;" wire:click="editRecord({{ $record->id }})">
+                                    <button class="btn btn-sm btn-outline-primary rounded-md" wire:click="editRecord({{ $record->id }})">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                                    <button class="btn btn-sm btn-outline-danger rounded-md"
                                             wire:click="deleteRecord({{ $record->id }})"
                                             wire:confirm="{{ __('app.confirm_delete_medical') }}">
                                         <i class="bi bi-trash"></i>
@@ -173,7 +173,7 @@
                             <tr>
                                 <td colspan="8">
                                     <div class="empty-state py-3">
-                                        <i class="bi bi-heart-pulse d-block" style="font-size:2.5rem;"></i>
+                                        <i class="bi bi-heart-pulse d-block fs-4xl"></i>
                                         <h5>{{ __('app.no_medical_records') }}</h5>
                                         <p class="text-muted">{{ __('app.no_medical_records_desc') }}</p>
                                         <button class="btn btn-warning" wire:click="openModal">
@@ -190,9 +190,9 @@
     </div>
 
     @if($showModal)
-        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="medicalModalTitle" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+        <div class="modal fade show d-block modal-overlay-blur" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="medicalModalTitle" wire:click.self="closeModal">
             <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content" style="border-radius:16px;" wire:click.stop>
+                <div class="modal-content rounded-xl" wire:click.stop>
                     <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title fw-bold" id="medicalModalTitle">
                             <i class="bi bi-heart-pulse-fill text-gold"></i>
@@ -262,8 +262,8 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
-                        <button type="button" class="btn btn-warning px-4" wire:click="saveRecord" wire:loading.attr="disabled" style="border-radius:8px;">
+                        <button type="button" class="btn btn-secondary rounded-md" wire:click="closeModal">{{ __('app.cancel') }}</button>
+                        <button type="button" class="btn btn-warning px-4 rounded-md" wire:click="saveRecord" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="saveRecord"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
                             <span wire:loading wire:target="saveRecord"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>

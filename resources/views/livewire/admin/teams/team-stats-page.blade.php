@@ -58,7 +58,7 @@
             $totalPoints = $this->totalPoints;
         @endphp
         <div class="col-md-4 col-6">
-            <div class="card border-0 text-center rounded-lg-custom" style="box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
                     <i class="bi bi-calendar-event text-gold fs-xl"></i>
                     <div class="fw-bold mt-1 fs-2xl">{{ $totalMatches }}</div>
@@ -67,7 +67,7 @@
             </div>
         </div>
         <div class="col-md-4 col-6">
-            <div class="card border-0 text-center rounded-lg-custom" style="box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
                     <i class="bi bi-trophy text-gold fs-xl"></i>
                     <div class="fw-bold mt-1 fs-2xl text-success">{{ $totalWins }}</div>
@@ -76,7 +76,7 @@
             </div>
         </div>
         <div class="col-md-4 col-6">
-            <div class="card border-0 text-center rounded-lg-custom" style="box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
                     <i class="bi bi-handshake text-gold fs-xl"></i>
                     <div class="fw-bold mt-1 fs-2xl text-warning">{{ $totalDraws }}</div>
@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="col-md-4 col-6">
-            <div class="card border-0 text-center rounded-lg-custom" style="box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
                     <i class="bi bi-x-circle text-gold fs-xl"></i>
                     <div class="fw-bold mt-1 fs-2xl text-danger">{{ $totalLosses }}</div>
@@ -94,16 +94,16 @@
             </div>
         </div>
         <div class="col-md-4 col-6">
-            <div class="card border-0 text-center rounded-lg-custom" style="box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
                     <i class="bi bi-bullseye text-gold fs-xl"></i>
-                    <div class="fw-bold mt-1 fs-2xl" style="color:#0d6efd;">{{ $totalGoalsFor }}</div>
+                    <div class="fw-bold mt-1 fs-2xl text-blue">{{ $totalGoalsFor }}</div>
                     <small class="text-muted fw-bold">{{ __('app.goals') }}</small>
                 </div>
             </div>
         </div>
         <div class="col-md-4 col-6">
-            <div class="card border-0 text-center rounded-lg-custom" style="box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
                     <i class="bi bi-star-fill text-gold fs-xl"></i>
                     <div class="fw-bold mt-1 fs-2xl" style="color:#0dcaf0;">{{ $totalPoints }}</div>
@@ -130,7 +130,7 @@
                         <span class="fw-bold fs-base text-success">{{ $winPct }}%</span>
                     </div>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width:{{ $winPct }}%;border-radius:5px;"></div>
+                        <div class="progress-bar bg-success progress-fill" style="width:{{ $winPct }}%;"></div>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -139,7 +139,7 @@
                         <span class="fw-bold fs-base text-warning">{{ $drawPct }}%</span>
                     </div>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-warning" style="width:{{ $drawPct }}%;border-radius:5px;"></div>
+                        <div class="progress-bar bg-warning progress-fill" style="width:{{ $drawPct }}%;"></div>
                     </div>
                 </div>
                 <div class="mb-0">
@@ -148,7 +148,7 @@
                         <span class="fw-bold fs-base text-danger">{{ $lossPct }}%</span>
                     </div>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width:{{ $lossPct }}%;border-radius:5px;"></div>
+                        <div class="progress-bar bg-danger progress-fill" style="width:{{ $lossPct }}%;"></div>
                     </div>
                 </div>
             </div>

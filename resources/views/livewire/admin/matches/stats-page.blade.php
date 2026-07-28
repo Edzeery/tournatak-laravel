@@ -1,23 +1,23 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.matches') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="text-decoration-none" style="color:var(--primary);">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
+        <ol class="breadcrumb breadcrumb-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="breadcrumb-link">{{ __('app.matches') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="breadcrumb-link">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
             <li class="breadcrumb-item active">{{ __('app.match_stats') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-bar-chart-fill text-gold"></i> {{ __('app.match_stats') }}</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">
+            <h4 class="fw-bold mb-1 text-dark-theme"><i class="bi bi-bar-chart-fill text-gold"></i> {{ __('app.match_stats') }}</h4>
+            <p class="text-muted mb-0 fs-md">
                 {{ $match->team1->name ?? '?' }}
-                <span class="fw-bold mx-1" style="color:#b8860b">vs</span>
+                <span class="fw-bold mx-1 text-gold-dark">vs</span>
                 {{ $match->team2->name ?? '?' }}
             </p>
         </div>
-        <a href="{{ route('admin.matches.edit', $match) }}" class="btn btn-outline-secondary" style="border-radius:8px;">
+        <a href="{{ route('admin.matches.edit', $match) }}" class="btn btn-outline-secondary rounded-md">
             <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
         </a>
     </div>
@@ -60,38 +60,38 @@
                 @endphp
                 <div class="mb-3">
                     <div class="d-flex align-items-center mb-1">
-                        <div class="text-end" style="width:80px;">
-                            <strong style="font-size:0.95rem;">{{ $t1Val }}{{ $suffix }}</strong>
+                        <div class="text-end w-80">
+                            <strong class="fs-095">{{ $t1Val }}{{ $suffix }}</strong>
                         </div>
                         <div class="flex-grow-1 px-3">
-                            <div class="d-flex align-items-center gap-1" style="direction:ltr;">
+                            <div class="d-flex align-items-center gap-1 dir-ltr">
                                 <div class="flex-grow-1">
-                                    <div class="progress" style="height:10px;border-radius:5px;">
-                                        <div class="progress-bar bg-primary" style="width:{{ $t1Width }}%;border-radius:5px;"></div>
+                                    <div class="progress progress-thin">
+                                        <div class="progress-bar bg-primary progress-fill" style="width:{{ $t1Width }}%;"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-center flex-shrink-0" style="width:140px;">
-                            <small class="text-muted fw-bold" style="font-size:0.8rem;">{{ $stat['label'] }}</small>
+                        <div class="text-center flex-shrink-0 w-140">
+                            <small class="text-muted fw-bold fs-08">{{ $stat['label'] }}</small>
                         </div>
                         <div class="flex-grow-1 px-3">
-                            <div class="d-flex align-items-center gap-1" style="direction:ltr;">
+                            <div class="d-flex align-items-center gap-1 dir-ltr">
                                 <div class="flex-grow-1">
-                                    <div class="progress" style="height:10px;border-radius:5px;">
-                                        <div class="progress-bar bg-warning" style="width:{{ $t2Width }}%;border-radius:5px;"></div>
+                                    <div class="progress progress-thin">
+                                        <div class="progress-bar bg-warning progress-fill" style="width:{{ $t2Width }}%;"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-start" style="width:80px;">
-                            <strong style="font-size:0.95rem;">{{ $t2Val }}{{ $suffix }}</strong>
+                        <div class="text-start w-80">
+                            <strong class="fs-095">{{ $t2Val }}{{ $suffix }}</strong>
                         </div>
                     </div>
                 </div>
             @empty
                 <div class="empty-state py-3 text-center">
-                    <i class="bi bi-bar-chart d-block text-muted" style="font-size:2rem;"></i>
+                    <i class="bi bi-bar-chart d-block text-muted fs-3xl"></i>
                     <small class="text-muted">{{ __('app.no_stats_available') }}</small>
                 </div>
             @endforelse
@@ -146,7 +146,7 @@
                         @endphp
                         <input type="number" class="form-control"
                                value="{{ 100 - ($activeTeam == 1 ? $otherPossession : $currentPossession) }}" disabled>
-                        <small class="text-muted" style="font-size:0.75rem;">
+                        <small class="text-muted fs-sm">
                             {{ __('app.calculated_automatically') }} ({{ $activeTeam == 1 ? ($match->team2->name ?? __('app.team2_name')) : ($match->team1->name ?? __('app.team1_name')) }})
                         </small>
                     </div>
@@ -238,7 +238,7 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-between align-items-center">
-                    <small class="text-muted" style="font-size:0.8rem;">
+                    <small class="text-muted fs-08">
                         <i class="bi bi-info-circle"></i>
                         {{ __('app.stats_for_team') }} {{ $activeTeam == 1 ? ($match->team1->name ?? __('app.team1_name')) : ($match->team2->name ?? __('app.team2_name')) }}
                     </small>
@@ -259,19 +259,19 @@
         <div class="card-body">
             <div class="row text-center">
                 <div class="col-md-4 mb-3">
-                    <div class="border rounded-3 p-3" style="background:#f8f9fa;">
+                    <div class="border rounded-3 p-3 summary-card">
                         <h3 class="fw-bold text-primary mb-1">{{ $match->score_team1 ?? 0 }}</h3>
                         <small class="text-muted fw-bold">{{ $match->team1->name ?? __('app.team1_name') }}</small>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="border rounded-3 p-3" style="background:#f8f9fa;">
+                    <div class="border rounded-3 p-3 summary-card">
                         <small class="text-muted d-block mb-1">{{ __('app.final_score') }}</small>
-                        <h3 class="fw-bold mb-0" style="color:#b8860b">{{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}</h3>
+                        <h3 class="fw-bold mb-0 text-gold-dark">{{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}</h3>
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <div class="border rounded-3 p-3" style="background:#f8f9fa;">
+                    <div class="border rounded-3 p-3 summary-card">
                         <h3 class="fw-bold text-warning mb-1">{{ $match->score_team2 ?? 0 }}</h3>
                         <small class="text-muted fw-bold">{{ $match->team2->name ?? __('app.team2_name') }}</small>
                     </div>

@@ -1,6 +1,6 @@
 <div class="auth-wrapper">
-    <div class="hero-shape" style="width:600px;height:600px;top:-300px;right:-200px;"></div>
-    <div class="hero-shape" style="width:400px;height:400px;bottom:-200px;left:-150px;"></div>
+    <div class="hero-shape hero-shape-auth-1 rtl-end"></div>
+    <div class="hero-shape hero-shape-auth-2 rtl-left"></div>
 
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
@@ -37,24 +37,24 @@
                         <div class="mb-3">
                             <label class="form-label">{{ __('app.email') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-envelope position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
-                                <input type="email" class="form-control" style="padding-inline-end:42px;" placeholder="example@email.com" wire:model="email" required>
+                                <i class="bi bi-envelope position-absolute text-theme-muted input-icon-pos"></i>
+                                <input type="email" class="form-control input-icon-right" placeholder="example@email.com" wire:model="email" required>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">{{ __('app.new_password') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-lock position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
-                                <input type="password" class="form-control" style="padding-inline-end:42px;" placeholder="••••••••" wire:model="password" required>
+                                <i class="bi bi-lock position-absolute text-theme-muted input-icon-pos"></i>
+                                <input type="password" class="form-control input-icon-right" placeholder="••••••••" wire:model="password" required>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">{{ __('app.confirm_password') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-lock-fill position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
-                                <input type="password" class="form-control" style="padding-inline-end:42px;" placeholder="••••••••" wire:model="password_confirmation" required>
+                                <i class="bi bi-lock-fill position-absolute text-theme-muted input-icon-pos"></i>
+                                <input type="password" class="form-control input-icon-right" placeholder="••••••••" wire:model="password_confirmation" required>
                             </div>
                         </div>
 

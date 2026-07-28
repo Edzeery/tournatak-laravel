@@ -59,7 +59,7 @@
                                 <td class="text-chrome-muted">{{ $team->id }}</td>
                                 <td>
                                     @if($team->logo)
-                                        <img src="{{ $team->logo }}" alt="{{ $team->name }}" class="rounded-circle object-cover border-chrome" style="width:38px;height:38px;border:2px solid var(--primary);">
+                                        <img src="{{ $team->logo }}" alt="{{ $team->name }}" class="rounded-circle object-cover border-chrome w-38 h-38 logo-ring">
                                     @else
                                         <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold w-38 h-38 fs-base">
                                             {{ mb_substr($team->name, 0, 1) }}

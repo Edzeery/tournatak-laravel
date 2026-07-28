@@ -48,9 +48,9 @@
                     $color = $typeColors[$event->event_type] ?? ['bg' => 'secondary', 'icon' => 'bi-circle'];
                     $eventTeam = $event->team_id == $match->team1_id ? $match->team1 : $match->team2;
                 @endphp
-                <div class="d-flex align-items-start gap-3 mb-3 p-3 rounded-3" style="background:#f8f9fa;" wire:key="event-{{ $event->id }}">
-                    <div class="text-center flex-shrink-0" style="min-width:60px;">
-                        <span class="badge bg-dark rounded-pill badge-lg" style="min-width:50px;">
+                <div class="d-flex align-items-start gap-3 mb-3 p-3 rounded-3 bg-light-50" wire:key="event-{{ $event->id }}">
+                    <div class="text-center flex-shrink-0 min-w-60">
+                        <span class="badge bg-dark rounded-pill badge-lg min-w-50">
                             {{ $event->minute }}'
                             @if($event->added_time)
                                 +{{ $event->added_time }}

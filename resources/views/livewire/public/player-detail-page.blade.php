@@ -1,7 +1,7 @@
 <div>
     <section class="hero-sports text-white" style="min-height:280px;">
         <div class="container hero-content">
-            <div class="d-flex align-items-center gap-4 position-relative" style="z-index:2;">
+            <div class="d-flex align-items-center gap-4 position-relative" class="pos-rel-z2">
                 @if($player->image)
                     <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->name ?? '' }}" class="rounded-circle object-cover player-hero-img" width="110" height="110">
                 @else

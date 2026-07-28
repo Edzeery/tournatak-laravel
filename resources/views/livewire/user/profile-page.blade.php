@@ -1,5 +1,5 @@
 @php $isRtl = isRtl(); @endphp
-<div class="mx-auto mt-3 profile-wrap">
+<div class="container py-4 container-page-md profile-wrap ">
 
     {{-- Profile Hero --}}
     <div class="profile-hero mb-4">
@@ -18,7 +18,7 @@
                             <span class="profile-badge-unverified"><i class="bi bi-exclamation-circle"></i> {{ __('app.unverified') }}</span>
                         @endif
                     </div>
-                    <p class="text-chrome-muted mb-2">{{ $user->email }}</p>
+                    <p class="text-chrome-subtle mb-2">{{ $user->email }}</p>
                     <div class="d-flex align-items-center gap-3 flex-wrap">
                         <x-status-badge domain="role" status="{{ $user->role }}" set="bi" />
                         <span class="text-chrome-subtle fs-sm"><i class="bi bi-calendar-event"></i> {{ __('app.joined') }} {{ formatDate($user->created_at) }}</span>

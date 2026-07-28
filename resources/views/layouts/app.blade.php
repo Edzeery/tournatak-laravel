@@ -94,7 +94,13 @@
                                 <div class="navbar-user-avatar">
                                     {{ mb_substr(Auth::user()->name, 0, 1) }}
                                 </div>
-                                <span class="d-none d-xl-inline fw-bold fs-md text-white">{{ Auth::user()->name }}</span>
+                                <div class="d-none d-xl-inline">
+                                    <div class="fw-bold fs-md text-white ">
+                                        {{ Auth::user()->name ?? 'Admin' }}
+                                    </div>
+                                    <small
+                                        class="text-theme-muted fs-xs">{{ ucfirst(Auth::user()->role ?? 'admin') }}</small>
+                                </div>
                             </a>
                             <div class="dropdown-menu navbar-dropdown">
                                 <div class="dropdown-header-nav">
@@ -331,7 +337,7 @@
     @endif
 
     {{-- Main Content --}}
-    <main id="main-content" class="animate-page">
+    <main id="main-content" class="animate-page pb-3">
         {{ $slot }}
     </main>
 

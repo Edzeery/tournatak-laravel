@@ -1,4 +1,4 @@
-<div>
+<div class="container py-4 container-page-md">
     <div class="d-flex align-items-center mb-4">
         <i class="bi bi-gear-fill me-2 fs-4 text-gold"></i>
         <h1 class="h3 mb-0">{{ $title }}</h1>
@@ -26,23 +26,23 @@
                 <div class="mb-4">
                     <label class="form-label fw-semibold">{{ __('app.theme') }}</label>
                     <div class="d-flex gap-3">
-                        <div class="form-check card card-body border p-3 text-center flex-fill {{ $theme === 'light' ? 'border-gold bg-gold-subtle' : '' }}" style="cursor:pointer;">
+                        <div class="form-check card card-body border p-3 text-center flex-fill cursor-pointer {{ $theme === 'light' ? 'border-gold bg-gold-subtle' : '' }}">
                             <input class="form-check-input d-none" type="radio" name="theme" id="themeLight" value="light" wire:model="theme">
-                            <label class="form-check-label mb-1" for="themeLight" style="cursor:pointer;">
+                            <label class="form-check-label mb-1 cursor-pointer" for="themeLight">
                                 <i class="bi bi-sun-fill fs-4 d-block mb-1"></i>
                                 <span>{{ __('app.light') }}</span>
                             </label>
                         </div>
-                        <div class="form-check card card-body border p-3 text-center flex-fill {{ $theme === 'dark' ? 'border-gold bg-gold-subtle' : '' }}" style="cursor:pointer;">
+                        <div class="form-check card card-body border p-3 text-center flex-fill cursor-pointer {{ $theme === 'dark' ? 'border-gold bg-gold-subtle' : '' }}">
                             <input class="form-check-input d-none" type="radio" name="theme" id="themeDark" value="dark" wire:model="theme">
-                            <label class="form-check-label mb-1" for="themeDark" style="cursor:pointer;">
+                            <label class="form-check-label mb-1 cursor-pointer" for="themeDark">
                                 <i class="bi bi-moon-fill fs-4 d-block mb-1"></i>
                                 <span>{{ __('app.dark') }}</span>
                             </label>
                         </div>
-                        <div class="form-check card card-body border p-3 text-center flex-fill {{ $theme === 'system' ? 'border-gold bg-gold-subtle' : '' }}" style="cursor:pointer;">
+                        <div class="form-check card card-body border p-3 text-center flex-fill cursor-pointer {{ $theme === 'system' ? 'border-gold bg-gold-subtle' : '' }}">
                             <input class="form-check-input d-none" type="radio" name="theme" id="themeSystem" value="system" wire:model="theme">
-                            <label class="form-check-label mb-1" for="themeSystem" style="cursor:pointer;">
+                            <label class="form-check-label mb-1 cursor-pointer" for="themeSystem">
                                 <i class="bi bi-laptop fs-4 d-block mb-1"></i>
                                 <span>{{ __('app.system') }}</span>
                             </label>
@@ -56,16 +56,16 @@
                 <div class="mb-4">
                     <label class="form-label fw-semibold">{{ __('app.density') }}</label>
                     <div class="d-flex gap-3">
-                        <div class="form-check card card-body border p-3 text-center flex-fill {{ $density === 'comfortable' ? 'border-gold bg-gold-subtle' : '' }}" style="cursor:pointer;">
+                        <div class="form-check card card-body border p-3 text-center flex-fill cursor-pointer {{ $density === 'comfortable' ? 'border-gold bg-gold-subtle' : '' }}">
                             <input class="form-check-input d-none" type="radio" name="density" id="densityComfortable" value="comfortable" wire:model="density">
-                            <label class="form-check-label mb-1" for="densityComfortable" style="cursor:pointer;">
+                            <label class="form-check-label mb-1 cursor-pointer" for="densityComfortable">
                                 <i class="bi bi-arrows-expand fs-4 d-block mb-1"></i>
                                 <span>{{ __('app.comfortable') }}</span>
                             </label>
                         </div>
-                        <div class="form-check card card-body border p-3 text-center flex-fill {{ $density === 'compact' ? 'border-gold bg-gold-subtle' : '' }}" style="cursor:pointer;">
+                        <div class="form-check card card-body border p-3 text-center flex-fill cursor-pointer {{ $density === 'compact' ? 'border-gold bg-gold-subtle' : '' }}">
                             <input class="form-check-input d-none" type="radio" name="density" id="densityCompact" value="compact" wire:model="density">
-                            <label class="form-check-label mb-1" for="densityCompact" style="cursor:pointer;">
+                            <label class="form-check-label mb-1 cursor-pointer" for="densityCompact">
                                 <i class="bi bi-arrows-collapse fs-4 d-block mb-1"></i>
                                 <span>{{ __('app.compact') }}</span>
                             </label>

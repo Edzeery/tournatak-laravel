@@ -1,6 +1,6 @@
 <div class="auth-wrapper">
-    <div class="hero-shape" style="width:600px;height:600px;top:-300px;right:-200px;"></div>
-    <div class="hero-shape" style="width:400px;height:400px;bottom:-200px;left:-150px;"></div>
+    <div class="hero-shape hero-shape-auth-1 rtl-end"></div>
+    <div class="hero-shape hero-shape-auth-2 rtl-left"></div>
 
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
@@ -27,8 +27,8 @@
                         <div class="mb-4">
                             <label class="form-label">{{ __('app.verification_code') }}</label>
                             <div class="position-relative">
-                                <i class="bi bi-key position-absolute text-theme-muted" style="right:14px;top:50%;transform:translateY(-50%);"></i>
-                                <input type="text" class="form-control" style="padding-inline-end:42px;letter-spacing:8px;text-align:center;font-size:1.4rem;" placeholder="000000" wire:model="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autofocus required>
+                                <i class="bi bi-key position-absolute text-theme-muted input-icon-pos"></i>
+                                <input type="text" class="form-control tfa-code-input" placeholder="000000" wire:model="code" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" autofocus required>
                             </div>
                         </div>
 

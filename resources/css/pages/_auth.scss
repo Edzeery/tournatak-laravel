@@ -303,6 +303,61 @@
     color: rgba(255, 255, 255, 0.7);
 }
 
+// ---- Auth Hero Shapes ----
+.hero-shape-auth-1 {
+    width: 600px;
+    height: 600px;
+    top: -300px;
+}
+.hero-shape-auth-1.rtl-end { right: -200px; }
+.hero-shape-auth-1.rtl-start { left: -200px; }
+
+.hero-shape-auth-2 {
+    width: 400px;
+    height: 400px;
+    bottom: -200px;
+}
+.hero-shape-auth-2.rtl-left { left: -150px; }
+.hero-shape-auth-2.rtl-right { right: -150px; }
+
+.hero-shape-auth-sm {
+    width: 400px;
+    height: 400px;
+    bottom: -200px;
+    left: -150px;
+}
+
+// ---- Auth Branding ----
+.auth-brand-title {
+    font-size: 1.8rem;
+}
+.auth-hero-title {
+    font-size: 2.5rem;
+    line-height: 1.3;
+}
+.auth-hero-desc {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 1.1rem;
+    max-width: 420px;
+}
+.auth-hero-feature {
+    color: rgba(255, 255, 255, 0.4);
+}
+.auth-hero-feature-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+}
+.auth-card-narrow {
+    max-width: 480px;
+}
+.auth-submit-btn {
+    font-size: 1.05rem;
+}
+.auth-footer-text {
+    color: rgba(255, 255, 255, 0.5);
+}
+
 // ---- Player Detail ----
 .player-hero-img {
     border: 4px solid rgba(255, 255, 255, 0.3);

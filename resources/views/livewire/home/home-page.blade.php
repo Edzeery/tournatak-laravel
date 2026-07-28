@@ -33,7 +33,7 @@
                     <div class="position-relative">
                         <div class="hero-shape hero-shape-lg" style="top:-20px;right:20px;"></div>
                         <div class="hero-shape hero-shape-md" style="bottom:20px;left:0;"></div>
-                        <div class="position-relative" style="z-index:2;">
+                        <div class="position-relative pos-rel-z2">
                             <div class="d-inline-flex flex-column align-items-center gap-3 p-4 rounded-4 hero-stats-panel">
                                 <div class="d-flex gap-4">
                                     <div class="text-center">
@@ -188,7 +188,7 @@
 
     {{-- CTA Section --}}
     <section class="py-5 cta-section">
-        <div class="container text-center position-relative" style="z-index:2;">
+        <div class="container text-center position-relative pos-rel-z2">
             <h2 class="text-white fw-bold mb-3 cta-title">{{ __('app.are_you_ready') }}</h2>
             <p class="mb-4 cta-desc">
                 {{ __('app.cta_join_desc') }}

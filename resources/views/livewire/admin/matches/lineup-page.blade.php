@@ -35,10 +35,10 @@
 
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.matches') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="text-decoration-none" style="color:var(--primary);">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
+        <ol class="breadcrumb breadcrumb-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="breadcrumb-link">{{ __('app.matches') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="breadcrumb-link">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
             <li class="breadcrumb-item active">{{ __('app.lineup') }}</li>
         </ol>
     </nav>
@@ -46,7 +46,7 @@
     {{-- Match Header --}}
     <div class="match-header-card rounded-4 p-4 mb-4 text-center">
         <div class="d-flex align-items-center justify-content-center gap-4 flex-wrap">
-            <div class="text-center" style="min-width:140px;">
+            <div class="text-center min-w-140">
                 <div class="fw-bold text-white fs-5">{{ $match->team1->name ?? '?' }}</div>
                 <div class="mt-2">
                     @foreach($team1Lineup->filter(fn($l) => $l->is_starter) as $s)
@@ -55,12 +55,12 @@
                 </div>
             </div>
             <div class="text-center px-4">
-                <div class="text-gold fw-bold fs-1" style="line-height:1;">VS</div>
+                <div class="text-gold fw-bold fs-1 lh-1">VS</div>
                 @if($match->match_date)
-                    <div class="text-white-50 mt-1" style="font-size:0.8rem;">{{ formatDateTime($match->match_date) }}</div>
+                    <div class="text-white-50 mt-1 fs-08">{{ formatDateTime($match->match_date) }}</div>
                 @endif
             </div>
-            <div class="text-center" style="min-width:140px;">
+            <div class="text-center min-w-140">
                 <div class="fw-bold text-white fs-5">{{ $match->team2->name ?? '?' }}</div>
                 <div class="mt-2">
                     @foreach($team2Lineup->filter(fn($l) => $l->is_starter) as $s)
@@ -73,15 +73,15 @@
 
     {{-- Team Tabs --}}
     <div class="d-flex justify-content-center gap-3 mb-4">
-        <div class="team-tab text-center {{ $activeTeam === 1 ? 'active' : '' }}" wire:click="switchTeamAndOpen(1)" style="min-width:180px;">
+        <div class="team-tab text-center min-w-180 {{ $activeTeam === 1 ? 'active' : '' }}" wire:click="switchTeamAndOpen(1)">
             <i class="bi bi-shield-fill" style="color:#3949ab;"></i>
             <span class="text-white fw-bold ms-1">{{ $match->team1->name ?? __('app.team1_name') }}</span>
-            <div class="text-white-50 mt-1" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }} {{ __('app.starters') }} + {{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }} {{ __('app.substitutes') }}</div>
+            <div class="text-white-50 mt-1 fs-sm">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }} {{ __('app.starters') }} + {{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }} {{ __('app.substitutes') }}</div>
         </div>
-        <div class="team-tab text-center {{ $activeTeam === 2 ? 'active' : '' }}" wire:click="switchTeamAndOpen(2)" style="min-width:180px;">
+        <div class="team-tab text-center min-w-180 {{ $activeTeam === 2 ? 'active' : '' }}" wire:click="switchTeamAndOpen(2)">
             <i class="bi bi-shield-fill" style="color:#e53935;"></i>
             <span class="text-white fw-bold ms-1">{{ $match->team2->name ?? __('app.team2_name') }}</span>
-            <div class="text-white-50 mt-1" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }} {{ __('app.starters') }} + {{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }} {{ __('app.substitutes') }}</div>
+            <div class="text-white-50 mt-1 fs-sm">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }} {{ __('app.starters') }} + {{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }} {{ __('app.substitutes') }}</div>
         </div>
     </div>
 
@@ -89,12 +89,12 @@
     <div class="row g-4">
         {{-- Pitch Display --}}
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08) !important;">
+            <div class="card border-0 shadow-sm card-dark">
                 <div class="card-body p-3">
                     {{-- Formation Selector --}}
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center gap-2">
-                            <span class="text-white-50" style="font-size:0.85rem;">{{ __('app.formation') }}:</span>
+                            <span class="text-white-50 fs-base">{{ __('app.formation') }}:</span>
                             <div class="dropdown">
                                 <button class="formation-badge team{{ $activeTeam }}-jersey text-white dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                     {{ $activeTeam === 1 ? $selectedFormation1 : $selectedFormation2 }}
@@ -117,7 +117,7 @@
                         $pitchData = $activeTeam === 1 ? $pitchData1 : $pitchData2;
                         $jerseyClass = $activeTeam === 1 ? 'team1-jersey' : 'team2-jersey';
                     @endphp
-                    <div class="lineup-pitch" style="aspect-ratio: 2/3; max-height: 520px;">
+                    <div class="lineup-pitch pitch-wrapper">
                         @include('livewire.admin.football-pitch', [
                             'positions' => $pitchData,
                             'width' => 400,
@@ -138,7 +138,7 @@
                     <h6 class="fw-bold text-white mb-0">
                         <i class="bi bi-shield-fill" style="color:#3949ab;"></i> {{ $match->team1->name ?? __('app.team1_name') }}
                     </h6>
-                    <button class="btn btn-sm btn-outline-warning" wire:click="switchTeamAndOpen(1)" style="border-radius:8px;">
+                    <button class="btn btn-sm btn-outline-warning rounded-md" wire:click="switchTeamAndOpen(1)">
                         <i class="bi bi-plus"></i>
                     </button>
                 </div>
@@ -146,29 +146,29 @@
                 {{-- Starters --}}
                 <div class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-warning text-dark" style="font-size:0.7rem;">{{ __('app.starters') }}</span>
-                        <span class="text-white-50" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }}</span>
+                        <span class="badge bg-warning text-dark fs-xs">{{ __('app.starters') }}</span>
+                        <span class="text-white-50 fs-sm">{{ $team1Lineup->filter(fn($l) => $l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team1Lineup->filter(fn($l) => $l->is_starter) as $lineup)
                         <div class="lineup-list-item" wire:key="t1s-{{ $lineup->id }}">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="team1-jersey bench-jersey">{{ $lineup->jersey_number ?? '-' }}</span>
                                 <div>
-                                    <div class="text-white fw-bold" style="font-size:0.85rem;">
+                                    <div class="text-white fw-bold fs-base">
                                         {{ $lineup->player->name ?? '-' }}
                                         @if($lineup->is_captain)
-                                            <span class="badge bg-warning text-dark ms-1" style="font-size:0.6rem;">C</span>
+                                            <span class="badge bg-warning text-dark ms-1 fs-2xs">C</span>
                                         @endif
                                     </div>
-                                    <small class="text-white-50" style="font-size:0.7rem;">{{ $lineup->position->name ?? '-' }}</small>
+                                    <small class="text-white-50 fs-xs">{{ $lineup->position->name ?? '-' }}</small>
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                <button class="btn btn-sm btn-outline-light btn-xs" wire:click="editLineup({{ $lineup->id }})"
                                     aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
+                                <button class="btn btn-sm btn-outline-danger btn-xs"
                                         wire:click="deleteLineup({{ $lineup->id }})"
                                         wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
@@ -185,27 +185,27 @@
                 {{-- Substitutes --}}
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-secondary" style="font-size:0.7rem;">{{ __('app.substitutes') }}</span>
-                        <span class="text-white-50" style="font-size:0.75rem;">{{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }}</span>
+                        <span class="badge bg-secondary fs-xs">{{ __('app.substitutes') }}</span>
+                        <span class="text-white-50 fs-sm">{{ $team1Lineup->filter(fn($l) => !$l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team1Lineup->filter(fn($l) => !$l->is_starter) as $lineup)
                         <div class="lineup-list-item" wire:key="t1b-{{ $lineup->id }}">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="bg-secondary bench-jersey">{{ $lineup->jersey_number ?? '-' }}</span>
                                 <div>
-                                    <div class="text-white fw-bold" style="font-size:0.85rem;">{{ $lineup->player->name ?? '-' }}</div>
-                                    <small class="text-white-50" style="font-size:0.7rem;">{{ $lineup->position->name ?? '-' }}</small>
+                                    <div class="text-white fw-bold fs-base">{{ $lineup->player->name ?? '-' }}</div>
+                                    <small class="text-white-50 fs-xs">{{ $lineup->position->name ?? '-' }}</small>
                                     @if($lineup->minute_in)
-                                        <small class="text-success ms-1" style="font-size:0.65rem;">↔ {{ $lineup->minute_in }}'</small>
+                                        <small class="text-success ms-1 fs-2xs">↔ {{ $lineup->minute_in }}'</small>
                                     @endif
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                <button class="btn btn-sm btn-outline-light btn-xs" wire:click="editLineup({{ $lineup->id }})"
                                     aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
+                                <button class="btn btn-sm btn-outline-danger btn-xs"
                                         wire:click="deleteLineup({{ $lineup->id }})"
                                         wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
@@ -226,7 +226,7 @@
                     <h6 class="fw-bold text-white mb-0">
                         <i class="bi bi-shield-fill" style="color:#e53935;"></i> {{ $match->team2->name ?? __('app.team2_name') }}
                     </h6>
-                    <button class="btn btn-sm btn-outline-warning" wire:click="switchTeamAndOpen(2)" style="border-radius:8px;">
+                    <button class="btn btn-sm btn-outline-warning rounded-md" wire:click="switchTeamAndOpen(2)">
                         <i class="bi bi-plus"></i>
                     </button>
                 </div>
@@ -234,29 +234,29 @@
                 {{-- Starters --}}
                 <div class="mb-3">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-warning text-dark" style="font-size:0.7rem;">{{ __('app.starters') }}</span>
-                        <span class="text-white-50" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }}</span>
+                        <span class="badge bg-warning text-dark fs-xs">{{ __('app.starters') }}</span>
+                        <span class="text-white-50 fs-sm">{{ $team2Lineup->filter(fn($l) => $l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team2Lineup->filter(fn($l) => $l->is_starter) as $lineup)
                         <div class="lineup-list-item" wire:key="t2s-{{ $lineup->id }}">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="team2-jersey bench-jersey">{{ $lineup->jersey_number ?? '-' }}</span>
                                 <div>
-                                    <div class="text-white fw-bold" style="font-size:0.85rem;">
+                                    <div class="text-white fw-bold fs-base">
                                         {{ $lineup->player->name ?? '-' }}
                                         @if($lineup->is_captain)
-                                            <span class="badge bg-warning text-dark ms-1" style="font-size:0.6rem;">C</span>
+                                            <span class="badge bg-warning text-dark ms-1 fs-2xs">C</span>
                                         @endif
                                     </div>
-                                    <small class="text-white-50" style="font-size:0.7rem;">{{ $lineup->position->name ?? '-' }}</small>
+                                    <small class="text-white-50 fs-xs">{{ $lineup->position->name ?? '-' }}</small>
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                <button class="btn btn-sm btn-outline-light btn-xs" wire:click="editLineup({{ $lineup->id }})"
                                     aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
+                                <button class="btn btn-sm btn-outline-danger btn-xs"
                                         wire:click="deleteLineup({{ $lineup->id }})"
                                         wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
@@ -273,27 +273,27 @@
                 {{-- Substitutes --}}
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge bg-secondary" style="font-size:0.7rem;">{{ __('app.substitutes') }}</span>
-                        <span class="text-white-50" style="font-size:0.75rem;">{{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }}</span>
+                        <span class="badge bg-secondary fs-xs">{{ __('app.substitutes') }}</span>
+                        <span class="text-white-50 fs-sm">{{ $team2Lineup->filter(fn($l) => !$l->is_starter)->count() }}</span>
                     </div>
                     @forelse($team2Lineup->filter(fn($l) => !$l->is_starter) as $lineup)
                         <div class="lineup-list-item" wire:key="t2b-{{ $lineup->id }}">
                             <div class="d-flex align-items-center gap-2">
                                 <span class="bg-secondary bench-jersey">{{ $lineup->jersey_number ?? '-' }}</span>
                                 <div>
-                                    <div class="text-white fw-bold" style="font-size:0.85rem;">{{ $lineup->player->name ?? '-' }}</div>
-                                    <small class="text-white-50" style="font-size:0.7rem;">{{ $lineup->position->name ?? '-' }}</small>
+                                    <div class="text-white fw-bold fs-base">{{ $lineup->player->name ?? '-' }}</div>
+                                    <small class="text-white-50 fs-xs">{{ $lineup->position->name ?? '-' }}</small>
                                     @if($lineup->minute_in)
-                                        <small class="text-success ms-1" style="font-size:0.65rem;">↔ {{ $lineup->minute_in }}'</small>
+                                        <small class="text-success ms-1 fs-2xs">↔ {{ $lineup->minute_in }}'</small>
                                     @endif
                                 </div>
                             </div>
                             <div class="d-flex gap-1">
-                                <button class="btn btn-sm btn-outline-light" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;" wire:click="editLineup({{ $lineup->id }})"
+                                <button class="btn btn-sm btn-outline-light btn-xs" wire:click="editLineup({{ $lineup->id }})"
                                     aria-label="{{ __('app.edit') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger" style="border-radius:6px;padding:2px 6px;font-size:0.7rem;"
+                                <button class="btn btn-sm btn-outline-danger btn-xs"
                                         wire:click="deleteLineup({{ $lineup->id }})"
                                         wire:confirm="{{ __('app.confirm_delete') }}">
                                     <i class="bi bi-trash"></i>
@@ -312,10 +312,10 @@
 
     {{-- Add/Edit Modal --}}
     @if($showModal)
-        <div class="modal d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="lineupModalTitle" style="background:rgba(0,0,0,0.6); backdrop-filter:blur(4px);" wire:click.self="closeModal">
+        <div class="modal d-block modal-overlay-blur" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="lineupModalTitle" wire:click.self="closeModal">
             <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content" style="background:#1a1e2e; border:1px solid rgba(255,193,7,0.2); border-radius:16px;" @click.away="closeModal">
-                    <div class="modal-header border-bottom" style="border-color:rgba(255,255,255,0.1) !important;">
+                <div class="modal-content modal-dark" @click.away="closeModal">
+                    <div class="modal-header border-bottom border-modal">
                         <h5 class="modal-title fw-bold text-white" id="lineupModalTitle">
                             <i class="bi bi-people-fill text-gold"></i>
                             {{ $editingLineupId ? __('app.edit_player') : __('app.add_player') }}
@@ -326,7 +326,7 @@
                     </div>
                     <div class="modal-body">
                         @if($errors->any())
-                            <div class="alert alert-danger d-flex align-items-center gap-2" style="background:rgba(229,57,53,0.15); border-color:rgba(229,57,53,0.3); color:#ef9a9a;">
+                            <div class="alert alert-danger d-flex align-items-center gap-2 error-alert-dark">
                                 <i class="bi bi-exclamation-triangle-fill"></i>
                                 <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
                             </div>
@@ -335,7 +335,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-white-50">{{ __('app.player') }}</label>
-                                <select class="form-select" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.player_id">
+                                <select class="form-select form-dark" wire:model="lineupForm.player_id">
                                     <option value="">-- {{ __('app.choose_player_lineup') }} --</option>
                                     @foreach($players as $player)
                                         <option value="{{ $player->id }}">{{ $player->name }} ({{ $player->number ?? '-' }})</option>
@@ -344,7 +344,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label fw-bold text-white-50">{{ __('app.position') }}</label>
-                                <select class="form-select" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.position_id">
+                                <select class="form-select form-dark" wire:model="lineupForm.position_id">
                                     <option value="">-- {{ __('app.choose_position_lineup') }} --</option>
                                     @php
                                         $grouped = $positions->groupBy('category');
@@ -363,7 +363,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-white-50">{{ __('app.jersey_number') }}</label>
-                                <input type="number" class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.jersey_number" min="0" max="99">
+                                <input type="number" class="form-control form-dark" wire:model="lineupForm.jersey_number" min="0" max="99">
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label fw-bold text-white-50">{{ __('app.is_starter') }}</label>
@@ -384,24 +384,24 @@
                                 </div>
                             </div>
                             <div class="col-md-3 d-flex align-items-end">
-                                <button class="btn btn-sm btn-outline-info w-100" wire:click="$set('lineupForm.is_starter', true); $set('lineupForm.is_captain', false);" style="border-radius:8px;">
+                                <button class="btn btn-sm btn-outline-info w-100 rounded-md" wire:click="$set('lineupForm.is_starter', true); $set('lineupForm.is_captain', false);">
                                     <i class="bi bi-star"></i> {{ __('app.add_as_starter') }}
                                 </button>
                             </div>
 
                             @if(!$lineupForm['is_starter'])
-                                <div class="col-12"><hr style="border-color:rgba(255,255,255,0.1);"></div>
+                                <div class="col-12"><hr class="hr-dark"></div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold text-white-50">{{ __('app.minute_in') }}</label>
-                                    <input type="number" class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.minute_in" min="0" max="120">
+                                    <input type="number" class="form-control form-dark" wire:model="lineupForm.minute_in" min="0" max="120">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold text-white-50">{{ __('app.minute_out') }}</label>
-                                    <input type="number" class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.minute_out" min="0" max="120">
+                                    <input type="number" class="form-control form-dark" wire:model="lineupForm.minute_out" min="0" max="120">
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label fw-bold text-white-50">{{ __('app.sub_reason') }}</label>
-                                    <select class="form-select" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.sub_reason">
+                                    <select class="form-select form-dark" wire:model="lineupForm.sub_reason">
                                         <option value="">-- {{ __('app.no_substitutes') }} --</option>
                                         @foreach($subReasons as $key => $label)
                                             <option value="{{ $key }}">{{ $label }}</option>
@@ -412,13 +412,13 @@
 
                             <div class="col-12">
                                 <label class="form-label fw-bold text-white-50">{{ __('app.performance_notes') }}</label>
-                                <textarea class="form-control" style="background:#0d1117; color:#fff; border-color:rgba(255,255,255,0.1);" wire:model="lineupForm.performance_notes" rows="2" placeholder="{{ __('app.performance_notes_placeholder') }}"></textarea>
+                                <textarea class="form-control form-dark" wire:model="lineupForm.performance_notes" rows="2" placeholder="{{ __('app.performance_notes_placeholder') }}"></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-top" style="border-color:rgba(255,255,255,0.1) !important;">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.cancel') }}</button>
-                        <button type="button" class="btn btn-warning px-4" wire:click="saveLineup" wire:loading.attr="disabled" style="border-radius:8px;">
+                    <div class="modal-footer border-top border-modal">
+                        <button type="button" class="btn btn-secondary rounded-md" wire:click="closeModal">{{ __('app.cancel') }}</button>
+                        <button type="button" class="btn btn-warning px-4 rounded-md" wire:click="saveLineup" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="saveLineup"><i class="bi bi-check-lg"></i> {{ __('app.save') }}</span>
                             <span wire:loading wire:target="saveLineup"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                         </button>

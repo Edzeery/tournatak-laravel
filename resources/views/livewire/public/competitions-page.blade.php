@@ -1,7 +1,7 @@
 <div>
     <section class="hero-sports hero-sports-sm text-white">
         <div class="container hero-content">
-            <div class="text-center position-relative" style="z-index:2;">
+            <div class="text-center position-relative" class="pos-rel-z2">
                 <div class="hero-badge mx-auto mb-3 d-inline-flex">
                     <i class="bi bi-trophy-fill"></i> {{ __('app.all_competitions') }}
                 </div>

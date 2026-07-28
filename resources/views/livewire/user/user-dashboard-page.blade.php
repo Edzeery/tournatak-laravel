@@ -1,9 +1,9 @@
 @php $isRtl = isRtl(); @endphp
-<div>
+<div class="container py-4 container-page-md">
     {{-- Welcome Hero --}}
     <div class="card border-0 mb-4 animate-fade-in dashboard-hero-card">
         <div class="dashboard-hero-blob"></div>
-        <div class="card-body p-4 position-relative" style="z-index:2;">
+        <div class="card-body p-4 position-relative" class="pos-rel-z2">
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="d-flex align-items-center gap-3 mb-3">

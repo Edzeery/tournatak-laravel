@@ -104,7 +104,7 @@
                     <h6 class="fw-bold mb-3 section-title-dark">
                         <i class="bi bi-bar-chart-fill text-gold"></i> {{ __('app.monthly_goals') }}
                     </h6>
-                    <div id="chart-monthly-goals" style="min-height:260px;"></div>
+                    <div id="chart-monthly-goals" class="min-vh-260"></div>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
                     <h6 class="fw-bold mb-3 section-title-dark">
                         <i class="bi bi-pie-chart-fill text-gold"></i> {{ __('app.match_status_dist') }}
                     </h6>
-                    <div id="chart-match-status" style="min-height:260px;"></div>
+                    <div id="chart-match-status" class="min-vh-260"></div>
                 </div>
             </div>
         </div>

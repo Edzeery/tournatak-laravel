@@ -274,15 +274,13 @@
                         <i class="bi theme-icon"></i>
                     </button>
                     <livewire:user.notification-bell />
-                    <a href="{{ route('user.profile') }}"
-                        class="d-flex align-items-center gap-2 text-decoration-none topbar-user">
+                    <a href="{{ route('user.profile') }}" class="d-flex align-items-center gap-2 text-decoration-none topbar-user">
                         <div class="topbar-user-avatar">
                             {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
                         </div>
                         <div class="d-none d-md-block">
                             <div class="fw-bold fs-base text-theme-primary">{{ Auth::user()->name ?? 'Admin' }}</div>
-                            <small
-                                class="text-theme-muted fs-xs">{{ ucfirst(Auth::user()->role ?? 'admin') }}</small>
+                            <small class="text-theme-muted fs-xs">{{ ucfirst(Auth::user()->role ?? 'admin') }}</small>
                         </div>
                     </a>
                 </div>

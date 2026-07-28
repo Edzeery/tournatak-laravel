@@ -4,12 +4,23 @@
 
 :root,
 [data-bs-theme="light"] {
-    // Brand
+    // ============================================
+    // Brand (Custom)
+    // ============================================
     --primary: #ffc107;
     --primary-hover: #e0a800b2;
     --primary-glow: rgba(255, 193, 7, 0.35);
     --accent: #00d4aa;
     --accent-2: #3b82f6;
+
+    // Semantic colors (Custom) - used to feed Bootstrap below
+    --secondary: #64748b;
+    --success: #00d4aa; // = accent
+    --info: #3b82f6; // = accent-2
+    --warning: #fd7e14; // new orange, distinct from primary (gold)
+    --danger: #ef4444;
+    --light: #f8f9fa;
+    --dark: #0a0e1a;
 
     // Surfaces
     --bg-body: #f5f6fa;
@@ -34,9 +45,8 @@
     --chrome-border: rgba(255, 255, 255, 0.06);
     --chrome-text: rgba(10, 14, 26, 0.4);
     --chrome-text-hover: rgba(94, 92, 92, 0.8);
-
+    --chrome-text-subtle: var(--chrome-text);
     // Named darks (keep for backward compat)
-    --dark: #0a0e1a;
     --dark-2: #111827;
     --dark-3: #1e293b;
 
@@ -70,21 +80,250 @@
     --radius-sm: 10px;
     --radius-pill: 50px;
 
-    // Table
+    // Table (Custom)
     --table-header-bg: var(--chrome-bg);
     --table-header-color: #fff;
     --table-border: #f1f5f9;
 
-    // Form
+    // Form (Custom)
     --input-bg: #ffffff;
     --input-border: #e2e8f0;
     --input-color: #1e293b;
     --input-focus-border: var(--primary);
     --input-focus-shadow: 0 0 0 3px var(--primary-glow);
 
+    // ============================================
+    // Bootstrap 5.3 — Root Colors
+    // ============================================
+    --bs-primary: var(--primary) !important;
+    --bs-primary-rgb: 255, 193, 7 !important;
+    --bs-secondary: var(--secondary) !important;
+    --bs-secondary-rgb: 100, 116, 139 !important;
+    --bs-success: var(--success) !important;
+    --bs-success-rgb: 0, 212, 170 !important;
+    --bs-info: var(--info) !important;
+    --bs-info-rgb: 59, 130, 246 !important;
+    --bs-warning: var(--warning) !important;
+    --bs-warning-rgb: 253, 126, 20 !important;
+    --bs-danger: var(--danger) !important;
+    --bs-danger-rgb: 239, 68, 68 !important;
+    --bs-light: var(--light) !important;
+    --bs-light-rgb: 248, 249, 250 !important;
+    --bs-dark: var(--dark) !important;
+    --bs-dark-rgb: 10, 14, 26 !important;
+
+    // Subtle / Emphasis variants (Bootstrap 5.3)
+    --bs-primary-text-emphasis: #664d03 !important;
+    --bs-primary-bg-subtle: #fff3cd !important;
+    --bs-primary-border-subtle: #ffe69c !important;
+
+    --bs-secondary-text-emphasis: #364152 !important;
+    --bs-secondary-bg-subtle: #eef1f5 !important;
+    --bs-secondary-border-subtle: #dde3ea !important;
+
+    --bs-success-text-emphasis: #006854 !important;
+    --bs-success-bg-subtle: #d9f9f2 !important;
+    --bs-success-border-subtle: #b3f2e5 !important;
+
+    --bs-info-text-emphasis: #1e4c8f !important;
+    --bs-info-bg-subtle: #dfeaff !important;
+    --bs-info-border-subtle: #bfd6ff !important;
+
+    --bs-warning-text-emphasis: #7d3d0b !important;
+    --bs-warning-bg-subtle: #ffe4cf !important;
+    --bs-warning-border-subtle: #ffc99f !important;
+
+    --bs-danger-text-emphasis: #7d1a1a !important;
+    --bs-danger-bg-subtle: #fbdada !important;
+    --bs-danger-border-subtle: #f7b6b6 !important;
+
+    --bs-light-text-emphasis: var(--text-secondary) !important;
+    --bs-light-bg-subtle: #fcfcfd !important;
+    --bs-light-border-subtle: var(--border-color-light) !important;
+
+    --bs-dark-text-emphasis: var(--text-primary) !important;
+    --bs-dark-bg-subtle: #ced4da !important;
+    --bs-dark-border-subtle: #adb5bd !important;
+
+    // ============================================
+    // Bootstrap 5.3 — Body / Base
+    // ============================================
+    --bs-body-font-family: inherit !important;
+    --bs-body-bg: var(--bg-body) !important;
+    --bs-body-bg-rgb: 245, 246, 250 !important;
+    --bs-body-color: var(--text-primary) !important;
+    --bs-body-color-rgb: 30, 41, 59 !important;
+    --bs-secondary-color: var(--text-secondary) !important;
+    --bs-secondary-bg: var(--bg-surface-alt) !important;
+    --bs-tertiary-color: var(--text-muted) !important;
+    --bs-tertiary-bg: var(--bg-surface-alt) !important;
+    --bs-emphasis-color: var(--text-primary) !important;
+
+    --bs-border-color: var(--border-color) !important;
+    --bs-border-color-translucent: rgba(0, 0, 0, 0.08) !important;
+    --bs-border-radius: var(--radius-sm) !important;
+    --bs-border-radius-sm: 8px !important;
+    --bs-border-radius-lg: var(--radius) !important;
+    --bs-border-radius-xl: 20px !important;
+    --bs-border-radius-2xl: 24px !important;
+    --bs-border-radius-pill: var(--radius-pill) !important;
+
+    --bs-link-color: var(--primary) !important;
+    --bs-link-color-rgb: 255, 193, 7 !important;
+    --bs-link-hover-color: var(--primary-hover) !important;
+    --bs-link-hover-color-rgb: 224, 168, 0 !important;
+
+    --bs-code-color: var(--accent-2) !important;
+    --bs-highlight-bg: var(--primary-glow) !important;
+
+    --bs-focus-ring-color: var(--primary-glow) !important;
+    --bs-box-shadow: var(--shadow-card) !important;
+    --bs-box-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    --bs-box-shadow-lg: var(--shadow-hover) !important;
+    --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+
+    // ============================================
+    // Bootstrap — Card
+    // ============================================
+    --bs-card-bg: var(--bg-surface) !important;
+    --bs-card-color: var(--text-primary) !important;
+    --bs-card-border-color: var(--border-color) !important;
+    --bs-card-border-radius: var(--radius) !important;
+    --bs-card-cap-bg: var(--bg-surface-alt) !important;
+    --bs-card-cap-color: var(--text-primary) !important;
+    --bs-card-box-shadow: var(--shadow-card) !important;
+
+    // ============================================
+    // Bootstrap — Table
+    // ============================================
+    --bs-table-bg: var(--bg-surface) !important;
+    --bs-table-color: var(--text-primary) !important;
+    --bs-table-border-color: var(--table-border) !important;
+    --bs-table-striped-bg: var(--bg-surface-alt) !important;
+    --bs-table-striped-color: var(--text-primary) !important;
+    --bs-table-hover-bg: rgba(255, 193, 7, 0.06) !important;
+    --bs-table-hover-color: var(--text-primary) !important;
+    --bs-table-active-bg: var(--primary-glow) !important;
+
+    // ============================================
+    // Bootstrap — Forms
+    // ============================================
+    --bs-form-control-bg: var(--input-bg) !important;
+    --bs-form-control-color: var(--input-color) !important;
+    --bs-form-control-border-color: var(--input-border) !important;
+    --bs-form-control-focus-border-color: var(--input-focus-border) !important;
+    --bs-form-control-focus-box-shadow: var(--input-focus-shadow) !important;
+    --bs-form-control-placeholder-color: var(--text-muted) !important;
+    --bs-form-control-disabled-bg: var(--bg-surface-alt) !important;
+    --bs-form-check-input-bg: var(--input-bg) !important;
+    --bs-form-check-input-border: 1px solid var(--input-border) !important;
+    --bs-form-check-input-checked-bg-color: var(--primary) !important;
+    --bs-form-check-input-checked-border-color: var(--primary) !important;
+    --bs-form-select-bg: var(--input-bg) !important;
+    --bs-form-select-color: var(--input-color) !important;
+    --bs-form-select-border-color: var(--input-border) !important;
+
+    // ============================================
+    // Bootstrap — Buttons
+    // ============================================
+    --bs-btn-border-radius: var(--radius-sm) !important;
+    --bs-btn-border-radius-sm: 8px !important;
+    --bs-btn-border-radius-lg: 12px !important;
+    --bs-btn-box-shadow: var(--shadow-gold) !important;
+    --bs-btn-focus-box-shadow: 0 0 0 3px var(--primary-glow) !important;
+    --bs-btn-disabled-opacity: 0.5 !important;
+
+    // ============================================
+    // Bootstrap — Navbar
+    // ============================================
+    --bs-navbar-color: var(--chrome-text) !important;
+    --bs-navbar-hover-color: var(--chrome-text-hover) !important;
+    --bs-navbar-active-color: var(--primary) !important;
+    --bs-navbar-brand-color: #fff !important;
+    --bs-navbar-toggler-border-color: var(--chrome-border) !important;
+
+    // ============================================
+    // Bootstrap — Dropdown
+    // ============================================
+    --bs-dropdown-bg: var(--bg-surface) !important;
+    --bs-dropdown-color: var(--text-primary) !important;
+    --bs-dropdown-border-color: var(--border-color) !important;
+    --bs-dropdown-border-radius: var(--radius-sm) !important;
+    --bs-dropdown-box-shadow: var(--shadow-dropdown) !important;
+    --bs-dropdown-link-color: var(--text-primary) !important;
+    --bs-dropdown-link-hover-color: var(--text-primary) !important;
+    --bs-dropdown-link-hover-bg: var(--primary-hover) !important;
+    --bs-dropdown-link-active-color: var(--primary) !important;
+    --bs-dropdown-link-active-bg: var(--primary-glow) !important;
+    --bs-dropdown-header-color: var(--text-muted) !important;
+    --bs-dropdown-divider-bg: var(--border-color-light) !important;
+
+    // ============================================
+    // Bootstrap — Modal / Offcanvas
+    // ============================================
+    --bs-modal-bg: var(--bg-elevated) !important;
+    --bs-modal-color: var(--text-primary) !important;
+    --bs-modal-border-color: var(--border-color) !important;
+    --bs-modal-header-border-color: var(--border-color) !important;
+    --bs-modal-footer-border-color: var(--border-color) !important;
+    --bs-modal-box-shadow: var(--shadow-hover) !important;
+    --bs-backdrop-bg: rgba(10, 14, 26, 0.6) !important;
+    --bs-backdrop-opacity: 1 !important;
+
+    --bs-offcanvas-bg: var(--bg-elevated) !important;
+    --bs-offcanvas-color: var(--text-primary) !important;
+    --bs-offcanvas-border-color: var(--border-color) !important;
+    --bs-offcanvas-box-shadow: var(--shadow-hover) !important;
+
+    // ============================================
+    // Bootstrap — Alerts / Badges / Toasts
+    // ============================================
+    --bs-alert-border-radius: var(--radius-sm) !important;
+    --bs-badge-color: #fff !important;
+    --bs-toast-bg: var(--bg-elevated) !important;
+    --bs-toast-color: var(--text-primary) !important;
+    --bs-toast-border-color: var(--border-color) !important;
+    --bs-toast-box-shadow: var(--shadow-dropdown) !important;
+    --bs-toast-header-bg: var(--bg-surface-alt) !important;
+    --bs-toast-header-color: var(--text-secondary) !important;
+
+    // ============================================
+    // Bootstrap — List group / Breadcrumb / Accordion
+    // ============================================
+    --bs-list-group-bg: var(--bg-surface) !important;
+    --bs-list-group-color: var(--text-primary) !important;
+    --bs-list-group-border-color: var(--border-color) !important;
+    --bs-list-group-hover-bg: var(--bg-surface-alt) !important;
+    --bs-list-group-active-bg: var(--primary) !important;
+    --bs-list-group-active-border-color: var(--primary) !important;
+    --bs-list-group-active-color: var(--dark) !important;
+
+    --bs-breadcrumb-divider-color: var(--text-muted) !important;
+    --bs-breadcrumb-item-active-color: var(--text-secondary) !important;
+
+    --bs-accordion-bg: var(--bg-surface) !important;
+    --bs-accordion-color: var(--text-primary) !important;
+    --bs-accordion-border-color: var(--border-color) !important;
+    --bs-accordion-button-bg: var(--bg-surface) !important;
+    --bs-accordion-button-active-bg: var(--primary-glow) !important;
+    --bs-accordion-button-active-color: var(--dark) !important;
+
+    // ============================================
+    // Bootstrap — Tooltip / Popover
+    // ============================================
+    --bs-tooltip-bg: var(--dark) !important;
+    --bs-tooltip-color: #fff !important;
+    --bs-popover-bg: var(--bg-elevated) !important;
+    --bs-popover-border-color: var(--border-color) !important;
+    --bs-popover-header-bg: var(--bg-surface-alt) !important;
+    --bs-popover-header-color: var(--text-primary) !important;
+    --bs-popover-body-color: var(--text-secondary) !important;
+    --bs-popover-box-shadow: var(--shadow-dropdown) !important;
+
     --bs-dropdown-link-hover-color: var(--text-primary);
     --bs-dropdown-link-active-color: var(--primary);
     --bs-dropdown-link-hover-bg: var(--primary-hover);
+
     // Pagination
     --bs-pagination-padding-x: 0.75rem !important;
     --bs-pagination-padding-y: 0.375rem !important;
@@ -109,6 +348,15 @@
 }
 
 [data-bs-theme="dark"] {
+    // Semantic colors (Custom) - keep same brand hues in dark mode
+    --secondary: #94a3b8;
+    --success: #00d4aa;
+    --info: #3b82f6;
+    --warning: #fd7e14;
+    --danger: #f87171;
+    --light: #1e293b;
+    --dark: #0a0e1a;
+
     // Surfaces
     --bg-body: #0a0e1a;
     --bg-surface: #111827;
@@ -147,6 +395,179 @@
 
     --chrome-text: rgba(255, 255, 255, 0.55);
     --chrome-text-hover: rgba(255, 255, 255, 0.8);
+    --chrome-text-subtle: var(--chrome-text);
+
+    // ============================================
+    // Bootstrap 5.3 — Root Colors (dark overrides)
+    // ============================================
+    --bs-secondary: var(--secondary) !important;
+    --bs-secondary-rgb: 148, 163, 184 !important;
+    --bs-danger: var(--danger) !important;
+    --bs-danger-rgb: 248, 113, 113 !important;
+    --bs-light: var(--light) !important;
+    --bs-light-rgb: 30, 41, 59 !important;
+    --bs-dark: var(--text-primary) !important;
+    --bs-dark-rgb: 226, 232, 240 !important;
+
+    --bs-primary-text-emphasis: #ffe69c !important;
+    --bs-primary-bg-subtle: #4d3800 !important;
+    --bs-primary-border-subtle: #806000 !important;
+
+    --bs-secondary-text-emphasis: #cbd5e1 !important;
+    --bs-secondary-bg-subtle: #263244 !important;
+    --bs-secondary-border-subtle: #364152 !important;
+
+    --bs-success-text-emphasis: #66e6cb !important;
+    --bs-success-bg-subtle: #00332a !important;
+    --bs-success-border-subtle: #005543 !important;
+
+    --bs-info-text-emphasis: #9dc0ff !important;
+    --bs-info-bg-subtle: #0d2a4d !important;
+    --bs-info-border-subtle: #16447d !important;
+
+    --bs-warning-text-emphasis: #ffb787 !important;
+    --bs-warning-bg-subtle: #4d2600 !important;
+    --bs-warning-border-subtle: #803e00 !important;
+
+    --bs-danger-text-emphasis: #fca5a5 !important;
+    --bs-danger-bg-subtle: #451a1a !important;
+    --bs-danger-border-subtle: #7f2b2b !important;
+
+    --bs-light-text-emphasis: var(--text-primary) !important;
+    --bs-light-bg-subtle: var(--bg-surface-alt) !important;
+    --bs-light-border-subtle: var(--border-color) !important;
+
+    --bs-dark-text-emphasis: #f8fafc !important;
+    --bs-dark-bg-subtle: #0a0e1a !important;
+    --bs-dark-border-subtle: #1a1f35 !important;
+
+    // ============================================
+    // Bootstrap 5.3 — Body / Base (dark)
+    // ============================================
+    --bs-body-bg: var(--bg-body) !important;
+    --bs-body-bg-rgb: 10, 14, 26 !important;
+    --bs-body-color: var(--text-primary) !important;
+    --bs-body-color-rgb: 226, 232, 240 !important;
+    --bs-secondary-color: var(--text-secondary) !important;
+    --bs-secondary-bg: var(--bg-surface-alt) !important;
+    --bs-tertiary-color: var(--text-muted) !important;
+    --bs-tertiary-bg: var(--bg-surface-alt) !important;
+    --bs-emphasis-color: var(--text-primary) !important;
+
+    --bs-border-color: var(--border-color) !important;
+    --bs-border-color-translucent: rgba(255, 255, 255, 0.1) !important;
+
+    --bs-link-color: var(--primary) !important;
+    --bs-link-hover-color: var(--primary-hover) !important;
+    --bs-code-color: var(--accent-2) !important;
+
+    --bs-box-shadow: var(--shadow-card) !important;
+    --bs-box-shadow-lg: var(--shadow-hover) !important;
+
+    // ============================================
+    // Bootstrap — Card (dark)
+    // ============================================
+    --bs-card-bg: var(--bg-surface) !important;
+    --bs-card-color: var(--text-primary) !important;
+    --bs-card-border-color: var(--border-color) !important;
+    --bs-card-cap-bg: var(--bg-surface-alt) !important;
+    --bs-card-cap-color: var(--text-primary) !important;
+    --bs-card-box-shadow: var(--shadow-card) !important;
+
+    // ============================================
+    // Bootstrap — Table (dark)
+    // ============================================
+    --bs-table-bg: var(--bg-surface) !important;
+    --bs-table-color: var(--text-primary) !important;
+    --bs-table-border-color: var(--table-border) !important;
+    --bs-table-striped-bg: var(--bg-surface-alt) !important;
+    --bs-table-striped-color: var(--text-primary) !important;
+    --bs-table-hover-bg: rgba(255, 193, 7, 0.08) !important;
+    --bs-table-hover-color: var(--text-primary) !important;
+    --bs-table-active-bg: rgba(255, 193, 7, 0.15) !important;
+
+    // ============================================
+    // Bootstrap — Forms (dark)
+    // ============================================
+    --bs-form-control-bg: var(--input-bg) !important;
+    --bs-form-control-color: var(--input-color) !important;
+    --bs-form-control-border-color: var(--input-border) !important;
+    --bs-form-control-focus-border-color: var(--input-focus-border) !important;
+    --bs-form-control-focus-box-shadow: var(--input-focus-shadow) !important;
+    --bs-form-control-placeholder-color: var(--text-muted) !important;
+    --bs-form-control-disabled-bg: var(--bg-surface-alt) !important;
+    --bs-form-check-input-bg: var(--input-bg) !important;
+    --bs-form-check-input-border: 1px solid var(--input-border) !important;
+    --bs-form-select-bg: var(--input-bg) !important;
+    --bs-form-select-color: var(--input-color) !important;
+    --bs-form-select-border-color: var(--input-border) !important;
+
+    // ============================================
+    // Bootstrap — Navbar (dark, same chrome)
+    // ============================================
+    --bs-navbar-color: var(--chrome-text) !important;
+    --bs-navbar-hover-color: var(--chrome-text-hover) !important;
+    --bs-navbar-active-color: var(--primary) !important;
+
+    // ============================================
+    // Bootstrap — Dropdown (dark)
+    // ============================================
+    --bs-dropdown-bg: var(--bg-elevated) !important;
+    --bs-dropdown-color: var(--text-primary) !important;
+    --bs-dropdown-border-color: var(--border-color) !important;
+    --bs-dropdown-box-shadow: var(--shadow-dropdown) !important;
+    --bs-dropdown-link-color: var(--text-primary) !important;
+    --bs-dropdown-link-hover-color: var(--text-primary) !important;
+    --bs-dropdown-link-hover-bg: var(--bg-surface-alt) !important;
+    --bs-dropdown-link-active-color: var(--primary) !important;
+    --bs-dropdown-link-active-bg: rgba(255, 193, 7, 0.15) !important;
+    --bs-dropdown-divider-bg: var(--border-color) !important;
+
+    // ============================================
+    // Bootstrap — Modal / Offcanvas (dark)
+    // ============================================
+    --bs-modal-bg: var(--bg-elevated) !important;
+    --bs-modal-color: var(--text-primary) !important;
+    --bs-modal-border-color: var(--border-color) !important;
+    --bs-modal-header-border-color: var(--border-color) !important;
+    --bs-modal-footer-border-color: var(--border-color) !important;
+    --bs-backdrop-bg: rgba(0, 0, 0, 0.75) !important;
+
+    --bs-offcanvas-bg: var(--bg-elevated) !important;
+    --bs-offcanvas-color: var(--text-primary) !important;
+    --bs-offcanvas-border-color: var(--border-color) !important;
+
+    // ============================================
+    // Bootstrap — Toasts / List group / Accordion (dark)
+    // ============================================
+    --bs-toast-bg: var(--bg-elevated) !important;
+    --bs-toast-color: var(--text-primary) !important;
+    --bs-toast-border-color: var(--border-color) !important;
+    --bs-toast-header-bg: var(--bg-surface-alt) !important;
+    --bs-toast-header-color: var(--text-secondary) !important;
+
+    --bs-list-group-bg: var(--bg-surface) !important;
+    --bs-list-group-color: var(--text-primary) !important;
+    --bs-list-group-border-color: var(--border-color) !important;
+    --bs-list-group-hover-bg: var(--bg-surface-alt) !important;
+    --bs-list-group-active-color: var(--dark) !important;
+
+    --bs-accordion-bg: var(--bg-surface) !important;
+    --bs-accordion-color: var(--text-primary) !important;
+    --bs-accordion-border-color: var(--border-color) !important;
+    --bs-accordion-button-bg: var(--bg-surface) !important;
+    --bs-accordion-button-active-bg: rgba(255, 193, 7, 0.15) !important;
+
+    // ============================================
+    // Bootstrap — Tooltip / Popover (dark)
+    // ============================================
+    --bs-tooltip-bg: var(--bg-elevated) !important;
+    --bs-tooltip-color: var(--text-primary) !important;
+    --bs-popover-bg: var(--bg-elevated) !important;
+    --bs-popover-border-color: var(--border-color) !important;
+    --bs-popover-header-bg: var(--bg-surface-alt) !important;
+    --bs-popover-header-color: var(--text-primary) !important;
+    --bs-popover-body-color: var(--text-secondary) !important;
 
     // Pagination
     --bs-pagination-color: var(--text-secondary) !important;
@@ -157,7 +578,7 @@
     --bs-pagination-hover-border-color: var(--border-color) !important;
     --bs-pagination-focus-color: var(--primary) !important;
     --bs-pagination-focus-bg: var(--bg-surface-alt) !important;
-    --bs-pagination-focus-box-shadow: 0 0 0 .25rem rgba(255, 193, 7, .15) !important;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.15) !important;
     --bs-pagination-active-color: var(--dark) !important;
     --bs-pagination-active-bg: var(--primary) !important;
     --bs-pagination-active-border-color: var(--primary) !important;

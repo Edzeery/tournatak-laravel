@@ -1,15 +1,15 @@
 <div>
     <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb" style="font-size:0.85rem;">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none" style="color:var(--primary);">{{ __('app.dashboard') }}</a></li>
+        <ol class="breadcrumb breadcrumb-base">
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none breadcrumb-link">{{ __('app.dashboard') }}</a></li>
             <li class="breadcrumb-item active">{{ __('app.positions') }}</li>
         </ol>
     </nav>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="fw-bold mb-1" style="color:var(--dark);"><i class="bi bi-geo-alt-fill text-gold"></i> {{ __('app.position_management') }}</h4>
-            <p class="text-muted mb-0" style="font-size:0.9rem;">{{ __('app.positions_desc') }}</p>
+            <h4 class="fw-bold mb-1 text-dark-theme"><i class="bi bi-geo-alt-fill text-gold"></i> {{ __('app.position_management') }}</h4>
+            <p class="text-muted mb-0 fs-md">{{ __('app.positions_desc') }}</p>
         </div>
         <button class="btn btn-warning" wire:click="openModal">
             <i class="bi bi-plus-lg"></i> {{ __('app.add_position') }}
@@ -20,11 +20,11 @@
         <div class="card-body">
             <div class="row g-3 align-items-end">
                 <div class="col-md-6">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.search') }}</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.search') }}</label>
                     <input type="text" class="form-control" placeholder="{{ __('app.search_positions_placeholder') }}" wire:model.live.debounce.300ms="search" aria-label="{{ __('app.search') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold" style="font-size:0.85rem;">{{ __('app.sport_type_label') }}</label>
+                    <label class="form-label fw-bold fs-base">{{ __('app.sport_type_label') }}</label>
                     <select class="form-select" wire:model.live="filterSport" aria-label="{{ __('app.sport_type_label') }}">
                         <option value="">{{ __('app.all') }}</option>
                         <option value="football">{{ __('app.football') }}</option>
@@ -46,25 +46,25 @@
                     <table class="table align-middle mb-0">
                         <thead>
                             <tr>
-                                <th style="font-size:0.8rem;">#</th>
-                                <th style="font-size:0.8rem;">{{ __('app.name') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.name_en') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.abbreviation') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.category') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.sport') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.sort_order') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.status') }}</th>
-                                <th style="font-size:0.8rem;">{{ __('app.actions') }}</th>
+                                <th class="fs-08">#</th>
+                                <th class="fs-08">{{ __('app.name') }}</th>
+                                <th class="fs-08">{{ __('app.name_en') }}</th>
+                                <th class="fs-08">{{ __('app.abbreviation') }}</th>
+                                <th class="fs-08">{{ __('app.category') }}</th>
+                                <th class="fs-08">{{ __('app.sport') }}</th>
+                                <th class="fs-08">{{ __('app.sort_order') }}</th>
+                                <th class="fs-08">{{ __('app.status') }}</th>
+                                <th class="fs-08">{{ __('app.actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($positions as $pos)
                                 <tr wire:key="{{ $pos->id }}">
-                                    <td style="font-size:0.85rem;">{{ $loop->iteration }}</td>
-                                    <td class="fw-bold" style="font-size:0.9rem;">{{ $pos->name }}</td>
-                                    <td style="font-size:0.85rem;color:#64748b;">{{ $pos->name_en ?? '—' }}</td>
-                                    <td><span class="badge bg-dark rounded-pill" style="font-size:0.75rem;">{{ $pos->abbreviation ?? '—' }}</span></td>
-                                    <td style="font-size:0.85rem;">
+                                    <td class="fs-base">{{ $loop->iteration }}</td>
+                                    <td class="fw-bold fs-md">{{ $pos->name }}</td>
+                                    <td class="fs-base text-slate-500">{{ $pos->name_en ?? '—' }}</td>
+                                    <td><span class="badge bg-dark rounded-pill fs-sm">{{ $pos->abbreviation ?? '—' }}</span></td>
+                                    <td class="fs-base">
                                         @php
                                             $catLabels = ['goalkeeper' => __('app.goalkeeper'), 'defender' => __('app.defender'), 'midfielder' => __('app.midfielder'), 'forward' => __('app.forward'), 'player' => __('app.player_fallback')];
                                             $catColors = ['goalkeeper' => '#f59e0b', 'defender' => '#3b82f6', 'midfielder' => '#10b981', 'forward' => '#ef4444', 'player' => '#64748b'];
@@ -73,22 +73,22 @@
                                             {{ $catLabels[$pos->category] ?? $pos->category }}
                                         </span>
                                     </td>
-                                    <td style="font-size:0.85rem;">{{ $pos->sport_type === 'football' ? __('app.football') : __('app.futsal') }}</td>
-                                    <td style="font-size:0.85rem;">{{ $pos->sort_order }}</td>
+                                    <td class="fs-base">{{ $pos->sport_type === 'football' ? __('app.football') : __('app.futsal') }}</td>
+                                    <td class="fs-base">{{ $pos->sort_order }}</td>
                                     <td>
                                         @if($pos->is_active)
-                                            <span class="badge" style="background:rgba(16,185,129,0.1);color:#10b981;font-size:0.75rem;">{{ __('app.active_label') }}</span>
+                                            <span class="badge badge-active-green fs-sm">{{ __('app.active_label') }}</span>
                                         @else
-                                            <span class="badge bg-secondary" style="font-size:0.75rem;">{{ __('app.inactive_label') }}</span>
+                                            <span class="badge bg-secondary fs-sm">{{ __('app.inactive_label') }}</span>
                                         @endif
                                     </td>
                                     <td>
                                         <div class="d-flex gap-1">
-                                            <button class="btn btn-sm btn-outline-primary" style="border-radius:8px;" wire:click="editPosition({{ $pos->id }})"
+                                            <button class="btn btn-sm btn-outline-primary rounded-md" wire:click="editPosition({{ $pos->id }})"
                                                 aria-label="{{ __('app.edit') }}">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" style="border-radius:8px;"
+                                            <button class="btn btn-sm btn-outline-danger rounded-md"
                                                     wire:click="deletePosition({{ $pos->id }})"
                                                     wire:confirm="{{ __('app.confirm_delete_position') }}"
                                                     aria-label="{{ __('app.delete') }}">
@@ -110,9 +110,9 @@
     </div>
 
     @if($showModal)
-        <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="positionModalTitle" style="background:rgba(0,0,0,0.5);" wire:click.self="closeModal">
+        <div class="modal fade show d-block modal-backdrop-dark" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="positionModalTitle" wire:click.self="closeModal">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" style="border-radius:16px;" wire:click.stop>
+                <div class="modal-content rounded-xl" wire:click.stop>
                     <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title fw-bold" id="positionModalTitle">
                             <i class="bi bi-geo-alt-fill text-gold"></i>
@@ -166,8 +166,8 @@
                         </div>
                     </div>
                     <div class="modal-footer border-0 pt-0">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal" style="border-radius:8px;">{{ __('app.confirm_delete_cancel') }}</button>
-                        <button type="button" class="btn btn-warning px-4" wire:click="savePosition" wire:loading.attr="disabled" style="border-radius:8px;">
+                        <button type="button" class="btn btn-secondary rounded-md" wire:click="closeModal">{{ __('app.confirm_delete_cancel') }}</button>
+                        <button type="button" class="btn btn-warning px-4 rounded-md" wire:click="savePosition" wire:loading.attr="disabled">
                             <span wire:loading.remove wire:target="savePosition"><i class="bi bi-check-lg"></i> {{ __('app.save_button') }}</span>
                             <span wire:loading wire:target="savePosition"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}</span>
                         </button>

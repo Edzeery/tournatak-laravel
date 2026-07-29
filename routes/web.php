@@ -46,6 +46,8 @@ use App\Livewire\Home\HomePage;
 use App\Livewire\Public\CompetitionsPage as PublicCompetitionsPage;
 use App\Livewire\Public\TeamsPage as PublicTeamsPage;
 use App\Livewire\Public\PlayersPage as PublicPlayersPage;
+use App\Livewire\Public\MatchesPage as PublicMatchesPage;
+use App\Livewire\Public\MatchLivePage;
 use App\Livewire\User\ProfilePage;
 use App\Livewire\User\UserDashboardPage;
 use App\Livewire\User\NotificationsPage;
@@ -87,6 +89,8 @@ Route::get('/competitions', PublicCompetitionsPage::class)->name('competitions.i
 Route::get('/competitions/{competition}', \App\Livewire\Public\CompetitionDetailPage::class)->name('competitions.show');
 Route::get('/teams', PublicTeamsPage::class)->name('teams.index');
 Route::get('/teams/{teamId}', TeamDetailPage::class)->name('teams.show');
+Route::get('/matches', PublicMatchesPage::class)->name('matches.index');
+Route::get('/matches/{match}/live', MatchLivePage::class)->name('matches.live');
 Route::get('/players', PublicPlayersPage::class)->name('players.index');
 Route::get('/players/{playerId}', PlayerDetailPage::class)->name('players.show');
 

@@ -90,7 +90,7 @@
                 {{-- Date Bar --}}
                 <div class="date-bar">
                     <button class="date-bar-btn" wire:click="prevDay" title="{{ __('app.prev_day') }}">
-                        <i class="bi bi-chevron-left"></i>
+                        <i class="bi bi-chevron-right"></i>
                     </button>
 
                     <div class="date-bar-track">
@@ -120,7 +120,7 @@
 
                     <div class="date-bar-actions">
                         <button class="date-bar-btn" wire:click="nextDay" title="{{ __('app.next_day') }}">
-                            <i class="bi bi-chevron-right"></i>
+                            <i class="bi bi-chevron-left"></i>
                         </button>
                         <div class="date-bar-picker">
                             <input type="text" class="flatpickr-input date-bar-btn" wire:change="goToDate($event.target.value)" value="{{ $this->selectedDate }}" data-alt-format="M j, Y" data-alt-input-class="flatpickr-alt-compact" readonly>
@@ -147,7 +147,7 @@
                 {{-- Matches List --}}
                 @if($filteredMatches->count())
                     @foreach($filteredMatches as $match)
-                        <div class="match-card" role="button" wire:click="showMatchDetail({{ $match->id }})" wire:key="match-{{ $match->id }}">
+                        <div class="match-card" role="button" onclick="window.location='{{ route('matches.live', $match) }}'" wire:key="match-{{ $match->id }}">
                             <div class="match-card-inner">
                                 <div class="match-team match-team-home">
                                     <span class="match-team-name">{{ $match->team1?->name ?? 'TBD' }}</span>
@@ -203,7 +203,11 @@
                                         <div class="match-score">{{ $match->score_team1 }} - {{ $match->score_team2 }}</div>
                                         <div class="match-status live">
                                             <span class="live-pulse d-inline-block rounded-circle bg-danger me-1" style="width:6px;height:6px;"></span>
-                                            <span x-text="period"></span> <span x-text="display"></span>
+                                            @if(in_array($match->phase, ['first_half','half_time','second_half','et_break','et_first_half','et_half_time','et_second_half']))
+                                                <span x-text="period"></span> <span x-text="display"></span>
+                                            @else
+                                                {{ __('app.in_progress') }}
+                                            @endif
                                         </div>
                                     @else
                                         <div class="match-time">{{ $match->match_date ? $match->match_date->format('H:i') : '--:--' }}</div>

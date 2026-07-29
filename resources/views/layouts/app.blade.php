@@ -71,6 +71,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('matches.*') ? 'active' : '' }}"
+                            href="{{ route('matches.index') }}">
+                            {{ __('app.page_title_matches') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('players.*') ? 'active' : '' }}"
                             href="{{ route('players.index') }}">
                             {{ __('app.players') }}
@@ -201,6 +207,12 @@
                     <a class="nav-link nav-link-mobile {{ request()->routeIs('teams.*') ? 'active' : '' }}"
                         href="{{ route('teams.index') }}">
                         <i class="bi bi-shield-check"></i> {{ __('app.teams') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-mobile {{ request()->routeIs('matches.*') ? 'active' : '' }}"
+                        href="{{ route('matches.index') }}">
+                        <i class="bi bi-calendar-event"></i> {{ __('app.page_title_matches') }}
                     </a>
                 </li>
                 <li class="nav-item">
@@ -367,6 +379,7 @@
                         <li><a href="{{ route('home') }}">{{ __('app.home') }}</a></li>
                         <li><a href="{{ route('competitions.index') }}">{{ __('app.competitions') }}</a></li>
                         <li><a href="{{ route('teams.index') }}">{{ __('app.teams') }}</a></li>
+                        <li><a href="{{ route('matches.index') }}">{{ __('app.page_title_matches') }}</a></li>
                         <li><a href="{{ route('players.index') }}">{{ __('app.players') }}</a></li>
                     </ul>
                 </div>

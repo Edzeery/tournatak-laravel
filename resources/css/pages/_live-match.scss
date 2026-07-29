@@ -1,0 +1,500 @@
+// ── Live Match Scoreboard ──────────────────────────────
+.live-scoreboard {
+    position: relative;
+    padding: 2rem 0 2.5rem;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 0%, rgba(255, 193, 7, 0.08) 0%, transparent 70%);
+        pointer-events: none;
+    }
+}
+
+.live-scoreboard-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255, 255, 255, 0.02) 40px, rgba(255, 255, 255, 0.02) 41px);
+    pointer-events: none;
+}
+
+.live-scoreboard-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary, #ffc107), transparent);
+}
+
+.live-competition-badge {
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.live-scoreboard-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.live-team {
+    text-align: center;
+    flex: 1;
+    max-width: 260px;
+}
+
+.live-team-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+
+    @media (min-width: 768px) {
+        font-size: 1.5rem;
+    }
+}
+
+.live-team-score {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -2px;
+
+    @media (min-width: 768px) {
+        font-size: 4.5rem;
+    }
+}
+
+.live-center {
+    text-align: center;
+    min-width: 100px;
+}
+
+.live-vs {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.live-status-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background: rgba(220, 53, 69, 0.2);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+
+    &.completed {
+        background: rgba(40, 167, 69, 0.15);
+        border-color: rgba(40, 167, 69, 0.3);
+        color: #28a745;
+    }
+
+    &.scheduled {
+        background: rgba(255, 193, 7, 0.1);
+        border-color: rgba(255, 193, 7, 0.2);
+        color: var(--primary, #ffc107);
+    }
+}
+
+.live-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.live-period {
+    font-weight: 700;
+    color: var(--primary, #ffc107);
+}
+
+.live-clock {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.live-date,
+.live-venue {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 0.35rem;
+}
+
+// ── Video Placeholder ──────────────────────────────────
+.live-video-placeholder {
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0a0a14;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.live-video-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+    color: rgba(255, 255, 255, 0.25);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 120px;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.03);
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    i {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    span {
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+}
+
+// ── Live Cards ─────────────────────────────────────────
+.live-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color-light);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.live-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color-light);
+    background: var(--bg-surface-alt);
+
+    i {
+        color: var(--primary, #ffc107);
+    }
+}
+
+.live-card-body {
+    padding: 1rem;
+}
+
+// ── Timeline ───────────────────────────────────────────
+.live-timeline {
+    position: relative;
+    padding: 1rem 0;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 32px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: var(--border-color-light);
+    }
+}
+
+.live-timeline-item {
+    position: relative;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+
+    &.away {
+        flex-direction: row-reverse;
+        text-align: right;
+
+        .timeline-dot { order: 1; }
+        .timeline-content { order: 0; }
+    }
+}
+
+.timeline-dot {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    z-index: 1;
+    position: relative;
+
+    &.home {
+        background: rgba(var(--primary-rgb, 255, 193, 7), 0.15);
+        color: var(--primary, #ffc107);
+        border: 2px solid rgba(var(--primary-rgb, 255, 193, 7), 0.3);
+    }
+
+    &.away {
+        background: rgba(13, 110, 253, 0.15);
+        color: #0d6efd;
+        border: 2px solid rgba(13, 110, 253, 0.3);
+    }
+
+    .text-danger { color: #dc3545 !important; }
+    .text-warning { color: #ffc107 !important; }
+}
+
+.timeline-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.timeline-minute {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--primary, #ffc107);
+    margin-bottom: 0.15rem;
+}
+
+.timeline-desc {
+    font-size: 0.82rem;
+    color: var(--text-primary);
+
+    strong { font-weight: 600; }
+}
+
+.timeline-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-surface-alt);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.35rem;
+}
+
+.timeline-related {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+
+    i { font-size: 0.65rem; }
+}
+
+.timeline-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+    font-style: italic;
+}
+
+// ── Info Rows ──────────────────────────────────────────
+.live-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+    font-size: 0.82rem;
+
+    span:first-child {
+        color: var(--text-muted);
+    }
+
+    span:last-child {
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    + .live-info-row {
+        border-top: 1px solid var(--border-color-light);
+    }
+}
+
+// ── Stats ──────────────────────────────────────────────
+.live-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+
+    + .live-stat-row {
+        border-top: 1px solid var(--border-color-light);
+    }
+}
+
+.live-stat-val {
+    width: 32px;
+    text-align: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    &.home { color: var(--primary, #ffc107); }
+    &.away { color: #0d6efd; }
+}
+
+.live-stat-bar {
+    flex: 1;
+}
+
+.live-stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.live-stat-track {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--bg-surface-alt);
+    overflow: hidden;
+    position: relative;
+}
+
+.live-stat-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+
+    &.home {
+        background: var(--primary, #ffc107);
+    }
+}
+
+// ── Lineups ────────────────────────────────────────────
+.live-lineup-team {
+    + .live-lineup-team {
+        border-top: 1px solid var(--border-color-light);
+    }
+}
+
+.live-lineup-team-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 0.2s;
+    background: var(--bg-surface-alt);
+
+    &:hover {
+        background: var(--bg-surface-hover);
+    }
+
+    i {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        transition: transform 0.2s;
+    }
+
+    &[aria-expanded="true"] i,
+    &:not(.collapsed) i {
+        transform: rotate(180deg);
+    }
+}
+
+.live-lineup-players {
+    padding: 0.35rem 0;
+}
+
+.live-lineup-player {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 1rem;
+    font-size: 0.8rem;
+
+    &.sub {
+        opacity: 0.65;
+    }
+}
+
+.lp-jersey {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.lp-name {
+    flex: 1;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.lp-pos {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.lp-captain {
+    color: var(--primary, #ffc107) !important;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+}
+
+// ── Responsive ─────────────────────────────────────────
+@media (max-width: 767.98px) {
+    .live-scoreboard-main {
+        gap: 0.75rem;
+    }
+
+    .live-team-name {
+        font-size: 0.95rem;
+    }
+
+    .live-team-score {
+        font-size: 2.5rem;
+    }
+
+    .live-center {
+        min-width: 70px;
+    }
+
+    .live-timeline-item {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .timeline-dot {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    .live-video-inner {
+        padding: 1.5rem 1rem;
+        min-height: 80px;
+
+        i { font-size: 1.8rem; }
+    }
+}

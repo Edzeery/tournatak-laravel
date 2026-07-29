@@ -219,6 +219,26 @@
 .matches-search-clear:hover {
     color: var(--text-primary);
 }
+.matches-date-picker {
+    position: relative;
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+}
+.matches-date-picker .bi-calendar3 {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    pointer-events: none;
+    z-index: 2;
+}
+.matches-date-picker .form-control {
+    padding-left: 2rem;
+    cursor: pointer;
+}
 .matches-filters {
     display: flex;
     gap: 3px;

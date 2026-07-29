@@ -30,13 +30,22 @@ class CompetitionDetailPage extends Component
             },
         ]);
 
-        $today = today()->format('Y-m-d');
-        $hasToday = $this->competition->matches->contains(
-            fn($m) => $m->match_date?->format('Y-m-d') === $today
-        );
-        $this->selectedDate = $hasToday
-            ? $today
-            : ($this->competition->matches->first()?->match_date?->format('Y-m-d') ?? $today);
+        $this->selectedDate = $this->nearestMatchDate($this->competition->matches);
+    }
+
+    private function nearestMatchDate($matches): string
+    {
+        $today = today();
+        foreach ($matches as $m) {
+            if ($m->match_date && $m->match_date->isSameDay($today)) {
+                return $today->format('Y-m-d');
+            }
+        }
+        $upcoming = $matches->first(fn($m) => $m->match_date && $m->match_date->gte($today));
+        if ($upcoming) {
+            return $upcoming->match_date->format('Y-m-d');
+        }
+        return $today->format('Y-m-d');
     }
 
     public function goToDate(string $date): void
@@ -138,6 +147,8 @@ class CompetitionDetailPage extends Component
 
         if ($this->filterMode === 'live') {
             $filteredMatches = $allColl->filter(fn($m) => $m->status === 'in_progress');
+        } elseif ($this->filterMode === 'all') {
+            $filteredMatches = $allColl;
         } else {
             $filteredMatches = $allColl->filter(
                 fn($m) => $m->match_date?->format('Y-m-d') === $this->selectedDate

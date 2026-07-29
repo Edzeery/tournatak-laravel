@@ -1148,6 +1148,7 @@ return [
     'search_teams' => 'ابحث عن الفرق...',
     'filter_date' => 'التاريخ',
     'no_live_matches' => 'لا توجد مباريات مباشرة حالياً.',
+    'no_live_matches_desc' => 'حاول تصفية بالكل أو اختبار تاريخ آخر لعرض المباريات.',
     'upload' => 'رفع',
     'link' => 'رابط',
     'remove_logo' => 'إزالة الشعار',
@@ -1308,4 +1309,21 @@ return [
     'select_player_first' => 'يرجى اختيار لاعب أولاً',
     'substitution' => 'تبديل',
     'use_quick_events_or_manage' => 'استخدم الأحداث السريعة أعلاه أو إدارة جميع الأحداث',
+
+    // ── الصفحة العامة للمباريات ──
+    'page_title_matches' => 'المباريات',
+    'matches_hero_title' => 'المباريات',
+    'matches_hero_desc' => 'تصفح جميع المباريات والمواجهات الرياضية',
+    'filter_by_date' => 'تصفية بالتاريخ',
+    'filter_by_competition' => 'تصفية بالبطولة',
+
+    // ── صفحة المباراة المباشرة ──
+    'penalty' => 'ركلة جزاء',
+    'second_yellow' => 'بطاقة صفراء ثانية',
+    'injury' => 'إصابة',
+    'match_info' => 'معلومات المباراة',
+    'video_stream_coming_soon' => 'البث المباشر قريباً',
+    'attendance' => 'الحضور',
+    'referee' => 'الحكم',
+    'venue' => 'الملعب',
 ];

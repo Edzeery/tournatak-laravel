@@ -363,19 +363,22 @@ class TestDataSeeder extends Seeder
 
     private function createMatches(array $competitions, array $teams): array
     {
-        $this->command->info('Creating 20 matches (no overlapping dates)...');
+        $this->command->info('Creating 20 matches with realistic dates...');
         $teamIds = array_map(fn($t) => $t->id, $teams);
         $teamCount = count($teamIds);
         $allMatches = [];
 
         $usedDates = [];
-        $teamSchedule = []; // team_id => array of date-strings
+        $teamSchedule = [];
 
         $venues = ['استاد الملك فهد','استاد مدينة الأمير فيصل بن فهد','استاد الملك عبدالله','استاد الأمير محمد بن فهد'];
         $referees = ['محمد الهويش','خالد الطويرش','عبدالعزيز الدخيل','فهد المرداسي','ماجد الشمراني'];
+        $today = today();
 
         foreach ($competitions as $cIdx => $comp) {
             $matchCount = $cIdx < 2 ? 8 : 4;
+            $pastCount = intval(floor($matchCount * 0.5));
+            $liveCount = $cIdx === 0 ? 2 : 0;
 
             for ($m = 0; $m < $matchCount; $m++) {
                 $t1Idx = ($cIdx * 7 + $m * 3) % $teamCount;
@@ -385,34 +388,61 @@ class TestDataSeeder extends Seeder
                 $t1Id = $teamIds[$t1Idx];
                 $t2Id = $teamIds[$t2Idx];
 
-                $date = $this->pickUniqueDate($cIdx, $m, $usedDates, $teamSchedule, $t1Id, $t2Id);
+                if ($m < $pastCount) {
+                    $status = 'completed';
+                    $dayOffset = -rand(5, 90);
+                    $hour = 20;
+                    $minute = 0;
+                } elseif ($m < $pastCount + $liveCount) {
+                    $status = 'in_progress';
+                    $dayOffset = 0;
+                    $hour = (int) now()->subMinutes(rand(30, 90))->format('H');
+                    $minute = (int) now()->subMinutes(rand(30, 90))->format('i');
+                } else {
+                    $status = 'scheduled';
+                    $dayOffset = rand(3, 60);
+                    $hour = rand(18, 22);
+                    $minute = 0;
+                }
+
+                $date = $this->pickUniqueDateRelative($dayOffset, $usedDates, $teamSchedule, $t1Id, $t2Id);
                 $usedDates[] = $date;
                 $teamSchedule[$t1Id][] = $date;
                 $teamSchedule[$t2Id][] = $date;
 
-                $isCompleted = $m < $matchCount * 0.5;
-                $isInProgress = !$isCompleted && $m < $matchCount * 0.75;
-                $status = $isCompleted ? 'completed' : ($isInProgress ? 'in_progress' : 'scheduled');
+                $dateTime = $date . ' ' . sprintf('%02d:%02d:00', $hour, $minute);
 
-                if ($isCompleted) {
+                if ($status === 'completed') {
                     [$s1, $s2] = $this->generateScore();
-                } elseif ($isInProgress) {
+                    $attendance = rand(5000, 60000);
+                    $extraData = [];
+                } elseif ($status === 'in_progress') {
                     [$s1, $s2] = $this->generateScore();
                     $s1 = min($s1, rand(0, 3));
                     $s2 = min($s2, rand(0, 3));
+                    $attendance = rand(3000, 40000);
+                    $matchStart = now()->subMinutes(rand(30, 90));
+                    $extraData = [
+                        'phase' => 'second_half',
+                        'first_half_started_at' => (clone $matchStart)->subSeconds(rand(0, 10))->toIso8601String(),
+                        'second_half_started_at' => (clone $matchStart)->addMinutes(rand(15, 25))->toIso8601String(),
+                    ];
                 } else {
                     $s1 = $s2 = null;
+                    $attendance = null;
+                    $extraData = [];
                 }
 
                 $allMatches[] = Match_::create([
                     'competition_id' => $comp->id,
                     'team1_id' => $t1Id, 'team2_id' => $t2Id,
-                    'match_date' => $date . ' ' . (rand(18, 22) . ':00:00'),
+                    'match_date' => $dateTime,
                     'score_team1' => $s1, 'score_team2' => $s2,
                     'status' => $status,
+                    'extra_data' => $extraData,
                     'venue' => $venues[array_rand($venues)],
                     'referee' => $referees[array_rand($referees)],
-                    'attendance' => $isCompleted ? rand(5000, 60000) : null,
+                    'attendance' => $attendance,
                 ]);
             }
         }
@@ -434,11 +464,9 @@ class TestDataSeeder extends Seeder
         return [rand(0, 4), rand(0, 4)];
     }
 
-    private function pickUniqueDate(int $compIdx, int $matchIdx, array $usedDates, array $teamSchedule, int $t1Id, int $t2Id): string
+    private function pickUniqueDateRelative(int $dayOffset, array $usedDates, array $teamSchedule, int $t1Id, int $t2Id): string
     {
-        $baseDate = Carbon::create(2026, 1, 15);
-        $offset = $compIdx * 60 + $matchIdx * 5;
-        $candidate = (clone $baseDate)->addDays($offset);
+        $candidate = today()->addDays($dayOffset);
 
         $maxAttempts = 30;
         for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
@@ -451,7 +479,7 @@ class TestDataSeeder extends Seeder
             if (!$usedByT1 && !$usedByT2 && !$alreadyUsed) {
                 return $dateStr;
             }
-            $candidate->addDay();
+            $dayOffset >= 0 ? $candidate->addDay() : $candidate->subDay();
         }
 
         return $candidate->format('Y-m-d');

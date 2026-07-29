@@ -35,6 +35,7 @@ test('competition detail shows matches', function () {
         'competition_id' => $competition->id,
         'team1_id' => $team1->id,
         'team2_id' => $team2->id,
+        'match_date' => today()->format('Y-m-d H:i:s'),
         'status' => 'completed',
         'score_team1' => 2,
         'score_team2' => 1,
@@ -59,6 +60,7 @@ test('competition detail shows standings for league format', function () {
         'competition_id' => $competition->id,
         'team1_id' => $team1->id,
         'team2_id' => $team2->id,
+        'match_date' => today()->format('Y-m-d H:i:s'),
         'status' => 'completed',
         'score_team1' => 1,
         'score_team2' => 0,
@@ -66,6 +68,11 @@ test('competition detail shows standings for league format', function () {
 
     $response = $this->get(route('competitions.show', $competition));
 
+    $response->assertOk();
+});
+
+test('matches page renders', function () {
+    $response = $this->get(route('matches.index'));
     $response->assertOk();
 });
 

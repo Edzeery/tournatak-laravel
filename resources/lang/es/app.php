@@ -1120,6 +1120,7 @@ return [
     'search_teams' => 'Buscar equipos...',
     'filter_date' => 'Fecha',
     'no_live_matches' => 'No hay partidos en vivo actualmente.',
+    'no_live_matches_desc' => 'Intente mostrar todos o seleccionar una fecha diferente para ver partidos.',
     'upload' => 'Subir',
     'link' => 'Enlace',
     'remove_logo' => 'Eliminar logo',
@@ -1276,4 +1277,21 @@ return [
     'select_player_first' => 'Por favor seleccione un jugador primero',
     'substitution' => 'Sustitución',
     'use_quick_events_or_manage' => 'Use eventos rápidos arriba o administre todos los eventos',
+
+    // ── Página pública de partidos ──
+    'page_title_matches' => 'Partidos',
+    'matches_hero_title' => 'Partidos',
+    'matches_hero_desc' => 'Explorar todos los partidos y encuentros',
+    'filter_by_date' => 'Filtrar por fecha',
+    'filter_by_competition' => 'Filtrar por competición',
+
+    // ── Página de Partido en Vivo ──
+    'penalty' => 'Penalti',
+    'second_yellow' => 'Segunda amarilla',
+    'injury' => 'Lesión',
+    'match_info' => 'Información del partido',
+    'video_stream_coming_soon' => 'Transmisión en vivo próximamente',
+    'attendance' => 'Asistencia',
+    'referee' => 'Árbitro',
+    'venue' => 'Estadio',
 ];

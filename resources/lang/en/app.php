@@ -1148,6 +1148,7 @@ return [
     'search_teams' => 'Search teams...',
     'filter_date' => 'Date',
     'no_live_matches' => 'No live matches currently.',
+    'no_live_matches_desc' => 'Try showing all or selecting a different date to browse matches.',
     'upload' => 'Upload',
     'link' => 'Link',
     'remove_logo' => 'Remove logo',
@@ -1309,4 +1310,21 @@ return [
     'select_player_first' => 'Please select a player first',
     'substitution' => 'Substitution',
     'use_quick_events_or_manage' => 'Use quick events above or manage all events',
+
+    // ── Public Matches Page ──
+    'page_title_matches' => 'Matches',
+    'matches_hero_title' => 'Matches',
+    'matches_hero_desc' => 'Browse all matches and fixtures',
+    'filter_by_date' => 'Filter by Date',
+    'filter_by_competition' => 'Filter by Competition',
+
+    // ── Live Match Page ──
+    'penalty' => 'Penalty',
+    'second_yellow' => 'Second Yellow',
+    'injury' => 'Injury',
+    'match_info' => 'Match Info',
+    'video_stream_coming_soon' => 'Live stream coming soon',
+    'attendance' => 'Attendance',
+    'referee' => 'Referee',
+    'venue' => 'Venue',
 ];

@@ -30,6 +30,10 @@ use App\Livewire\Admin\Teams\TeamStatsPage;
 use App\Livewire\Admin\Matches\MatchLineupPage;
 use App\Livewire\Admin\Matches\MatchEventsPage;
 use App\Livewire\Admin\Matches\MatchStatsPage;
+use App\Livewire\Admin\Matches\MatchControlPage;
+use App\Livewire\Admin\Referees\RefereesPage;
+use App\Livewire\Admin\Referees\CreateRefereePage;
+use App\Livewire\Admin\Referees\EditRefereePage;
 use App\Livewire\Admin\Positions\PositionsPage;
 use App\Livewire\Public\TeamDetailPage;
 use App\Livewire\Public\PlayerDetailPage;
@@ -223,6 +227,14 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
         Route::get('/matches/{match}/lineup', MatchLineupPage::class)->name('matches.lineup');
         Route::get('/matches/{match}/events', MatchEventsPage::class)->name('matches.events');
         Route::get('/matches/{match}/stats', MatchStatsPage::class)->name('matches.stats');
+        Route::get('/matches/{match}/control', MatchControlPage::class)->name('matches.control');
+    });
+
+    // ── Referee Management ──────────────────────────────────────────
+    Route::middleware(['permission:manage matches'])->group(function () {
+        Route::get('/referees', RefereesPage::class)->name('referees.index');
+        Route::get('/referees/create', CreateRefereePage::class)->name('referees.create');
+        Route::get('/referees/{referee}/edit', EditRefereePage::class)->name('referees.edit');
     });
 
     // ── Positions ────────────────────────────────────────────────────

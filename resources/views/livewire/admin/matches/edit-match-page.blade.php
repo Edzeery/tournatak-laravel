@@ -79,6 +79,48 @@
                         <label class="form-label fw-bold">{{ __('app.score_team2') }}</label>
                         <input type="number" class="form-control" wire:model="score_team2" min="0" value="0">
                     </div>
+
+                    {{-- Referees --}}
+                    <div class="col-12 mt-2 mb-2">
+                        <hr>
+                        <h6 class="fw-bold text-theme-primary"><i class="bi bi-person-check-fill text-gold"></i> {{ __('app.referee_team') }}</h6>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.main_referee') }}</label>
+                        <select class="form-select" wire:model="referee_id">
+                            <option value="">{{ __('app.choose_referee') }}</option>
+                            @foreach($referees->where('specialization', 'referee') as $ref)
+                                <option value="{{ $ref->id }}" @selected($ref->id === $referee_id)>{{ $ref->name }} @if($ref->license_number)({{ $ref->license_number }})@endif</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.assistant_referee_1') }}</label>
+                        <select class="form-select" wire:model="assistant_referee_1_id">
+                            <option value="">{{ __('app.choose_referee') }}</option>
+                            @foreach($referees->where('specialization', 'assistant_referee') as $ref)
+                                <option value="{{ $ref->id }}" @selected($ref->id === $assistant_referee_1_id)>{{ $ref->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.assistant_referee_2') }}</label>
+                        <select class="form-select" wire:model="assistant_referee_2_id">
+                            <option value="">{{ __('app.choose_referee') }}</option>
+                            @foreach($referees->where('specialization', 'assistant_referee') as $ref)
+                                <option value="{{ $ref->id }}" @selected($ref->id === $assistant_referee_2_id)>{{ $ref->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.fourth_official') }}</label>
+                        <select class="form-select" wire:model="fourth_official_id">
+                            <option value="">{{ __('app.choose_referee') }}</option>
+                            @foreach($referees->where('specialization', 'fourth_official') as $ref)
+                                <option value="{{ $ref->id }}" @selected($ref->id === $fourth_official_id)>{{ $ref->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-warning px-4" wire:loading.attr="disabled">
                     <span wire:loading.remove wire:target="update"><i class="bi bi-check-lg"></i> {{ __('app.save_changes') }}</span>

@@ -120,46 +120,52 @@
                                 {{-- Matchup --}}
                                 <td>
                                     <div class="d-flex align-items-center gap-3" style="min-width:260px;"
-                                        @if($match->status === 'in_progress')
+                                        @if(in_array($match->phase, ['first_half','half_time','second_half','et_break','et_first_half','et_half_time','et_second_half']))
                                         x-data="{
-                                            t0: {{ $match->kickoff_timestamp }},
-                                            period: '',
-                                            display: '00:00',
-                                            _id: null,
-                                            init() {
-                                                this.tick();
-                                                this._id = setInterval(() => this.tick(), 1000);
-                                            },
+                                            phase: '{{ $match->phase }}',
+                                            fhs: {{ $match->first_half_started_at ? strtotime($match->first_half_started_at) * 1000 : 'null' }},
+                                            shs: {{ $match->second_half_started_at ? strtotime($match->second_half_started_at) * 1000 : 'null' }},
+                                            et1s: {{ $match->et_first_half_started_at ? strtotime($match->et_first_half_started_at) * 1000 : 'null' }},
+                                            et2s: {{ $match->et_second_half_started_at ? strtotime($match->et_second_half_started_at) * 1000 : 'null' }},
+                                            at1: {{ $match->added_time_first_half ?? 0 }},
+                                            at2: {{ $match->added_time_second_half ?? 0 }},
+                                            period: '', display: '00:00', _id: null,
+                                            init() { this.tick(); this._id = setInterval(() => this.tick(), 1000); },
                                             tick() {
-                                                const sec = Math.floor((Date.now() - this.t0) / 1000);
-                                                if (sec < 0) return;
-                                                const min = Math.floor(sec / 60);
-                                                const s = sec % 60;
-                                                if (min < 45) {
-                                                    this.period = '1st Half';
-                                                    this.display = min + ':' + String(s).padStart(2,'0');
-                                                } else if (min < 60) {
-                                                    this.period = 'Half Time';
-                                                    this.display = 'HT ' + (min - 45) + ':00';
-                                                } else if (min < 105) {
-                                                    this.period = '2nd Half';
-                                                    this.display = (min - 15) + ':' + String(s).padStart(2,'0');
-                                                } else if (min < 110) {
-                                                    this.period = 'Break';
-                                                    this.display = '90:00+';
-                                                } else if (min < 125) {
-                                                    this.period = 'ET 1st Half';
-                                                    this.display = (min - 20) + ':' + String(s).padStart(2,'0');
-                                                } else if (min < 130) {
-                                                    this.period = 'ET Break';
-                                                    this.display = '105:00+';
-                                                } else if (min < 145) {
-                                                    this.period = 'ET 2nd Half';
-                                                    this.display = (min - 25) + ':' + String(s).padStart(2,'0');
-                                                } else {
-                                                    this.period = 'Full Time';
-                                                    this.display = '120:00+';
+                                                const now = Date.now();
+                                                if (this.phase === 'full_time') { this.period = 'FT'; this.display = 'FT'; return; }
+                                                if (this.phase === 'first_half' && this.fhs) {
+                                                    const s = Math.max(0, Math.floor((now - this.fhs) / 1000));
+                                                    const m = Math.floor(s / 60); const sec = s % 60;
+                                                    this.period = '1st'; this.display = String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                    if (m >= 45) this.display += '+' + (m - 45);
+                                                    return;
                                                 }
+                                                if (this.phase === 'half_time' && this.fhs) {
+                                                    this.period = 'HT'; this.display = 'HT';
+                                                    return;
+                                                }
+                                                if (this.phase === 'second_half' && this.shs) {
+                                                    const s = Math.max(0, Math.floor((now - this.shs) / 1000));
+                                                    const m = Math.floor(s / 60); const sec = s % 60;
+                                                    const t = 45 + m;
+                                                    this.period = '2nd'; this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                    if (m >= 45) this.display += '+' + (m - 45);
+                                                    return;
+                                                }
+                                                if (this.phase === 'et_first_half' && this.et1s) {
+                                                    const s = Math.max(0, Math.floor((now - this.et1s) / 1000));
+                                                    const m = Math.floor(s / 60); const sec = s % 60;
+                                                    this.period = 'ET1'; this.display = String(90 + m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                    return;
+                                                }
+                                                if (this.phase === 'et_second_half' && this.et2s) {
+                                                    const s = Math.max(0, Math.floor((now - this.et2s) / 1000));
+                                                    const m = Math.floor(s / 60); const sec = s % 60;
+                                                    this.period = 'ET2'; this.display = String(105 + m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                    return;
+                                                }
+                                                this.period = ''; this.display = '—';
                                             },
                                             destroy() { if (this._id) clearInterval(this._id); }
                                         }"
@@ -264,6 +270,11 @@
                                                 <i class="bi bi-stop-fill"></i>
                                             </button>
                                         @endif
+                                        <a href="{{ route('admin.matches.control', $match) }}"
+                                            class="btn btn-sm btn-outline-{{ $match->status === 'in_progress' ? 'danger' : 'dark' }} rounded-md"
+                                            title="{{ __('app.match_control') }}">
+                                            <i class="bi bi-controller"></i>
+                                        </a>
                                         <a href="{{ route('admin.matches.edit', $match) }}"
                                             class="btn btn-sm btn-outline-primary rounded-md"
                                             title="{{ __('app.edit') }}">

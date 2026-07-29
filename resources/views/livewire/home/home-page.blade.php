@@ -170,7 +170,7 @@
                                     <img src="{{ $team->logo_url }}" alt="{{ $team->name }}"
                                         class="rounded-circle mb-3 logo-ring" width="72" height="72">
                                 @else
-                                    <div class="team-avatar bg-gold text-dark mx-auto">
+                                    <div class="team-avatar bg-gold bg-opacity-50 text-dark mx-auto">
                                         {{ mb_substr($team->name, 0, 1) }}
                                     </div>
                                 @endif

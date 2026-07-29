@@ -387,6 +387,16 @@ return [
         'cancelled' => 'ملغاة',
         'pending' => 'قيد الانتظار',
         'abandoned' => 'ملغية',
+
+        // Phase aliases
+        'first_half' => 'الشوط الأول',
+        'half_time' => 'استراحة الشوطين',
+        'second_half' => 'الشوط الثاني',
+        'et_break' => 'استراحة الأشواط الإضافية',
+        'et_first_half' => 'الشوط الإضافي الأول',
+        'et_half_time' => 'استراحة الأشواط الإضافية',
+        'et_second_half' => 'الشوط الإضافي الثاني',
+        'full_time' => 'نهاية المباراة',
     ],
     'registration' => [
         'pending' => 'قيد المراجعة',

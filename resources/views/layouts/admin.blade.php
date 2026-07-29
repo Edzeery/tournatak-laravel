@@ -152,6 +152,12 @@
                             </a>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.referees.*') ? 'active' : '' }}"
+                            href="{{ route('admin.referees.index') }}" data-tooltip="{{ __('app.referees') }}">
+                            <i class="bi bi-person-check-fill"></i> <span>{{ __('app.referees') }}</span>
+                        </a>
+                    </li>
                     @endcan
                 </ul>
             </div>

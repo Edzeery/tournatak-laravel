@@ -387,6 +387,16 @@ return [
         'cancelled' => 'Cancelled',
         'pending' => 'Pending',
         'abandoned' => 'Abandoned',
+
+        // Phase aliases
+        'first_half' => '1st Half',
+        'half_time' => 'Half Time',
+        'second_half' => '2nd Half',
+        'et_break' => 'ET Break',
+        'et_first_half' => '1st Half (ET)',
+        'et_half_time' => 'Half Time (ET)',
+        'et_second_half' => '2nd Half (ET)',
+        'full_time' => 'Full Time',
     ],
     'registration' => [
         'pending' => 'Pending',

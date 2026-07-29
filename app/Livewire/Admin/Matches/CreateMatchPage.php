@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Matches;
 use App\Models\Match_;
 use App\Models\Competition;
 use App\Models\Team;
+use App\Models\Referee;
 use App\Services\MatchService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -16,11 +17,20 @@ class CreateMatchPage extends Component
     public ?int $team2_id = null;
     public ?string $match_date = null;
     public string $status = 'upcoming';
+    public ?int $referee_id = null;
+    public ?int $assistant_referee_1_id = null;
+    public ?int $assistant_referee_2_id = null;
+    public ?int $fourth_official_id = null;
 
     public function store()
     {
         $service = app(MatchService::class);
-        $this->validate($service->getValidationRules());
+        $this->validate(array_merge($service->getValidationRules(), [
+            'referee_id' => 'nullable|exists:referees,id',
+            'assistant_referee_1_id' => 'nullable|exists:referees,id',
+            'assistant_referee_2_id' => 'nullable|exists:referees,id',
+            'fourth_official_id' => 'nullable|exists:referees,id',
+        ]));
 
         $service->validateSameTeams($this->team1_id, $this->team2_id);
 
@@ -30,6 +40,10 @@ class CreateMatchPage extends Component
             'team2_id' => $this->team2_id,
             'match_date' => $this->match_date,
             'status' => $this->status,
+            'referee_id' => $this->referee_id,
+            'assistant_referee_1_id' => $this->assistant_referee_1_id,
+            'assistant_referee_2_id' => $this->assistant_referee_2_id,
+            'fourth_official_id' => $this->fourth_official_id,
         ]);
 
         session()->flash('success', __('app.match_created'));
@@ -42,6 +56,7 @@ class CreateMatchPage extends Component
             'title' => __('app.add_new_match'),
             'competitions' => Competition::orderBy('name')->get(),
             'teams' => Team::orderBy('name')->get(),
+            'referees' => Referee::active()->orderBy('name')->get(),
         ]);
     }
 }

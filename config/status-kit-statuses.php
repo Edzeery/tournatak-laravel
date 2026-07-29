@@ -497,6 +497,16 @@ return [
         'cancelled' => 'cancelled',
         'pending' => 'pending',
         'abandoned' => 'abandoned',
+
+        // Phase aliases
+        'first_half' => ['variant' => 'danger',  'light' => 'text-red-700 bg-red-100',  'dark' => 'dark:text-red-300 dark:bg-red-900/40',  'hex' => '#dc2626', 'icon' => 'play-circle'],
+        'half_time' => ['variant' => 'warning', 'light' => 'text-yellow-700 bg-yellow-100', 'dark' => 'dark:text-yellow-300 dark:bg-yellow-900/40', 'hex' => '#facc15', 'icon' => 'pause'],
+        'second_half' => ['variant' => 'danger',  'light' => 'text-red-700 bg-red-100',  'dark' => 'dark:text-red-300 dark:bg-red-900/40',  'hex' => '#dc2626', 'icon' => 'play-circle'],
+        'et_break' => ['variant' => 'info',    'light' => 'text-blue-700 bg-blue-100', 'dark' => 'dark:text-blue-300 dark:bg-blue-900/40', 'hex' => '#2563eb', 'icon' => 'pending'],
+        'et_first_half' => ['variant' => 'danger',  'light' => 'text-red-700 bg-red-100',  'dark' => 'dark:text-red-300 dark:bg-red-900/40',  'hex' => '#dc2626', 'icon' => 'play-circle'],
+        'et_half_time' => ['variant' => 'warning', 'light' => 'text-yellow-700 bg-yellow-100', 'dark' => 'dark:text-yellow-300 dark:bg-yellow-900/40', 'hex' => '#facc15', 'icon' => 'pause'],
+        'et_second_half' => ['variant' => 'danger',  'light' => 'text-red-700 bg-red-100',  'dark' => 'dark:text-red-300 dark:bg-red-900/40',  'hex' => '#dc2626', 'icon' => 'play-circle'],
+        'full_time' => ['variant' => 'success', 'light' => 'text-green-700 bg-green-100', 'dark' => 'dark:text-green-300 dark:bg-green-900/40', 'hex' => '#16a34a', 'icon' => 'completed'],
     ],
 
     // ══════════════════════════════════════════════════════════════

@@ -235,7 +235,7 @@ class TestDataSeeder extends Seeder
     private function createPlayers(array $teams): array
     {
         $this->command->info('Creating 23 players per team (184 total)...');
-        $positions = Position::where('sport_type', 'football')->orderBy('sort_order')->get();
+        $positions = Position::where('sport_type', 'football')->get()->keyBy('abbreviation');
         if ($positions->isEmpty()) {
             $this->command->error('No football positions found. Run PositionSeeder first.');
             return [];
@@ -243,6 +243,14 @@ class TestDataSeeder extends Seeder
 
         $usedNames = [];
         $allPlayers = [];
+
+        $positionMap = [
+            1 => 'GK', 2 => 'RB', 3 => 'CB', 4 => 'CB', 5 => 'LB',
+            6 => 'CDM', 7 => 'CM', 8 => 'CM', 9 => 'CAM', 10 => 'RW', 11 => 'ST',
+            12 => 'GK', 13 => 'CB', 14 => 'LB', 15 => 'RB', 16 => 'CDM',
+            17 => 'CM', 18 => 'CAM', 19 => 'LW', 20 => 'LB', 21 => 'CB',
+            22 => 'RW', 23 => 'GK',
+        ];
 
         foreach ($teams as $tIdx => $team) {
             $key = $this->teamDefs[$tIdx]['key'];
@@ -265,13 +273,15 @@ class TestDataSeeder extends Seeder
                 $user->assignRole('player');
 
                 $number = $this->getShirtNumber($pIdx);
+                $abbr = $positionMap[$number] ?? 'ST';
+                $positionId = isset($positions[$abbr]) ? $positions[$abbr]->id : $positions->first()->id;
                 $dob = Carbon::create(rand(1990, 2005), rand(1, 12), rand(1, 28));
 
                 $allPlayers[] = Player::create([
                     'user_id' => $user->id,
                     'team_id' => $team->id,
                     'number' => $number,
-                    'position_id' => $positions[$pIdx % $positions->count()]->id,
+                    'position_id' => $positionId,
                     'sport_type' => 'football',
                     'nationality' => $this->nationalities[array_rand($this->nationalities)],
                     'height' => rand(165, 198),
@@ -384,8 +394,15 @@ class TestDataSeeder extends Seeder
                 $isInProgress = !$isCompleted && $m < $matchCount * 0.75;
                 $status = $isCompleted ? 'completed' : ($isInProgress ? 'in_progress' : 'scheduled');
 
-                $s1 = $isCompleted ? rand(0, 5) : ($isInProgress ? rand(0, 3) : null);
-                $s2 = $isCompleted ? rand(0, 5) : ($isInProgress ? rand(0, 3) : null);
+                if ($isCompleted) {
+                    [$s1, $s2] = $this->generateScore();
+                } elseif ($isInProgress) {
+                    [$s1, $s2] = $this->generateScore();
+                    $s1 = min($s1, rand(0, 3));
+                    $s2 = min($s2, rand(0, 3));
+                } else {
+                    $s1 = $s2 = null;
+                }
 
                 $allMatches[] = Match_::create([
                     'competition_id' => $comp->id,
@@ -401,6 +418,20 @@ class TestDataSeeder extends Seeder
         }
 
         return $allMatches;
+    }
+
+    private function generateScore(): array
+    {
+        $dist = [
+            [0,0,10],[1,0,15],[0,1,9],[1,1,14],[2,1,13],[1,2,9],
+            [2,0,8],[0,2,5],[3,1,5],[2,2,4],[3,0,3],[0,3,2],[3,2,2],[2,3,1],
+        ];
+        $r = rand(1, 100);
+        foreach ($dist as $d) {
+            $r -= $d[2];
+            if ($r <= 0) return [$d[0], $d[1]];
+        }
+        return [rand(0, 4), rand(0, 4)];
     }
 
     private function pickUniqueDate(int $compIdx, int $matchIdx, array $usedDates, array $teamSchedule, int $t1Id, int $t2Id): string
@@ -428,11 +459,15 @@ class TestDataSeeder extends Seeder
 
     private function createMatchLineups(array $allMatches, array $allPlayers): void
     {
-        $this->command->info('Creating match lineups (11 starters + subs)...');
+        $this->command->info('Creating match lineups with formation slots...');
+        $teamFormations = Formation::where('is_default', true)->get()->keyBy('team_id');
+
         foreach ($allMatches as $match) {
             foreach ([$match->team1_id, $match->team2_id] as $teamId) {
                 $pool = array_values(array_filter($allPlayers, fn($p) => $p->team_id === $teamId));
-                $starterCount = min(11, count($pool));
+                $formation = $teamFormations->get($teamId);
+                $slotCount = $formation ? count($formation->positions_data) : 11;
+                $starterCount = min($slotCount, count($pool));
 
                 foreach ($pool as $idx => $player) {
                     $isStarter = $idx < $starterCount;
@@ -454,64 +489,64 @@ class TestDataSeeder extends Seeder
 
     private function createMatchEvents(array $allMatches, array $allPlayers): void
     {
-        $this->command->info('Creating match events...');
+        $this->command->info('Creating match events from lineups...');
         foreach ($allMatches as $match) {
             if ($match->status !== 'completed') continue;
 
-            $t1 = array_values(array_filter($allPlayers, fn($p) => $p->team_id === $match->team1_id));
-            $t2 = array_values(array_filter($allPlayers, fn($p) => $p->team_id === $match->team2_id));
+            $lineups = MatchLineup::where('match_id', $match->id)->get();
 
-            $this->addGoalsForTeam($match, $t1, $match->score_team1 ?? 0, $match->team1_id);
-            $this->addGoalsForTeam($match, $t2, $match->score_team2 ?? 0, $match->team2_id);
+            $t1Starters = $lineups->where('team_id', $match->team1_id)->where('is_starter', true)->pluck('player_id')->toArray();
+            $t2Starters = $lineups->where('team_id', $match->team2_id)->where('is_starter', true)->pluck('player_id')->toArray();
+            $t1Subs = $lineups->where('team_id', $match->team1_id)->where('is_starter', false)->pluck('player_id')->toArray();
+            $t2Subs = $lineups->where('team_id', $match->team2_id)->where('is_starter', false)->pluck('player_id')->toArray();
+
+            $this->addGoalsForTeam($match, $t1Starters, $match->score_team1 ?? 0, $match->team1_id);
+            $this->addGoalsForTeam($match, $t2Starters, $match->score_team2 ?? 0, $match->team2_id);
 
             $yc = rand(1, 5);
             for ($y = 0; $y < $yc; $y++) {
-                $pool = $y % 2 === 0 ? $t1 : $t2;
+                $pool = $y % 2 === 0 ? $t1Starters : $t2Starters;
                 if (empty($pool)) continue;
                 MatchEvent::create([
                     'match_id' => $match->id,
                     'team_id' => $y % 2 === 0 ? $match->team1_id : $match->team2_id,
-                    'player_id' => $pool[array_rand($pool)]->id,
+                    'player_id' => $pool[array_rand($pool)],
                     'event_type' => 'yellow_card', 'minute' => rand(10, 85),
                 ]);
             }
 
             $subs = rand(1, 3);
             for ($s = 0; $s < $subs; $s++) {
-                $pool = $s % 2 === 0 ? $t1 : $t2;
-                if (count($pool) < 2) continue;
-                $out = $pool[array_rand($pool)];
-                $in = $pool[array_rand($pool)];
-                $attempts = 0;
-                while ($in->id === $out->id && $attempts < 5) {
-                    $in = $pool[array_rand($pool)];
-                    $attempts++;
-                }
-                if ($in->id === $out->id) continue;
+                $starterPool = $s % 2 === 0 ? $t1Starters : $t2Starters;
+                $subPool = $s % 2 === 0 ? $t1Subs : $t2Subs;
+                if (empty($starterPool) || empty($subPool)) continue;
+                $out = $starterPool[array_rand($starterPool)];
+                $in = $subPool[array_rand($subPool)];
                 $min = rand(45, 80);
-                MatchEvent::create(['match_id' => $match->id, 'team_id' => $s % 2 === 0 ? $match->team1_id : $match->team2_id, 'player_id' => $in->id, 'event_type' => 'substitution_in', 'minute' => $min, 'related_player_id' => $out->id]);
-                MatchEvent::create(['match_id' => $match->id, 'team_id' => $s % 2 === 0 ? $match->team1_id : $match->team2_id, 'player_id' => $out->id, 'event_type' => 'substitution_out', 'minute' => $min, 'related_player_id' => $in->id]);
+                $teamId = $s % 2 === 0 ? $match->team1_id : $match->team2_id;
+                MatchEvent::create(['match_id' => $match->id, 'team_id' => $teamId, 'player_id' => $in, 'event_type' => 'substitution_in', 'minute' => $min, 'related_player_id' => $out]);
+                MatchEvent::create(['match_id' => $match->id, 'team_id' => $teamId, 'player_id' => $out, 'event_type' => 'substitution_out', 'minute' => $min, 'related_player_id' => $in]);
             }
         }
     }
 
-    private function addGoalsForTeam(Match_ $match, array $pool, int $goalCount, int $teamId): void
+    private function addGoalsForTeam(Match_ $match, array $starterIds, int $goalCount, int $teamId): void
     {
-        if ($goalCount <= 0 || empty($pool)) return;
+        if ($goalCount <= 0 || empty($starterIds)) return;
         for ($g = 0; $g < $goalCount; $g++) {
-            $scorer = $pool[array_rand($pool)];
+            $scorerId = $starterIds[array_rand($starterIds)];
             $min = rand(3, 89);
             MatchEvent::create([
                 'match_id' => $match->id, 'team_id' => $teamId,
-                'player_id' => $scorer->id, 'event_type' => 'goal',
+                'player_id' => $scorerId, 'event_type' => 'goal',
                 'minute' => $min, 'added_time' => rand(0, 5),
             ]);
-            if (count($pool) > 1) {
-                $assist = $pool[array_rand($pool)];
-                if ($assist->id !== $scorer->id) {
+            if (count($starterIds) > 1) {
+                $assistId = $starterIds[array_rand($starterIds)];
+                if ($assistId !== $scorerId) {
                     MatchEvent::create([
                         'match_id' => $match->id, 'team_id' => $teamId,
-                        'player_id' => $assist->id, 'event_type' => 'assist',
+                        'player_id' => $assistId, 'event_type' => 'assist',
                         'minute' => $min,
                     ]);
                 }
@@ -521,23 +556,31 @@ class TestDataSeeder extends Seeder
 
     private function createMatchStats(array $allMatches): void
     {
-        $this->command->info('Creating match stats...');
+        $this->command->info('Creating match stats correlated with events...');
         foreach ($allMatches as $match) {
             if ($match->status !== 'completed') continue;
+
+            $events = MatchEvent::where('match_id', $match->id)->get();
+
             foreach ([$match->team1_id, $match->team2_id] as $tid) {
+                $teamEvents = $events->where('team_id', $tid);
+                $actualYellows = $teamEvents->whereIn('event_type', ['yellow_card', 'second_yellow'])->count();
+                $actualReds = $teamEvents->where('event_type', 'red_card')->count();
+
                 $pos = rand(35, 65);
-                $shots = rand(5, 22);
-                $passes = rand(200, 650);
+                $shots = rand(4, 20);
+                $passes = rand(250, 600);
+
                 MatchStat::create([
                     'match_id' => $match->id, 'team_id' => $tid,
                     'possession' => $pos, 'shots_total' => $shots,
-                    'shots_on_target' => max(1, (int)($shots * rand(20, 55) / 100)),
-                    'shots_off_target' => max(0, $shots - (int)($shots * rand(20, 55) / 100)),
-                    'corners' => rand(0, 12), 'fouls' => rand(5, 25), 'offsides' => rand(0, 6),
-                    'yellow_cards' => rand(0, 4), 'red_cards' => rand(0, 1),
-                    'passes_total' => $passes, 'passes_accurate' => (int)($passes * rand(60, 92) / 100),
-                    'tackles' => rand(8, 40), 'saves' => rand(1, 10),
-                    'hit_woodwork' => rand(0, 3), 'blocked_shots' => rand(0, 6),
+                    'shots_on_target' => max(1, (int)($shots * rand(25, 55) / 100)),
+                    'shots_off_target' => max(0, $shots - (int)($shots * rand(25, 55) / 100)),
+                    'corners' => rand(1, 10), 'fouls' => rand(8, 22), 'offsides' => rand(0, 5),
+                    'yellow_cards' => $actualYellows, 'red_cards' => $actualReds,
+                    'passes_total' => $passes, 'passes_accurate' => (int)($passes * rand(65, 90) / 100),
+                    'tackles' => rand(10, 35), 'saves' => rand(2, 8),
+                    'hit_woodwork' => rand(0, 2), 'blocked_shots' => rand(0, 5),
                 ]);
             }
         }
@@ -545,22 +588,65 @@ class TestDataSeeder extends Seeder
 
     private function createTeamFormations(array $teams): void
     {
-        $this->command->info('Creating team formations...');
-        $data442 = [
-            ['x' => 50, 'y' => 90, 'role' => 'GK'], ['x' => 20, 'y' => 70, 'role' => 'LB'],
-            ['x' => 40, 'y' => 72, 'role' => 'CB'], ['x' => 60, 'y' => 72, 'role' => 'CB'],
-            ['x' => 80, 'y' => 70, 'role' => 'RB'], ['x' => 20, 'y' => 45, 'role' => 'LM'],
-            ['x' => 40, 'y' => 48, 'role' => 'CM'], ['x' => 60, 'y' => 48, 'role' => 'CM'],
-            ['x' => 80, 'y' => 45, 'role' => 'RM'], ['x' => 35, 'y' => 22, 'role' => 'ST'],
-            ['x' => 65, 'y' => 22, 'role' => 'ST'],
+        $this->command->info('Creating team formations (2 per team)...');
+        $formation442 = [
+            ['position' => 'GK', 'x' => 50, 'y' => 92],
+            ['position' => 'RB', 'x' => 78, 'y' => 75],
+            ['position' => 'CB', 'x' => 58, 'y' => 78],
+            ['position' => 'CB', 'x' => 42, 'y' => 78],
+            ['position' => 'LB', 'x' => 22, 'y' => 75],
+            ['position' => 'RM', 'x' => 78, 'y' => 52],
+            ['position' => 'CM', 'x' => 58, 'y' => 55],
+            ['position' => 'CM', 'x' => 42, 'y' => 55],
+            ['position' => 'LM', 'x' => 22, 'y' => 52],
+            ['position' => 'ST', 'x' => 58, 'y' => 28],
+            ['position' => 'ST', 'x' => 42, 'y' => 28],
         ];
-        foreach ($teams as $team) {
+        $formation433 = [
+            ['position' => 'GK', 'x' => 50, 'y' => 92],
+            ['position' => 'RB', 'x' => 78, 'y' => 75],
+            ['position' => 'CB', 'x' => 58, 'y' => 78],
+            ['position' => 'CB', 'x' => 42, 'y' => 78],
+            ['position' => 'LB', 'x' => 22, 'y' => 75],
+            ['position' => 'CM', 'x' => 50, 'y' => 60],
+            ['position' => 'CM', 'x' => 35, 'y' => 55],
+            ['position' => 'CM', 'x' => 65, 'y' => 55],
+            ['position' => 'RW', 'x' => 80, 'y' => 30],
+            ['position' => 'ST', 'x' => 50, 'y' => 25],
+            ['position' => 'LW', 'x' => 20, 'y' => 30],
+        ];
+        $formation4231 = [
+            ['position' => 'GK', 'x' => 50, 'y' => 92],
+            ['position' => 'RB', 'x' => 78, 'y' => 75],
+            ['position' => 'CB', 'x' => 58, 'y' => 78],
+            ['position' => 'CB', 'x' => 42, 'y' => 78],
+            ['position' => 'LB', 'x' => 22, 'y' => 75],
+            ['position' => 'CDM', 'x' => 38, 'y' => 62],
+            ['position' => 'CDM', 'x' => 62, 'y' => 62],
+            ['position' => 'RAM', 'x' => 75, 'y' => 45],
+            ['position' => 'CAM', 'x' => 50, 'y' => 45],
+            ['position' => 'LAM', 'x' => 25, 'y' => 45],
+            ['position' => 'ST', 'x' => 50, 'y' => 25],
+        ];
+
+        foreach ($teams as $idx => $team) {
             Formation::create([
                 'team_id' => $team->id, 'name' => '4-4-2 أساسي',
                 'sport_type' => 'football', 'formation_code' => '4-4-2',
-                'positions_data' => $data442,
+                'positions_data' => $formation442,
                 'description' => 'التشكيل الأساسي - 4-4-2 متوازن',
                 'is_default' => true, 'is_active' => true,
+            ]);
+
+            $alt = $idx % 2 === 0 ? $formation433 : $formation4231;
+            $code = $idx % 2 === 0 ? '4-3-3' : '4-2-3-1';
+            $name = $idx % 2 === 0 ? '4-3-3 هجومي' : '4-2-3-1 مرن';
+            Formation::create([
+                'team_id' => $team->id, 'name' => $name,
+                'sport_type' => 'football', 'formation_code' => $code,
+                'positions_data' => $alt,
+                'description' => 'تشكيل بديل',
+                'is_default' => false, 'is_active' => true,
             ]);
         }
     }

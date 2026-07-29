@@ -311,12 +311,6 @@
 .border-modal {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
-.bg-opacity-10 {
-    --bs-bg-opacity: 0.1 !important;
-}
-.bg-opacity-20 {
-    --bs-bg-opacity: 0.2 !important;
-}
 
 .text-primary {
     --bs-text-opacity: 1;
@@ -928,4 +922,13 @@
 }
 .h-56 {
     height: 56px !important;
+}
+
+// bg-opacity
+.bg-opacity-10 {
+    --bs-bg-opacity: var(--bs-bg-opacity-10);
+}
+
+.bg-opacity-20 {
+   --bs-bg-opacity: var(--bs-bg-opacity-20);
 }

@@ -32,6 +32,28 @@ class Match_ extends Model
         self::STATUS_PENDING => 'قيد الانتظار',
     ];
 
+    const PHASE_SCHEDULED = 'scheduled';
+    const PHASE_FIRST_HALF = 'first_half';
+    const PHASE_HALF_TIME = 'half_time';
+    const PHASE_SECOND_HALF = 'second_half';
+    const PHASE_ET_BREAK = 'et_break';
+    const PHASE_ET_FIRST_HALF = 'et_first_half';
+    const PHASE_ET_HALF_TIME = 'et_half_time';
+    const PHASE_ET_SECOND_HALF = 'et_second_half';
+    const PHASE_FULL_TIME = 'full_time';
+
+    const PHASES = [
+        self::PHASE_SCHEDULED => '—',
+        self::PHASE_FIRST_HALF => 'الشوط الأول',
+        self::PHASE_HALF_TIME => 'استراحة',
+        self::PHASE_SECOND_HALF => 'الشوط الثاني',
+        self::PHASE_ET_BREAK => 'استراحة إضافية',
+        self::PHASE_ET_FIRST_HALF => 'شوط إضافي أول',
+        self::PHASE_ET_HALF_TIME => 'استراحة إضافية',
+        self::PHASE_ET_SECOND_HALF => 'شوط إضافي ثاني',
+        self::PHASE_FULL_TIME => 'انتهت',
+    ];
+
     protected $fillable = [
         'competition_id',
         'team1_id',
@@ -50,6 +72,10 @@ class Match_ extends Model
         'added_time_first_half',
         'added_time_second_half',
         'match_notes',
+        'referee_id',
+        'assistant_referee_1_id',
+        'assistant_referee_2_id',
+        'fourth_official_id',
         'round',
         'group_name',
         'stage',
@@ -85,6 +111,26 @@ class Match_ extends Model
     public function team2(): BelongsTo
     {
         return $this->belongsTo(Team::class, 'team2_id');
+    }
+
+    public function referee(): BelongsTo
+    {
+        return $this->belongsTo(Referee::class, 'referee_id');
+    }
+
+    public function assistantReferee1(): BelongsTo
+    {
+        return $this->belongsTo(Referee::class, 'assistant_referee_1_id');
+    }
+
+    public function assistantReferee2(): BelongsTo
+    {
+        return $this->belongsTo(Referee::class, 'assistant_referee_2_id');
+    }
+
+    public function fourthOfficial(): BelongsTo
+    {
+        return $this->belongsTo(Referee::class, 'fourth_official_id');
     }
 
     public function goals(): HasMany
@@ -126,5 +172,54 @@ class Match_ extends Model
             return $this->match_date->timestamp * 1000;
         }
         return 0;
+    }
+
+    // ── Phase system ───────────────────────────────────────────────
+
+    public function getPhaseAttribute(): string
+    {
+        return $this->extra_data['phase'] ?? self::PHASE_SCHEDULED;
+    }
+
+    public function setPhase(string $phase): void
+    {
+        $extra = $this->extra_data ?? [];
+        $extra['phase'] = $phase;
+        $this->extra_data = $extra;
+    }
+
+    public function getFirstHalfStartedAtAttribute(): ?string
+    {
+        return $this->extra_data['first_half_started_at'] ?? null;
+    }
+
+    public function getSecondHalfStartedAtAttribute(): ?string
+    {
+        return $this->extra_data['second_half_started_at'] ?? null;
+    }
+
+    public function getEtFirstHalfStartedAtAttribute(): ?string
+    {
+        return $this->extra_data['et_first_half_started_at'] ?? null;
+    }
+
+    public function getEtSecondHalfStartedAtAttribute(): ?string
+    {
+        return $this->extra_data['et_second_half_started_at'] ?? null;
+    }
+
+    public function getPhaseLabelAttribute(): string
+    {
+        return __("app.phase_{$this->phase}") ?? self::PHASES[$this->phase] ?? '—';
+    }
+
+    public function getAddedTimeEtFirstHalfAttribute(): int
+    {
+        return (int)($this->extra_data['added_time_et_first_half'] ?? 0);
+    }
+
+    public function getAddedTimeEtSecondHalfAttribute(): int
+    {
+        return (int)($this->extra_data['added_time_et_second_half'] ?? 0);
     }
 }

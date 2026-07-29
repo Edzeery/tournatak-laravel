@@ -131,12 +131,67 @@
                                 </thead>
                                 <tbody>
                                     @foreach($recentMatches as $match)
-                                        <tr>
+                                        <tr
+                                            @if(in_array($match->phase, ['first_half','half_time','second_half','et_break','et_first_half','et_half_time','et_second_half']))
+                                            x-data="{
+                                                phase: '{{ $match->phase }}',
+                                                fhs: {{ $match->first_half_started_at ? strtotime($match->first_half_started_at) * 1000 : 'null' }},
+                                                shs: {{ $match->second_half_started_at ? strtotime($match->second_half_started_at) * 1000 : 'null' }},
+                                                et1s: {{ $match->et_first_half_started_at ? strtotime($match->et_first_half_started_at) * 1000 : 'null' }},
+                                                et2s: {{ $match->et_second_half_started_at ? strtotime($match->et_second_half_started_at) * 1000 : 'null' }},
+                                                period: '', display: '00:00', _id: null,
+                                                init() { this.tick(); this._id = setInterval(() => this.tick(), 1000); },
+                                                tick() {
+                                                    const now = Date.now();
+                                                    if (this.phase === 'full_time') { this.period = 'FT'; this.display = 'FT'; return; }
+                                                    if (this.phase === 'first_half' && this.fhs) {
+                                                        const s = Math.max(0, Math.floor((now - this.fhs) / 1000));
+                                                        const m = Math.floor(s / 60); const sec = s % 60;
+                                                        this.period = '1st'; this.display = String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                        if (m >= 45) this.display += '+' + (m - 45);
+                                                        return;
+                                                    }
+                                                    if (this.phase === 'half_time') { this.period = 'HT'; this.display = 'HT'; return; }
+                                                    if (this.phase === 'second_half' && this.shs) {
+                                                        const s = Math.max(0, Math.floor((now - this.shs) / 1000));
+                                                        const m = Math.floor(s / 60); const sec = s % 60;
+                                                        const t = 45 + m;
+                                                        this.period = '2nd'; this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                        if (m >= 45) this.display += '+' + (m - 45);
+                                                        return;
+                                                    }
+                                                    if (this.phase === 'et_first_half' && this.et1s) {
+                                                        const s = Math.max(0, Math.floor((now - this.et1s) / 1000));
+                                                        const m = Math.floor(s / 60); const sec = s % 60;
+                                                        this.period = 'ET1'; this.display = String(90 + m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                        return;
+                                                    }
+                                                    if (this.phase === 'et_second_half' && this.et2s) {
+                                                        const s = Math.max(0, Math.floor((now - this.et2s) / 1000));
+                                                        const m = Math.floor(s / 60); const sec = s % 60;
+                                                        this.period = 'ET2'; this.display = String(105 + m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                                                        return;
+                                                    }
+                                                    this.period = ''; this.display = '—';
+                                                },
+                                                destroy() { if (this._id) clearInterval(this._id); }
+                                            }"
+                                            @endif
+                                        >
                                             <td class="fw-bold fs-base">{{ $match->team1->name ?? '—' }}</td>
                                             <td class="text-center">
-                                                <span class="badge bg-dark rounded-pill px-3 fs-base">
-                                                    {{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}
-                                                </span>
+                                                @if($match->status === 'in_progress')
+                                                    <span class="badge bg-danger rounded-pill px-3 fs-base live-pulse">
+                                                        {{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}
+                                                    </span>
+                                                    <div class="fs-xs text-danger mt-1">
+                                                        <span x-text="period"></span> <span x-text="display"></span>
+                                                    </div>
+                                                @else
+                                                    <span class="badge bg-dark rounded-pill px-3 fs-base">
+                                                        {{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}
+                                                    </span>
+                                                @endif
                                             </td>
                                             <td class="fw-bold fs-base">{{ $match->team2->name ?? '—' }}</td>
                                             <td class="text-theme-muted fs-xs">{{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>

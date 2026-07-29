@@ -370,6 +370,15 @@ return [
         'unknown' => 'Inconnu',
     ],
 
+    'competition' => [
+        'draft' => 'Brouillon',
+        'upcoming' => 'À venir',
+        'ongoing' => 'En cours',
+        'completed' => 'Terminé',
+        'pending' => 'En attente',
+        'approved' => 'Approuvé',
+        'rejected' => 'Rejeté',
+    ],
     'match' => [
         'scheduled' => 'Planifié',
         'in_progress' => 'En direct',
@@ -378,6 +387,21 @@ return [
         'cancelled' => 'Annulé',
         'pending' => 'En attente',
         'abandoned' => 'Abandonné',
+
+        // Phase aliases
+        'first_half' => '1ère mi-temps',
+        'half_time' => 'Mi-temps',
+        'second_half' => '2ème mi-temps',
+        'et_break' => 'Pause prolongations',
+        'et_first_half' => '1ère prolongation',
+        'et_half_time' => 'Pause prolongations',
+        'et_second_half' => '2ème prolongation',
+        'full_time' => 'Fin du match',
+    ],
+    'registration' => [
+        'pending' => 'En attente',
+        'approved' => 'Approuvé',
+        'rejected' => 'Rejeté',
     ],
 
     'components' => [

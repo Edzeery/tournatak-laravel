@@ -345,6 +345,10 @@
     --bs-pagination-disabled-color: var(--text-muted) !important;
     --bs-pagination-disabled-bg: var(--bg-surface-alt) !important;
     --bs-pagination-disabled-border-color: var(--border-color) !important;
+
+    --bs-bg-opacity-10: 0.1 !important;
+    --bs-bg-opacity-20: 0.2 !important;
+    --bs-bg-opacity-50: 0.5 !important;
 }
 
 [data-bs-theme="dark"] {
@@ -580,9 +584,14 @@
     --bs-pagination-focus-bg: var(--bg-surface-alt) !important;
     --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.15) !important;
     --bs-pagination-active-color: var(--dark) !important;
-    --bs-pagination-active-bg: var(--primary) !important;
+    --bs-pagination-active-bg: var(--gradient-gold) !important;
     --bs-pagination-active-border-color: var(--primary) !important;
     --bs-pagination-disabled-color: var(--text-muted) !important;
     --bs-pagination-disabled-bg: var(--bg-surface-alt) !important;
     --bs-pagination-disabled-border-color: var(--border-color) !important;
+ 
+
+    --bs-bg-opacity-10: 0.1 !important;
+    --bs-bg-opacity-20: 0.2 !important;
+    --bs-bg-opacity-50: 0.5 !important;
 }

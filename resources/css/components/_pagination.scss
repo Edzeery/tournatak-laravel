@@ -42,14 +42,16 @@
     font-weight: 800;
     box-shadow: 0 4px 16px rgba(255, 193, 7, 0.25);
     transform: translateY(-1px);
+    font-weight: 800;
 }
 
 // ---- Disabled page ----
-.page-btn-disabled {
+.page-btn-disabled,li.page-item.disabled  {
     opacity: 0.35;
     cursor: not-allowed;
     pointer-events: none;
 }
+
 
 // ---- Ellipsis ----
 .page-btn-ellipsis {

@@ -33,7 +33,7 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="team-card h-100">
                             @if($player->image)
-                                <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->user->name ?? '' }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
+                                <img src="{{ $player->image_url }}" alt="{{ $player->user->name ?? '' }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
                             @else
                                 <div class="team-avatar mx-auto player-avatar-blue">
                                     {{ mb_substr($player->user->name ?? 'P', 0, 1) }}

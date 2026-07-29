@@ -1,4 +1,4 @@
-<div class="  w-4xl">
+<div class="  w-4xl" wire:poll.30s>
     @if (auth()->check())
         <div class="nav-item" x-data="notificationBell()" @click.outside="close()" @keydown.escape.window="close()"
              class="position-relative">

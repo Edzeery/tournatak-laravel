@@ -51,7 +51,6 @@
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.role') }}</label>
                         <select class="form-select" wire:model="role" required>
-                            <option value="viewer">{{ __('app.viewer') }}</option>
                             <option value="competitor">{{ __('app.competitor') }}</option>
                             <option value="captain">{{ __('app.captain') }}</option>
                             <option value="player">{{ __('app.player_role') }}</option>

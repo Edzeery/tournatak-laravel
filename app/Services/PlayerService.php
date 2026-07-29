@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Models\Player;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PlayerService
 {
@@ -38,6 +41,20 @@ class PlayerService
         return $player;
     }
 
+    public function storeImage(UploadedFile $file): string
+    {
+        $filename = 'player_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->storeAs('players', $filename, 'uploads');
+        return $filename;
+    }
+
+    public function deleteImageFile(?string $filename): void
+    {
+        if (!$filename) return;
+        if (Str::startsWith($filename, ['http://', 'https://'])) return;
+        Storage::disk('uploads')->delete('players/' . $filename);
+    }
+
     public function getValidationRules(): array
     {
         return [
@@ -46,6 +63,7 @@ class PlayerService
             'number' => 'nullable|integer|min:0',
             'position_text' => 'nullable|string|max:255',
             'image' => 'nullable|string|max:255',
+            'imageFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:512',
             'position_id' => 'nullable|exists:positions,id',
             'date_of_birth' => 'nullable|date',
             'nationality' => 'nullable|string|max:255',

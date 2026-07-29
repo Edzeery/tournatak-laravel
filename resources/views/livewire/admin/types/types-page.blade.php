@@ -67,7 +67,7 @@
                                         <x-status-badge domain="competition" status="inactive" set="bi" />
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-wrap gap-2">
                                     <button class="btn btn-sm btn-outline-warning rounded-md" wire:click="toggleActive({{ $type->id }})"
                                         aria-label="{{ __('app.toggle_active') }}">
                                         <i class="bi bi-toggle-{{ $type->is_active ? 'on' : 'off' }}"></i>

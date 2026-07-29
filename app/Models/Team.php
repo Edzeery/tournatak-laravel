@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Team extends Model
 {
@@ -72,5 +73,14 @@ class Team extends Model
     public function getHeadCoachAttribute(): ?User
     {
         return $this->staff()->where('staff_role', 'head_coach')->where('is_active', true)->first()?->user;
+    }
+
+    public function getLogoUrlAttribute(): ?string
+    {
+        if (!$this->logo) return null;
+        if (Str::startsWith($this->logo, ['http://', 'https://'])) {
+            return $this->logo;
+        }
+        return asset('uploads/teams/' . $this->logo);
     }
 }

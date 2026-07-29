@@ -55,6 +55,7 @@ use Illuminate\Support\Facades\Route;
 | Public Routes
 |--------------------------------------------------------------------------
 */
+
 Route::get('/lang/{locale}', function ($locale) {
     if (!in_array($locale, ['ar', 'en', 'fr', 'es'])) {
         abort(400);
@@ -79,6 +80,7 @@ Route::get('/home', HomePage::class)->name('home.index');
 |--------------------------------------------------------------------------
 */
 Route::get('/competitions', PublicCompetitionsPage::class)->name('competitions.index');
+Route::get('/competitions/{competition}', \App\Livewire\Public\CompetitionDetailPage::class)->name('competitions.show');
 Route::get('/teams', PublicTeamsPage::class)->name('teams.index');
 Route::get('/teams/{teamId}', TeamDetailPage::class)->name('teams.show');
 Route::get('/players', PublicPlayersPage::class)->name('players.index');
@@ -89,6 +91,7 @@ Route::get('/players/{playerId}', PlayerDetailPage::class)->name('players.show')
 | Auth Routes (Guest only)
 |--------------------------------------------------------------------------
 */
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', LoginPage::class)->name('login');
     Route::get('/register', RegisterPage::class)->name('register');
@@ -110,6 +113,7 @@ Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
 
     return redirect()->route('login')->with('success', 'تم تفعيل حسابك بنجاح! يمكنك الآن تسجيل الدخول.');
 })->name('verification.verify');
+
 
 Route::middleware('auth')->post('/logout', function () {
     \App\Services\SecurityActivityLogger::logout(auth()->user());

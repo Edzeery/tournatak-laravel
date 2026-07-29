@@ -7,15 +7,20 @@ use App\Models\Team;
 use App\Services\PlayerService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.admin')]
 class CreatePlayerPage extends Component
 {
+    use WithFileUploads;
+
     public ?int $user_id = null;
     public ?int $team_id = null;
     public ?int $number = null;
     public ?string $position_text = null;
     public ?string $image = null;
+    public $imageFile = null;
+    public string $imageSrc = 'url';
     public $position_id = '';
     public $date_of_birth = '';
     public $nationality = '';
@@ -32,17 +37,21 @@ class CreatePlayerPage extends Component
         $this->positions = \App\Models\Position::where('is_active', true)->orderBy('sport_type')->orderBy('sort_order')->get();
     }
 
+    public function updatedImageFile()
+    {
+        $this->validate(['imageFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:512']);
+    }
+
     public function store()
     {
         $service = app(PlayerService::class);
         $this->validate($service->getValidationRules());
 
-        $service->create([
+        $data = [
             'user_id' => $this->user_id,
             'team_id' => $this->team_id,
             'number' => $this->number,
             'position_text' => $this->position_text,
-            'image' => $this->image,
             'position_id' => $this->position_id,
             'date_of_birth' => $this->date_of_birth,
             'nationality' => $this->nationality,
@@ -52,10 +61,24 @@ class CreatePlayerPage extends Component
             'sport_type' => $this->sport_type,
             'bio' => $this->bio,
             'is_captain' => $this->is_captain,
-        ]);
+            'image' => $this->resolveImage(),
+        ];
+
+        $service->create($data);
 
         session()->flash('success', __('app.player_created'));
         return redirect()->route('admin.players.index');
+    }
+
+    private function resolveImage(): ?string
+    {
+        if ($this->imageSrc === 'upload' && $this->imageFile) {
+            return app(PlayerService::class)->storeImage($this->imageFile);
+        }
+        if ($this->imageSrc === 'url' && $this->image) {
+            return $this->image;
+        }
+        return null;
     }
 
     public function render()

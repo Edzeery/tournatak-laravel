@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Player extends Model
 {
@@ -47,7 +48,7 @@ class Player extends Model
 
     public function goals(): HasMany
     {
-        return $this->hasMany(Goal::class);
+        return $this->hasMany(MatchEvent::class)->goal();
     }
 
     public function position(): BelongsTo
@@ -78,5 +79,14 @@ class Player extends Model
     public function getNameAttribute(): ?string
     {
         return $this->user->name ?? null;
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image) return null;
+        if (Str::startsWith($this->image, ['http://', 'https://'])) {
+            return $this->image;
+        }
+        return asset('uploads/players/' . $this->image);
     }
 }

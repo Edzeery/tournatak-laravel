@@ -56,20 +56,20 @@
                         </div>
 
                         <div class="text-center my-2">
-                            <svg viewBox="0 0 200 140" style="width:100%;max-width:280px;height:auto;">
+                            <svg viewBox="0 0 140 200" style="width:100%;max-width:200px;height:auto;">
                                 <defs>
                                     <linearGradient id="pitchGrad{{ $formation->id }}" x1="0%" y1="0%" x2="0%" y2="100%">
                                         <stop offset="0%" style="stop-color:#2d8a4e;stop-opacity:1" />
                                         <stop offset="100%" style="stop-color:#1e6b36;stop-opacity:1" />
                                     </linearGradient>
                                 </defs>
-                                <rect x="5" y="5" width="190" height="130" rx="4" fill="url(#pitchGrad{{ $formation->id }})" stroke="#fff" stroke-width="1" opacity="0.95"/>
-                                <line x1="100" y1="5" x2="100" y2="135" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
-                                <circle cx="100" cy="70" r="18" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
-                                <rect x="60" y="5" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
-                                <rect x="60" y="105" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <rect x="5" y="5" width="130" height="190" rx="4" fill="url(#pitchGrad{{ $formation->id }})" stroke="#fff" stroke-width="1" opacity="0.95"/>
+                                <line x1="5" y1="100" x2="135" y2="100" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <circle cx="70" cy="100" r="18" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <rect x="30" y="5" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                <rect x="30" y="165" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
                                 @foreach($positions as $pos)
-                                    <circle cx="{{ ($pos['x'] / 100) * 190 + 5 }}" cy="{{ ($pos['y'] / 100) * 130 + 5 }}" r="5" fill="#fff" stroke="#f0c040" stroke-width="1.5"/>
+                                    <circle cx="{{ ($pos['x'] / 100) * 130 + 5 }}" cy="{{ ($pos['y'] / 100) * 190 + 5 }}" r="5" fill="#fff" stroke="#f0c040" stroke-width="1.5"/>
                                 @endforeach
                             </svg>
                         </div>
@@ -164,20 +164,20 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold">{{ __('app.formation_preview') }}</label>
                             <div class="text-center p-3 bg-light rounded" style="border:1px dashed #ccc;">
-                                <svg viewBox="0 0 200 140" style="width:100%;max-width:360px;height:auto;">
+                                <svg viewBox="0 0 140 200" style="width:100%;max-width:260px;height:auto;">
                                     <defs>
                                         <linearGradient id="modalPitchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                                             <stop offset="0%" style="stop-color:#2d8a4e;stop-opacity:1" />
                                             <stop offset="100%" style="stop-color:#1e6b36;stop-opacity:1" />
                                         </linearGradient>
                                     </defs>
-                                    <rect x="5" y="5" width="190" height="130" rx="4" fill="url(#modalPitchGrad)" stroke="#fff" stroke-width="1"/>
-                                    <line x1="100" y1="5" x2="100" y2="135" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
-                                    <circle cx="100" cy="70" r="18" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
-                                    <rect x="60" y="5" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
-                                    <rect x="60" y="105" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <rect x="5" y="5" width="130" height="190" rx="4" fill="url(#modalPitchGrad)" stroke="#fff" stroke-width="1"/>
+                                    <line x1="5" y1="100" x2="135" y2="100" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <circle cx="70" cy="100" r="18" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <rect x="30" y="5" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
+                                    <rect x="30" y="165" width="80" height="30" rx="0" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.4"/>
                                     @foreach($selectedPositions as $pos)
-                                        <circle cx="{{ ($pos['x'] / 100) * 190 + 5 }}" cy="{{ ($pos['y'] / 100) * 130 + 5 }}" r="5" fill="#fff" stroke="#f0c040" stroke-width="1.5"/>
+                                        <circle cx="{{ ($pos['x'] / 100) * 130 + 5 }}" cy="{{ ($pos['y'] / 100) * 190 + 5 }}" r="5" fill="#fff" stroke="#f0c040" stroke-width="1.5"/>
                                     @endforeach
                                 </svg>
                                 <div class="mt-2">

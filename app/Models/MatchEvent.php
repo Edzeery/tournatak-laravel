@@ -43,7 +43,32 @@ class MatchEvent extends Model
 
     public function match(): BelongsTo
     {
-        return $this->belongsTo(Match_::class);
+        return $this->belongsTo(Match_::class, 'match_id');
+    }
+
+    public function scopeGoal($query)
+    {
+        return $query->whereIn('event_type', ['goal', 'own_goal', 'penalty_scored']);
+    }
+
+    public function scopeScored($query)
+    {
+        return $query->whereIn('event_type', ['goal', 'penalty_scored']);
+    }
+
+    public function scopeAssist($query)
+    {
+        return $query->where('event_type', 'assist');
+    }
+
+    public function scopeYellowCard($query)
+    {
+        return $query->whereIn('event_type', ['yellow_card', 'second_yellow']);
+    }
+
+    public function scopeRedCard($query)
+    {
+        return $query->where('event_type', 'red_card');
     }
 
     public function team(): BelongsTo

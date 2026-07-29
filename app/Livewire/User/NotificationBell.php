@@ -58,6 +58,7 @@ class NotificationBell extends Component
 
     public function render()
     {
+        $this->loadData();
         return view('livewire.user.notification-bell');
     }
 }

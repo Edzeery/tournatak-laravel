@@ -201,13 +201,13 @@
 }
 
 .offcanvas-header .btn-close {
-    padding: calc(var(--bs-offcanvas-padding-y) * .5) calc(var(--bs-offcanvas-padding-x) * .5);
-    margin-top: calc(-.5 * var(--bs-offcanvas-padding-y));
-    margin-left: calc(-.5 * var(--bs-offcanvas-padding-x));
-    margin-bottom: calc(-.5 * var(--bs-offcanvas-padding-y));
+    padding: calc(var(--bs-offcanvas-padding-y) * 0.5)
+        calc(var(--bs-offcanvas-padding-x) * 0.5);
+    margin-top: calc(-0.5 * var(--bs-offcanvas-padding-y));
+    margin-left: calc(-0.5 * var(--bs-offcanvas-padding-x));
+    margin-bottom: calc(-0.5 * var(--bs-offcanvas-padding-y));
     margin-right: auto;
 }
-
 
 // ---- Gold outline button ----
 .btn-gold-outline {
@@ -311,6 +311,12 @@
 .border-modal {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
+.bg-opacity-10 {
+    --bs-bg-opacity: 0.1 !important;
+}
+.bg-opacity-20 {
+    --bs-bg-opacity: 0.2 !important;
+}
 
 .text-primary {
     --bs-text-opacity: 1;
@@ -345,7 +351,8 @@
 // ---- Logo ring (team/player images) ----
 .logo-ring {
     border: 3px solid var(--primary);
-    object-fit: cover;
+    object-fit: contain;
+    padding: 3px;
 }
 
 // ---- Constrained containers ----
@@ -647,48 +654,106 @@
 }
 
 .input-icon-pos {
-    right: 14px;
     top: 50%;
     transform: translateY(-50%);
 }
 
+[dir="rtl"] .input-icon-pos {
+    left: 14px;
+}
+[dir="ltr"] .input-icon-pos {
+    right: 14px;
+}
+.gradient-hero {
+    background: var(--gradient-hero);
+}
+
 // ---- Slate text colors ----
-.text-slate-400 { color: #94a3b8; }
-.text-slate-500 { color: #64748b; }
-.text-slate-600 { color: #475569; }
-.text-slate-700 { color: #334155; }
-.text-slate { color: #cbd5e1; }
+.text-slate-400 {
+    color: #94a3b8;
+}
+.text-slate-500 {
+    color: #64748b;
+}
+.text-slate-600 {
+    color: #475569;
+}
+.text-slate-700 {
+    color: #334155;
+}
+.text-slate {
+    color: #cbd5e1;
+}
 
 // ---- White opacity text ----
-.text-faded-30 { color: rgba(255, 255, 255, 0.3); }
-.text-faded-40 { color: rgba(255, 255, 255, 0.4); }
-.text-faded-50 { color: rgba(255, 255, 255, 0.5); }
+.text-faded-30 {
+    color: rgba(255, 255, 255, 0.3);
+}
+.text-faded-40 {
+    color: rgba(255, 255, 255, 0.4);
+}
+.text-faded-50 {
+    color: rgba(255, 255, 255, 0.5);
+}
 
 // ---- Gold variants ----
-.text-gold-muted { color: rgba(255, 193, 7, 0.8); }
-.text-gold-dark { color: #b8860b; }
+.text-gold-muted {
+    color: rgba(255, 193, 7, 0.8);
+}
+.text-gold-dark {
+    color: #b8860b;
+}
 
 // ---- Error faded ----
-.text-error-faded { color: #fca5a5; }
+.text-error-faded {
+    color: #fca5a5;
+}
 
 // ---- Font sizes (fine-grained) ----
-.fs-08 { font-size: 0.8rem !important; }
-.fs-095 { font-size: 0.95rem !important; }
-.fs-105 { font-size: 1.05rem !important; }
-.fs-14 { font-size: 1.4rem !important; }
-.fs-18 { font-size: 1.8rem !important; }
-.fs-22 { font-size: 2.2rem !important; }
+.fs-08 {
+    font-size: 0.8rem !important;
+}
+.fs-095 {
+    font-size: 0.95rem !important;
+}
+.fs-105 {
+    font-size: 1.05rem !important;
+}
+.fs-14 {
+    font-size: 1.4rem !important;
+}
+.fs-18 {
+    font-size: 1.8rem !important;
+}
+.fs-22 {
+    font-size: 2.2rem !important;
+}
 
 // ---- Sizing (additional) ----
-.w-40 { width: 40px !important; }
-.h-40 { height: 40px !important; }
-.min-w-40 { min-width: 40px !important; }
-.w-140 { width: 140px !important; }
-.min-w-60 { min-width: 60px !important; }
-.min-w-50 { min-width: 50px !important; }
+.w-40 {
+    width: 40px !important;
+}
+.h-40 {
+    height: 40px !important;
+}
+.min-w-40 {
+    min-width: 40px !important;
+}
+.w-140 {
+    width: 140px !important;
+}
+.min-w-60 {
+    min-width: 60px !important;
+}
+.min-w-50 {
+    min-width: 50px !important;
+}
 
 // ---- Position ----
-.pos-rel-z2 { position: relative; z-index: 2; }
+.pos-rel-z2 {
+    position: relative;
+    z-index: 2;
+}
 
 // ---- Table utilities (light admin tables) ----
 .th-head {

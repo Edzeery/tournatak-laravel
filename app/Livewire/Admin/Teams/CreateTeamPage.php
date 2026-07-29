@@ -1,18 +1,22 @@
 <?php
 namespace App\Livewire\Admin\Teams;
 
-use App\Models\Team;
 use App\Models\User;
 use App\Services\TeamService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.admin')]
 class CreateTeamPage extends Component
 {
+    use WithFileUploads;
+
     public string $name = '';
     public ?int $captain_id = null;
-    public ?string $logo = null;
+    public $logoFile = null;
+    public string $logoUrl = '';
+    public string $logoSrc = 'upload'; // 'upload' | 'url'
     public int $points = 0;
 
     public function store()
@@ -20,10 +24,18 @@ class CreateTeamPage extends Component
         $service = app(TeamService::class);
         $this->validate($service->getValidationRules());
 
+        $logo = null;
+
+        if ($this->logoSrc === 'upload' && $this->logoFile) {
+            $logo = $service->storeLogo($this->logoFile);
+        } elseif ($this->logoSrc === 'url' && $this->logoUrl) {
+            $logo = $this->logoUrl;
+        }
+
         $service->create([
             'name' => $this->name,
             'captain_id' => $this->captain_id,
-            'logo' => $this->logo,
+            'logo' => $logo,
             'points' => $this->points,
         ]);
 

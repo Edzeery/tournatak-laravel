@@ -105,7 +105,14 @@
             $jerseyNum = $pos['jersey_number'] ?? '';
             $isCaptain = $pos['is_captain'] ?? false;
             $photo = $pos['photo'] ?? null;
-            $photoUrl = $photo ? asset('uploads/players/' . $photo) : null;
+            $photoUrl = null;
+            if ($photo) {
+                if (\Illuminate\Support\Str::startsWith($photo, ['http://', 'https://'])) {
+                    $photoUrl = $photo;
+                } else {
+                    $photoUrl = asset('uploads/players/' . $photo);
+                }
+            }
             $r = 20;
             $uid = 'p-' . md5($sportType . $jerseyClass . $idx);
         @endphp

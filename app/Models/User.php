@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,7 +18,7 @@ use App\Mail\VerificationEmail;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasRoles, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasRoles, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name',

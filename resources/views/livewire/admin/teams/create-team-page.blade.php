@@ -40,9 +40,39 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">{{ __('app.logo_url') }}</label>
-                        <input type="text" class="form-control" wire:model="logo" placeholder="https://...">
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.logo') }}</label>
+                        <div class="d-flex gap-3 mb-2">
+                            <label class="d-flex align-items-center gap-1 cursor-pointer">
+                                <input type="radio" wire:model="logoSrc" value="upload">
+                                <span>{{ __('app.upload') }}</span>
+                            </label>
+                            <label class="d-flex align-items-center gap-1 cursor-pointer">
+                                <input type="radio" wire:model="logoSrc" value="url">
+                                <span>{{ __('app.link') }}</span>
+                            </label>
+                            <label class="d-flex align-items-center gap-1 cursor-pointer">
+                                <input type="radio" wire:model="logoSrc" value="none" checked>
+                                <span>{{ __('app.none') }}</span>
+                            </label>
+                        </div>
+
+                        @if ($logoSrc === 'upload')
+                            <input type="file" class="form-control" wire:model="logoFile" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
+                            <div class="fs-sm text-chrome-muted mt-1">
+                                <i class="bi bi-info-circle"></i> {{ __('app.logo_constraints') }}
+                            </div>
+                            <div wire:loading wire:target="logoFile" class="fs-sm text-warning mt-1">
+                                <span class="spinner-border spinner-border-sm"></span> {{ __('app.uploading') }}...
+                            </div>
+                            @if ($logoFile)
+                                <div class="mt-2">
+                                    <img src="{{ $logoFile->temporaryUrl() }}" alt="" class="rounded-circle object-cover border-chrome w-64 h-64 logo-ring">
+                                </div>
+                            @endif
+                        @elseif ($logoSrc === 'url')
+                            <input type="text" class="form-control" wire:model="logoUrl" placeholder="https://...">
+                        @endif
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.points') }}</label>

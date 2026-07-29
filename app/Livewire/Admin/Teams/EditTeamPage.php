@@ -3,16 +3,24 @@ namespace App\Livewire\Admin\Teams;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Services\TeamService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.admin')]
 class EditTeamPage extends Component
 {
+    use WithFileUploads;
+
     public Team $team;
     public string $name = '';
     public ?int $captain_id = null;
     public ?string $logo = null;
+    public $logoFile = null;
+    public string $logoUrl = '';
+    public string $logoSrc = 'none'; // 'none' | 'upload' | 'url'
+    public bool $removeLogo = false;
     public int $points = 0;
 
     public function mount(Team $team)
@@ -24,23 +32,61 @@ class EditTeamPage extends Component
         $this->captain_id = $team->captain_id;
         $this->logo = $team->logo;
         $this->points = $team->points;
+
+        if ($team->logo) {
+            if (str_starts_with($team->logo, 'http')) {
+                $this->logoSrc = 'url';
+                $this->logoUrl = $team->logo;
+            } else {
+                $this->logoSrc = 'none';
+            }
+        }
+    }
+
+    public function updatedRemoveLogo($value)
+    {
+        if ($value) {
+            $this->logoSrc = 'none';
+            $this->logoFile = null;
+            $this->logoUrl = '';
+        }
     }
 
     public function update()
     {
+        $service = app(TeamService::class);
         $this->validate([
             'name' => 'required|string|max:255|unique:teams,name,' . $this->team->id,
             'captain_id' => 'nullable|exists:users,id',
-            'logo' => 'nullable|string|max:255',
+            'logoFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:500',
+            'logoUrl' => 'nullable|string|max:2048',
             'points' => 'integer|min:0',
         ]);
+
+        $logo = $this->logo;
+
+        if ($this->removeLogo) {
+            $service->deleteLogoFile($this->logo);
+            $logo = null;
+        } elseif ($this->logoFile) {
+            $service->deleteLogoFile($this->logo);
+            $logo = $service->storeLogo($this->logoFile);
+        } elseif ($this->logoSrc === 'url' && $this->logoUrl) {
+            if (!str_starts_with($this->logo, 'http')) {
+                $service->deleteLogoFile($this->logo);
+            }
+            $logo = $this->logoUrl;
+        }
 
         $this->team->update([
             'name' => $this->name,
             'captain_id' => $this->captain_id,
-            'logo' => $this->logo,
+            'logo' => $logo,
             'points' => $this->points,
         ]);
+
+        $this->logo = $logo;
+        $this->logoFile = null;
 
         session()->flash('success', __('app.team_updated'));
         return redirect()->route('admin.teams.index');

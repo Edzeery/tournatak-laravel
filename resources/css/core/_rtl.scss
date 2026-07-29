@@ -65,10 +65,10 @@
 }
 
 
-[dir="ltr"] .btn-close {
+[dir="rtl"] .btn-close {
     padding: calc(var(--bs-offcanvas-padding-y) * .5) calc(var(--bs-offcanvas-padding-x) * .5);
     margin-top: calc(-.5 * var(--bs-offcanvas-padding-y));
-    margin-right: calc(-.5 * var(--bs-offcanvas-padding-x));
+    margin-left: calc(-.5 * var(--bs-offcanvas-padding-x));
     margin-bottom: calc(-.5 * var(--bs-offcanvas-padding-y));
-    margin-left: auto;
+    margin-right: auto;
 }

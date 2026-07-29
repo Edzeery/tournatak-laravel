@@ -4,13 +4,6 @@
         <h1 class="h3 mb-0">{{ $title }}</h1>
     </div>
 
-    @if(session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
     <form wire:submit="save">
 
         {{-- Appearance --}}
@@ -194,3 +187,38 @@
 
     </form>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('swal:success', function(event) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: event.detail.message,
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+                background: '#1a1f35',
+                color: '#fff',
+                borderColor: 'rgba(22,163,74,0.3)',
+                iconColor: '#16a34a'
+            });
+
+            const theme = document.querySelector('input[name="theme"]:checked')?.value;
+            if (theme) {
+                if (theme === 'system') {
+                    localStorage.removeItem('theme');
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    document.documentElement.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
+                } else {
+                    localStorage.setItem('theme', theme);
+                    document.documentElement.setAttribute('data-bs-theme', theme);
+                }
+                if (window.updateThemeIcon) {
+                    window.updateThemeIcon(document.documentElement.getAttribute('data-bs-theme'));
+                }
+            }
+        });
+    </script>
+@endpush

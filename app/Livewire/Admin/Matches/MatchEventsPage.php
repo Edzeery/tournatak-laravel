@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Events\GoalScored;
 use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\Player;
@@ -69,6 +70,9 @@ class MatchEventsPage extends Component
             return;
         }
 
+        $isNew = false;
+        $isGoal = false;
+
         if ($this->editingEventId) {
             $event = MatchEvent::findOrFail($this->editingEventId);
             $event->update([
@@ -82,7 +86,7 @@ class MatchEventsPage extends Component
             ]);
             session()->flash('success', __('app.event_updated'));
         } else {
-            MatchEvent::create([
+            $event = MatchEvent::create([
                 'match_id' => $this->matchId,
                 'team_id' => $this->eventForm['team_id'],
                 'player_id' => $this->eventForm['player_id'],
@@ -92,7 +96,15 @@ class MatchEventsPage extends Component
                 'description' => $this->eventForm['description'],
                 'related_player_id' => $this->eventForm['related_player_id'],
             ]);
+            $isNew = true;
             session()->flash('success', __('app.event_added'));
+        }
+
+        $this->recalculateScore();
+
+        if ($isNew && in_array($this->eventForm['event_type'], ['goal', 'penalty_scored'])) {
+            $isGoal = true;
+            event(new GoalScored($event));
         }
 
         $this->closeModal();
@@ -118,8 +130,40 @@ class MatchEventsPage extends Component
     public function deleteEvent($id)
     {
         MatchEvent::findOrFail($id)->delete();
+        $this->recalculateScore();
         session()->flash('success', __('app.event_deleted'));
         $this->loadEvents();
+    }
+
+    protected function recalculateScore(): void
+    {
+        $score1 = MatchEvent::where('match_id', $this->matchId)
+            ->where(function ($q) {
+                $q->where(function ($q2) {
+                    $q2->where('team_id', $this->match->team1_id)
+                        ->whereIn('event_type', ['goal', 'penalty_scored']);
+                })->orWhere(function ($q2) {
+                    $q2->where('team_id', $this->match->team2_id)
+                        ->where('event_type', 'own_goal');
+                });
+            })->count();
+
+        $score2 = MatchEvent::where('match_id', $this->matchId)
+            ->where(function ($q) {
+                $q->where(function ($q2) {
+                    $q2->where('team_id', $this->match->team2_id)
+                        ->whereIn('event_type', ['goal', 'penalty_scored']);
+                })->orWhere(function ($q2) {
+                    $q2->where('team_id', $this->match->team1_id)
+                        ->where('event_type', 'own_goal');
+                });
+            })->count();
+
+        $this->match->update([
+            'score_team1' => $score1,
+            'score_team2' => $score2,
+        ]);
+        $this->match->refresh();
     }
 
     public function closeModal()

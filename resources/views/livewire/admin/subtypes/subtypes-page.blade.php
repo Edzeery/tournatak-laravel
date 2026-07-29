@@ -57,7 +57,7 @@
                                 <td class="text-chrome-muted">{{ $subtype->id }}</td>
                                 <td class="fw-bold">{{ $subtype->name }}</td>
                                 <td class="text-chrome-muted">{{ $subtype->en_name }}</td>
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-wrap gap-2">
                                     <a href="{{ route('admin.subtypes.edit', $subtype) }}" class="btn btn-sm btn-outline-primary rounded-md"
                                         aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>

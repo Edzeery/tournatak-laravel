@@ -1,4 +1,5 @@
 /* Tournatak - Bootstrap 5 + custom theme */
+
 @import 'bootstrap/scss/bootstrap';
 
 @import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -43,6 +44,7 @@
 @import 'pages/empty-state';
 @import 'pages/profile';
 @import 'pages/dashboard';
+@import 'pages/competition-detail';
 
 /* ---- Admin Panel ---- */
 @import 'panels/admin';

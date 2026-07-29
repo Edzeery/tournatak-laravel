@@ -158,7 +158,7 @@
                                 <td class="fs-base text-slate-400">
                                     {{ formatDate($record->expected_return) ?? '—' }}
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-wrap gap-2">
                                     <button class="btn btn-sm btn-outline-primary rounded-md" wire:click="editRecord({{ $record->id }})">
                                         <i class="bi bi-pencil"></i>
                                     </button>

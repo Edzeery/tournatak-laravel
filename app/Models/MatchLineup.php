@@ -22,6 +22,7 @@ class MatchLineup extends Model
         'sub_reason',
         'is_captain',
         'performance_notes',
+        'formation_slot',
     ];
 
     protected $casts = [
@@ -34,7 +35,7 @@ class MatchLineup extends Model
 
     public function match(): BelongsTo
     {
-        return $this->belongsTo(Match_::class);
+        return $this->belongsTo(Match_::class, 'match_id');
     }
 
     public function player(): BelongsTo

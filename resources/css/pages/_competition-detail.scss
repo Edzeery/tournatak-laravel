@@ -1,0 +1,853 @@
+// ---- Hero Stats Panel Items ----
+.hero-stat-item {
+    text-align: center;
+}
+.hero-stat-item .stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+.hero-stat-item .stat-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+// ---- Negative margin utility ----
+.mt-neg-20 {
+    margin-top: -20px;
+}
+
+// ---- Custom Tabs (main competition tabs) ----
+.nav-tabs-custom {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border: none;
+}
+.nav-tabs-custom .nav-item {
+    margin: 0;
+}
+.nav-tabs-custom .nav-link {
+    border: none;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    background: transparent;
+}
+.nav-tabs-custom .nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+}
+.nav-tabs-custom .nav-link.active {
+    color: var(--bs-primary);
+    background: rgba(255, 193, 7, 0.1);
+}
+.nav-tabs-custom .nav-link i {
+    font-size: 0.9rem;
+}
+
+// ---- Date Bar ----
+.date-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.date-bar-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color-light);
+    background: transparent;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+.date-bar-btn:hover {
+    background: var(--bg-surface-alt);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+.date-bar-track {
+    display: flex;
+    gap: 3px;
+    flex: 1;
+    justify-content: center;
+}
+.date-cell {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    min-width: 54px;
+    padding: 0.45rem 0.25rem 0.3rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background: transparent;
+}
+.date-cell:hover {
+    background: var(--bg-surface-alt);
+}
+.date-cell.selected {
+    background: var(--bs-primary);
+    box-shadow: 0 2px 12px rgba(255, 193, 7, 0.3);
+}
+.date-cell.selected .date-cell-dow,
+.date-cell.selected .date-cell-day,
+.date-cell.selected .date-cell-month,
+.date-cell.selected .date-cell-label {
+    color: #000;
+}
+.date-cell-dow {
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+.date-cell-day {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+.date-cell-month {
+    font-size: 0.55rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+.date-cell-label {
+    font-size: 0.5rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+.date-cell.selected .date-cell-label {
+    color: rgba(0, 0, 0, 0.6);
+}
+.date-cell-dot {
+    position: absolute;
+    bottom: 2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+.date-cell.selected .date-cell-dot {
+    background: rgba(0, 0, 0, 0.5);
+}
+.date-cell.has-matches .date-cell-dot {
+    background: var(--accent);
+}
+.date-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+// ---- Matches Toolbar ----
+.matches-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+.matches-search {
+    position: relative;
+    flex: 1;
+    min-width: 160px;
+    max-width: 280px;
+}
+.matches-search .bi-search {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+.matches-search-input {
+    width: 100%;
+    padding: 0.45rem 0.75rem 0.45rem 1.75rem;
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-sm);
+    background: var(--input-bg);
+    color: var(--input-color);
+    font-size: 0.82rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.matches-search-input:focus {
+    border-color: var(--input-focus-border);
+    background: var(--bg-surface);
+}
+.matches-search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+.matches-search-clear {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 0.8rem;
+}
+.matches-search-clear:hover {
+    color: var(--text-primary);
+}
+.matches-filters {
+    display: flex;
+    gap: 3px;
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-sm);
+    padding: 3px;
+}
+.filter-btn {
+    all: unset;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+.filter-btn:hover {
+    color: var(--text-secondary);
+}
+.filter-btn.active {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+// ---- Match Cards ----
+.match-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 0.5rem;
+}
+.match-card:hover {
+    border-color: var(--bs-primary);
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-2px);
+}
+.match-card-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.match-team {
+    flex: 1;
+    min-width: 0;
+}
+.match-team-home .match-team-name {
+    text-align: right;
+    display: block;
+}
+.match-team-away .match-team-name {
+    text-align: left;
+    display: block;
+}
+.match-team-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+}
+.match-center {
+    text-align: center;
+    flex-shrink: 0;
+    min-width: 80px;
+}
+.match-score {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+.match-time {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--text-secondary);
+}
+.match-status {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+.match-status.completed {
+    color: var(--text-secondary);
+}
+.match-status.live {
+    color: var(--bs-danger);
+}
+.match-status.scheduled {
+    color: var(--text-secondary);
+}
+.live-pulse {
+    animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+// ---- Standings Table ----
+.standings-table thead th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+}
+.standings-table tbody td {
+    vertical-align: middle;
+    font-size: 0.85rem;
+}
+.table-highlight td {
+    background: rgba(255, 193, 7, 0.04);
+}
+.team-standings-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.rank-gold { background: #ffc107; }
+.rank-silver { background: #a0aec0; }
+.rank-bronze { background: #cd7f32; }
+
+// ---- Form Badges ----
+.form-badge {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin: 0 0.1rem;
+}
+.form-w {
+    background: rgba(0, 212, 170, 0.15);
+    color: #00d4aa;
+}
+.form-d {
+    background: rgba(255, 193, 7, 0.15);
+    color: #ffc107;
+}
+.form-l {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+// ---- Utility classes used in competition detail ----
+.badge-sport {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: rgba(255, 193, 7, 0.12);
+    color: var(--bs-primary);
+    border-radius: 50px;
+}
+.text-gold {
+    color: var(--bs-primary) !important;
+}
+.team-icon-lg {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg-surface-alt);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.team-icon-lg i {
+    color: var(--text-secondary);
+}
+
+// ---- Hover Lift ----
+.hover-lift {
+    transition: all 0.3s ease;
+}
+.hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+}
+
+// ---- Flatpickr alt input (styled as date-bar button) ----
+.flatpickr-alt-compact {
+    width: 34px !important;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color-light);
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    padding: 0;
+}
+.flatpickr-alt-compact:hover {
+    background: var(--bg-surface-alt);
+    border-color: var(--border-color);
+}
+.flatpickr-alt-compact::before {
+    content: '\f133';
+    font-family: 'bootstrap-icons', sans-serif;
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1;
+}
+.flatpickr-alt-compact:hover::before {
+    color: var(--text-primary);
+}
+
+// ---- Match Detail Modal ----
+.match-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 1055;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.25s ease;
+}
+.match-modal-dialog {
+    width: 100%;
+    max-width: 720px;
+    max-height: 90vh;
+    margin: auto;
+    animation: scaleIn 0.3s ease;
+}
+.match-modal-content {
+    background: var(--chrome-bg);
+    border: 1px solid var(--chrome-border);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+}
+.match-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+}
+.match-modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+// ---- Scoreboard ----
+.match-modal-scoreboard {
+    background: linear-gradient(135deg, var(--chrome-bg-2) 0%, var(--chrome-bg) 50%, var(--chrome-bg-2) 100%);
+    padding: 2rem 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--chrome-border);
+}
+.scoreboard-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+.scoreboard-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 0;
+}
+.scoreboard-home .team-shield i {
+    color: var(--bs-primary);
+    font-size: 2rem;
+}
+.scoreboard-away .team-shield i {
+    color: var(--accent);
+    font-size: 2rem;
+}
+.team-shield {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+.scoreboard-team .team-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-align: center;
+    color: var(--text-on-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.scoreboard-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+.scoreboard-vs {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.1em;
+}
+.scoreboard-score {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.score-value {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--text-on-dark);
+    letter-spacing: -0.03em;
+    line-height: 1;
+}
+.score-value.score-tbd {
+    color: rgba(255, 255, 255, 0.25);
+}
+.score-divider {
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.25);
+    margin: 0 0.2rem;
+}
+.scoreboard-badge {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+}
+.badge-ft {
+    background: rgba(0, 212, 170, 0.12);
+    color: #00d4aa;
+}
+.badge-live {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    animation: pulse-glow 1.5s ease infinite;
+}
+.badge-scheduled {
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.5);
+}
+.scoreboard-competition {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.35);
+    margin-top: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+    text-align: center;
+}
+
+// ---- Modal Body ----
+.match-modal-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+    overflow-y: auto;
+    max-height: calc(90vh - 180px);
+}
+
+// ---- Modal Sub-tabs ----
+.match-detail-tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 3px;
+    margin: 0;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+}
+.match-detail-tabs li {
+    margin: 0;
+}
+.tab-btn {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.45);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.tab-btn:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+.tab-btn.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.tab-btn i {
+    font-size: 0.85rem;
+}
+
+// ---- Events Timeline ----
+.events-timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+.timeline-line {
+    position: absolute;
+    left: 16px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+    border-radius: 1px;
+}
+.timeline-event {
+    position: relative;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+.timeline-dot {
+    position: absolute;
+    left: -1.35rem;
+    top: 0.65rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--chrome-bg);
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+.timeline-dot i {
+    font-size: 0.35rem;
+}
+.timeline-card {
+    flex: 1;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    border-left: 3px solid;
+}
+.timeline-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+.timeline-minute {
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+.timeline-event-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 600;
+}
+.timeline-card-body {
+    font-size: 0.85rem;
+}
+.timeline-player {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+}
+.timeline-assist {
+    font-size: 0.7rem;
+    color: #a78bfa;
+    margin-left: 0.35rem;
+}
+.timeline-own-goal {
+    font-size: 0.7rem;
+    color: #ef4444;
+    margin-left: 0.35rem;
+}
+.timeline-penalty {
+    font-size: 0.7rem;
+    color: #00d4aa;
+    margin-left: 0.35rem;
+    font-weight: 700;
+}
+.timeline-sub {
+    font-size: 0.7rem;
+    color: #60a5fa;
+    margin-left: 0.35rem;
+}
+.timeline-card-desc {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    margin-top: 0.2rem;
+}
+
+// ---- Lineups ----
+.lineup-team-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+.lineup-shield i {
+    font-size: 1.1rem;
+}
+.lineup-team-header h6 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+.lineup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+.lineup-player {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+}
+.lineup-number {
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.35);
+    min-width: 1.5rem;
+    text-align: center;
+}
+.lineup-name {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.75);
+    flex: 1;
+}
+.lineup-captain i {
+    font-size: 0.65rem;
+    color: #ffc107;
+}
+
+// ---- Stats Comparison ----
+.stats-compare {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+.stat-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.25rem;
+}
+.stat-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.stat-bar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.stat-val {
+    font-weight: 700;
+    font-size: 0.82rem;
+    min-width: 2.2rem;
+}
+.stat-val-home {
+    color: var(--bs-primary);
+    text-align: right;
+}
+.stat-val-away {
+    color: var(--accent);
+}
+.stat-track {
+    flex: 1;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.stat-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+.stat-fill-home {
+    background: linear-gradient(90deg, var(--bs-primary), #7c9aff);
+}
+.stat-fill-away {
+    background: linear-gradient(90deg, var(--accent), #34d9a8);
+}

@@ -30,7 +30,7 @@
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="team-card h-100">
                             @if($team->logo)
-                                <img src="{{ asset('uploads/teams/' . $team->logo) }}" alt="{{ $team->name }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
+                                <img src="{{ $team->logo_url }}" alt="{{ $team->name }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
                             @else
                                 <div class="team-avatar bg-gold text-dark mx-auto">
                                     {{ mb_substr($team->name, 0, 1) }}

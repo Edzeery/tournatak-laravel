@@ -28,6 +28,13 @@ class CompetitionFactory extends Factory
             'location' => fake()->city(),
             'approval_status' => 'pending',
             'status' => 'draft',
+            'format' => fake()->randomElement([
+                Competition::FORMAT_LEAGUE,
+                Competition::FORMAT_KNOCKOUT,
+                Competition::FORMAT_GROUPS,
+                Competition::FORMAT_SWISS,
+            ]),
+            'format_config' => [],
         ];
     }
 }

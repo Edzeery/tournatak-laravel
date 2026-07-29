@@ -56,7 +56,7 @@
                                 <td>
                                     <x-status-badge domain="competition" status="{{ $competition->approval_status }}" set="bi" />
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-wrap gap-2">
                                     <a href="{{ route('admin.competitions.edit', $competition) }}" class="btn btn-sm btn-outline-primary rounded-md"
                                         aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>

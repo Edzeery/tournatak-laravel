@@ -33,7 +33,6 @@
                         <option value="captain">{{ __('app.captain') }}</option>
                         <option value="player">{{ __('app.player') }}</option>
                         <option value="competitor">{{ __('app.role_competitor') }}</option>
-                        <option value="viewer">{{ __('app.viewer') }}</option>
                         <option value="user">{{ __('app.user') }}</option>
                     </select>
                 </div>
@@ -94,7 +93,7 @@
                                         <x-status-badge domain="user" status="email_unverified" set="bi" />
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-wrap gap-2">
                                     <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-primary rounded-md"
                                         aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>

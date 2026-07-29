@@ -60,9 +60,9 @@
                                 <td class="text-chrome-muted">{{ $player->id }}</td>
                                 <td>
                                     @if($player->image)
-                                        <img src="{{ $player->image }}" alt="" class="rounded-circle object-cover border-chrome w-38 h-38 logo-ring">
+                                        <img src="{{ $player->image_url }}" alt="" class="rounded-circle object-cover border-chrome w-38 h-38 logo-ring">
                                     @else
-                                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold w-38 h-38 fs-base">
+                                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold bg-opacity-10 w-38 h-38 fs-base">
                                             {{ mb_substr($player->user->name ?? '?', 0, 1) }}
                                         </div>
                                     @endif
@@ -71,7 +71,7 @@
                                 <td>{{ $player->team->name ?? '-' }}</td>
                                 <td><span class="badge-sport">{{ $player->number ?? '-' }}</span></td>
                                 <td>{{ $player->position->name ?? $player->position_text ?? '-' }}</td>
-                                <td class="text-center">
+                                <td class="text-center d-flex flex-wrap gap-2">
                                     <a href="{{ route('admin.players.edit', $player) }}" class="btn btn-sm btn-outline-primary rounded-md"
                                         aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>

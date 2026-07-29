@@ -7,7 +7,7 @@ use App\Models\Competition;
 use App\Models\Team;
 use App\Models\Player;
 use App\Models\Match_;
-use App\Models\Goal;
+use App\Models\MatchEvent;
 use App\Models\TeamStaff;
 use App\Models\TeamMedicalRecord;
 use App\Models\Activity;
@@ -28,7 +28,7 @@ class DashboardPage extends Component
             'matches' => Match_::count(),
             'matches_completed' => Match_::where('status', 'completed')->count(),
             'matches_scheduled' => Match_::where('status', 'scheduled')->count(),
-            'goals' => Goal::count(),
+            'goals' => MatchEvent::goal()->count(),
             'staff' => TeamStaff::where('is_active', true)->count(),
             'injuries' => TeamMedicalRecord::where('status', 'active')->count(),
         ];
@@ -42,18 +42,20 @@ class DashboardPage extends Component
             ->groupBy('status')
             ->pluck('total', 'status');
 
-        $topScorers = Goal::select('player_id', DB::raw('count(*) as goals'))
+        $topScorers = MatchEvent::goal()
+            ->select('player_id', DB::raw('count(*) as goals'))
             ->with('player.user', 'player.team')
             ->groupBy('player_id')
             ->orderByDesc('goals')
             ->limit(5)
             ->get();
 
-        $monthlyGoals = Goal::select(
+        $monthlyGoals = MatchEvent::goal()
+            ->select(
                 DB::raw('MONTH(matches.match_date) as month'),
                 DB::raw('count(*) as total')
             )
-            ->join('matches', 'goals.match_id', '=', 'matches.id')
+            ->join('matches', 'match_events.match_id', '=', 'matches.id')
             ->whereYear('matches.match_date', now()->year)
             ->groupBy('month')
             ->orderBy('month')

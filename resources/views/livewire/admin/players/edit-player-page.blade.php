@@ -55,8 +55,42 @@
                         <input type="text" class="form-control" wire:model="position_text" placeholder="{{ __('app.position_placeholder') }}">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">{{ __('app.image_url') }}</label>
-                        <input type="text" class="form-control" wire:model="image" placeholder="https://...">
+                        <label class="form-label fw-bold">{{ __('app.image') }}</label>
+                        <div class="d-flex gap-2 mb-2">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" wire:model="imageSrc" value="url">
+                                <span class="form-check-label">{{ __('app.link') }}</span>
+                            </label>
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" wire:model="imageSrc" value="upload">
+                                <span class="form-check-label">{{ __('app.upload') }}</span>
+                            </label>
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" wire:model="imageSrc" value="none">
+                                <span class="form-check-label">{{ __('app.no_image') }}</span>
+                            </label>
+                        </div>
+                        @if($imageSrc === 'url')
+                            <input type="text" class="form-control" wire:model="image" placeholder="https://...">
+                        @elseif($imageSrc === 'upload')
+                            <input type="file" class="form-control" wire:model="imageFile" accept="image/jpeg,image/png,image/gif,image/webp">
+                            <small class="text-white-50">{{ __('app.logo_constraints') }}</small>
+                            @if($imageFile)
+                                <div class="mt-2">
+                                    <img src="{{ $imageFile->temporaryUrl() }}" alt="" class="rounded-circle object-cover" width="64" height="64">
+                                </div>
+                            @endif
+                        @endif
+                        @if($player->image && !$removeImage && $imageSrc !== 'none')
+                            <div class="mt-2 d-flex align-items-center gap-2">
+                                <img src="{{ $player->image_url }}" alt="" class="rounded-circle object-cover" width="48" height="48">
+                                <small class="text-white-50">{{ __('app.current_image') }}</small>
+                                <label class="form-check ms-auto">
+                                    <input class="form-check-input" type="checkbox" wire:model="removeImage">
+                                    <span class="form-check-label text-danger fw-bold">{{ __('app.remove_image') }}</span>
+                                </label>
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.position_system') }}</label>

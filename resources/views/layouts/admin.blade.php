@@ -56,8 +56,8 @@
                 {{ mb_substr(Auth::user()->name ?? 'A', 0, 1) }}
             </div>
             <div class="sidebar-user-info">
-                <div class="sidebar-user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
-                <div class="sidebar-user-role">{{ Auth::user()->role ?? 'admin' }}</div>
+                <div class="sidebar-user-name text-truncate user-name">{{ Auth::user()->name ?? 'Admin' }}</div>
+                <div class="sidebar-user-role text-truncate  user-name">{{ Auth::user()->role ?? 'admin' }}</div>
             </div>
         </div>
 

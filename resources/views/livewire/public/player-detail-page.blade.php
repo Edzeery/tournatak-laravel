@@ -3,7 +3,7 @@
         <div class="container hero-content">
             <div class="d-flex align-items-center gap-4 position-relative" class="pos-rel-z2">
                 @if($player->image)
-                    <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->name ?? '' }}" class="rounded-circle object-cover player-hero-img" width="110" height="110">
+                    <img src="{{ $player->image_url }}" alt="{{ $player->name ?? '' }}" class="rounded-circle object-cover player-hero-img" width="110" height="110">
                 @else
                     <div class="d-flex align-items-center justify-content-center rounded-circle bg-gold text-dark fw-bold w-110 h-110 fs-4xl">
                         {{ mb_substr($player->name ?? 'P', 0, 1) }}

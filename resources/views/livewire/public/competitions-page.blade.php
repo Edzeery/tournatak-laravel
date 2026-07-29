@@ -19,32 +19,34 @@
             <div class="row g-4">
                 @foreach($competitions as $competition)
                     <div class="col-md-6 col-lg-4">
-                        <div class="competition-card h-100">
-                            <div class="card-header-custom"></div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h5 class="card-title mb-0">{{ $competition->name }}</h5>
-                                    <x-status-badge domain="competition" status="{{ $competition->status }}" set="bi" />
-                                </div>
-                                @if($competition->type)
-                                    <span class="badge-sport mb-2 d-inline-block">{{ $competition->type->name }}</span>
-                                @endif
-                                <p class="text-muted mb-3 fs-md lh-tight">
-                                    {{ Str::limit($competition->description, 120) }}
-                                </p>
-                                <div class="card-meta">
-                                    <span><i class="bi bi-calendar-event"></i> {{ formatDate($competition->start_date) }}</span>
-                                    @if($competition->location)
-                                        <span><i class="bi bi-geo-alt"></i> {{ Str::limit($competition->location, 25) }}</span>
+                        <a href="{{ route('competitions.show', $competition) }}" class="text-decoration-none">
+                            <div class="competition-card h-100">
+                                <div class="card-header-custom"></div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title mb-0">{{ $competition->name }}</h5>
+                                        <x-status-badge domain="competition" status="{{ $competition->status }}" set="bi" />
+                                    </div>
+                                    @if($competition->type)
+                                        <span class="badge-sport mb-2 d-inline-block">{{ $competition->type->name }}</span>
+                                    @endif
+                                    <p class="text-muted mb-3 fs-md lh-tight">
+                                        {{ Str::limit($competition->description, 120) }}
+                                    </p>
+                                    <div class="card-meta">
+                                        <span><i class="bi bi-calendar-event"></i> {{ formatDate($competition->start_date) }}</span>
+                                        @if($competition->location)
+                                            <span><i class="bi bi-geo-alt"></i> {{ Str::limit($competition->location, 25) }}</span>
+                                        @endif
+                                    </div>
+                                    @if($competition->organizer)
+                                        <div class="mt-2 fs-base text-chrome-muted">
+                                            <i class="bi bi-person"></i> {{ __('app.organizer_label') }} {{ $competition->organizer->name }}
+                                        </div>
                                     @endif
                                 </div>
-                                @if($competition->organizer)
-                                    <div class="mt-2 fs-base text-chrome-muted">
-                                        <i class="bi bi-person"></i> {{ __('app.organizer_label') }} {{ $competition->organizer->name }}
-                                    </div>
-                                @endif
                             </div>
-                        </div>
+                        </a>
                     </div>
                 @endforeach
             </div>

@@ -50,10 +50,60 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">{{ __('app.logo_url') }}</label>
-                        <input type="text" class="form-control" wire:model="logo" placeholder="https://...">
+
+                    {{-- Logo --}}
+                    <div class="col-12 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.logo') }}</label>
+
+                        {{-- Current logo preview --}}
+                        @if($logo && !$removeLogo)
+                            <div class="d-flex align-items-center gap-3 mb-3 p-3 border rounded">
+                                <img src="{{ $team->logo_url }}" alt="" class="rounded-circle object-cover border-chrome w-80 h-80 logo-ring">
+                                <div>
+                                    <div class="fw-bold">{{ __('app.current_logo') }}</div>
+                                    <label class="d-flex align-items-center gap-1 cursor-pointer mt-1 text-danger">
+                                        <input type="checkbox" wire:model.live="removeLogo">
+                                        <i class="bi bi-trash"></i> {{ __('app.remove_logo') }}
+                                    </label>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="d-flex gap-3 mb-2">
+                            <label class="d-flex align-items-center gap-1 cursor-pointer">
+                                <input type="radio" wire:model.live="logoSrc" value="upload">
+                                <span>{{ __('app.upload') }}</span>
+                            </label>
+                            <label class="d-flex align-items-center gap-1 cursor-pointer">
+                                <input type="radio" wire:model.live="logoSrc" value="url">
+                                <span>{{ __('app.link') }}</span>
+                            </label>
+                            @if(!$logo || $removeLogo)
+                                <label class="d-flex align-items-center gap-1 cursor-pointer">
+                                    <input type="radio" wire:model.live="logoSrc" value="none">
+                                    <span>{{ __('app.none') }}</span>
+                                </label>
+                            @endif
+                        </div>
+
+                        @if ($logoSrc === 'upload')
+                            <input type="file" class="form-control" wire:model="logoFile" accept="image/jpeg,image/png,image/jpg,image/gif,image/webp">
+                            <div class="fs-sm text-chrome-muted mt-1">
+                                <i class="bi bi-info-circle"></i> {{ __('app.logo_constraints') }}
+                            </div>
+                            <div wire:loading wire:target="logoFile" class="fs-sm text-warning mt-1">
+                                <span class="spinner-border spinner-border-sm"></span> {{ __('app.uploading') }}...
+                            </div>
+                            @if ($logoFile)
+                                <div class="mt-2">
+                                    <img src="{{ $logoFile->temporaryUrl() }}" alt="" class="rounded-circle object-cover border-chrome w-64 h-64 logo-ring">
+                                </div>
+                            @endif
+                        @elseif ($logoSrc === 'url')
+                            <input type="text" class="form-control" wire:model="logoUrl" placeholder="https://...">
+                        @endif
                     </div>
+
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.points') }}</label>
                         <input type="number" class="form-control" wire:model="points" min="0">

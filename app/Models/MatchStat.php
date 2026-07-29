@@ -50,7 +50,7 @@ class MatchStat extends Model
 
     public function match(): BelongsTo
     {
-        return $this->belongsTo(Match_::class);
+        return $this->belongsTo(Match_::class, 'match_id');
     }
 
     public function team(): BelongsTo

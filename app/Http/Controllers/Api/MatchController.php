@@ -16,5 +16,7 @@ class MatchController extends Controller
             ->paginate($request->input('per_page', 15));
 
         return response()->json($matches);
+
+        return response()->json($competitions);
     }
 }

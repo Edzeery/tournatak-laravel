@@ -13,6 +13,24 @@ class Competition extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const FORMAT_LEAGUE = 'league';
+    const FORMAT_KNOCKOUT = 'knockout';
+    const FORMAT_GROUPS = 'groups';
+    const FORMAT_LEAGUE_KNOCKOUT = 'league_knockout';
+    const FORMAT_DOUBLE_ELIMINATION = 'double_elimination';
+    const FORMAT_SWISS = 'swiss';
+    const FORMAT_HOME_AWAY = 'home_away';
+
+    const FORMATS = [
+        self::FORMAT_LEAGUE => 'دوري',
+        self::FORMAT_KNOCKOUT => 'خروج المغلوب',
+        self::FORMAT_GROUPS => 'مجموعات',
+        self::FORMAT_LEAGUE_KNOCKOUT => 'دوري + خروج المغلوب',
+        self::FORMAT_DOUBLE_ELIMINATION => 'إقصاء مزدوج',
+        self::FORMAT_SWISS => 'سويسري',
+        self::FORMAT_HOME_AWAY => 'ذهاب وإياب',
+    ];
+
     protected $fillable = [
         'type_id',
         'subtype_id',
@@ -24,11 +42,14 @@ class Competition extends Model
         'location',
         'approval_status',
         'status',
+        'format',
+        'format_config',
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'format_config' => 'array',
     ];
 
     public function type(): BelongsTo

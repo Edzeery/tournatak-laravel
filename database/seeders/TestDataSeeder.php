@@ -15,7 +15,6 @@ use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\MatchLineup;
 use App\Models\MatchStat;
-use App\Models\Goal;
 use App\Models\Formation;
 use App\Models\TeamStaff;
 use App\Models\TeamTactic;
@@ -431,19 +430,7 @@ class TestDataSeeder extends Seeder
                 }
             }
 
-            // ── 10. Goals (from goal events) ──────────────────────────────
-            $this->command->info('Creating goals...');
-
-            $goalEvents = MatchEvent::where('event_type', 'goal')->get();
-            foreach ($goalEvents as $event) {
-                Goal::create([
-                    'match_id' => $event->match_id,
-                    'player_id' => $event->player_id,
-                    'minute' => $event->minute,
-                ]);
-            }
-
-            // ── 11. Formations (per team) ─────────────────────────────────
+            // ── 10. Formations (per team) ──────────────────────────────────
             $this->command->info('Creating formations...');
 
             $positionsData442 = [

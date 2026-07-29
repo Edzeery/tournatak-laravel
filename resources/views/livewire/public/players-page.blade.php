@@ -22,7 +22,7 @@
                         <a href="{{ route('players.show', $player->id) }}" class="text-decoration-none">
                             <div class="team-card h-100">
                                 @if($player->image)
-                                    <img src="{{ asset('uploads/players/' . $player->image) }}" alt="{{ $player->user->name ?? '' }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
+                                    <img src="{{ $player->image_url }}" alt="{{ $player->user->name ?? '' }}" class="rounded-circle mb-3 logo-ring" width="80" height="80">
                                 @else
                                     <div class="team-avatar mx-auto player-avatar-blue">
                                         {{ mb_substr($player->user->name ?? 'P', 0, 1) }}

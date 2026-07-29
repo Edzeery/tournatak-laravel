@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire\Admin\Matches;
 
+use App\Events\MatchCompleted;
 use App\Models\Match_;
 use App\Models\Competition;
 use App\Models\Team;
@@ -40,7 +41,7 @@ class EditMatchPage extends Component
             'team1_id' => 'required|exists:teams,id',
             'team2_id' => 'required|exists:teams,id',
             'match_date' => 'nullable|date',
-            'status' => 'required|in:upcoming,ongoing,completed,cancelled',
+            'status' => 'required|in:scheduled,in_progress,completed,cancelled,postponed,abandoned,pending',
             'score_team1' => 'integer|min:0',
             'score_team2' => 'integer|min:0',
         ]);
@@ -50,6 +51,7 @@ class EditMatchPage extends Component
             return;
         }
 
+        $wasCompleted = $this->match->status === 'completed';
         $this->match->update([
             'competition_id' => $this->competition_id,
             'team1_id' => $this->team1_id,
@@ -59,6 +61,10 @@ class EditMatchPage extends Component
             'score_team1' => $this->score_team1,
             'score_team2' => $this->score_team2,
         ]);
+
+        if ($this->status === 'completed' && !$wasCompleted) {
+            event(new MatchCompleted($this->match->fresh()));
+        }
 
         session()->flash('success', __('app.match_updated'));
         return redirect()->route('admin.matches.index');

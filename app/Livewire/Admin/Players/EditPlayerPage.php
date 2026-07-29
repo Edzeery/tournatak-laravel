@@ -7,16 +7,22 @@ use App\Models\Team;
 use App\Services\PlayerService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 #[Layout('layouts.admin')]
 class EditPlayerPage extends Component
 {
+    use WithFileUploads;
+
     public Player $player;
     public ?int $user_id = null;
     public ?int $team_id = null;
     public ?int $number = null;
     public ?string $position_text = null;
     public ?string $image = null;
+    public $imageFile = null;
+    public string $imageSrc = 'url';
+    public bool $removeImage = false;
     public $position_id = '';
     public $date_of_birth = '';
     public $nationality = '';
@@ -38,6 +44,7 @@ class EditPlayerPage extends Component
         $this->number = $player->number;
         $this->position_text = $player->position_text;
         $this->image = $player->image;
+        $this->imageSrc = $player->image ? (str_starts_with($player->image, 'http') ? 'url' : 'upload') : 'none';
         $this->position_id = $player->position_id ?? '';
         $this->date_of_birth = $player->date_of_birth ? $player->date_of_birth->format('Y-m-d') : '';
         $this->nationality = $player->nationality ?? '';
@@ -50,17 +57,23 @@ class EditPlayerPage extends Component
         $this->positions = \App\Models\Position::where('is_active', true)->orderBy('sport_type')->orderBy('sort_order')->get();
     }
 
+    public function updatedImageFile()
+    {
+        $this->validate(['imageFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:512']);
+    }
+
     public function update()
     {
         $service = app(PlayerService::class);
         $this->validate($service->getValidationRules());
 
-        $service->update($this->player, [
+        $oldImage = $this->player->image;
+
+        $data = [
             'user_id' => $this->user_id,
             'team_id' => $this->team_id,
             'number' => $this->number,
             'position_text' => $this->position_text,
-            'image' => $this->image,
             'position_id' => $this->position_id,
             'date_of_birth' => $this->date_of_birth,
             'nationality' => $this->nationality,
@@ -70,10 +83,29 @@ class EditPlayerPage extends Component
             'sport_type' => $this->sport_type,
             'bio' => $this->bio,
             'is_captain' => $this->is_captain,
-        ]);
+            'image' => $this->resolveImage(),
+        ];
+
+        $service->update($this->player, $data);
+
+        if ($data['image'] !== $oldImage) {
+            $service->deleteImageFile($oldImage);
+        }
 
         session()->flash('success', __('app.player_updated'));
         return redirect()->route('admin.players.index');
+    }
+
+    private function resolveImage(): ?string
+    {
+        if ($this->removeImage) return null;
+        if ($this->imageSrc === 'upload' && $this->imageFile) {
+            return app(PlayerService::class)->storeImage($this->imageFile);
+        }
+        if ($this->imageSrc === 'url' && $this->image) {
+            return $this->image;
+        }
+        return $this->player->image;
     }
 
     public function render()

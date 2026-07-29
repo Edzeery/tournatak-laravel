@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\UserPreference;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -22,7 +23,7 @@ class UserPreferencesPage extends Component
 
     public array $themes = ['light', 'dark', 'system'];
 
-    public array $dateFormats = ['d/m/Y', 'm/d/Y', 'Y-m-d', 'd M Y'];
+    public array $dateFormats = ['d/m/Y', 'm/d/Y', 'Y-m-d', 'd M Y', 'M d, Y'];
 
     public array $timezones = [
         'Africa/Algiers',
@@ -69,7 +70,7 @@ class UserPreferencesPage extends Component
             'locale' => 'required|in:ar,en,fr,es',
             'theme' => 'required|in:light,dark,system',
             'timezone' => 'required|string',
-            'date_format' => 'required|in:d/m/Y,m/d/Y,Y-m-d,d M Y',
+            'date_format' => ['required', Rule::in(['d/m/Y', 'm/d/Y', 'Y-m-d', 'd M Y', 'M d, Y'])],
             'notify_email' => 'boolean',
             'notify_push' => 'boolean',
             'sidebar_collapsed' => 'boolean',
@@ -81,7 +82,7 @@ class UserPreferencesPage extends Component
             $validated
         );
 
-        session()->flash('success', __('app.preferences_saved'));
+        $this->dispatch('swal:success', message: __('app.preferences_saved'));
     }
 
     public function render()

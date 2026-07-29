@@ -51,15 +51,15 @@ class DatabaseSeeder extends Seeder
         $captain->assignRole('captain');
 
         // Create demo regular user
-        $viewer = User::create([
+        $regularUser = User::create([
             'name' => 'Regular User',
             'username' => 'user1',
-            'email' => 'viewer@tournatak.com',
+            'email' => 'user@tournatak.com',
             'password' => Hash::make('password'),
             'role' => 'user',
             'is_verified' => true,
         ]);
-        $viewer->assignRole('user');
+        $regularUser->assignRole('user');
 
         // Run comprehensive test data seeder
         $this->call(TestDataSeeder::class);

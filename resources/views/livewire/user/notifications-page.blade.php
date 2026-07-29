@@ -1,4 +1,4 @@
-<div class="container py-4 container-page-sm">
+<div class="container py-4 container-page-sm" wire:poll.30s>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <h4 class= fw-bold mb-0">
             <i class="bi bi-bell-fill text-gold me-2"></i>{{ __('app.notifications') }}

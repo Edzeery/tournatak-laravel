@@ -16,7 +16,8 @@
                     </p>
                     <div class="d-flex gap-3 flex-wrap animate-in animate-delay-3">
                         @auth
-                            <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('user.dashboard') }}" class="btn btn-primary-sport btn-lg">
+                            <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('user.dashboard') }}"
+                                class="btn btn-primary-sport btn-lg">
                                 <i class="bi bi-speedometer2 me-2"></i> {{ __('app.dashboard') }}
                             </a>
                         @else
@@ -34,7 +35,8 @@
                         <div class="hero-shape hero-shape-lg" style="top:-20px;right:20px;"></div>
                         <div class="hero-shape hero-shape-md" style="bottom:20px;left:0;"></div>
                         <div class="position-relative pos-rel-z2">
-                            <div class="d-inline-flex flex-column align-items-center gap-3 p-4 rounded-4 hero-stats-panel">
+                            <div
+                                class="d-inline-flex flex-column align-items-center gap-3 p-4 rounded-4 hero-stats-panel">
                                 <div class="d-flex gap-4">
                                     <div class="text-center">
                                         <div class="text-gold fw-bold fs-4xl">{{ $stats['competitions'] ?? 0 }}</div>
@@ -104,26 +106,29 @@
                 <p>{{ __('app.active_competitions_desc') }}</p>
             </div>
 
-            @if($activeCompetitions->count())
+            @if ($activeCompetitions->count())
                 <div class="row g-4">
-                    @foreach($activeCompetitions as $competition)
+                    @foreach ($activeCompetitions as $competition)
                         <div class="col-md-6 col-lg-4">
                             <div class="competition-card h-100">
                                 <div class="card-header-custom"></div>
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-start mb-3">
                                         <h5 class="card-title mb-0">{{ $competition->name }}</h5>
-                                        <x-status-badge domain="competition" status="{{ $competition->status }}" set="bi" />
+                                        <x-status-badge domain="competition" status="{{ $competition->status }}"
+                                            set="bi" />
                                     </div>
-                                    @if($competition->description)
+                                    @if ($competition->description)
                                         <p class="text-muted mb-3 fs-md lh-relaxed">
                                             {{ Str::limit($competition->description, 120) }}
                                         </p>
                                     @endif
                                     <div class="card-meta">
-                                        <span><i class="bi bi-calendar-event"></i> {{ formatDate($competition->start_date) }}</span>
-                                        @if($competition->organizer)
-                                            <span><i class="bi bi-person"></i> {{ $competition->organizer->name }}</span>
+                                        <span><i class="bi bi-calendar-event"></i>
+                                            {{ formatDate($competition->start_date) }}</span>
+                                        @if ($competition->organizer)
+                                            <span><i class="bi bi-person"></i>
+                                                {{ $competition->organizer->name }}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -148,42 +153,46 @@
     </section>
 
     {{-- Latest Teams --}}
-    @if($teams->count())
-    <section class="py-5 bg-white">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge"><i class="bi bi-shield-fill"></i> {{ __('app.featured_teams') }}</div>
-                <h2>{{ __('app.latest_teams_desc') }}</h2>
-                <p>{{ __('app.browse_teams_desc') }}</p>
-            </div>
+    @if ($teams->count())
+        <section class="py-5 gradient-hero">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge"><i class="bi bi-shield-fill"></i> {{ __('app.featured_teams') }}</div>
+                    <h2>{{ __('app.latest_teams_desc') }}</h2>
+                    <p>{{ __('app.browse_teams_desc') }}</p>
+                </div>
 
-            <div class="row g-4 justify-content-center">
-                @foreach($teams as $team)
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <div class="team-card">
-                            @if($team->logo)
-                                <img src="{{ asset('uploads/teams/' . $team->logo) }}" alt="{{ $team->name }}" class="rounded-circle mb-3 logo-ring" width="72" height="72">
-                            @else
-                                <div class="team-avatar bg-gold text-dark mx-auto">
-                                    {{ mb_substr($team->name, 0, 1) }}
-                                </div>
-                            @endif
-                            <h6 class="mb-1 fw-bold">{{ $team->name }}</h6>
-                            @if($team->points)
-                                <small class="text-muted"><i class="bi bi-star-fill text-gold"></i> {{ $team->points }} {{ __('app.points') }}</small>
-                            @endif
+                <div class="row g-4 justify-content-center">
+                    @foreach ($teams as $team)
+                        <div class="col-6 col-md-4 col-lg-2">
+                            <div class="team-card">
+                                @if ($team->logo)
+                                    <img src="{{ $team->logo_url }}" alt="{{ $team->name }}"
+                                        class="rounded-circle mb-3 logo-ring" width="72" height="72">
+                                @else
+                                    <div class="team-avatar bg-gold text-dark mx-auto">
+                                        {{ mb_substr($team->name, 0, 1) }}
+                                    </div>
+                                @endif
+                                <h6 class="mb-1 fw-bold">{{ $team->name }}</h6>
+                                @if ($team->points)
+                                    <small class="text-muted"><i class="bi bi-star-fill text-gold"></i>
+                                        {{ $team->points }} {{ __('app.points') }}</small>
+                                @endif
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
 
-            <div class="text-center mt-5">
-                <a href="{{ route('teams.index') }}" class="btn btn-outline-sport">
-                    {{ __('app.teams') }} <i class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }} me-1"></i>
-                </a>
+                <div class="text-center mt-5">
+                    <a href="{{ route('teams.index') }}" class="btn btn-outline-sport">
+                        {{ __('app.teams') }} <i class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }} me-1"></i>
+                    </a>
+                </div>
             </div>
-        </div>
-    </section>
+            <div class="hero-shape hero-shape-md" style="top:-100px;left:-100px;"></div>
+            <div class="hero-shape" style="width:200px;height:200px;bottom:-80px;right:-80px;"></div>
+        </section>
     @endif
 
     {{-- CTA Section --}}
@@ -194,7 +203,8 @@
                 {{ __('app.cta_join_desc') }}
             </p>
             @auth
-                <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('user.dashboard') }}" class="btn btn-primary-sport btn-lg">
+                <a href="{{ auth()->user()->hasRole('admin') ? route('admin.dashboard') : route('user.dashboard') }}"
+                    class="btn btn-primary-sport btn-lg">
                     <i class="bi bi-speedometer2 me-2"></i> {{ __('app.dashboard') }}
                 </a>
             @else

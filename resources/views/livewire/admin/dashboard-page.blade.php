@@ -187,7 +187,7 @@
                                                 {{ $match->team2->name ?? '—' }}</td>
                                             <td class="activity-date">
                                                 {{ formatDate($match->match_date, 'd/m') ?? '—' }}</td>
-                                            <td>
+                                            <td class="text-center d-flex flex-wrap gap-2">
                                                 <a href="{{ route('admin.matches.lineup', $match) }}"
                                                     class="btn btn-sm btn-outline-success action-btn-sm"
                                                     title="{{ __('app.lineup') }}">

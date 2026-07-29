@@ -11,7 +11,7 @@ class PlayerService
 {
     public function create(array $data): Player
     {
-        $data = array_filter($data, fn($v) => $v !== '' && $v !== null);
+        $data = array_filter($data, fn($v) => $v !== '');
         $data['position_id'] = $data['position_id'] ?? null;
         $data['date_of_birth'] = $data['date_of_birth'] ?? null;
         $data['nationality'] = $data['nationality'] ?? null;
@@ -26,7 +26,7 @@ class PlayerService
 
     public function update(Player $player, array $data): Player
     {
-        $data = array_filter($data, fn($v) => $v !== '' && $v !== null);
+        $data = array_filter($data, fn($v) => $v !== '');
         $data['position_id'] = $data['position_id'] ?? null;
         $data['date_of_birth'] = $data['date_of_birth'] ?? null;
         $data['nationality'] = $data['nationality'] ?? null;

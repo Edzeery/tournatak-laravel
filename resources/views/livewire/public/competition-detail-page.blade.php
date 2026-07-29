@@ -158,8 +158,8 @@
                                         <div class="match-score">{{ $match->score_team1 }} - {{ $match->score_team2 }}</div>
                                         <div class="match-status completed">{{ __('app.full_time') }}</div>
                                     @elseif($match->status === 'in_progress')
-                                        <div class="match-score live-pulse">{{ $match->score_team1 }} - {{ $match->score_team2 }}</div>
-                                        <span class="match-status live">{{ __('app.live') }}</span>
+                                        <div class="match-score ">{{ $match->score_team1 }} - {{ $match->score_team2 }}</div>
+                                        <span class="match-status live live-pulse">{{ __('app.live') }}</span>
                                     @else
                                         <div class="match-time">{{ $match->match_date ? $match->match_date->format('H:i') : '--:--' }}</div>
                                         <div class="match-status scheduled">{{ __('app.scheduled') }}</div>

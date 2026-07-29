@@ -321,7 +321,7 @@ return [
 
         // حالات إضافية (v1.1.4)
         'test' => 'تجربة',
-        'live' => 'الحقيقي',
+        'live' => 'المباشر',
         'sandbox' => 'الاختبار',
         'enabled' => 'مُمكّن',
         'disabled' => 'معطّل',
@@ -381,8 +381,12 @@ return [
     ],
     'match' => [
         'scheduled' => 'مجدولة',
-        'in_progress' => 'جارية',
+        'in_progress' => 'مباشر',
         'completed' => 'مكتملة',
+        'postponed' => 'مؤجلة',
+        'cancelled' => 'ملغاة',
+        'pending' => 'قيد الانتظار',
+        'abandoned' => 'ملغية',
     ],
     'registration' => [
         'pending' => 'قيد المراجعة',

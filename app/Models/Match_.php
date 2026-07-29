@@ -111,4 +111,20 @@ class Match_ extends Model
     {
         return $this->hasMany(TeamTactic::class, 'match_id');
     }
+
+    public function getStartedAtAttribute(): ?string
+    {
+        return $this->extra_data['started_at'] ?? null;
+    }
+
+    public function getKickoffTimestampAttribute(): int
+    {
+        if ($this->started_at) {
+            return strtotime($this->started_at) * 1000;
+        }
+        if ($this->match_date) {
+            return $this->match_date->timestamp * 1000;
+        }
+        return 0;
+    }
 }

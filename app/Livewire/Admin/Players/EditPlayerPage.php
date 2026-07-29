@@ -62,6 +62,13 @@ class EditPlayerPage extends Component
         $this->validate(['imageFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:512']);
     }
 
+    public function updatedImageSrc($value)
+    {
+        if (in_array($value, ['upload', 'url'])) {
+            $this->removeImage = false;
+        }
+    }
+
     public function update()
     {
         $service = app(PlayerService::class);

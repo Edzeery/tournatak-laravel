@@ -370,6 +370,16 @@ return [
         'unknown' => 'Inconnu',
     ],
 
+    'match' => [
+        'scheduled' => 'Planifié',
+        'in_progress' => 'En direct',
+        'completed' => 'Terminé',
+        'postponed' => 'Reporté',
+        'cancelled' => 'Annulé',
+        'pending' => 'En attente',
+        'abandoned' => 'Abandonné',
+    ],
+
     'components' => [
         'select_placeholder' => 'Choisir...',
         'select_search' => 'Rechercher...',

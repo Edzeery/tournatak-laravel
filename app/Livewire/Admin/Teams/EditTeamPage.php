@@ -38,7 +38,7 @@ class EditTeamPage extends Component
                 $this->logoSrc = 'url';
                 $this->logoUrl = $team->logo;
             } else {
-                $this->logoSrc = 'none';
+                $this->logoSrc = 'upload';
             }
         }
     }
@@ -49,6 +49,13 @@ class EditTeamPage extends Component
             $this->logoSrc = 'none';
             $this->logoFile = null;
             $this->logoUrl = '';
+        }
+    }
+
+    public function updatedLogoSrc($value)
+    {
+        if (in_array($value, ['upload', 'url'])) {
+            $this->removeLogo = false;
         }
     }
 

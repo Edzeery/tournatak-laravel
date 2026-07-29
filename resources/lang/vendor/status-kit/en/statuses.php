@@ -381,8 +381,12 @@ return [
     ],
     'match' => [
         'scheduled' => 'Scheduled',
-        'in_progress' => 'In Progress',
+        'in_progress' => 'Live',
         'completed' => 'Completed',
+        'postponed' => 'Postponed',
+        'cancelled' => 'Cancelled',
+        'pending' => 'Pending',
+        'abandoned' => 'Abandoned',
     ],
     'registration' => [
         'pending' => 'Pending',

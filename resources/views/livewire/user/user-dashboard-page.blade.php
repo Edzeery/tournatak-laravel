@@ -7,7 +7,7 @@
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="d-flex align-items-center gap-3 mb-3">
-                        <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold animate-scale-in avatar-lg">
+                        <div class="bg-gold bg-opacity-50 text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold animate-scale-in avatar-lg">
                             {{ mb_substr($user->name, 0, 1) }}
                         </div>
                         <div>
@@ -41,7 +41,7 @@
     <div class="row g-3 mb-4 stagger-children">
         <div class="col-6 col-md-3">
             <div class="stat-card card-hover">
-                <div class="stat-icon bg-gold bg-opacity-10 text-gold"><i class="bi bi-shield-fill"></i></div>
+                <div class="stat-icon bg-gold bg-opacity-50 text-gold"><i class="bi bi-shield-fill"></i></div>
                 <div class="stat-number count-animate fs-2xl">{{ $stats['teams'] }}</div>
                 <div class="stat-label">{{ __('app.teams') }}</div>
             </div>
@@ -78,7 +78,7 @@
                         <i class="bi bi-person-badge text-gold"></i> {{ __('app.account_info') }}
                     </h6>
                     <div class="text-center mb-4">
-                        <div class="bg-gold text-dark rounded-circle d-inline-flex align-items-center justify-content-center fw-bold mb-2 animate-scale-in avatar-md fs-2xl">
+                        <div class="bg-gold bg-opacity-50 text-dark rounded-circle d-inline-flex align-items-center justify-content-center fw-bold mb-2 animate-scale-in avatar-md fs-2xl">
                             {{ mb_substr($user->name, 0, 1) }}
                         </div>
                         <h5 class="fw-bold mb-0 text-theme-primary">{{ $user->name }}</h5>

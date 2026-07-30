@@ -91,13 +91,8 @@
                                 </td>
                                 <td>{{ $registration->getParticipantName() ?? '-' }}</td>
                                 <td>
-                                    @if($registration->status === 'approved')
-                                        <span class="badge bg-success">{{ __('app.approved') }}</span>
-                                    @elseif($registration->status === 'rejected')
-                                        <span class="badge bg-danger">{{ __('app.rejected') }}</span>
-                                    @else
-                                        <span class="badge bg-warning">{{ __('app.pending') }}</span>
-                                    @endif
+                                    <x-status-badge domain="general" class="bg-success-subtle text-success " status="{{ $registration->status }}" set="bi" />
+
                                 </td>
                                 <td class="text-chrome-muted">{{ $registration->created_at->format('Y-m-d H:i') }}</td>
                                 <td class="text-center d-flex flex-wrap gap-2 justify-content-center">

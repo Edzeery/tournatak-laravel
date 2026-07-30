@@ -385,13 +385,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if ($reg->status === 'approved')
-                                                    <span class="badge bg-success-subtle text-success fs-sm">{{ __('app.approved') }}</span>
-                                                @elseif ($reg->status === 'rejected')
-                                                    <span class="badge bg-danger-subtle text-danger fs-sm">{{ __('app.rejected') }}</span>
-                                                @else
-                                                    <span class="badge bg-warning-subtle text-warning fs-sm">{{ __('app.pending') }}</span>
-                                                @endif
+                                                <x-status-badge domain="general" class="bg-success-subtle text-success " status="{{ $reg->status }}" set="bi" />
+ 
                                             </td>
                                             <td class="text-theme-muted fs-xs">{{ formatDate($reg->created_at) }}</td>
                                         </tr>

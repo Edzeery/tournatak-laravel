@@ -38,7 +38,7 @@
                     <div class="col-md-4">
                         <label class="form-label fs-sm fw-medium">{{ __('app.participant_type') }}</label>
                         <select class="form-select" wire:model.live="participantType">
-                            <option value="individual">{{ __('app.individual') }}</option>
+                            <option value="individual">{{ __('app.participant_type_individual') }}</option>
                             <option value="team">{{ __('app.team') }}</option>
                         </select>
                     </div>
@@ -114,16 +114,11 @@
                             @foreach ($individualRegistrations as $reg)
                                 <tr>
                                     <td class="fw-bold fs-base">{{ $reg->competition->name }}</td>
-                                    <td><span class="badge bg-info-subtle text-info fs-sm">{{ __('app.individual') }}</span></td>
+                                    <td><span class="badge bg-info-subtle text-info fs-sm">{{ __('app.participant_type_individual') }}</span></td>
                                     <td class="fs-base">{{ $reg->user?->name ?? '—' }}</td>
                                     <td>
-                                        @if ($reg->status === 'approved')
-                                            <span class="badge bg-success-subtle text-success fs-sm">{{ __('app.approved') }}</span>
-                                        @elseif ($reg->status === 'rejected')
-                                            <span class="badge bg-danger-subtle text-danger fs-sm">{{ __('app.rejected') }}</span>
-                                        @else
-                                            <span class="badge bg-warning-subtle text-warning fs-sm">{{ __('app.pending') }}</span>
-                                        @endif
+                                        <x-status-badge domain="general" class="bg-success-subtle text-success " status="{{ $reg->status }}" set="bi" />
+
                                     </td>
                                     <td class="text-theme-muted fs-xs">{{ formatDate($reg->created_at) }}</td>
                                 </tr>
@@ -134,13 +129,8 @@
                                     <td><span class="badge bg-primary-subtle text-primary fs-sm">{{ __('app.team') }}</span></td>
                                     <td class="fs-base">{{ $reg->team->name ?? '—' }}</td>
                                     <td>
-                                        @if ($reg->status === 'approved')
-                                            <span class="badge bg-success-subtle text-success fs-sm">{{ __('app.approved') }}</span>
-                                        @elseif ($reg->status === 'rejected')
-                                            <span class="badge bg-danger-subtle text-danger fs-sm">{{ __('app.rejected') }}</span>
-                                        @else
-                                            <span class="badge bg-warning-subtle text-warning fs-sm">{{ __('app.pending') }}</span>
-                                        @endif
+                                        <x-status-badge domain="general" class="bg-success-subtle text-success " status="{{ $reg->status }}" set="bi" />
+
                                     </td>
                                     <td class="text-theme-muted fs-xs">{{ formatDate($reg->created_at) }}</td>
                                 </tr>

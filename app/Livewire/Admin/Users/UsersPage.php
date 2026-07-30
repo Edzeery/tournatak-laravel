@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
@@ -12,7 +13,9 @@ class UsersPage extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $roleFilter = '';
+
     public int $perPage = 10;
 
     public function updatedSearch()
@@ -47,10 +50,10 @@ class UsersPage extends Component
     public function render()
     {
         $query = User::query()
-            ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%")
+            ->when($this->search, fn ($q) => $q->where('name', 'like', "%{$this->search}%")
                 ->orWhere('username', 'like', "%{$this->search}%")
                 ->orWhere('email', 'like', "%{$this->search}%"))
-            ->when($this->roleFilter, fn($q) => $q->where('role', $this->roleFilter));
+            ->when($this->roleFilter, fn ($q) => $q->where('role', $this->roleFilter));
 
         return view('livewire.admin.users.users-page', [
             'title' => __('app.page_title_manage_users'),

@@ -6,8 +6,9 @@ use App\Models\MatchEvent;
 use App\Models\Player;
 use App\Models\Team;
 use App\Models\User;
+use Tests\TestCase;
 
-uses(\Tests\TestCase::class);
+uses(TestCase::class);
 
 beforeEach(function () {
     $this->competition = Competition::factory()->create();

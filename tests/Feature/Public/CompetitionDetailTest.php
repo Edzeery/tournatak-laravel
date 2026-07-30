@@ -1,11 +1,8 @@
 <?php
 
 use App\Models\Competition;
-use App\Models\Team;
 use App\Models\Match_;
-use App\Models\MatchEvent;
-use App\Models\Player;
-use App\Models\User;
+use App\Models\Team;
 
 test('competition detail page renders', function () {
     $competition = Competition::factory()->create(['approval_status' => 'approved']);

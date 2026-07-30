@@ -14,14 +14,27 @@ class SecurityLogPage extends Component
     use WithPagination;
 
     public string $search = '';
+
     public ?string $filterUser = null;
+
     public ?string $filterEvent = null;
 
     protected $queryString = ['search', 'filterUser', 'filterEvent'];
 
-    public function updatingSearch(): void { $this->resetPage(); }
-    public function updatingFilterUser(): void { $this->resetPage(); }
-    public function updatingFilterEvent(): void { $this->resetPage(); }
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterUser(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterEvent(): void
+    {
+        $this->resetPage();
+    }
 
     public function getRecords()
     {
@@ -30,8 +43,8 @@ class SecurityLogPage extends Component
         if ($this->search) {
             $query->where(function ($q) {
                 $q->where('event', 'like', "%{$this->search}%")
-                  ->orWhere('type', 'like', "%{$this->search}%")
-                  ->orWhere('ip_address', 'like', "%{$this->search}%");
+                    ->orWhere('type', 'like', "%{$this->search}%")
+                    ->orWhere('ip_address', 'like', "%{$this->search}%");
             });
         }
 

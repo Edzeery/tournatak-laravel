@@ -2,13 +2,15 @@
 
 namespace App\Livewire\User;
 
-use Livewire\Component;
 use App\Models\UserNotification;
+use Livewire\Component;
 
 class NotificationBell extends Component
 {
     public int $unreadCount = 0;
+
     public array $notifications = [];
+
     public bool $open = false;
 
     public function mount()
@@ -18,7 +20,9 @@ class NotificationBell extends Component
 
     public function loadData()
     {
-        if (!auth()->check()) return;
+        if (! auth()->check()) {
+            return;
+        }
 
         $this->unreadCount = UserNotification::where('user_id', auth()->id())
             ->where('is_read', false)
@@ -33,7 +37,7 @@ class NotificationBell extends Component
 
     public function toggle()
     {
-        $this->open = !$this->open;
+        $this->open = ! $this->open;
         if ($this->open) {
             $this->loadData();
         }
@@ -42,7 +46,7 @@ class NotificationBell extends Component
     public function markAsRead(int $id)
     {
         $notification = UserNotification::where('user_id', auth()->id())->find($id);
-        if ($notification && !$notification->is_read) {
+        if ($notification && ! $notification->is_read) {
             $notification->update(['is_read' => true]);
             $this->loadData();
         }
@@ -59,6 +63,7 @@ class NotificationBell extends Component
     public function render()
     {
         $this->loadData();
+
         return view('livewire.user.notification-bell');
     }
 }

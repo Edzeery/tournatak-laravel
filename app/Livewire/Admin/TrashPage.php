@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Team;
-use App\Models\Player;
 use App\Models\Competition;
 use App\Models\Match_;
+use App\Models\Player;
+use App\Models\Team;
 use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -17,6 +17,7 @@ class TrashPage extends Component
     use WithPagination;
 
     public string $filterType = 'all';
+
     public string $search = '';
 
     protected $queryString = ['filterType', 'search'];

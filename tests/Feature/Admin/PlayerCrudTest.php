@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\User;
 use App\Models\Player;
 use App\Models\Team;
+use App\Models\User;
 
 test('admin can access players index', function () {
     $admin = User::factory()->create();

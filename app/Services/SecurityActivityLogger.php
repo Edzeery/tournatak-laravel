@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Activity;
-use Illuminate\Http\Request;
 
 class SecurityActivityLogger
 {

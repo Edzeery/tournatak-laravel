@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class UserService
 {
@@ -22,7 +21,7 @@ class UserService
 
     public function update(User $user, array $data): User
     {
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);
@@ -55,7 +54,20 @@ class UserService
             'name' => 'required|string|max:255',
             'username' => "required|string|min:3|{$uniqueUsername}",
             'email' => "required|email|{$uniqueEmail}",
-            'role' => 'required|in:viewer,competitor,captain,player,organizer,admin,user',
+            'role' => 'required|in:competitor,captain,player,organizer,admin,user,local_organizer,coach',
+        ];
+    }
+
+    public function getRoleOptions(): array
+    {
+        return [
+            'user' => __('app.role_user'),
+            'competitor' => __('app.role_competitor'),
+            'captain' => __('app.role_captain'),
+            'player' => __('app.role_player'),
+            'organizer' => __('app.role_organizer'),
+            'local_organizer' => __('app.role_local_organizer'),
+            'coach' => __('app.role_coach'),
         ];
     }
 

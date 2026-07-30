@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Livewire\Admin\Players;
 
-use App\Models\Player;
-use App\Models\User;
+use App\Models\Position;
 use App\Models\Team;
+use App\Models\User;
 use App\Services\PlayerService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -15,26 +16,42 @@ class CreatePlayerPage extends Component
     use WithFileUploads;
 
     public ?int $user_id = null;
+
     public ?int $team_id = null;
+
     public ?int $number = null;
+
     public ?string $position_text = null;
+
     public ?string $image = null;
+
     public $imageFile = null;
+
     public string $imageSrc = 'url';
+
     public $position_id = '';
+
     public $date_of_birth = '';
+
     public $nationality = '';
+
     public $height = '';
+
     public $weight = '';
+
     public $foot = '';
+
     public $sport_type = 'football';
+
     public $bio = '';
+
     public $is_captain = false;
+
     public $positions = [];
 
     public function mount()
     {
-        $this->positions = \App\Models\Position::where('is_active', true)->orderBy('sport_type')->orderBy('sort_order')->get();
+        $this->positions = Position::where('is_active', true)->orderBy('sport_type')->orderBy('sort_order')->get();
     }
 
     public function updatedImageFile()
@@ -67,6 +84,7 @@ class CreatePlayerPage extends Component
         $service->create($data);
 
         session()->flash('success', __('app.player_created'));
+
         return redirect()->route('admin.players.index');
     }
 
@@ -78,6 +96,7 @@ class CreatePlayerPage extends Component
         if ($this->imageSrc === 'url' && $this->image) {
             return $this->image;
         }
+
         return null;
     }
 

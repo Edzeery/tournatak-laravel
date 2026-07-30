@@ -17,7 +17,7 @@ class UpdatePlayerStatsAfterGoal
         $matchEvent = $event->event;
         $match = $matchEvent->match;
 
-        if (!$match || !$match->competition) {
+        if (! $match || ! $match->competition) {
             return;
         }
 

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Competition;
 use App\Models\Match_;
-use App\Models\Team;
 use Illuminate\Support\Facades\DB;
 
 class TournamentFormatService
@@ -31,6 +30,7 @@ class TournamentFormatService
             'third_place_match' => false,
             'swiss_rounds' => 7,
             'home_away_rounds' => 2,
+            'scoring' => ScoringEngine::DEFAULT_SCORING,
         ];
 
         return array_merge($defaults, $competition->format_config ?? []);
@@ -331,7 +331,7 @@ class TournamentFormatService
                     'bracket' => $bracket,
                     'is_bye' => $isBye ? true : null,
                     'is_third_place' => $isThirdPlace ? true : null,
-                ], fn($v) => $v !== null);
+                ], fn ($v) => $v !== null);
 
                 Match_::create(array_merge($matchData, $extraData));
                 $created++;

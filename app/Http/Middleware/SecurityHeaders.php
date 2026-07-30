@@ -19,7 +19,7 @@ class SecurityHeaders
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
-        if ($request->isMethod('GET') && !str_starts_with($request->path(), '_debugbar')) {
+        if ($request->isMethod('GET') && ! str_starts_with($request->path(), '_debugbar')) {
             $response->headers->set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.gstatic.com cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self' ws:; frame-src 'none'; object-src 'none'");
         }
 

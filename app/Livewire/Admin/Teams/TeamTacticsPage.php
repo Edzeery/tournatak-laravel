@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Teams;
 
 use App\Models\Team;
 use App\Models\TeamTactic;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -12,10 +11,15 @@ use Livewire\Component;
 class TeamTacticsPage extends Component
 {
     public $teamId;
+
     public $team;
+
     public $tactics = [];
+
     public $showModal = false;
+
     public $editingTacticId = null;
+
     public $search = '';
 
     public $tacticForm = [
@@ -199,7 +203,7 @@ class TeamTacticsPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-tactics-page', [
-            'title' => __('app.tactics') . ' - ' . $this->team->name,
+            'title' => __('app.tactics').' - '.$this->team->name,
             'pressingStyles' => self::getPressingStyles(),
             'buildUpStyles' => self::getBuildUpStyles(),
             'defenseStyles' => self::getDefenseStyles(),

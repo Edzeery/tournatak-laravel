@@ -187,6 +187,14 @@
                         </div>
                     </li>
                     @endcan
+                    @can('manage casual competitions')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.competitions.create-casual') ? 'active' : '' }}"
+                            href="{{ route('admin.competitions.create-casual') }}">
+                            <i class="bi bi-plus-circle-dotted"></i> <span>{{ __('app.create_casual_competition') }}</span>
+                        </a>
+                    </li>
+                    @endcan
                     @can('manage competition types')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.types.*') ? 'active' : '' }}"
@@ -209,6 +217,12 @@
                 <div class="sidebar-label">{{ __('app.system') }}</div>
                 <ul class="nav flex-column">
                     @can('manage settings')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.sports.*') ? 'active' : '' }}"
+                            href="{{ route('admin.sports.index') }}" data-tooltip="{{ __('app.sports') }}">
+                            <i class="bi bi-trophy-fill"></i> <span>{{ __('app.sports') }}</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.positions.*') ? 'active' : '' }}"
                             href="{{ route('admin.positions.index') }}" data-tooltip="{{ __('app.positions') }}">

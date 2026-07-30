@@ -10,7 +10,9 @@ use Livewire\Component;
 class ProfilePage extends Component
 {
     public $full_name = '';
+
     public $profile_date_birth = '';
+
     public $hasProfile = false;
 
     protected $listeners = ['profileSaved' => '$refresh'];

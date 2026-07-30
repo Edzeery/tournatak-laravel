@@ -3,12 +3,16 @@
 namespace Database\Seeders;
 
 use App\Models\Position;
+use App\Models\Sport;
 use Illuminate\Database\Seeder;
 
 class PositionSeeder extends Seeder
 {
     public function run(): void
     {
+        $footballId = Sport::where('slug', 'football')->value('id');
+        $futsalId = Sport::where('slug', 'futsal')->value('id');
+
         $footballPositions = [
             ['name' => 'حارس المرمى', 'name_en' => 'Goalkeeper', 'category' => 'goalkeeper', 'abbreviation' => 'GK', 'sort_order' => 1],
             ['name' => 'ظهير أيمن', 'name_en' => 'Right Back', 'category' => 'defender', 'abbreviation' => 'RB', 'sort_order' => 2],
@@ -32,11 +36,11 @@ class PositionSeeder extends Seeder
         ];
 
         foreach ($footballPositions as $position) {
-            Position::create(array_merge($position, ['sport_type' => 'football']));
+            Position::create(array_merge($position, ['sport_type' => 'football', 'sport_id' => $footballId]));
         }
 
         foreach ($futsalPositions as $position) {
-            Position::create(array_merge($position, ['sport_type' => 'futsal']));
+            Position::create(array_merge($position, ['sport_type' => 'futsal', 'sport_id' => $futsalId]));
         }
     }
 }

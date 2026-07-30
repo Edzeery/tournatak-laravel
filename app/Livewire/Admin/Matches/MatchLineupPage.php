@@ -7,7 +7,7 @@ use App\Models\Match_;
 use App\Models\MatchLineup;
 use App\Models\Player;
 use App\Models\Position;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Sport;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -15,11 +15,17 @@ use Livewire\Component;
 class MatchLineupPage extends Component
 {
     public $matchId;
+
     public $match;
+
     public $team1Lineup = [];
+
     public $team2Lineup = [];
+
     public bool $showModal = false;
+
     public ?int $editingLineupId = null;
+
     public int $activeTeam = 1;
 
     public $lineupForm = [
@@ -46,9 +52,13 @@ class MatchLineupPage extends Component
     }
 
     public $selectedFormation1 = null;
+
     public $selectedFormation2 = null;
+
     public $formationsList = [];
+
     public $showFormationSelector = false;
+
     public $activeFormationTeam = 1;
 
     private static $formationPositions = [
@@ -137,7 +147,7 @@ class MatchLineupPage extends Component
         $this->authorize('update', $match);
 
         $this->matchId = $match->id;
-        $this->match = $match->load(['team1', 'team2']);
+        $this->match = $match->load(['team1', 'team2', 'competition.sport']);
         $this->loadFormationList();
         $this->selectedFormation1 = '4-4-2';
         $this->selectedFormation2 = '4-4-2';
@@ -145,6 +155,7 @@ class MatchLineupPage extends Component
     }
 
     public $team1Formations = [];
+
     public $team2Formations = [];
 
     public function loadFormationList(): void
@@ -152,13 +163,18 @@ class MatchLineupPage extends Component
         $codes = array_keys(self::$formationPositions);
         $this->formationsList = array_combine($codes, $codes);
 
+        $sportId = $this->match->competition?->sport_id;
+        $sportType = $sportId ? Sport::find($sportId)?->slug : 'football';
+
         $this->team1Formations = Formation::where('team_id', $this->match->team1_id)
-            ->where('sport_type', 'football')
+            ->when($sportId, fn ($q) => $q->where('sport_id', $sportId))
+            ->unless($sportId, fn ($q) => $q->where('sport_type', $sportType))
             ->latest()
             ->get();
 
         $this->team2Formations = Formation::where('team_id', $this->match->team2_id)
-            ->where('sport_type', 'football')
+            ->when($sportId, fn ($q) => $q->where('sport_id', $sportId))
+            ->unless($sportId, fn ($q) => $q->where('sport_type', $sportType))
             ->latest()
             ->get();
     }
@@ -211,7 +227,9 @@ class MatchLineupPage extends Component
 
     public function updatedLineupFormPlayerId($value): void
     {
-        if (!$value) return;
+        if (! $value) {
+            return;
+        }
         $player = Player::find($value);
         if ($player && $player->number) {
             $this->lineupForm['jersey_number'] = $player->number;
@@ -227,7 +245,7 @@ class MatchLineupPage extends Component
             'lineupForm.jersey_number' => 'nullable|integer|min:0|max:99',
             'lineupForm.minute_in' => 'nullable|integer|min:0|max:120',
             'lineupForm.minute_out' => 'nullable|integer|min:0|max:120',
-            'lineupForm.sub_reason' => 'nullable|in:' . implode(',', array_keys(self::getSubReasons())),
+            'lineupForm.sub_reason' => 'nullable|in:'.implode(',', array_keys(self::getSubReasons())),
             'lineupForm.is_captain' => 'required|boolean',
         ]);
 
@@ -236,6 +254,7 @@ class MatchLineupPage extends Component
         $player = Player::findOrFail($this->lineupForm['player_id']);
         if ($player->team_id !== $teamId) {
             session()->flash('error', __('app.player_not_in_team'));
+
             return;
         }
 
@@ -326,15 +345,17 @@ class MatchLineupPage extends Component
     public function getPitchData($teamNum): array
     {
         $lineup = $teamNum === 1 ? $this->team1Lineup : $this->team2Lineup;
-        $starters = $lineup->filter(fn($l) => $l->is_starter);
+        $starters = $lineup->filter(fn ($l) => $l->is_starter);
         $formation = $teamNum === 1 ? $this->selectedFormation1 : $this->selectedFormation2;
 
         $positions = self::$formationPositions[$formation] ?? self::$formationPositions['4-4-2'];
         $result = [];
 
         foreach ($positions as $idx => $pos) {
-            $assigned = $starters->first(fn($l) => $l->formation_slot === $idx);
-            if (!$assigned) continue;
+            $assigned = $starters->first(fn ($l) => $l->formation_slot === $idx);
+            if (! $assigned) {
+                continue;
+            }
             $result[] = [
                 'x' => $pos['x'],
                 'y' => $pos['y'],
@@ -355,11 +376,11 @@ class MatchLineupPage extends Component
         $lineup = $teamNum === 1 ? $this->team1Lineup : $this->team2Lineup;
         $formation = $teamNum === 1 ? $this->selectedFormation1 : $this->selectedFormation2;
         $positions = self::$formationPositions[$formation] ?? self::$formationPositions['4-4-2'];
-        $starters = $lineup->filter(fn($l) => $l->is_starter);
+        $starters = $lineup->filter(fn ($l) => $l->is_starter);
 
         $slots = [];
         foreach ($positions as $idx => $pos) {
-            $assigned = $starters->first(fn($l) => $l->formation_slot === $idx);
+            $assigned = $starters->first(fn ($l) => $l->formation_slot === $idx);
             $slots[] = [
                 'x' => $pos['x'],
                 'y' => $pos['y'],
@@ -374,6 +395,7 @@ class MatchLineupPage extends Component
                 'player_id' => $assigned->player_id ?? null,
             ];
         }
+
         return $slots;
     }
 
@@ -384,22 +406,25 @@ class MatchLineupPage extends Component
         $formation = $teamNum === 1 ? $this->selectedFormation1 : $this->selectedFormation2;
         $positions = self::$formationPositions[$formation] ?? self::$formationPositions['4-4-2'];
 
-        if (!isset($positions[$slotIndex])) {
+        if (! isset($positions[$slotIndex])) {
             session()->flash('error', __('app.invalid_position'));
+
             return;
         }
 
         $player = Player::findOrFail($playerId);
         if ($player->team_id !== $teamId) {
             session()->flash('error', __('app.player_not_in_team'));
+
             return;
         }
 
         $lineup = $teamNum === 1 ? $this->team1Lineup : $this->team2Lineup;
-        $existing = $lineup->first(fn($l) => $l->player_id === $playerId && $l->is_starter);
+        $existing = $lineup->first(fn ($l) => $l->player_id === $playerId && $l->is_starter);
 
         if ($existing) {
             session()->flash('warning', __('app.player_already_in_lineup'));
+
             return;
         }
 
@@ -440,16 +465,20 @@ class MatchLineupPage extends Component
     {
         $teamId = $this->activeTeam === 1 ? $this->match->team1_id : $this->match->team2_id;
         $players = Player::where('team_id', $teamId)->orderBy('number')->get();
-        $positions = Position::where('sport_type', 'football')->where('is_active', true)->orderBy('sort_order')->get();
+        $sportId = $this->match->competition?->sport_id;
+        $positions = Position::where('is_active', true)
+            ->when($sportId, fn ($q) => $q->where('sport_id', $sportId))
+            ->unless($sportId, fn ($q) => $q->where('sport_type', 'football'))
+            ->orderBy('sort_order')->get();
 
         $currentLineup = $this->activeTeam === 1 ? $this->team1Lineup : $this->team2Lineup;
-        $starterIds = $currentLineup->filter(fn($l) => $l->is_starter)->pluck('player_id');
-        $availablePlayers = $players->reject(fn($p) => $starterIds->contains($p->id));
+        $starterIds = $currentLineup->filter(fn ($l) => $l->is_starter)->pluck('player_id');
+        $availablePlayers = $players->reject(fn ($p) => $starterIds->contains($p->id));
 
         $activeTeamFormations = $this->activeTeam === 1 ? $this->team1Formations : $this->team2Formations;
 
         return view('livewire.admin.matches.lineup-page', [
-            'title' => __('app.page_title_match_lineup') . ' - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
+            'title' => __('app.page_title_match_lineup').' - '.$this->match->team1->name.' vs '.$this->match->team2->name,
             'match' => $this->match,
             'team1Lineup' => $this->team1Lineup,
             'team2Lineup' => $this->team2Lineup,

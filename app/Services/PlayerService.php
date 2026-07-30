@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Player;
+use App\Models\Sport;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -11,7 +12,7 @@ class PlayerService
 {
     public function create(array $data): Player
     {
-        $data = array_filter($data, fn($v) => $v !== '');
+        $data = array_filter($data, fn ($v) => $v !== '');
         $data['position_id'] = $data['position_id'] ?? null;
         $data['date_of_birth'] = $data['date_of_birth'] ?? null;
         $data['nationality'] = $data['nationality'] ?? null;
@@ -21,12 +22,16 @@ class PlayerService
         $data['bio'] = $data['bio'] ?? null;
         $data['is_captain'] = $data['is_captain'] ?? false;
 
+        if (empty($data['sport_id']) && ! empty($data['sport_type'])) {
+            $data['sport_id'] = Sport::where('slug', $data['sport_type'])->value('id');
+        }
+
         return Player::create($data);
     }
 
     public function update(Player $player, array $data): Player
     {
-        $data = array_filter($data, fn($v) => $v !== '');
+        $data = array_filter($data, fn ($v) => $v !== '');
         $data['position_id'] = $data['position_id'] ?? null;
         $data['date_of_birth'] = $data['date_of_birth'] ?? null;
         $data['nationality'] = $data['nationality'] ?? null;
@@ -43,16 +48,21 @@ class PlayerService
 
     public function storeImage(UploadedFile $file): string
     {
-        $filename = 'player_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $filename = 'player_'.uniqid().'.'.$file->getClientOriginalExtension();
         $file->storeAs('players', $filename, 'uploads');
+
         return $filename;
     }
 
     public function deleteImageFile(?string $filename): void
     {
-        if (!$filename) return;
-        if (Str::startsWith($filename, ['http://', 'https://'])) return;
-        Storage::disk('uploads')->delete('players/' . $filename);
+        if (! $filename) {
+            return;
+        }
+        if (Str::startsWith($filename, ['http://', 'https://'])) {
+            return;
+        }
+        Storage::disk('uploads')->delete('players/'.$filename);
     }
 
     public function getValidationRules(): array

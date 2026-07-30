@@ -17,7 +17,7 @@ class TournamentFormatServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new TournamentFormatService();
+        $this->service = new TournamentFormatService;
     }
 
     public function test_generate_league_creates_round_robin_matches(): void
@@ -102,8 +102,8 @@ class TournamentFormatServiceTest extends TestCase
         $matches = $this->service->generateGroups($competition);
 
         $this->assertGreaterThan(0, count($matches));
-        $groupMatches = array_filter($matches, fn($m) => ($m['stage'] ?? null) === 'group');
-        $knockoutMatches = array_filter($matches, fn($m) => ($m['stage'] ?? null) === 'knockout');
+        $groupMatches = array_filter($matches, fn ($m) => ($m['stage'] ?? null) === 'group');
+        $knockoutMatches = array_filter($matches, fn ($m) => ($m['stage'] ?? null) === 'knockout');
         $this->assertNotEmpty($groupMatches);
         $this->assertNotEmpty($knockoutMatches);
     }

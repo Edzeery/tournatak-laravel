@@ -5,6 +5,7 @@ namespace App\Livewire\Public;
 use App\Models\Competition;
 use App\Models\Match_;
 use App\Services\StandingService;
+use Carbon\Carbon;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -12,10 +13,15 @@ use Livewire\Component;
 class CompetitionDetailPage extends Component
 {
     public Competition $competition;
+
     public ?int $selectedMatchId = null;
+
     public $selectedMatch = null;
+
     public string $selectedDate;
+
     public string $filterMode = 'date';
+
     public string $search = '';
 
     public function mount(Competition $competition): void
@@ -41,10 +47,11 @@ class CompetitionDetailPage extends Component
                 return $today->format('Y-m-d');
             }
         }
-        $upcoming = $matches->first(fn($m) => $m->match_date && $m->match_date->gte($today));
+        $upcoming = $matches->first(fn ($m) => $m->match_date && $m->match_date->gte($today));
         if ($upcoming) {
             return $upcoming->match_date->format('Y-m-d');
         }
+
         return $today->format('Y-m-d');
     }
 
@@ -56,13 +63,13 @@ class CompetitionDetailPage extends Component
 
     public function prevDay(): void
     {
-        $this->selectedDate = \Carbon\Carbon::parse($this->selectedDate)->subDay()->format('Y-m-d');
+        $this->selectedDate = Carbon::parse($this->selectedDate)->subDay()->format('Y-m-d');
         $this->filterMode = 'date';
     }
 
     public function nextDay(): void
     {
-        $this->selectedDate = \Carbon\Carbon::parse($this->selectedDate)->addDay()->format('Y-m-d');
+        $this->selectedDate = Carbon::parse($this->selectedDate)->addDay()->format('Y-m-d');
         $this->filterMode = 'date';
     }
 
@@ -120,14 +127,14 @@ class CompetitionDetailPage extends Component
         }
 
         $allDates = $this->competition->matches
-            ->map(fn($m) => $m->match_date?->format('Y-m-d'))
+            ->map(fn ($m) => $m->match_date?->format('Y-m-d'))
             ->filter()
             ->unique()
             ->sort()
             ->values()
             ->toArray();
 
-        $center = \Carbon\Carbon::parse($this->selectedDate);
+        $center = Carbon::parse($this->selectedDate);
         $dateRange = [];
         for ($i = -3; $i <= 3; $i++) {
             $date = (clone $center)->addDays($i);
@@ -146,18 +153,19 @@ class CompetitionDetailPage extends Component
         $allColl = $this->competition->matches;
 
         if ($this->filterMode === 'live') {
-            $filteredMatches = $allColl->filter(fn($m) => $m->status === 'in_progress');
+            $filteredMatches = $allColl->filter(fn ($m) => $m->status === 'in_progress');
         } elseif ($this->filterMode === 'all') {
             $filteredMatches = $allColl;
         } else {
             $filteredMatches = $allColl->filter(
-                fn($m) => $m->match_date?->format('Y-m-d') === $this->selectedDate
+                fn ($m) => $m->match_date?->format('Y-m-d') === $this->selectedDate
             );
         }
 
         if ($this->search !== '') {
             $filteredMatches = $filteredMatches->filter(function ($m) {
                 $q = strtolower($this->search);
+
                 return str_contains(strtolower($m->team1?->name ?? ''), $q)
                     || str_contains(strtolower($m->team2?->name ?? ''), $q);
             });

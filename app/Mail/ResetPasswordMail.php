@@ -20,7 +20,7 @@ class ResetPasswordMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'إعادة تعيين كلمة المرور - ' . config('app.name'),
+            subject: 'إعادة تعيين كلمة المرور - '.config('app.name'),
         );
     }
 

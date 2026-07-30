@@ -20,7 +20,7 @@ class VerificationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'تفعيل الحساب - ' . config('app.name'),
+            subject: 'تفعيل الحساب - '.config('app.name'),
         );
     }
 

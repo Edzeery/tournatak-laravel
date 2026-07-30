@@ -7,7 +7,9 @@ use Illuminate\View\Component;
 class Skeleton extends Component
 {
     public int $rows;
+
     public string $type;
+
     public bool $table;
 
     public function __construct(

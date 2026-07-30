@@ -1,20 +1,24 @@
 <?php
+
 namespace App\Livewire\Admin\Users;
 
-use App\Models\User;
 use App\Services\UserService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Illuminate\Support\Facades\Hash;
 
 #[Layout('layouts.admin')]
 class CreateUserPage extends Component
 {
     public string $name = '';
+
     public string $username = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $role = 'viewer';
+
     public string $is_verified = '1';
 
     public function store()
@@ -32,6 +36,7 @@ class CreateUserPage extends Component
         ]);
 
         session()->flash('success', __('app.user_created'));
+
         return redirect()->route('admin.users.index');
     }
 

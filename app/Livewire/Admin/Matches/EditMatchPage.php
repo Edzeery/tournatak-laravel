@@ -1,11 +1,12 @@
 <?php
+
 namespace App\Livewire\Admin\Matches;
 
 use App\Events\MatchCompleted;
-use App\Models\Match_;
 use App\Models\Competition;
-use App\Models\Team;
+use App\Models\Match_;
 use App\Models\Referee;
+use App\Models\Team;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -13,17 +14,27 @@ use Livewire\Component;
 class EditMatchPage extends Component
 {
     public Match_ $match;
+
     public ?int $competition_id = null;
+
     public ?int $team1_id = null;
+
     public ?int $team2_id = null;
+
     public ?string $match_date = null;
+
     public string $status = 'upcoming';
+
     public int $score_team1 = 0;
+
     public int $score_team2 = 0;
 
     public ?int $referee_id = null;
+
     public ?int $assistant_referee_1_id = null;
+
     public ?int $assistant_referee_2_id = null;
+
     public ?int $fourth_official_id = null;
 
     public function mount(Match_ $match)
@@ -63,6 +74,7 @@ class EditMatchPage extends Component
 
         if ($this->team1_id === $this->team2_id) {
             session()->flash('error', __('app.teams_must_be_different'));
+
             return;
         }
 
@@ -81,11 +93,12 @@ class EditMatchPage extends Component
             'fourth_official_id' => $this->fourth_official_id,
         ]);
 
-        if ($this->status === 'completed' && !$wasCompleted) {
+        if ($this->status === 'completed' && ! $wasCompleted) {
             event(new MatchCompleted($this->match->fresh()));
         }
 
         session()->flash('success', __('app.match_updated'));
+
         return redirect()->route('admin.matches.index');
     }
 

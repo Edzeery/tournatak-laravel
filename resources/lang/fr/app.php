@@ -149,6 +149,7 @@ return [
     'add_match' => 'Ajouter un match',
     'all_competitions' => 'Toutes les compétitions',
     'add_competition' => 'Ajouter une compétition',
+    'create_casual_competition' => 'Compétition informelle',
     'toggle_theme' => 'Basculer le thème',
 
     // Interface commune
@@ -213,6 +214,8 @@ return [
     'account_type' => 'Type de compte',
     'role_competitor' => 'Participant à une compétition',
     'role_organizer' => 'Organisateur de tournoi',
+    'role_local_organizer' => 'Organisateur local',
+    'role_coach' => 'Entraîneur',
     'role_user' => 'Utilisateur standard',
 
     // Tableau de bord admin
@@ -1053,13 +1056,13 @@ return [
     'density_compact' => 'Compact',
     'sidebar_label' => 'Réduire la barre latérale',
     'language_section' => 'Langue et Région',
-    'language_desc' => "Définir la langue et le fuseau horaire",
+    'language_desc' => 'Définir la langue et le fuseau horaire',
     'locale_label' => 'Langue',
     'timezone_label' => 'Fuseau horaire',
     'date_format_label' => 'Format de date',
     'date_format_preview' => 'Aperçu',
     'notification_settings_section' => 'Paramètres de notification',
-    'notification_settings_desc' => "Contrôler la réception des notifications",
+    'notification_settings_desc' => 'Contrôler la réception des notifications',
     'notify_email_label' => 'Notifications par e-mail',
     'notify_email_desc' => 'Recevoir les notifications par e-mail',
     'notify_push_label' => 'Notifications push',
@@ -1322,4 +1325,38 @@ return [
     'attendance' => 'Affluence',
     'referee' => 'Arbitre',
     'venue' => 'Stade',
+
+    // ── Compétition informelle ──
+    'page_title_create_casual_competition' => 'Créer une compétition informelle',
+    'create_casual' => 'Créer une compétition informelle',
+    'casual_competition_desc' => 'Une configuration rapide et légère — idéale pour les ligues de quartier et tournois en salle',
+    'casual_auto_approved' => 'Les compétitions informelles sont approuvées automatiquement',
+    'casual_competition_created' => 'Compétition informelle créée avec succès',
+    'format_knockout' => 'Élimination directe',
+    'format_groups' => 'Groupes',
+    'format_league' => 'Championnat',
+
+    'choose_sport' => 'Choisir un sport...',
+
+    // ── Gestion des sports ──
+    'sport_management' => 'Gestion des sports',
+    'sports_desc' => 'Gérer les sports disponibles sur la plateforme',
+    'sports' => 'Sports',
+    'add_sport' => 'Ajouter un sport',
+    'edit_sport' => 'Modifier le sport',
+    'save_sport' => 'Enregistrer le sport',
+    'sport_created' => 'Sport créé avec succès',
+    'sport_updated' => 'Sport mis à jour avec succès',
+    'sport_toggled_active' => 'Sport activé avec succès',
+    'sport_toggled_inactive' => 'Sport désactivé avec succès',
+    'sport_deleted' => 'Sport supprimé avec succès',
+    'confirm_delete_sport' => 'Êtes-vous sûr de vouloir supprimer ce sport ?',
+    'page_title_manage_sports' => 'Gérer les sports',
+    'page_title_add_sport' => 'Ajouter un sport',
+    'page_title_edit_sport' => 'Modifier le sport',
+    'sport_name_placeholder' => 'Entrez le nom du sport',
+    'name_fr' => 'Nom (français)',
+    'name_es' => 'Nom (espagnol)',
+    'category_team' => 'Sport d\'équipe',
+    'category_individual' => 'Sport individuel',
 ];

@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Livewire\Admin\Types;
 
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -10,12 +11,19 @@ use Livewire\Component;
 class EditTypePage extends Component
 {
     public CompetitionType $type;
+
     public string $name = '';
+
     public string $slug = '';
+
     public ?string $description = null;
+
     public ?int $subtype_id = null;
+
     public ?string $icon = null;
+
     public int $sort_order = 0;
+
     public bool $is_active = true;
 
     public function mount(CompetitionType $type)
@@ -34,7 +42,7 @@ class EditTypePage extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:competition_types,slug,' . $this->type->id,
+            'slug' => 'required|string|max:255|unique:competition_types,slug,'.$this->type->id,
             'description' => 'nullable|string',
             'subtype_id' => 'nullable|exists:competition_subtypes,id',
             'icon' => 'nullable|string|max:255',
@@ -52,6 +60,7 @@ class EditTypePage extends Component
         ]);
 
         session()->flash('success', __('app.type_updated'));
+
         return redirect()->route('admin.types.index');
     }
 

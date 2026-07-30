@@ -149,6 +149,7 @@ return [
     'add_match' => 'Add Match',
     'all_competitions' => 'All Competitions',
     'add_competition' => 'Add Competition',
+    'create_casual_competition' => 'Casual Competition',
     'toggle_theme' => 'Toggle Theme',
 
     // Common UI
@@ -213,6 +214,8 @@ return [
     'account_type' => 'Account Type',
     'role_competitor' => 'Competition Participant',
     'role_organizer' => 'Tournament Organizer',
+    'role_local_organizer' => 'Local Organizer',
+    'role_coach' => 'Coach',
     'role_user' => 'Regular User',
 
     // Admin Dashboard
@@ -1327,4 +1330,38 @@ return [
     'attendance' => 'Attendance',
     'referee' => 'Referee',
     'venue' => 'Venue',
+
+    // ── Casual Competition ──
+    'page_title_create_casual_competition' => 'Create Casual Competition',
+    'create_casual' => 'Create Casual Competition',
+    'casual_competition_desc' => 'A lightweight, quick tournament setup — ideal for neighborhood leagues and hall tournaments',
+    'casual_auto_approved' => 'Casual competitions are auto-approved — no review needed',
+    'casual_competition_created' => 'Casual competition created successfully',
+    'format_knockout' => 'Knockout',
+    'format_groups' => 'Groups',
+    'format_league' => 'League',
+
+    'choose_sport' => 'Choose sport...',
+
+    // ── Sports CRUD ──
+    'sport_management' => 'Sports Management',
+    'sports_desc' => 'Manage sports available on the platform',
+    'sports' => 'Sports',
+    'add_sport' => 'Add Sport',
+    'edit_sport' => 'Edit Sport',
+    'save_sport' => 'Save Sport',
+    'sport_created' => 'Sport created successfully',
+    'sport_updated' => 'Sport updated successfully',
+    'sport_toggled_active' => 'Sport activated successfully',
+    'sport_toggled_inactive' => 'Sport deactivated successfully',
+    'sport_deleted' => 'Sport deleted successfully',
+    'confirm_delete_sport' => 'Are you sure you want to delete this sport?',
+    'page_title_manage_sports' => 'Manage Sports',
+    'page_title_add_sport' => 'Add Sport',
+    'page_title_edit_sport' => 'Edit Sport',
+    'sport_name_placeholder' => 'Enter sport name',
+    'name_fr' => 'Name (French)',
+    'name_es' => 'Name (Spanish)',
+    'category_team' => 'Team Sport',
+    'category_individual' => 'Individual Sport',
 ];

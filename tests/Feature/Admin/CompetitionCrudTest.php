@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\User;
 use App\Models\Competition;
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
+use App\Models\User;
 
 test('admin can access competitions index', function () {
     $admin = User::factory()->create();

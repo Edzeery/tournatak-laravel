@@ -2,28 +2,35 @@
 
 namespace App\Livewire\Security;
 
-use Livewire\Attributes\Layout;
-use Livewire\Component;
 use App\Models\TwoFactorRecoveryCode;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use PragmaRX\Google2FA\Google2FA;
-use BaconQrCode\Renderer\ImageRenderer;
+use App\Services\SecurityActivityLogger;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
-use App\Services\SecurityActivityLogger;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use PragmaRX\Google2FA\Google2FA;
 
 #[Layout('layouts.app')]
 class TwoFactorSetupPage extends Component
 {
     public bool $isEnabled = false;
+
     public string $password = '';
+
     public string $verificationCode = '';
+
     public string $qrCodeSvg = '';
+
     public string $secretKey = '';
+
     public bool $showRecoveryCodes = false;
+
     public array $recoveryCodes = [];
+
     public bool $showSetupForm = false;
 
     public function mount()
@@ -44,12 +51,13 @@ class TwoFactorSetupPage extends Component
 
         $user = auth()->user();
 
-        if (!Hash::check($this->password, $user->password)) {
+        if (! Hash::check($this->password, $user->password)) {
             $this->addError('password', __('app.wrong_password'));
+
             return;
         }
 
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
         $secret = $google2fa->generateSecretKey();
 
         $this->secretKey = $secret;
@@ -62,7 +70,7 @@ class TwoFactorSetupPage extends Component
 
         $renderer = new ImageRenderer(
             new RendererStyle(200),
-            new SvgImageBackEnd()
+            new SvgImageBackEnd
         );
         $writer = new Writer($renderer);
         $this->qrCodeSvg = $writer->writeString($qrCodeUrl);
@@ -77,7 +85,7 @@ class TwoFactorSetupPage extends Component
             'verificationCode' => 'required|string|size:6',
         ]);
 
-        $google2fa = new Google2FA();
+        $google2fa = new Google2FA;
 
         $valid = $google2fa->verifyKey(
             $this->secretKey,
@@ -85,8 +93,9 @@ class TwoFactorSetupPage extends Component
             1
         );
 
-        if (!$valid) {
+        if (! $valid) {
             $this->addError('verificationCode', __('app.invalid_2fa_code'));
+
             return;
         }
 
@@ -117,8 +126,9 @@ class TwoFactorSetupPage extends Component
 
         $user = auth()->user();
 
-        if (!Hash::check($this->password, $user->password)) {
+        if (! Hash::check($this->password, $user->password)) {
             $this->addError('password', __('app.wrong_password'));
+
             return;
         }
 
@@ -147,8 +157,9 @@ class TwoFactorSetupPage extends Component
 
         $user = auth()->user();
 
-        if (!Hash::check($this->password, $user->password)) {
+        if (! Hash::check($this->password, $user->password)) {
             $this->addError('password', __('app.wrong_password'));
+
             return;
         }
 
@@ -167,7 +178,7 @@ class TwoFactorSetupPage extends Component
     {
         $codes = [];
         for ($i = 0; $i < 8; $i++) {
-            $code = strtoupper(Str::random(4) . '-' . Str::random(4));
+            $code = strtoupper(Str::random(4).'-'.Str::random(4));
             $codes[] = $code;
 
             TwoFactorRecoveryCode::create([

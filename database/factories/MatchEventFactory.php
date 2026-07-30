@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\MatchEvent;
 use App\Models\Match_;
+use App\Models\MatchEvent;
 use App\Models\Player;
 use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,16 +28,16 @@ class MatchEventFactory extends Factory
 
     public function goal(): static
     {
-        return $this->state(fn(array $attrs) => ['event_type' => 'goal']);
+        return $this->state(fn (array $attrs) => ['event_type' => 'goal']);
     }
 
     public function yellowCard(): static
     {
-        return $this->state(fn(array $attrs) => ['event_type' => 'yellow_card']);
+        return $this->state(fn (array $attrs) => ['event_type' => 'yellow_card']);
     }
 
     public function redCard(): static
     {
-        return $this->state(fn(array $attrs) => ['event_type' => 'red_card']);
+        return $this->state(fn (array $attrs) => ['event_type' => 'red_card']);
     }
 }

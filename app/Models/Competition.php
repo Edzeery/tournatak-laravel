@@ -14,12 +14,27 @@ class Competition extends Model
     use HasFactory, SoftDeletes;
 
     const FORMAT_LEAGUE = 'league';
+
     const FORMAT_KNOCKOUT = 'knockout';
+
     const FORMAT_GROUPS = 'groups';
+
     const FORMAT_LEAGUE_KNOCKOUT = 'league_knockout';
+
     const FORMAT_DOUBLE_ELIMINATION = 'double_elimination';
+
     const FORMAT_SWISS = 'swiss';
+
     const FORMAT_HOME_AWAY = 'home_away';
+
+    const PROFILE_OFFICIAL = 'official';
+
+    const PROFILE_CASUAL = 'casual';
+
+    const PROFILES = [
+        self::PROFILE_OFFICIAL => 'رسمية',
+        self::PROFILE_CASUAL => 'غير رسمية',
+    ];
 
     const FORMATS = [
         self::FORMAT_LEAGUE => 'دوري',
@@ -35,6 +50,7 @@ class Competition extends Model
         'type_id',
         'subtype_id',
         'organizer_id',
+        'sport_id',
         'name',
         'description',
         'start_date',
@@ -44,6 +60,7 @@ class Competition extends Model
         'status',
         'format',
         'format_config',
+        'competition_profile',
     ];
 
     protected $casts = [
@@ -67,6 +84,11 @@ class Competition extends Model
         return $this->belongsTo(User::class, 'organizer_id');
     }
 
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
+    }
+
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'registrations')->withPivot('status');
@@ -80,5 +102,25 @@ class Competition extends Model
     public function registrations(): HasMany
     {
         return $this->hasMany(Registration::class);
+    }
+
+    public function scopeOfficial($query)
+    {
+        return $query->where('competition_profile', self::PROFILE_OFFICIAL);
+    }
+
+    public function scopeCasual($query)
+    {
+        return $query->where('competition_profile', self::PROFILE_CASUAL);
+    }
+
+    public function isCasual(): bool
+    {
+        return $this->competition_profile === self::PROFILE_CASUAL;
+    }
+
+    public function isOfficial(): bool
+    {
+        return $this->competition_profile === self::PROFILE_OFFICIAL;
     }
 }

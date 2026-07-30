@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Subtypes;
 
 use App\Models\CompetitionSubtype;
@@ -9,6 +10,7 @@ use Livewire\Component;
 class CreateSubtypePage extends Component
 {
     public string $name = '';
+
     public string $en_name = '';
 
     public function store()
@@ -24,6 +26,7 @@ class CreateSubtypePage extends Component
         ]);
 
         session()->flash('success', __('app.subtype_created'));
+
         return redirect()->route('admin.subtypes.index');
     }
 

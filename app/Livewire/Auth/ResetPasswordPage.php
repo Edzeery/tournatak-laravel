@@ -2,19 +2,22 @@
 
 namespace App\Livewire\Auth;
 
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Auth\Events\PasswordReset;
-use App\Models\User;
 
 #[Layout('layouts.app')]
 class ResetPasswordPage extends Component
 {
     public string $token = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     public function mount(string $token): void
@@ -48,6 +51,7 @@ class ResetPasswordPage extends Component
 
         if ($status === Password::PASSWORD_RESET) {
             session()->flash('success', __('app.password_reset_success'));
+
             return redirect()->route('login');
         }
 

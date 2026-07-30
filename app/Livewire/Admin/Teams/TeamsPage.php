@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Teams;
 
 use App\Models\Team;
@@ -12,6 +13,7 @@ class TeamsPage extends Component
     use WithPagination;
 
     public string $search = '';
+
     public int $perPage = 10;
 
     public function updatedSearch()
@@ -42,7 +44,7 @@ class TeamsPage extends Component
     {
         $query = Team::query()
             ->with('captain')
-            ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"));
+            ->when($this->search, fn ($q) => $q->where('name', 'like', "%{$this->search}%"));
 
         return view('livewire.admin.teams.teams-page', [
             'title' => __('app.manage_teams'),

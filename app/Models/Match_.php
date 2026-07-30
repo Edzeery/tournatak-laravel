@@ -15,11 +15,17 @@ class Match_ extends Model
     protected $table = 'matches';
 
     const STATUS_SCHEDULED = 'scheduled';
+
     const STATUS_IN_PROGRESS = 'in_progress';
+
     const STATUS_COMPLETED = 'completed';
+
     const STATUS_POSTPONED = 'postponed';
+
     const STATUS_CANCELLED = 'cancelled';
+
     const STATUS_ABANDONED = 'abandoned';
+
     const STATUS_PENDING = 'pending';
 
     const STATUSES = [
@@ -33,13 +39,21 @@ class Match_ extends Model
     ];
 
     const PHASE_SCHEDULED = 'scheduled';
+
     const PHASE_FIRST_HALF = 'first_half';
+
     const PHASE_HALF_TIME = 'half_time';
+
     const PHASE_SECOND_HALF = 'second_half';
+
     const PHASE_ET_BREAK = 'et_break';
+
     const PHASE_ET_FIRST_HALF = 'et_first_half';
+
     const PHASE_ET_HALF_TIME = 'et_half_time';
+
     const PHASE_ET_SECOND_HALF = 'et_second_half';
+
     const PHASE_FULL_TIME = 'full_time';
 
     const PHASES = [
@@ -171,6 +185,7 @@ class Match_ extends Model
         if ($this->match_date) {
             return $this->match_date->timestamp * 1000;
         }
+
         return 0;
     }
 
@@ -215,11 +230,11 @@ class Match_ extends Model
 
     public function getAddedTimeEtFirstHalfAttribute(): int
     {
-        return (int)($this->extra_data['added_time_et_first_half'] ?? 0);
+        return (int) ($this->extra_data['added_time_et_first_half'] ?? 0);
     }
 
     public function getAddedTimeEtSecondHalfAttribute(): int
     {
-        return (int)($this->extra_data['added_time_et_second_half'] ?? 0);
+        return (int) ($this->extra_data['added_time_et_second_half'] ?? 0);
     }
 }

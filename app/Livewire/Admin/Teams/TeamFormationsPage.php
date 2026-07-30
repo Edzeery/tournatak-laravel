@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Admin\Teams;
 
-use App\Models\Team;
 use App\Models\Formation;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Sport;
+use App\Models\Team;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -12,10 +12,15 @@ use Livewire\Component;
 class TeamFormationsPage extends Component
 {
     public $teamId;
+
     public $team;
+
     public $formations = [];
+
     public $showModal = false;
+
     public $editingFormationId = null;
+
     public $search = '';
 
     public $formationForm = [
@@ -26,6 +31,11 @@ class TeamFormationsPage extends Component
         'description' => '',
         'is_default' => false,
     ];
+
+    public function getSportTypesProperty(): array
+    {
+        return Sport::pluck('slug')->toArray();
+    }
 
     public $footballFormations = [
         '4-4-2', '4-3-3', '3-5-2', '4-2-3-1', '5-3-2', '4-1-4-1', '3-4-3',
@@ -131,7 +141,7 @@ class TeamFormationsPage extends Component
     {
         $this->validate([
             'formationForm.name' => 'required|string|max:255',
-            'formationForm.sport_type' => 'required|in:football,futsal',
+            'formationForm.sport_type' => 'required|in:'.implode(',', Sport::pluck('slug')->toArray()),
             'formationForm.formation_code' => 'required|string|max:20',
             'formationForm.positions_data' => 'required|json',
             'formationForm.description' => 'nullable|string',
@@ -140,9 +150,11 @@ class TeamFormationsPage extends Component
 
         $positionsData = json_decode($this->formationForm['positions_data'], true);
 
+        $sportIds = Sport::where('slug', $this->formationForm['sport_type'])->pluck('id');
         $data = [
             'name' => $this->formationForm['name'],
             'sport_type' => $this->formationForm['sport_type'],
+            'sport_id' => $sportIds->first(),
             'formation_code' => $this->formationForm['formation_code'],
             'positions_data' => $positionsData,
             'description' => $this->formationForm['description'] ?: null,
@@ -189,6 +201,7 @@ class TeamFormationsPage extends Component
                 '2-1-1' => [['x' => 50, 'y' => 90, 'role' => 'GK'], ['x' => 30, 'y' => 65, 'role' => 'DEF'], ['x' => 70, 'y' => 65, 'role' => 'DEF'], ['x' => 50, 'y' => 40, 'role' => 'WING'], ['x' => 50, 'y' => 15, 'role' => 'PIVOT']],
                 '1-1-2' => [['x' => 50, 'y' => 90, 'role' => 'GK'], ['x' => 50, 'y' => 65, 'role' => 'DEF'], ['x' => 50, 'y' => 40, 'role' => 'PIVOT'], ['x' => 25, 'y' => 20, 'role' => 'WING'], ['x' => 75, 'y' => 20, 'role' => 'WING']],
             ];
+
             return $futsalFormations[$code] ?? $futsalFormations['4-0'];
         }
 
@@ -240,7 +253,7 @@ class TeamFormationsPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-formations-page', [
-            'title' => __('app.formations') . ' - ' . $this->team->name,
+            'title' => __('app.formations').' - '.$this->team->name,
         ]);
     }
 }

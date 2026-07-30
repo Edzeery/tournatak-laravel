@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Competition;
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

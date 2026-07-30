@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Subtypes;
 
 use App\Models\CompetitionSubtype;
@@ -9,7 +10,9 @@ use Livewire\Component;
 class EditSubtypePage extends Component
 {
     public CompetitionSubtype $subtype;
+
     public string $name = '';
+
     public string $en_name = '';
 
     public function mount(CompetitionSubtype $subtype)
@@ -32,6 +35,7 @@ class EditSubtypePage extends Component
         ]);
 
         session()->flash('success', __('app.subtype_updated'));
+
         return redirect()->route('admin.subtypes.index');
     }
 

@@ -99,11 +99,9 @@
                             <div class="position-relative">
                                 <i class="bi bi-person-badge position-absolute input-icon-pos text-faded-30" style="z-index:5;"></i>
                                 <select class="form-select input-icon-right" wire:model="role" required>
-                                    <option value="user">{{ __('app.role_user') }}</option>
-                                    <option value="competitor">{{ __('app.role_competitor') }}</option>
-                                    <option value="captain">{{ __('app.role_captain') }}</option>
-                                    <option value="player">{{ __('app.role_player') }}</option>
-                                    <option value="organizer">{{ __('app.role_organizer') }}</option>
+                                    @foreach ($roleOptions as $value => $label)
+                                        <option value="{{ $value }}">{{ $label }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

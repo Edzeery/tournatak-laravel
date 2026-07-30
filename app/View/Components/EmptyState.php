@@ -7,9 +7,13 @@ use Illuminate\View\Component;
 class EmptyState extends Component
 {
     public string $icon;
+
     public ?string $title;
+
     public ?string $message;
+
     public ?string $actionLabel;
+
     public ?string $actionUrl;
 
     public function __construct(

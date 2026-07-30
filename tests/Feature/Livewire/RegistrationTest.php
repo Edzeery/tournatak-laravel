@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Auth\LoginPage;
 use App\Livewire\Auth\RegisterPage;
 use App\Models\User;
 use Livewire\Livewire;
@@ -73,7 +74,7 @@ test('registered user can log in', function () {
     $user->markEmailAsVerified();
     $user->update(['is_verified' => true]);
 
-    Livewire::test(\App\Livewire\Auth\LoginPage::class)
+    Livewire::test(LoginPage::class)
         ->set('identifier', 'test@example.com')
         ->set('password', 'password123')
         ->call('login');

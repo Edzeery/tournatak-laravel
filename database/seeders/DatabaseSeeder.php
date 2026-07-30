@@ -39,6 +39,17 @@ class DatabaseSeeder extends Seeder
         ]);
         $organizer->assignRole('organizer');
 
+        // Create demo local organizer (casual competitions only)
+        $localOrg = User::create([
+            'name' => 'Sami Local',
+            'username' => 'sami_local',
+            'email' => 'sami@tournatak.com',
+            'password' => Hash::make('password'),
+            'role' => 'local_organizer',
+            'is_verified' => true,
+        ]);
+        $localOrg->assignRole('local_organizer');
+
         // Create demo captain
         $captain = User::create([
             'name' => 'Mohamed Captain',

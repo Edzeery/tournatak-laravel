@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Livewire\Admin\Matches;
 
-use App\Models\Match_;
 use App\Models\Competition;
-use App\Models\Team;
 use App\Models\Referee;
+use App\Models\Team;
 use App\Services\MatchService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -13,13 +13,21 @@ use Livewire\Component;
 class CreateMatchPage extends Component
 {
     public ?int $competition_id = null;
+
     public ?int $team1_id = null;
+
     public ?int $team2_id = null;
+
     public ?string $match_date = null;
+
     public string $status = 'upcoming';
+
     public ?int $referee_id = null;
+
     public ?int $assistant_referee_1_id = null;
+
     public ?int $assistant_referee_2_id = null;
+
     public ?int $fourth_official_id = null;
 
     public function store()
@@ -47,6 +55,7 @@ class CreateMatchPage extends Component
         ]);
 
         session()->flash('success', __('app.match_created'));
+
         return redirect()->route('admin.matches.index');
     }
 

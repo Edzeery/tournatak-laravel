@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Auth\LoginPage;
+use App\Models\User;
 use Livewire\Livewire;
 
 test('login page renders successfully', function () {
@@ -9,7 +10,7 @@ test('login page renders successfully', function () {
 });
 
 test('user can login with valid credentials', function () {
-    $user = \App\Models\User::factory()->create([
+    $user = User::factory()->create([
         'password' => bcrypt('password'),
         'is_verified' => true,
     ]);
@@ -24,7 +25,7 @@ test('user can login with valid credentials', function () {
 });
 
 test('user cannot login with invalid credentials', function () {
-    $user = \App\Models\User::factory()->create([
+    $user = User::factory()->create([
         'password' => bcrypt('password'),
         'is_verified' => true,
     ]);

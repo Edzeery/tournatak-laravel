@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\UserNotification;
 
 class NotificationService
@@ -31,7 +32,7 @@ class NotificationService
         ?string $link = null,
         ?string $type = 'info'
     ): void {
-        $adminUserIds = \App\Models\User::whereHas('roles', fn($q) => $q->where('name', 'admin'))->pluck('id');
+        $adminUserIds = User::whereHas('roles', fn ($q) => $q->where('name', 'admin'))->pluck('id');
         foreach ($adminUserIds as $userId) {
             $this->create($userId, $title, $message, $icon, $link, $type);
         }
@@ -41,7 +42,7 @@ class NotificationService
     {
         $notification = UserNotification::where('user_id', $userId)->find($notificationId);
 
-        if ($notification && !$notification->is_read) {
+        if ($notification && ! $notification->is_read) {
             $notification->update(['is_read' => true]);
         }
 

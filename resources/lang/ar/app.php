@@ -149,6 +149,7 @@ return [
     'add_match' => 'إضافة مباراة',
     'all_competitions' => 'جميع البطولات',
     'add_competition' => 'إضافة بطولة',
+    'create_casual_competition' => 'بطولة مجتمعية',
     'toggle_theme' => 'تبديل السمة',
 
     // Common UI
@@ -213,6 +214,8 @@ return [
     'account_type' => 'نوع الحساب',
     'role_competitor' => 'مشارك في مسابقات',
     'role_organizer' => 'منظم بطولات',
+    'role_local_organizer' => 'منظم محلي',
+    'role_coach' => 'مدرب',
     'role_user' => 'مستخدم عادي',
 
     // Admin Dashboard
@@ -1326,4 +1329,38 @@ return [
     'attendance' => 'الحضور',
     'referee' => 'الحكم',
     'venue' => 'الملعب',
+
+    // ── البطولة المجتمعية (غير رسمية) ──
+    'page_title_create_casual_competition' => 'إنشاء بطولة مجتمعية',
+    'create_casual' => 'إنشاء بطولة مجتمعية',
+    'casual_competition_desc' => 'بطولة خفيفة وسريعة بدون تعقيدات — مثالية للبطولات المجتمعية والصالات',
+    'casual_auto_approved' => 'البطولة المجتمعية لا تحتاج موافقة — سيتم اعتمادها تلقائياً',
+    'casual_competition_created' => 'تم إنشاء البطولة المجتمعية بنجاح',
+    'format_knockout' => 'خروج المغلوب',
+    'format_groups' => 'مجموعات',
+    'format_league' => 'دوري',
+
+    'choose_sport' => 'اختر الرياضة...',
+
+    // ── إدارة الرياضات ──
+    'sport_management' => 'إدارة الرياضات',
+    'sports_desc' => 'إدارة الرياضات المتاحة على المنصة',
+    'sports' => 'الرياضات',
+    'add_sport' => 'إضافة رياضة',
+    'edit_sport' => 'تعديل الرياضة',
+    'save_sport' => 'حفظ الرياضة',
+    'sport_created' => 'تم إنشاء الرياضة بنجاح',
+    'sport_updated' => 'تم تحديث الرياضة بنجاح',
+    'sport_toggled_active' => 'تم تفعيل الرياضة بنجاح',
+    'sport_toggled_inactive' => 'تم إلغاء تفعيل الرياضة بنجاح',
+    'sport_deleted' => 'تم حذف الرياضة بنجاح',
+    'confirm_delete_sport' => 'هل أنت متأكد من حذف هذه الرياضة؟',
+    'page_title_manage_sports' => 'إدارة الرياضات',
+    'page_title_add_sport' => 'إضافة رياضة',
+    'page_title_edit_sport' => 'تعديل رياضة',
+    'sport_name_placeholder' => 'أدخل اسم الرياضة',
+    'name_fr' => 'الاسم (فرنسي)',
+    'name_es' => 'الاسم (إسباني)',
+    'category_team' => 'رياضة جماعية',
+    'category_individual' => 'رياضة فردية',
 ];

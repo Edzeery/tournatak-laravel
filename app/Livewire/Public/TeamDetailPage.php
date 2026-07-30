@@ -10,6 +10,7 @@ use Livewire\Component;
 class TeamDetailPage extends Component
 {
     public $teamId;
+
     public $team;
 
     public function mount(int $teamId): void

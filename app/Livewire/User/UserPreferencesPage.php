@@ -2,7 +2,6 @@
 
 namespace App\Livewire\User;
 
-use App\Models\UserPreference;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -11,12 +10,19 @@ use Livewire\Component;
 class UserPreferencesPage extends Component
 {
     public string $locale = 'ar';
+
     public string $theme = 'system';
+
     public string $timezone = 'Africa/Algiers';
+
     public string $date_format = 'd/m/Y';
+
     public bool $notify_email = true;
+
     public bool $notify_push = false;
+
     public bool $sidebar_collapsed = false;
+
     public string $density = 'comfortable';
 
     public array $locales = ['ar' => 'العربية', 'en' => 'English', 'fr' => 'Français', 'es' => 'Español'];

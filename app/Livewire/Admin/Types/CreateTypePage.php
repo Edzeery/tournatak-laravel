@@ -1,20 +1,26 @@
 <?php
+
 namespace App\Livewire\Admin\Types;
 
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Illuminate\Support\Str;
 
 #[Layout('layouts.admin')]
 class CreateTypePage extends Component
 {
     public string $name = '';
+
     public string $slug = '';
+
     public ?string $description = null;
+
     public ?int $subtype_id = null;
+
     public ?string $icon = null;
+
     public int $sort_order = 0;
 
     public function updatedName()
@@ -46,6 +52,7 @@ class CreateTypePage extends Component
         ]);
 
         session()->flash('success', __('app.type_created'));
+
         return redirect()->route('admin.types.index');
     }
 

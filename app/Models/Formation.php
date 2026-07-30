@@ -12,6 +12,7 @@ class Formation extends Model
 
     protected $fillable = [
         'team_id',
+        'sport_id',
         'name',
         'sport_type',
         'formation_code',
@@ -30,5 +31,10 @@ class Formation extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
     }
 }

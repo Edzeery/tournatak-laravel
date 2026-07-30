@@ -1,11 +1,12 @@
 <?php
 
-use App\Models\MatchEvent;
 use App\Models\Match_;
+use App\Models\MatchEvent;
 use App\Models\Player;
 use App\Models\Team;
+use Tests\TestCase;
 
-uses(\Tests\TestCase::class);
+uses(TestCase::class);
 
 beforeEach(function () {
     $this->team1 = Team::factory()->create();

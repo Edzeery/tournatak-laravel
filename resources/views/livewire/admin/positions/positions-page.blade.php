@@ -24,11 +24,12 @@
                     <input type="text" class="form-control" placeholder="{{ __('app.search_positions_placeholder') }}" wire:model.live.debounce.300ms="search" aria-label="{{ __('app.search') }}">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label fw-bold fs-base">{{ __('app.sport_type_label') }}</label>
-                    <select class="form-select" wire:model.live="filterSport" aria-label="{{ __('app.sport_type_label') }}">
+                    <label class="form-label fw-bold fs-base">{{ __('app.sport') }}</label>
+                    <select class="form-select" wire:model.live="filterSport" aria-label="{{ __('app.sport') }}">
                         <option value="">{{ __('app.all') }}</option>
-                        <option value="football">{{ __('app.football') }}</option>
-                        <option value="futsal">{{ __('app.futsal') }}</option>
+                        @foreach($sports as $sport)
+                            <option value="{{ $sport->id }}">{{ $sport->localizedName() }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -66,14 +67,13 @@
                                     <td><span class="badge bg-dark rounded-pill fs-sm">{{ $pos->abbreviation ?? '—' }}</span></td>
                                     <td class="fs-base">
                                         @php
-                                            $catLabels = ['goalkeeper' => __('app.goalkeeper'), 'defender' => __('app.defender'), 'midfielder' => __('app.midfielder'), 'forward' => __('app.forward'), 'player' => __('app.player_fallback')];
                                             $catColors = ['goalkeeper' => '#f59e0b', 'defender' => '#3b82f6', 'midfielder' => '#10b981', 'forward' => '#ef4444', 'player' => '#64748b'];
                                         @endphp
                                         <span style="font-size:0.75rem;padding:3px 8px;border-radius:6px;background:{{ $catColors[$pos->category] ?? '#64748b' }}20;color:{{ $catColors[$pos->category] ?? '#64748b' }};">
-                                            {{ $catLabels[$pos->category] ?? $pos->category }}
+                                            {{ __("app.{$pos->category}", [], app()->getLocale()) !== "app.{$pos->category}" ? __("app.{$pos->category}") : $pos->category }}
                                         </span>
                                     </td>
-                                    <td class="fs-base">{{ $pos->sport_type === 'football' ? __('app.football') : __('app.futsal') }}</td>
+                                    <td class="fs-base">{{ $pos->sport?->localizedName() ?? __('app.football') }}</td>
                                     <td class="fs-base">{{ $pos->sort_order }}</td>
                                     <td>
                                         @if($pos->is_active)
@@ -122,6 +122,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label fw-bold">{{ __('app.sport') }}</label>
+                            <select class="form-select" wire:model.live="positionForm.sport_id">
+                                <option value="">{{ __('app.choose_sport') }}</option>
+                                @foreach($sports as $sport)
+                                    <option value="{{ $sport->id }}">{{ $sport->localizedName() }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label fw-bold">{{ __('app.position_name_ar') }}</label>
                             <input type="text" class="form-control" placeholder="{{ __('app.position_name_ar') }}" wire:model="positionForm.name">
                         </div>
@@ -143,18 +152,10 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">{{ __('app.category') }}</label>
                                 <select class="form-select" wire:model="positionForm.category">
-                                    <option value="goalkeeper">{{ __('app.goalkeeper') }}</option>
-                                    <option value="defender">{{ __('app.defender') }}</option>
-                                    <option value="midfielder">{{ __('app.midfielder') }}</option>
-                                    <option value="forward">{{ __('app.forward') }}</option>
+                                    @foreach($sportCategories as $cat)
+                                        <option value="{{ $cat }}">{{ __("app.{$cat}") }}</option>
+                                    @endforeach
                                     <option value="player">{{ __('app.player_fallback') }}</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">{{ __('app.sport_type_label') }}</label>
-                                <select class="form-select" wire:model="positionForm.sport_type">
-                                    <option value="football">{{ __('app.football') }}</option>
-                                    <option value="futsal">{{ __('app.futsal') }}</option>
                                 </select>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Teams;
 
 use App\Models\User;
@@ -13,10 +14,15 @@ class CreateTeamPage extends Component
     use WithFileUploads;
 
     public string $name = '';
+
     public ?int $captain_id = null;
+
     public $logoFile = null;
+
     public string $logoUrl = '';
+
     public string $logoSrc = 'upload'; // 'upload' | 'url'
+
     public int $points = 0;
 
     public function store()
@@ -40,6 +46,7 @@ class CreateTeamPage extends Component
         ]);
 
         session()->flash('success', __('app.team_created'));
+
         return redirect()->route('admin.teams.index');
     }
 

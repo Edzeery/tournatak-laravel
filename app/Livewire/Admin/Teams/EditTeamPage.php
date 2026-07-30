@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Teams;
 
 use App\Models\Team;
@@ -14,13 +15,21 @@ class EditTeamPage extends Component
     use WithFileUploads;
 
     public Team $team;
+
     public string $name = '';
+
     public ?int $captain_id = null;
+
     public ?string $logo = null;
+
     public $logoFile = null;
+
     public string $logoUrl = '';
+
     public string $logoSrc = 'none'; // 'none' | 'upload' | 'url'
+
     public bool $removeLogo = false;
+
     public int $points = 0;
 
     public function mount(Team $team)
@@ -63,7 +72,7 @@ class EditTeamPage extends Component
     {
         $service = app(TeamService::class);
         $this->validate([
-            'name' => 'required|string|max:255|unique:teams,name,' . $this->team->id,
+            'name' => 'required|string|max:255|unique:teams,name,'.$this->team->id,
             'captain_id' => 'nullable|exists:users,id',
             'logoFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:500',
             'logoUrl' => 'nullable|string|max:2048',
@@ -79,7 +88,7 @@ class EditTeamPage extends Component
             $service->deleteLogoFile($this->logo);
             $logo = $service->storeLogo($this->logoFile);
         } elseif ($this->logoSrc === 'url' && $this->logoUrl) {
-            if (!str_starts_with($this->logo, 'http')) {
+            if (! str_starts_with($this->logo, 'http')) {
                 $service->deleteLogoFile($this->logo);
             }
             $logo = $this->logoUrl;
@@ -96,6 +105,7 @@ class EditTeamPage extends Component
         $this->logoFile = null;
 
         session()->flash('success', __('app.team_updated'));
+
         return redirect()->route('admin.teams.index');
     }
 

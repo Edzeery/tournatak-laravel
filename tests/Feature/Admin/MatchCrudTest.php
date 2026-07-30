@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\User;
-use App\Models\Team;
 use App\Models\Match_;
-use App\Models\Competition;
+use App\Models\Team;
+use App\Models\User;
 
 test('admin can access matches index', function () {
     $admin = User::factory()->create();

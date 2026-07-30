@@ -10,14 +10,23 @@ use Livewire\Component;
 class EditRefereePage extends Component
 {
     public Referee $referee;
+
     public string $name = '';
+
     public string $email = '';
+
     public string $phone = '';
+
     public string $specialization = 'referee';
+
     public string $license_number = '';
+
     public string $federation = '';
+
     public string $nationality = '';
+
     public bool $is_active = true;
+
     public string $notes = '';
 
     public function mount(Referee $referee)
@@ -62,6 +71,7 @@ class EditRefereePage extends Component
         ]);
 
         session()->flash('success', __('app.referee_updated'));
+
         return redirect()->route('admin.referees.index');
     }
 

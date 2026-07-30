@@ -16,18 +16,25 @@ class MatchControlPage extends Component
     public Match_ $match;
 
     public int $score1 = 0;
+
     public int $score2 = 0;
 
     public int $addedTime1 = 0;
+
     public int $addedTime2 = 0;
+
     public int $addedTimeET1 = 0;
+
     public int $addedTimeET2 = 0;
 
     public string $eventMinute = '';
+
     public string $eventDescription = '';
 
     public Collection $team1Players;
+
     public Collection $team2Players;
+
     public ?int $selectedPlayerId = null;
 
     public bool $supportsET = false;
@@ -36,7 +43,7 @@ class MatchControlPage extends Component
     {
         $this->match = $match->load([
             'team1', 'team2', 'competition',
-            'events' => fn($q) => $q->with('player', 'team')->latest('minute'),
+            'events' => fn ($q) => $q->with('player', 'team')->latest('minute'),
         ]);
 
         $this->score1 = $match->score_team1 ?? 0;
@@ -274,14 +281,16 @@ class MatchControlPage extends Component
 
     public function quickSubstitution($teamId)
     {
-        if (!$this->selectedPlayerId) {
+        if (! $this->selectedPlayerId) {
             $this->dispatch('swal:error', message: __('app.select_player_first'));
+
             return;
         }
 
         $playerTeamId = Player::where('id', $this->selectedPlayerId)->value('team_id');
         if ($playerTeamId !== $teamId) {
             $this->dispatch('swal:error', message: __('app.player_not_in_team'));
+
             return;
         }
 
@@ -291,7 +300,7 @@ class MatchControlPage extends Component
             ->where('player_id', $this->selectedPlayerId)
             ->first();
 
-        if ($lineup && $lineup->is_starter && !$lineup->minute_out) {
+        if ($lineup && $lineup->is_starter && ! $lineup->minute_out) {
             $lineup->update(['minute_out' => $minute]);
             $eventType = 'substitution_out';
         } else {
@@ -328,7 +337,7 @@ class MatchControlPage extends Component
     protected function computeCurrentMinute(): int
     {
         if ($this->eventMinute !== '') {
-            return max(0, (int)$this->eventMinute);
+            return max(0, (int) $this->eventMinute);
         }
 
         $extra = $this->match->extra_data ?? [];
@@ -337,19 +346,27 @@ class MatchControlPage extends Component
 
         if ($phase === Match_::PHASE_FIRST_HALF) {
             $start = $extra['first_half_started_at'] ?? null;
-            if ($start) return max(1, (int)(($now - strtotime($start)) / 60));
+            if ($start) {
+                return max(1, (int) (($now - strtotime($start)) / 60));
+            }
         }
         if ($phase === Match_::PHASE_SECOND_HALF) {
             $start = $extra['second_half_started_at'] ?? null;
-            if ($start) return 45 + max(1, (int)(($now - strtotime($start)) / 60));
+            if ($start) {
+                return 45 + max(1, (int) (($now - strtotime($start)) / 60));
+            }
         }
         if ($phase === Match_::PHASE_ET_FIRST_HALF) {
             $start = $extra['et_first_half_started_at'] ?? null;
-            if ($start) return 90 + max(1, (int)(($now - strtotime($start)) / 60));
+            if ($start) {
+                return 90 + max(1, (int) (($now - strtotime($start)) / 60));
+            }
         }
         if ($phase === Match_::PHASE_ET_SECOND_HALF) {
             $start = $extra['et_second_half_started_at'] ?? null;
-            if ($start) return 105 + max(1, (int)(($now - strtotime($start)) / 60));
+            if ($start) {
+                return 105 + max(1, (int) (($now - strtotime($start)) / 60));
+            }
         }
 
         return 0;
@@ -359,7 +376,9 @@ class MatchControlPage extends Component
 
     public function updatedSelectedPlayerId($value): void
     {
-        if (!$value || $this->eventDescription) return;
+        if (! $value || $this->eventDescription) {
+            return;
+        }
         $player = $this->team1Players->firstWhere('id', $value)
             ?? $this->team2Players->firstWhere('id', $value);
         if ($player) {
@@ -388,7 +407,7 @@ class MatchControlPage extends Component
         ];
 
         return view('livewire.admin.matches.match-control-page', [
-            'title' => __('app.match_control') . ' — ' . ($this->match->team1->name ?? '?') . ' vs ' . ($this->match->team2->name ?? '?'),
+            'title' => __('app.match_control').' — '.($this->match->team1->name ?? '?').' vs '.($this->match->team2->name ?? '?'),
             'playersByTeam' => $playersByTeam,
             'supportsET' => $this->supportsET,
         ]);

@@ -31,7 +31,7 @@ class MatchStat extends Model
     ];
 
     protected $casts = [
-        'possession' => 'decimal:1',
+        'possession' => 'integer',
         'shots_total' => 'integer',
         'shots_on_target' => 'integer',
         'shots_off_target' => 'integer',

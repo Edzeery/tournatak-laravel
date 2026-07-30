@@ -25,10 +25,11 @@ class AuthService
 
     public function login(string $identifier, string $password, bool $remember = false): array
     {
-        $throttleKey = 'login:' . request()->ip();
+        $throttleKey = 'login:'.request()->ip();
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
+
             return [
                 'success' => false,
                 'throttled' => true,
@@ -43,8 +44,9 @@ class AuthService
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            if (!$user->is_verified) {
+            if (! $user->is_verified) {
                 Auth::logout();
+
                 return [
                     'success' => false,
                     'unverified' => true,
@@ -55,6 +57,7 @@ class AuthService
 
             if ($user->securitySetting?->twofa_app) {
                 Auth::logout();
+
                 return [
                     'success' => false,
                     'requires_2fa' => true,
@@ -99,7 +102,7 @@ class AuthService
             'username' => 'required|string|min:3|max:255|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:user,competitor,captain,player,organizer',
+            'role' => 'required|in:user,competitor,captain,player,organizer,local_organizer,coach',
         ];
     }
 }

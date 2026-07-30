@@ -2,8 +2,9 @@
 
 namespace App\Livewire\User;
 
-use App\Models\MatchEvent;
 use App\Models\Match_;
+use App\Models\MatchEvent;
+use App\Models\MatchLineup;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -19,7 +20,7 @@ class UserDashboardPage extends Component
             'competitions' => $user->competitions()->count(),
             'goals' => $user->player ? MatchEvent::goal()->where('player_id', $user->player->id)->count() : 0,
             'matches' => $user->player
-                ? \App\Models\MatchLineup::whereHas('player', fn($q) => $q->where('user_id', $user->id))->count()
+                ? MatchLineup::whereHas('player', fn ($q) => $q->where('user_id', $user->id))->count()
                 : 0,
         ];
 

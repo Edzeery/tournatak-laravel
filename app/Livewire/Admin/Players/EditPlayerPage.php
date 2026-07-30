@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Livewire\Admin\Players;
 
 use App\Models\Player;
-use App\Models\User;
+use App\Models\Position;
 use App\Models\Team;
+use App\Models\User;
 use App\Services\PlayerService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -15,23 +17,41 @@ class EditPlayerPage extends Component
     use WithFileUploads;
 
     public Player $player;
+
     public ?int $user_id = null;
+
     public ?int $team_id = null;
+
     public ?int $number = null;
+
     public ?string $position_text = null;
+
     public ?string $image = null;
+
     public $imageFile = null;
+
     public string $imageSrc = 'url';
+
     public bool $removeImage = false;
+
     public $position_id = '';
+
     public $date_of_birth = '';
+
     public $nationality = '';
+
     public $height = '';
+
     public $weight = '';
+
     public $foot = '';
+
     public $sport_type = 'football';
+
     public $bio = '';
+
     public $is_captain = false;
+
     public $positions = [];
 
     public function mount(Player $player)
@@ -54,7 +74,7 @@ class EditPlayerPage extends Component
         $this->sport_type = $player->sport_type ?? 'football';
         $this->bio = $player->bio ?? '';
         $this->is_captain = $player->is_captain ?? false;
-        $this->positions = \App\Models\Position::where('is_active', true)->orderBy('sport_type')->orderBy('sort_order')->get();
+        $this->positions = Position::where('is_active', true)->orderBy('sport_type')->orderBy('sort_order')->get();
     }
 
     public function updatedImageFile()
@@ -100,18 +120,22 @@ class EditPlayerPage extends Component
         }
 
         session()->flash('success', __('app.player_updated'));
+
         return redirect()->route('admin.players.index');
     }
 
     private function resolveImage(): ?string
     {
-        if ($this->removeImage) return null;
+        if ($this->removeImage) {
+            return null;
+        }
         if ($this->imageSrc === 'upload' && $this->imageFile) {
             return app(PlayerService::class)->storeImage($this->imageFile);
         }
         if ($this->imageSrc === 'url' && $this->image) {
             return $this->image;
         }
+
         return $this->player->image;
     }
 

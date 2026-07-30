@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Players;
 
 use App\Models\Player;
@@ -12,6 +13,7 @@ class PlayersPage extends Component
     use WithPagination;
 
     public string $search = '';
+
     public int $perPage = 10;
 
     public function updatedSearch()
@@ -42,8 +44,8 @@ class PlayersPage extends Component
     {
         $query = Player::query()
             ->with(['user', 'team', 'position'])
-            ->when($this->search, fn($q) => $q->whereHas('user', fn($uq) => $uq->where('name', 'like', "%{$this->search}%"))
-                ->orWhereHas('team', fn($tq) => $tq->where('name', 'like', "%{$this->search}%")));
+            ->when($this->search, fn ($q) => $q->whereHas('user', fn ($uq) => $uq->where('name', 'like', "%{$this->search}%"))
+                ->orWhereHas('team', fn ($tq) => $tq->where('name', 'like', "%{$this->search}%")));
 
         return view('livewire.admin.players.players-page', [
             'title' => __('app.page_title_manage_players'),

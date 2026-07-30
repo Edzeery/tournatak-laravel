@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Livewire\Home;
 
 use App\Models\Competition;
-use App\Models\Team;
 use App\Models\Player;
-use App\Models\User;
+use App\Models\Team;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 

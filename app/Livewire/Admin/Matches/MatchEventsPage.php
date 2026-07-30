@@ -6,7 +6,6 @@ use App\Events\GoalScored;
 use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\Player;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -14,9 +13,13 @@ use Livewire\Component;
 class MatchEventsPage extends Component
 {
     public $matchId;
+
     public $match;
+
     public $events = [];
+
     public bool $showModal = false;
+
     public ?int $editingEventId = null;
 
     public $eventForm = [
@@ -58,15 +61,16 @@ class MatchEventsPage extends Component
         $this->validate([
             'eventForm.team_id' => 'required|exists:teams,id',
             'eventForm.player_id' => 'required|exists:players,id',
-            'eventForm.event_type' => 'required|in:' . implode(',', array_keys(MatchEvent::EVENT_TYPES)),
+            'eventForm.event_type' => 'required|in:'.implode(',', array_keys(MatchEvent::EVENT_TYPES)),
             'eventForm.minute' => 'required|integer|min:0|max:120',
             'eventForm.added_time' => 'nullable|integer|min:0|max:15',
             'eventForm.description' => 'nullable|string|max:255',
             'eventForm.related_player_id' => 'nullable|exists:players,id',
         ]);
 
-        if (!in_array($this->eventForm['team_id'], [$this->match->team1_id, $this->match->team2_id])) {
+        if (! in_array($this->eventForm['team_id'], [$this->match->team1_id, $this->match->team2_id])) {
             session()->flash('error', __('app.invalid_team'));
+
             return;
         }
 
@@ -191,7 +195,7 @@ class MatchEventsPage extends Component
             : ($this->eventForm['team_id'] == $this->match->team2_id ? $team2Players : collect());
 
         return view('livewire.admin.matches.events-page', [
-            'title' => __('app.page_title_match_events') . ' - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
+            'title' => __('app.page_title_match_events').' - '.$this->match->team1->name.' vs '.$this->match->team2->name,
             'match' => $this->match,
             'events' => $this->events,
             'team1Players' => $team1Players,

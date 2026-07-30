@@ -2,16 +2,18 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleSeeder extends Seeder
 {
     public function run(): void
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // ── Permissions ────────────────────────────────────────────────
         $permissions = [
@@ -47,6 +49,9 @@ class RoleSeeder extends Seeder
 
             // Access
             'view dashboard',
+
+            // Casual competition management
+            'manage casual competitions',
         ];
 
         foreach ($permissions as $perm) {
@@ -55,7 +60,7 @@ class RoleSeeder extends Seeder
 
         // ── Roles ──────────────────────────────────────────────────────
         // Removed: 'viewer' (redundant with 'user')
-        $roles = ['admin', 'organizer', 'coach', 'captain', 'player', 'competitor', 'user'];
+        $roles = ['admin', 'organizer', 'coach', 'captain', 'player', 'competitor', 'user', 'local_organizer'];
         foreach ($roles as $role) {
             Role::firstOrCreate(['name' => $role, 'guard_name' => 'web']);
         }
@@ -87,6 +92,17 @@ class RoleSeeder extends Seeder
             'view dashboard',
         ]);
 
+        // Local Organizer: casual competitions only
+        $localOrganizer = Role::findByName('local_organizer');
+        $localOrganizer->syncPermissions([
+            'manage casual competitions',
+            'manage teams',
+            'manage players',
+            'manage matches',
+            'manage goals',
+            'view dashboard',
+        ]);
+
         // Captain: broad team management (scoped to own team via TeamPolicy)
         $captain = Role::findByName('captain');
         $captain->syncPermissions([
@@ -103,7 +119,7 @@ class RoleSeeder extends Seeder
         // ── Migrate any existing 'viewer' users to 'user' ──────────────
         $viewerRole = Role::where('name', 'viewer')->first();
         if ($viewerRole) {
-            $users = \App\Models\User::where('role', 'viewer')->get();
+            $users = User::where('role', 'viewer')->get();
             foreach ($users as $user) {
                 $user->removeRole('viewer');
                 $user->assignRole('user');

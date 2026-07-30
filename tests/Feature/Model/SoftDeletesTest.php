@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Team;
-use App\Models\Player;
 use App\Models\Competition;
+use App\Models\Player;
+use App\Models\Team;
 use App\Models\User;
 
 test('team can be soft deleted and restored', function () {

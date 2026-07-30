@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Livewire\Admin\Competitions;
 
 use App\Models\Competition;
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -11,14 +12,23 @@ use Livewire\Component;
 class EditCompetitionPage extends Component
 {
     public Competition $competition;
+
     public string $name = '';
+
     public ?int $type_id = null;
+
     public ?int $subtype_id = null;
+
     public ?string $location = null;
+
     public ?string $start_date = null;
+
     public ?string $end_date = null;
+
     public ?string $description = null;
+
     public string $status = 'draft';
+
     public string $approval_status = 'pending';
 
     public function mount(Competition $competition)
@@ -58,6 +68,7 @@ class EditCompetitionPage extends Component
         ]);
 
         session()->flash('success', __('app.competition_updated'));
+
         return redirect()->route('admin.competitions.index');
     }
 

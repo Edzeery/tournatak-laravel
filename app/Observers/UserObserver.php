@@ -11,23 +11,23 @@ class UserObserver
     {
         $roleName = $user->role;
 
-        if ($roleName && !$user->hasRole($roleName)) {
+        if ($roleName && ! $user->hasRole($roleName)) {
             try {
                 $user->assignRole($roleName);
             } catch (\Exception $e) {
-                Log::warning("Failed to assign role '{$roleName}' to user {$user->id}: " . $e->getMessage());
+                Log::warning("Failed to assign role '{$roleName}' to user {$user->id}: ".$e->getMessage());
             }
         }
 
         // Create default preferences if not already present
-        if (!$user->preference) {
+        if (! $user->preference) {
             $user->preference()->create([
                 'locale' => app()->getLocale(),
             ]);
         }
 
         // Create security settings if not already present
-        if (!$user->securitySetting) {
+        if (! $user->securitySetting) {
             $user->securitySetting()->create([]);
         }
     }
@@ -41,7 +41,7 @@ class UserObserver
                 try {
                     $user->syncRoles([$newRole]);
                 } catch (\Exception $e) {
-                    Log::warning("Failed to sync role '{$newRole}' for user {$user->id}: " . $e->getMessage());
+                    Log::warning("Failed to sync role '{$newRole}' for user {$user->id}: ".$e->getMessage());
                 }
             }
         }

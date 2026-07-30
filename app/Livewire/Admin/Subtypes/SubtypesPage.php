@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Subtypes;
 
 use App\Models\CompetitionSubtype;
@@ -12,6 +13,7 @@ class SubtypesPage extends Component
     use WithPagination;
 
     public string $search = '';
+
     public int $perPage = 10;
 
     public function updatedSearch()
@@ -39,7 +41,7 @@ class SubtypesPage extends Component
     public function render()
     {
         $query = CompetitionSubtype::query()
-            ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%")
+            ->when($this->search, fn ($q) => $q->where('name', 'like', "%{$this->search}%")
                 ->orWhere('en_name', 'like', "%{$this->search}%"));
 
         return view('livewire.admin.subtypes.subtypes-page', [

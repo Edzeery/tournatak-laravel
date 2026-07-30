@@ -5,11 +5,14 @@ namespace App\Services;
 use App\Models\Competition;
 use App\Models\Match_;
 use App\Models\Team;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class StandingService
 {
+    public function __construct(
+        protected ScoringEngine $scoringEngine,
+    ) {}
+
     public function calculate(Competition $competition): array
     {
         $completedMatches = $competition->matches()
@@ -28,10 +31,10 @@ class StandingService
         }
 
         foreach ($completedMatches as $match) {
-            $this->processMatch($standings, $match);
+            $this->processMatch($standings, $match, $competition);
         }
 
-        $standings = $this->sortStandings($standings);
+        $standings = $this->scoringEngine->sortStandings($standings, $competition);
 
         return array_values($standings);
     }
@@ -55,17 +58,20 @@ class StandingService
         ];
     }
 
-    protected function processMatch(array &$standings, Match_ $match): void
+    protected function processMatch(array &$standings, Match_ $match, Competition $competition): void
     {
         $t1Id = $match->team1_id;
         $t2Id = $match->team2_id;
 
-        if (!isset($standings[$t1Id]) || !isset($standings[$t2Id])) {
+        if (! isset($standings[$t1Id]) || ! isset($standings[$t2Id])) {
             return;
         }
 
         $score1 = $match->score_team1 ?? 0;
         $score2 = $match->score_team2 ?? 0;
+
+        $points1 = $this->scoringEngine->calculatePoints($competition, $score1, $score2);
+        $points2 = $this->scoringEngine->calculatePoints($competition, $score2, $score1);
 
         $standings[$t1Id]['played']++;
         $standings[$t2Id]['played']++;
@@ -74,18 +80,16 @@ class StandingService
         $standings[$t2Id]['goals_for'] += $score2;
         $standings[$t2Id]['goals_against'] += $score1;
 
-        if ($score1 > $score2) {
+        if ($points1 > $points2) {
             $standings[$t1Id]['won']++;
-            $standings[$t1Id]['points'] += 3;
             $standings[$t1Id]['form'][] = 'W';
             $standings[$t2Id]['lost']++;
             $standings[$t2Id]['form'][] = 'L';
             if ($score2 === 0) {
                 $standings[$t1Id]['clean_sheets']++;
             }
-        } elseif ($score1 < $score2) {
+        } elseif ($points1 < $points2) {
             $standings[$t2Id]['won']++;
-            $standings[$t2Id]['points'] += 3;
             $standings[$t2Id]['form'][] = 'W';
             $standings[$t1Id]['lost']++;
             $standings[$t1Id]['form'][] = 'L';
@@ -95,8 +99,6 @@ class StandingService
         } else {
             $standings[$t1Id]['drawn']++;
             $standings[$t2Id]['drawn']++;
-            $standings[$t1Id]['points'] += 1;
-            $standings[$t2Id]['points'] += 1;
             $standings[$t1Id]['form'][] = 'D';
             $standings[$t2Id]['form'][] = 'D';
             if ($score1 === 0) {
@@ -105,23 +107,11 @@ class StandingService
             }
         }
 
+        $standings[$t1Id]['points'] += $points1;
+        $standings[$t2Id]['points'] += $points2;
+
         $standings[$t1Id]['goal_difference'] = $standings[$t1Id]['goals_for'] - $standings[$t1Id]['goals_against'];
         $standings[$t2Id]['goal_difference'] = $standings[$t2Id]['goals_for'] - $standings[$t2Id]['goals_against'];
-    }
-
-    protected function sortStandings(array $standings): array
-    {
-        usort($standings, function ($a, $b) {
-            if ($a['points'] !== $b['points']) {
-                return $b['points'] - $a['points'];
-            }
-            if ($a['goal_difference'] !== $b['goal_difference']) {
-                return $b['goal_difference'] - $a['goal_difference'];
-            }
-            return $b['goals_for'] - $a['goals_for'];
-        });
-
-        return $standings;
     }
 
     public function getTopScorers(Competition $competition, int $limit = 10): array

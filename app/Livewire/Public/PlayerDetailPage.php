@@ -10,6 +10,7 @@ use Livewire\Component;
 class PlayerDetailPage extends Component
 {
     public $playerId;
+
     public $player;
 
     public function mount(int $playerId): void

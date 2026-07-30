@@ -16,6 +16,7 @@ class Player extends Model
     protected $fillable = [
         'user_id',
         'team_id',
+        'sport_id',
         'number',
         'position_text',
         'image',
@@ -34,7 +35,14 @@ class Player extends Model
         'number' => 'integer',
         'date_of_birth' => 'date',
         'is_captain' => 'boolean',
+        'height' => 'integer',
+        'weight' => 'integer',
     ];
+
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
+    }
 
     public function user(): BelongsTo
     {
@@ -83,10 +91,13 @@ class Player extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        if (!$this->image) return null;
+        if (! $this->image) {
+            return null;
+        }
         if (Str::startsWith($this->image, ['http://', 'https://'])) {
             return $this->image;
         }
-        return asset('uploads/players/' . $this->image);
+
+        return asset('uploads/players/'.$this->image);
     }
 }

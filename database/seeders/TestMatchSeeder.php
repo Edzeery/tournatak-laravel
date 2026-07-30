@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Team;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Match_;
-use App\Models\Team;
 
 class TestMatchSeeder extends Seeder
 {
@@ -14,15 +13,16 @@ class TestMatchSeeder extends Seeder
         $team1 = Team::first();
         $team2 = Team::skip(1)->first();
 
-        if (!$team1 || !$team2) {
+        if (! $team1 || ! $team2) {
             $this->command->error('Need at least 2 teams!');
+
             return;
         }
 
         $subtypeId = DB::table('competition_subtypes')->pluck('id')->first();
         $typeId = DB::table('competition_types')->pluck('id')->first();
 
-        if (!$subtypeId || !$typeId) {
+        if (! $subtypeId || ! $typeId) {
             DB::table('competition_subtypes')->insert(['name' => 'دوري', 'en_name' => 'League', 'created_at' => now(), 'updated_at' => now()]);
             $subtypeId = DB::table('competition_subtypes')->latest()->first()->id;
             DB::table('competition_types')->insert(['subtype_id' => $subtypeId, 'name' => 'دوري المحترفين', 'slug' => 'pro-league', 'sort_order' => 1, 'is_active' => 1, 'created_at' => now(), 'updated_at' => now()]);

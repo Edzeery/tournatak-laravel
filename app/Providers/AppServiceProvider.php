@@ -7,16 +7,16 @@ use App\Models\Match_;
 use App\Models\Player;
 use App\Models\Team;
 use App\Models\User;
+use App\Observers\UserObserver;
 use App\Policies\CompetitionPolicy;
 use App\Policies\MatchPolicy;
 use App\Policies\PlayerPolicy;
 use App\Policies\TeamPolicy;
 use App\Policies\UserPolicy;
-use App\Observers\UserObserver;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

@@ -1,21 +1,27 @@
 <?php
+
 namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
 use App\Services\UserService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Illuminate\Support\Facades\Hash;
 
 #[Layout('layouts.admin')]
 class EditUserPage extends Component
 {
     public User $user;
+
     public string $name = '';
+
     public string $username = '';
+
     public string $email = '';
+
     public ?string $password = null;
+
     public string $role = '';
+
     public string $is_verified = '';
 
     public function mount(User $user)
@@ -45,6 +51,7 @@ class EditUserPage extends Component
         ]);
 
         session()->flash('success', __('app.user_updated'));
+
         return redirect()->route('admin.users.index');
     }
 

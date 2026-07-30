@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Livewire\Admin\Competitions;
 
-use App\Models\Competition;
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
 use App\Services\CompetitionService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -12,11 +12,17 @@ use Livewire\Component;
 class CreateCompetitionPage extends Component
 {
     public string $name = '';
+
     public ?int $type_id = null;
+
     public ?int $subtype_id = null;
+
     public ?string $location = null;
+
     public ?string $start_date = null;
+
     public ?string $end_date = null;
+
     public ?string $description = null;
 
     public function store()
@@ -35,6 +41,7 @@ class CreateCompetitionPage extends Component
         ]);
 
         session()->flash('success', __('app.competition_created'));
+
         return redirect()->route('admin.competitions.index');
     }
 

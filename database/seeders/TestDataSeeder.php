@@ -2,34 +2,35 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Models\Team;
-use App\Models\User;
-use App\Models\Player;
-use App\Models\Position;
+use App\Models\Activity;
 use App\Models\Competition;
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
-use App\Models\Registration;
+use App\Models\CompetitionType;
+use App\Models\Formation;
 use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\MatchLineup;
 use App\Models\MatchStat;
-use App\Models\Formation;
-use App\Models\TeamStaff;
-use App\Models\TeamTactic;
-use App\Models\TeamMedicalRecord;
-use App\Models\TeamSeasonStat;
-use App\Models\PlayerSeasonStat;
 use App\Models\News;
 use App\Models\Plan;
-use App\Models\Subscription;
+use App\Models\Player;
+use App\Models\PlayerSeasonStat;
+use App\Models\Position;
 use App\Models\Profile;
-use App\Models\UserPreference;
+use App\Models\Registration;
 use App\Models\SecuritySetting;
-use App\Models\Activity;
+use App\Models\Sport;
+use App\Models\Subscription;
+use App\Models\Team;
+use App\Models\TeamMedicalRecord;
+use App\Models\TeamSeasonStat;
+use App\Models\TeamStaff;
+use App\Models\TeamTactic;
+use App\Models\User;
+use App\Models\UserPreference;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TestDataSeeder extends Seeder
 {
@@ -104,8 +105,8 @@ class TestDataSeeder extends Seeder
     ];
 
     private array $nationalities = [
-        'السعودية','مصر','المغرب','تونس','الجزائر','العراق','الكويت','قطر','الإمارات','عمان','البحرين',
-        'السنغال','مالي','نيجيريا','الكاميرون','ساحل العاج','غانا','البرازيل','الأرجنتين','فرنسا',
+        'السعودية', 'مصر', 'المغرب', 'تونس', 'الجزائر', 'العراق', 'الكويت', 'قطر', 'الإمارات', 'عمان', 'البحرين',
+        'السنغال', 'مالي', 'نيجيريا', 'الكاميرون', 'ساحل العاج', 'غانا', 'البرازيل', 'الأرجنتين', 'فرنسا',
     ];
 
     private array $bios = [
@@ -130,21 +131,22 @@ class TestDataSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function () {
+            $footballId = Sport::where('slug', 'football')->value('id');
             $admin = $this->createAdmin();
             $organizer = $this->createOrganizer();
             $coach = $this->createCoach();
-            $teams = $this->createTeams();
+            $teams = $this->createTeams($footballId);
             $captains = $this->createCaptains($teams);
             $this->linkTeamCaptains($teams, $captains);
-            $allPlayers = $this->createPlayers($teams);
+            $allPlayers = $this->createPlayers($teams, $footballId);
             $compTypes = $this->createCompetitionTypes();
-            $competitions = $this->createCompetitions($compTypes, $admin);
+            $competitions = $this->createCompetitions($compTypes, $admin, $footballId);
             $this->createRegistrations($competitions, $teams);
             $allMatches = $this->createMatches($competitions, $teams);
             $this->createMatchLineups($allMatches, $allPlayers);
             $this->createMatchEvents($allMatches, $allPlayers);
             $this->createMatchStats($allMatches);
-            $this->createTeamFormations($teams);
+            $this->createTeamFormations($teams, $footballId);
             $this->createTeamStaff($teams);
             $this->createTeamTactics($teams);
             $this->createMedicalRecords($teams, $allPlayers);
@@ -169,6 +171,7 @@ class TestDataSeeder extends Seeder
             ]
         );
         $admin->assignRole('admin');
+
         return $admin;
     }
 
@@ -183,6 +186,7 @@ class TestDataSeeder extends Seeder
             ]
         );
         $org->assignRole('organizer');
+
         return $org;
     }
 
@@ -197,16 +201,18 @@ class TestDataSeeder extends Seeder
             ]
         );
         $coach->assignRole('coach');
+
         return $coach;
     }
 
-    private function createTeams(): array
+    private function createTeams(int $footballId): array
     {
         $this->command->info('Creating 8 teams...');
         $teams = [];
         foreach ($this->teamDefs as $td) {
-            $teams[] = Team::create(['name' => $td['name'], 'points' => rand(5, 35)]);
+            $teams[] = Team::create(['name' => $td['name'], 'points' => rand(5, 35), 'sport_id' => $footballId]);
         }
+
         return $teams;
     }
 
@@ -215,13 +221,14 @@ class TestDataSeeder extends Seeder
         $captains = [];
         foreach ($teams as $idx => $team) {
             $captains[] = User::create([
-                'name' => 'كابتن ' . $team->name,
-                'username' => 'cap_' . $this->teamDefs[$idx]['key'],
-                'email' => 'cap_' . $this->teamDefs[$idx]['key'] . '@test.com',
+                'name' => 'كابتن '.$team->name,
+                'username' => 'cap_'.$this->teamDefs[$idx]['key'],
+                'email' => 'cap_'.$this->teamDefs[$idx]['key'].'@test.com',
                 'password' => bcrypt('password'), 'role' => 'captain',
                 'is_verified' => true, 'email_verified_at' => now(),
             ])->assignRole('captain');
         }
+
         return $captains;
     }
 
@@ -232,12 +239,13 @@ class TestDataSeeder extends Seeder
         }
     }
 
-    private function createPlayers(array $teams): array
+    private function createPlayers(array $teams, int $footballId): array
     {
         $this->command->info('Creating 23 players per team (184 total)...');
-        $positions = Position::where('sport_type', 'football')->get()->keyBy('abbreviation');
+        $positions = Position::where('sport_type', 'football')->orWhere('sport_id', $footballId)->get()->keyBy('abbreviation');
         if ($positions->isEmpty()) {
             $this->command->error('No football positions found. Run PositionSeeder first.');
+
             return [];
         }
 
@@ -259,14 +267,14 @@ class TestDataSeeder extends Seeder
             foreach ($names as $pIdx => $name) {
                 if (in_array($name, $usedNames)) {
                     $this->command->warn("  Duplicate name '$name' — adding suffix");
-                    $name .= ' ' . $key;
+                    $name .= ' '.$key;
                 }
                 $usedNames[] = $name;
 
                 $user = User::create([
                     'name' => $name,
-                    'username' => 'pl_' . $key . '_' . ($pIdx + 1),
-                    'email' => 'pl_' . $key . '_' . ($pIdx + 1) . '@test.com',
+                    'username' => 'pl_'.$key.'_'.($pIdx + 1),
+                    'email' => 'pl_'.$key.'_'.($pIdx + 1).'@test.com',
                     'password' => bcrypt('password'), 'role' => 'player',
                     'is_verified' => true, 'email_verified_at' => now(),
                 ]);
@@ -282,7 +290,7 @@ class TestDataSeeder extends Seeder
                     'team_id' => $team->id,
                     'number' => $number,
                     'position_id' => $positionId,
-                    'sport_type' => 'football',
+                    'sport_type' => 'football', 'sport_id' => $footballId,
                     'nationality' => $this->nationalities[array_rand($this->nationalities)],
                     'height' => rand(165, 198),
                     'weight' => rand(60, 95),
@@ -299,7 +307,8 @@ class TestDataSeeder extends Seeder
 
     private function getShirtNumber(int $index): int
     {
-        $numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+        $numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
         return $numbers[$index] ?? ($index + 1);
     }
 
@@ -320,13 +329,14 @@ class TestDataSeeder extends Seeder
             $types[] = CompetitionType::firstOrCreate(
                 ['slug' => $td['slug']],
                 ['subtype_id' => $subtype->id, 'name' => $td['name'],
-                 'sort_order' => count($types) + 1, 'is_active' => true]
+                    'sort_order' => count($types) + 1, 'is_active' => true]
             );
         }
+
         return $types;
     }
 
-    private function createCompetitions(array $compTypes, User $admin): array
+    private function createCompetitions(array $compTypes, User $admin, int $footballId): array
     {
         $this->command->info('Creating 3 competitions...');
         $comps = [];
@@ -342,9 +352,10 @@ class TestDataSeeder extends Seeder
                 'organizer_id' => $admin->id, 'name' => $cd['name'],
                 'status' => $cd['status'], 'approval_status' => 'approved',
                 'start_date' => $cd['start'], 'end_date' => $cd['end'],
-                'location' => 'الرياض', 'format' => 'league',
+                'location' => 'الرياض', 'format' => 'league', 'sport_id' => $footballId,
             ]);
         }
+
         return $comps;
     }
 
@@ -364,15 +375,15 @@ class TestDataSeeder extends Seeder
     private function createMatches(array $competitions, array $teams): array
     {
         $this->command->info('Creating 20 matches with realistic dates...');
-        $teamIds = array_map(fn($t) => $t->id, $teams);
+        $teamIds = array_map(fn ($t) => $t->id, $teams);
         $teamCount = count($teamIds);
         $allMatches = [];
 
         $usedDates = [];
         $teamSchedule = [];
 
-        $venues = ['استاد الملك فهد','استاد مدينة الأمير فيصل بن فهد','استاد الملك عبدالله','استاد الأمير محمد بن فهد'];
-        $referees = ['محمد الهويش','خالد الطويرش','عبدالعزيز الدخيل','فهد المرداسي','ماجد الشمراني'];
+        $venues = ['استاد الملك فهد', 'استاد مدينة الأمير فيصل بن فهد', 'استاد الملك عبدالله', 'استاد الأمير محمد بن فهد'];
+        $referees = ['محمد الهويش', 'خالد الطويرش', 'عبدالعزيز الدخيل', 'فهد المرداسي', 'ماجد الشمراني'];
         $today = today();
 
         foreach ($competitions as $cIdx => $comp) {
@@ -383,7 +394,9 @@ class TestDataSeeder extends Seeder
             for ($m = 0; $m < $matchCount; $m++) {
                 $t1Idx = ($cIdx * 7 + $m * 3) % $teamCount;
                 $t2Idx = ($cIdx * 7 + $m * 3 + 1 + ($m % 2)) % $teamCount;
-                if ($t1Idx === $t2Idx) $t2Idx = ($t2Idx + 1) % $teamCount;
+                if ($t1Idx === $t2Idx) {
+                    $t2Idx = ($t2Idx + 1) % $teamCount;
+                }
 
                 $t1Id = $teamIds[$t1Idx];
                 $t2Id = $teamIds[$t2Idx];
@@ -410,7 +423,7 @@ class TestDataSeeder extends Seeder
                 $teamSchedule[$t1Id][] = $date;
                 $teamSchedule[$t2Id][] = $date;
 
-                $dateTime = $date . ' ' . sprintf('%02d:%02d:00', $hour, $minute);
+                $dateTime = $date.' '.sprintf('%02d:%02d:00', $hour, $minute);
 
                 if ($status === 'completed') {
                     [$s1, $s2] = $this->generateScore();
@@ -453,14 +466,17 @@ class TestDataSeeder extends Seeder
     private function generateScore(): array
     {
         $dist = [
-            [0,0,10],[1,0,15],[0,1,9],[1,1,14],[2,1,13],[1,2,9],
-            [2,0,8],[0,2,5],[3,1,5],[2,2,4],[3,0,3],[0,3,2],[3,2,2],[2,3,1],
+            [0, 0, 10], [1, 0, 15], [0, 1, 9], [1, 1, 14], [2, 1, 13], [1, 2, 9],
+            [2, 0, 8], [0, 2, 5], [3, 1, 5], [2, 2, 4], [3, 0, 3], [0, 3, 2], [3, 2, 2], [2, 3, 1],
         ];
         $r = rand(1, 100);
         foreach ($dist as $d) {
             $r -= $d[2];
-            if ($r <= 0) return [$d[0], $d[1]];
+            if ($r <= 0) {
+                return [$d[0], $d[1]];
+            }
         }
+
         return [rand(0, 4), rand(0, 4)];
     }
 
@@ -476,7 +492,7 @@ class TestDataSeeder extends Seeder
             $usedByT2 = in_array($dateStr, $teamSchedule[$t2Id] ?? []);
             $alreadyUsed = in_array($dateStr, $usedDates);
 
-            if (!$usedByT1 && !$usedByT2 && !$alreadyUsed) {
+            if (! $usedByT1 && ! $usedByT2 && ! $alreadyUsed) {
                 return $dateStr;
             }
             $dayOffset >= 0 ? $candidate->addDay() : $candidate->subDay();
@@ -492,7 +508,7 @@ class TestDataSeeder extends Seeder
 
         foreach ($allMatches as $match) {
             foreach ([$match->team1_id, $match->team2_id] as $teamId) {
-                $pool = array_values(array_filter($allPlayers, fn($p) => $p->team_id === $teamId));
+                $pool = array_values(array_filter($allPlayers, fn ($p) => $p->team_id === $teamId));
                 $formation = $teamFormations->get($teamId);
                 $slotCount = $formation ? count($formation->positions_data) : 11;
                 $starterCount = min($slotCount, count($pool));
@@ -519,7 +535,9 @@ class TestDataSeeder extends Seeder
     {
         $this->command->info('Creating match events from lineups...');
         foreach ($allMatches as $match) {
-            if ($match->status !== 'completed') continue;
+            if ($match->status !== 'completed') {
+                continue;
+            }
 
             $lineups = MatchLineup::where('match_id', $match->id)->get();
 
@@ -534,7 +552,9 @@ class TestDataSeeder extends Seeder
             $yc = rand(1, 5);
             for ($y = 0; $y < $yc; $y++) {
                 $pool = $y % 2 === 0 ? $t1Starters : $t2Starters;
-                if (empty($pool)) continue;
+                if (empty($pool)) {
+                    continue;
+                }
                 MatchEvent::create([
                     'match_id' => $match->id,
                     'team_id' => $y % 2 === 0 ? $match->team1_id : $match->team2_id,
@@ -547,7 +567,9 @@ class TestDataSeeder extends Seeder
             for ($s = 0; $s < $subs; $s++) {
                 $starterPool = $s % 2 === 0 ? $t1Starters : $t2Starters;
                 $subPool = $s % 2 === 0 ? $t1Subs : $t2Subs;
-                if (empty($starterPool) || empty($subPool)) continue;
+                if (empty($starterPool) || empty($subPool)) {
+                    continue;
+                }
                 $out = $starterPool[array_rand($starterPool)];
                 $in = $subPool[array_rand($subPool)];
                 $min = rand(45, 80);
@@ -560,7 +582,9 @@ class TestDataSeeder extends Seeder
 
     private function addGoalsForTeam(Match_ $match, array $starterIds, int $goalCount, int $teamId): void
     {
-        if ($goalCount <= 0 || empty($starterIds)) return;
+        if ($goalCount <= 0 || empty($starterIds)) {
+            return;
+        }
         for ($g = 0; $g < $goalCount; $g++) {
             $scorerId = $starterIds[array_rand($starterIds)];
             $min = rand(3, 89);
@@ -586,7 +610,9 @@ class TestDataSeeder extends Seeder
     {
         $this->command->info('Creating match stats correlated with events...');
         foreach ($allMatches as $match) {
-            if ($match->status !== 'completed') continue;
+            if ($match->status !== 'completed') {
+                continue;
+            }
 
             $events = MatchEvent::where('match_id', $match->id)->get();
 
@@ -602,11 +628,11 @@ class TestDataSeeder extends Seeder
                 MatchStat::create([
                     'match_id' => $match->id, 'team_id' => $tid,
                     'possession' => $pos, 'shots_total' => $shots,
-                    'shots_on_target' => max(1, (int)($shots * rand(25, 55) / 100)),
-                    'shots_off_target' => max(0, $shots - (int)($shots * rand(25, 55) / 100)),
+                    'shots_on_target' => max(1, (int) ($shots * rand(25, 55) / 100)),
+                    'shots_off_target' => max(0, $shots - (int) ($shots * rand(25, 55) / 100)),
                     'corners' => rand(1, 10), 'fouls' => rand(8, 22), 'offsides' => rand(0, 5),
                     'yellow_cards' => $actualYellows, 'red_cards' => $actualReds,
-                    'passes_total' => $passes, 'passes_accurate' => (int)($passes * rand(65, 90) / 100),
+                    'passes_total' => $passes, 'passes_accurate' => (int) ($passes * rand(65, 90) / 100),
                     'tackles' => rand(10, 35), 'saves' => rand(2, 8),
                     'hit_woodwork' => rand(0, 2), 'blocked_shots' => rand(0, 5),
                 ]);
@@ -614,9 +640,9 @@ class TestDataSeeder extends Seeder
         }
     }
 
-    private function createTeamFormations(array $teams): void
+    private function createTeamFormations(array $teams, int $footballId): void
     {
-        $this->command->info('Creating team formations (2 per team)...');
+        $this->command->info('Creating team formations...');
         $formation442 = [
             ['position' => 'GK', 'x' => 50, 'y' => 92],
             ['position' => 'RB', 'x' => 78, 'y' => 75],
@@ -661,7 +687,7 @@ class TestDataSeeder extends Seeder
             Formation::create([
                 'team_id' => $team->id, 'name' => '4-4-2 أساسي',
                 'sport_type' => 'football', 'formation_code' => '4-4-2',
-                'positions_data' => $formation442,
+                'positions_data' => $formation442, 'sport_id' => $footballId,
                 'description' => 'التشكيل الأساسي - 4-4-2 متوازن',
                 'is_default' => true, 'is_active' => true,
             ]);
@@ -672,7 +698,7 @@ class TestDataSeeder extends Seeder
             Formation::create([
                 'team_id' => $team->id, 'name' => $name,
                 'sport_type' => 'football', 'formation_code' => $code,
-                'positions_data' => $alt,
+                'positions_data' => $alt, 'sport_id' => $footballId,
                 'description' => 'تشكيل بديل',
                 'is_default' => false, 'is_active' => true,
             ]);
@@ -746,7 +772,7 @@ class TestDataSeeder extends Seeder
         $statuses = ['active', 'recovering', 'returned', 'long_term'];
 
         foreach ($teams as $team) {
-            $pool = array_values(array_filter($allPlayers, fn($p) => $p->team_id === $team->id));
+            $pool = array_values(array_filter($allPlayers, fn ($p) => $p->team_id === $team->id));
             $count = rand(3, 6);
             for ($r = 0; $r < $count; $r++) {
                 $inj = $injuries[array_rand($injuries)];
@@ -772,23 +798,26 @@ class TestDataSeeder extends Seeder
         foreach ($competitions as $comp) {
             foreach ($teams as $team) {
                 $mp = rand(4, 14);
-                $w = rand(0, $mp); $d = rand(0, $mp - $w); $l = $mp - $w - $d;
-                $gf = $w * rand(1, 3) + $d * rand(0, 1); $ga = $l * rand(1, 2) + $d * rand(0, 1);
+                $w = rand(0, $mp);
+                $d = rand(0, $mp - $w);
+                $l = $mp - $w - $d;
+                $gf = $w * rand(1, 3) + $d * rand(0, 1);
+                $ga = $l * rand(1, 2) + $d * rand(0, 1);
                 TeamSeasonStat::create([
                     'team_id' => $team->id, 'competition_id' => $comp->id,
                     'season_year' => 2026, 'matches_played' => $mp,
                     'wins' => $w, 'draws' => $d, 'losses' => $l,
                     'goals_for' => $gf, 'goals_against' => $ga,
-                    'clean_sheets' => rand(0, (int)ceil($mp / 3)), 'points' => $w * 3 + $d,
+                    'clean_sheets' => rand(0, (int) ceil($mp / 3)), 'points' => $w * 3 + $d,
                     'yellow_cards' => rand(5, 35), 'red_cards' => rand(0, 3),
                     'possession_avg' => round(rand(30, 65) / 10, 1),
                     'shots_per_match' => round(rand(8, 18) / 10, 1),
                 ]);
 
-                $pool = array_values(array_filter($allPlayers, fn($p) => $p->team_id === $team->id));
+                $pool = array_values(array_filter($allPlayers, fn ($p) => $p->team_id === $team->id));
                 foreach ($pool as $player) {
                     $pmp = rand(2, min($mp, 12));
-                    $isAtt = in_array($player->position_id, [8,9,10,11]);
+                    $isAtt = in_array($player->position_id, [8, 9, 10, 11]);
                     PlayerSeasonStat::create([
                         'player_id' => $player->id, 'competition_id' => $comp->id,
                         'season_year' => 2026, 'matches_played' => $pmp,
@@ -852,23 +881,23 @@ class TestDataSeeder extends Seeder
 
     private function createUserProfiles(User $admin, User $organizer, User $coach): void
     {
-        Profile::firstOrCreate(['user_id' => $admin->id],    ['full_name' => 'المدير العام للنظام',  'profile_date_birth' => '1985-06-15']);
-        Profile::firstOrCreate(['user_id' => $organizer->id],['full_name' => 'أحمد المنظم',          'profile_date_birth' => '1990-03-22']);
-        Profile::firstOrCreate(['user_id' => $coach->id],    ['full_name' => 'حسن المدرب',           'profile_date_birth' => '1988-11-10']);
+        Profile::firstOrCreate(['user_id' => $admin->id], ['full_name' => 'المدير العام للنظام',  'profile_date_birth' => '1985-06-15']);
+        Profile::firstOrCreate(['user_id' => $organizer->id], ['full_name' => 'أحمد المنظم',          'profile_date_birth' => '1990-03-22']);
+        Profile::firstOrCreate(['user_id' => $coach->id], ['full_name' => 'حسن المدرب',           'profile_date_birth' => '1988-11-10']);
     }
 
     private function createUserPreferences(User $admin, User $organizer, User $coach): void
     {
-        UserPreference::firstOrCreate(['user_id' => $admin->id],    ['locale' => 'ar', 'theme' => 'light',  'timezone' => 'Asia/Riyadh', 'density' => 'comfortable']);
-        UserPreference::firstOrCreate(['user_id' => $organizer->id],['locale' => 'ar', 'theme' => 'dark',   'timezone' => 'Asia/Riyadh', 'density' => 'compact']);
-        UserPreference::firstOrCreate(['user_id' => $coach->id],    ['locale' => 'en', 'theme' => 'system', 'timezone' => 'Asia/Riyadh', 'density' => 'comfortable']);
+        UserPreference::firstOrCreate(['user_id' => $admin->id], ['locale' => 'ar', 'theme' => 'light',  'timezone' => 'Asia/Riyadh', 'density' => 'comfortable']);
+        UserPreference::firstOrCreate(['user_id' => $organizer->id], ['locale' => 'ar', 'theme' => 'dark',   'timezone' => 'Asia/Riyadh', 'density' => 'compact']);
+        UserPreference::firstOrCreate(['user_id' => $coach->id], ['locale' => 'en', 'theme' => 'system', 'timezone' => 'Asia/Riyadh', 'density' => 'comfortable']);
     }
 
     private function createSecuritySettings(User $admin, User $organizer, User $coach): void
     {
-        SecuritySetting::firstOrCreate(['user_id' => $admin->id],    ['twofa_email' => true, 'twofa_app' => true,  'notify_on_login' => true]);
-        SecuritySetting::firstOrCreate(['user_id' => $organizer->id],['twofa_email' => false,'twofa_app' => false, 'notify_on_login' => true]);
-        SecuritySetting::firstOrCreate(['user_id' => $coach->id],    ['twofa_email' => false,'twofa_app' => false, 'notify_on_login' => false]);
+        SecuritySetting::firstOrCreate(['user_id' => $admin->id], ['twofa_email' => true, 'twofa_app' => true,  'notify_on_login' => true]);
+        SecuritySetting::firstOrCreate(['user_id' => $organizer->id], ['twofa_email' => false, 'twofa_app' => false, 'notify_on_login' => true]);
+        SecuritySetting::firstOrCreate(['user_id' => $coach->id], ['twofa_email' => false, 'twofa_app' => false, 'notify_on_login' => false]);
     }
 
     private function createActivities(User $admin): void

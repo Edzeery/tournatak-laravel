@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\CompetitionType;
 use App\Models\CompetitionSubtype;
+use App\Models\CompetitionType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

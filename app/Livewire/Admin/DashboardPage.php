@@ -2,15 +2,15 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\User;
+use App\Models\Activity;
 use App\Models\Competition;
-use App\Models\Team;
-use App\Models\Player;
 use App\Models\Match_;
 use App\Models\MatchEvent;
-use App\Models\TeamStaff;
+use App\Models\Player;
+use App\Models\Team;
 use App\Models\TeamMedicalRecord;
-use App\Models\Activity;
+use App\Models\TeamStaff;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -63,10 +63,10 @@ class DashboardPage extends Component
             ->toArray();
 
         $competitionStats = Competition::select(
-                DB::raw('CASE status WHEN "draft" THEN 0 WHEN "upcoming" THEN 1 WHEN "ongoing" THEN 2 WHEN "completed" THEN 3 END as sort_order'),
-                'status',
-                DB::raw('count(*) as total')
-            )
+            DB::raw('CASE status WHEN "draft" THEN 0 WHEN "upcoming" THEN 1 WHEN "ongoing" THEN 2 WHEN "completed" THEN 3 END as sort_order'),
+            'status',
+            DB::raw('count(*) as total')
+        )
             ->groupBy('status')
             ->orderBy('sort_order')
             ->pluck('total', 'status');

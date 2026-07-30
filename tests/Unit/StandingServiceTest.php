@@ -7,7 +7,7 @@ use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\Player;
 use App\Models\Team;
-use App\Models\User;
+use App\Services\ScoringEngine;
 use App\Services\StandingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -21,7 +21,7 @@ class StandingServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new StandingService();
+        $this->service = new StandingService(new ScoringEngine);
     }
 
     public function test_calculate_standings_from_completed_matches(): void

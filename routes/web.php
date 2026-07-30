@@ -1,59 +1,68 @@
 <?php
 
 use App\Livewire\Admin\Competitions\CompetitionsPage;
+use App\Livewire\Admin\Competitions\CreateCasualCompetitionPage;
 use App\Livewire\Admin\Competitions\CreateCompetitionPage;
 use App\Livewire\Admin\Competitions\EditCompetitionPage;
 use App\Livewire\Admin\DashboardPage;
+use App\Livewire\Admin\Matches\CreateMatchPage;
+use App\Livewire\Admin\Matches\EditMatchPage;
+use App\Livewire\Admin\Matches\MatchControlPage;
+use App\Livewire\Admin\Matches\MatchesPage;
+use App\Livewire\Admin\Matches\MatchEventsPage;
+use App\Livewire\Admin\Matches\MatchLineupPage;
+use App\Livewire\Admin\Matches\MatchStatsPage;
+use App\Livewire\Admin\Players\CreatePlayerPage;
+use App\Livewire\Admin\Players\EditPlayerPage;
+use App\Livewire\Admin\Players\PlayersPage;
+use App\Livewire\Admin\Positions\PositionsPage;
+use App\Livewire\Admin\Referees\CreateRefereePage;
+use App\Livewire\Admin\Referees\EditRefereePage;
+use App\Livewire\Admin\Referees\RefereesPage;
+use App\Livewire\Admin\SecurityLogPage;
+use App\Livewire\Admin\Sports\CreateSportPage;
+use App\Livewire\Admin\Sports\EditSportPage;
+use App\Livewire\Admin\Sports\SportsPage;
+use App\Livewire\Admin\Subtypes\CreateSubtypePage;
+use App\Livewire\Admin\Subtypes\EditSubtypePage;
+use App\Livewire\Admin\Subtypes\SubtypesPage;
+use App\Livewire\Admin\Teams\CreateTeamPage;
+use App\Livewire\Admin\Teams\EditTeamPage;
+use App\Livewire\Admin\Teams\TeamFormationsPage;
+use App\Livewire\Admin\Teams\TeamMedicalPage;
+use App\Livewire\Admin\Teams\TeamsPage;
+use App\Livewire\Admin\Teams\TeamStaffPage;
+use App\Livewire\Admin\Teams\TeamStatsPage;
+use App\Livewire\Admin\Teams\TeamTacticsPage;
+use App\Livewire\Admin\TrashPage;
+use App\Livewire\Admin\Types\CreateTypePage;
+use App\Livewire\Admin\Types\EditTypePage;
+use App\Livewire\Admin\Types\TypesPage;
 use App\Livewire\Admin\Users\CreateUserPage;
 use App\Livewire\Admin\Users\EditUserPage;
 use App\Livewire\Admin\Users\UsersPage;
-use App\Livewire\Admin\Teams\TeamsPage;
-use App\Livewire\Admin\Teams\CreateTeamPage;
-use App\Livewire\Admin\Teams\EditTeamPage;
-use App\Livewire\Admin\Players\PlayersPage;
-use App\Livewire\Admin\Players\CreatePlayerPage;
-use App\Livewire\Admin\Players\EditPlayerPage;
-use App\Livewire\Admin\Types\TypesPage;
-use App\Livewire\Admin\Types\CreateTypePage;
-use App\Livewire\Admin\Types\EditTypePage;
-use App\Livewire\Admin\Subtypes\SubtypesPage;
-use App\Livewire\Admin\Subtypes\CreateSubtypePage;
-use App\Livewire\Admin\Subtypes\EditSubtypePage;
-use App\Livewire\Admin\Matches\MatchesPage;
-use App\Livewire\Admin\Matches\CreateMatchPage;
-use App\Livewire\Admin\Matches\EditMatchPage;
-use App\Livewire\Admin\Teams\TeamStaffPage;
-use App\Livewire\Admin\Teams\TeamFormationsPage;
-use App\Livewire\Admin\Teams\TeamTacticsPage;
-use App\Livewire\Admin\Teams\TeamMedicalPage;
-use App\Livewire\Admin\Teams\TeamStatsPage;
-use App\Livewire\Admin\Matches\MatchLineupPage;
-use App\Livewire\Admin\Matches\MatchEventsPage;
-use App\Livewire\Admin\Matches\MatchStatsPage;
-use App\Livewire\Admin\Matches\MatchControlPage;
-use App\Livewire\Admin\Referees\RefereesPage;
-use App\Livewire\Admin\Referees\CreateRefereePage;
-use App\Livewire\Admin\Referees\EditRefereePage;
-use App\Livewire\Admin\Positions\PositionsPage;
-use App\Livewire\Public\TeamDetailPage;
-use App\Livewire\Public\PlayerDetailPage;
+use App\Livewire\Auth\ForgotPasswordPage;
 use App\Livewire\Auth\LoginPage;
 use App\Livewire\Auth\RegisterPage;
-use App\Livewire\Auth\ForgotPasswordPage;
 use App\Livewire\Auth\ResetPasswordPage;
 use App\Livewire\Auth\TwoFactorChallengePage;
 use App\Livewire\Home\HomePage;
+use App\Livewire\Public\CompetitionDetailPage;
 use App\Livewire\Public\CompetitionsPage as PublicCompetitionsPage;
-use App\Livewire\Public\TeamsPage as PublicTeamsPage;
-use App\Livewire\Public\PlayersPage as PublicPlayersPage;
 use App\Livewire\Public\MatchesPage as PublicMatchesPage;
 use App\Livewire\Public\MatchLivePage;
-use App\Livewire\User\ProfilePage;
-use App\Livewire\User\UserDashboardPage;
-use App\Livewire\User\NotificationsPage;
-use App\Livewire\User\SecurityPage;
-use App\Livewire\User\UserPreferencesPage;
+use App\Livewire\Public\PlayerDetailPage;
+use App\Livewire\Public\PlayersPage as PublicPlayersPage;
+use App\Livewire\Public\TeamDetailPage;
+use App\Livewire\Public\TeamsPage as PublicTeamsPage;
 use App\Livewire\Security\TwoFactorSetupPage;
+use App\Livewire\User\NotificationsPage;
+use App\Livewire\User\ProfilePage;
+use App\Livewire\User\SecurityPage;
+use App\Livewire\User\UserDashboardPage;
+use App\Livewire\User\UserPreferencesPage;
+use App\Models\User;
+use App\Services\SecurityActivityLogger;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,7 +72,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/lang/{locale}', function ($locale) {
-    if (!in_array($locale, ['ar', 'en', 'fr', 'es'])) {
+    if (! in_array($locale, ['ar', 'en', 'fr', 'es'])) {
         abort(400);
     }
     session(['locale' => $locale]);
@@ -86,7 +95,7 @@ Route::get('/home', HomePage::class)->name('home.index');
 |--------------------------------------------------------------------------
 */
 Route::get('/competitions', PublicCompetitionsPage::class)->name('competitions.index');
-Route::get('/competitions/{competition}', \App\Livewire\Public\CompetitionDetailPage::class)->name('competitions.show');
+Route::get('/competitions/{competition}', CompetitionDetailPage::class)->name('competitions.show');
 Route::get('/teams', PublicTeamsPage::class)->name('teams.index');
 Route::get('/teams/{teamId}', TeamDetailPage::class)->name('teams.show');
 Route::get('/matches', PublicMatchesPage::class)->name('matches.index');
@@ -109,25 +118,25 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::get('/verify-email/{id}/{hash}', function ($id, $hash) {
-    $user = \App\Models\User::find($id);
+    $user = User::find($id);
 
-    if (!$user || cache()->pull("email_verification_{$user->id}_{$hash}") === null) {
+    if (! $user || cache()->pull("email_verification_{$user->id}_{$hash}") === null) {
         abort(403, 'رابط التفعيل غير صالح أو انتهت صلاحيته.');
     }
 
     $user->update(['is_verified' => true, 'email_verified_at' => now()]);
 
-    \App\Services\SecurityActivityLogger::emailVerified($user);
+    SecurityActivityLogger::emailVerified($user);
 
     return redirect()->route('login')->with('success', 'تم تفعيل حسابك بنجاح! يمكنك الآن تسجيل الدخول.');
 })->name('verification.verify');
 
-
 Route::middleware('auth')->post('/logout', function () {
-    \App\Services\SecurityActivityLogger::logout(auth()->user());
+    SecurityActivityLogger::logout(auth()->user());
     auth()->logout();
     session()->invalidate();
     session()->regenerateToken();
+
     return redirect()->route('home');
 })->name('logout');
 
@@ -176,6 +185,11 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
         Route::get('/competitions', CompetitionsPage::class)->name('competitions.index');
         Route::get('/competitions/create', CreateCompetitionPage::class)->name('competitions.create');
         Route::get('/competitions/{competition}/edit', EditCompetitionPage::class)->name('competitions.edit');
+    });
+
+    // ── Casual Competition Management (local organizers) ─────────────
+    Route::middleware(['permission:manage casual competitions'])->group(function () {
+        Route::get('/casual-competitions/create', CreateCasualCompetitionPage::class)->name('competitions.create-casual');
     });
 
     // ── Competition Types ────────────────────────────────────────────
@@ -241,6 +255,13 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
         Route::get('/referees/{referee}/edit', EditRefereePage::class)->name('referees.edit');
     });
 
+    // ── Sports ──────────────────────────────────────────────────────
+    Route::middleware(['permission:manage settings'])->group(function () {
+        Route::get('/sports', SportsPage::class)->name('sports.index');
+        Route::get('/sports/create', CreateSportPage::class)->name('sports.create');
+        Route::get('/sports/{sport}/edit', EditSportPage::class)->name('sports.edit');
+    });
+
     // ── Positions ────────────────────────────────────────────────────
     Route::middleware(['permission:manage settings'])->group(function () {
         Route::get('/positions', PositionsPage::class)->name('positions.index');
@@ -248,11 +269,11 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
 
     // ── Trash (admin only) ───────────────────────────────────────────
     Route::middleware(['permission:manage admin users'])->group(function () {
-        Route::get('/trash', \App\Livewire\Admin\TrashPage::class)->name('trash');
+        Route::get('/trash', TrashPage::class)->name('trash');
     });
 
     // ── Security Log (admin only) ────────────────────────────────────
     Route::middleware(['permission:manage admin users'])->group(function () {
-        Route::get('/security-log', \App\Livewire\Admin\SecurityLogPage::class)->name('security-log');
+        Route::get('/security-log', SecurityLogPage::class)->name('security-log');
     });
 });

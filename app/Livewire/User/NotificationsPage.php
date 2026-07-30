@@ -2,11 +2,11 @@
 
 namespace App\Livewire\User;
 
+use App\Models\UserNotification;
+use App\Services\NotificationService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\UserNotification;
-use App\Services\NotificationService;
 
 #[Layout('layouts.app')]
 class NotificationsPage extends Component

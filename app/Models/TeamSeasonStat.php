@@ -40,8 +40,8 @@ class TeamSeasonStat extends Model
         'points' => 'integer',
         'yellow_cards' => 'integer',
         'red_cards' => 'integer',
-        'possession_avg' => 'decimal:1',
-        'shots_per_match' => 'decimal:1',
+        'possession_avg' => 'integer',
+        'shots_per_match' => 'integer',
     ];
 
     public function team(): BelongsTo

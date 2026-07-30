@@ -12,13 +12,21 @@ use Livewire\Component;
 class TeamMedicalPage extends Component
 {
     public $teamId;
+
     public $team;
+
     public $medicalRecords = [];
+
     public $players = [];
+
     public $showModal = false;
+
     public $editingRecordId = null;
+
     public $search = '';
+
     public $filterStatus = '';
+
     public $filterType = '';
 
     public $recordForm = [
@@ -208,7 +216,7 @@ class TeamMedicalPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-medical-page', [
-            'title' => __('app.medical_record') . ' - ' . $this->team->name,
+            'title' => __('app.medical_record').' - '.$this->team->name,
             'recordTypes' => self::getRecordTypes(),
             'severityLevels' => self::getSeverityLevels(),
             'statusOptions' => self::getStatusOptions(),

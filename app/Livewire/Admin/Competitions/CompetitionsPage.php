@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Competitions;
 
 use App\Models\Competition;

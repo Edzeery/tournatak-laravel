@@ -149,6 +149,7 @@ return [
     'add_match' => 'Agregar partido',
     'all_competitions' => 'Todos los torneos',
     'add_competition' => 'Agregar torneo',
+    'create_casual_competition' => 'Competición informal',
     'toggle_theme' => 'Cambiar tema',
 
     // Interfaz común
@@ -213,6 +214,8 @@ return [
     'account_type' => 'Tipo de cuenta',
     'role_competitor' => 'Participante de competición',
     'role_organizer' => 'Organizador de torneos',
+    'role_local_organizer' => 'Organizador local',
+    'role_coach' => 'Entrenador',
     'role_user' => 'Usuario regular',
 
     // Panel de admin
@@ -402,7 +405,7 @@ return [
     'abbreviation' => 'Abrev.',
     'per_page_display' => 'Ver',
 
-    //Marcadores de búsqueda
+    // Marcadores de búsqueda
     'search_users_placeholder' => 'Buscar por nombre o correo...',
     'search_players_placeholder' => 'Buscar por nombre o equipo...',
     'search_matches_placeholder' => 'Buscar por competición o equipo...',
@@ -1294,4 +1297,38 @@ return [
     'attendance' => 'Asistencia',
     'referee' => 'Árbitro',
     'venue' => 'Estadio',
+
+    // ── Competición informal ──
+    'page_title_create_casual_competition' => 'Crear competición informal',
+    'create_casual' => 'Crear competición informal',
+    'casual_competition_desc' => 'Una configuración rápida y ligera — ideal para ligas de barrio y torneos de sala',
+    'casual_auto_approved' => 'Las competiciones informales se aprueban automáticamente',
+    'casual_competition_created' => 'Competición informal creada con éxito',
+    'format_knockout' => 'Eliminación directa',
+    'format_groups' => 'Grupos',
+    'format_league' => 'Liga',
+
+    'choose_sport' => 'Elegir deporte...',
+
+    // ── Gestión de deportes ──
+    'sport_management' => 'Gestión de deportes',
+    'sports_desc' => 'Administrar los deportes disponibles en la plataforma',
+    'sports' => 'Deportes',
+    'add_sport' => 'Añadir deporte',
+    'edit_sport' => 'Editar deporte',
+    'save_sport' => 'Guardar deporte',
+    'sport_created' => 'Deporte creado con éxito',
+    'sport_updated' => 'Deporte actualizado con éxito',
+    'sport_toggled_active' => 'Deporte activado con éxito',
+    'sport_toggled_inactive' => 'Deporte desactivado con éxito',
+    'sport_deleted' => 'Deporte eliminado con éxito',
+    'confirm_delete_sport' => '¿Estás seguro de que deseas eliminar este deporte?',
+    'page_title_manage_sports' => 'Gestionar deportes',
+    'page_title_add_sport' => 'Añadir deporte',
+    'page_title_edit_sport' => 'Editar deporte',
+    'sport_name_placeholder' => 'Ingrese el nombre del deporte',
+    'name_fr' => 'Nombre (francés)',
+    'name_es' => 'Nombre (español)',
+    'category_team' => 'Deporte de equipo',
+    'category_individual' => 'Deporte individual',
 ];

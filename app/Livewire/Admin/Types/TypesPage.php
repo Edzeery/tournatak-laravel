@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Types;
 
 use App\Models\CompetitionType;
@@ -12,6 +13,7 @@ class TypesPage extends Component
     use WithPagination;
 
     public string $search = '';
+
     public int $perPage = 10;
 
     public function updatedSearch()
@@ -32,7 +34,7 @@ class TypesPage extends Component
     public function toggleActive($id)
     {
         $type = CompetitionType::findOrFail($id);
-        $type->update(['is_active' => !$type->is_active]);
+        $type->update(['is_active' => ! $type->is_active]);
         session()->flash('success', $type->is_active ? __('app.type_toggled_active') : __('app.type_toggled_inactive'));
     }
 
@@ -47,7 +49,7 @@ class TypesPage extends Component
     {
         $query = CompetitionType::query()
             ->with('subtype')
-            ->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%")
+            ->when($this->search, fn ($q) => $q->where('name', 'like', "%{$this->search}%")
                 ->orWhere('slug', 'like', "%{$this->search}%"));
 
         return view('livewire.admin.types.types-page', [

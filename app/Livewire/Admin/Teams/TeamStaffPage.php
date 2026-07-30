@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Teams;
 
 use App\Models\Team;
 use App\Models\TeamStaff;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -13,10 +12,15 @@ use Livewire\Component;
 class TeamStaffPage extends Component
 {
     public $teamId;
+
     public $team;
+
     public $staff = [];
+
     public $showModal = false;
+
     public $editingStaffId = null;
+
     public $search = '';
 
     public $staffForm = [
@@ -28,6 +32,7 @@ class TeamStaffPage extends Component
     ];
 
     public $userSearch = '';
+
     public $searchedUsers = [];
 
     protected $listeners = ['closeModal'];
@@ -169,7 +174,7 @@ class TeamStaffPage extends Component
     public function render()
     {
         return view('livewire.admin.teams.team-staff-page', [
-            'title' => __('app.staff') . ' - ' . $this->team->name,
+            'title' => __('app.staff').' - '.$this->team->name,
             'staffRoles' => TeamStaff::STAFF_ROLES,
             'staffIcons' => TeamStaff::STAFF_ICONS,
         ]);

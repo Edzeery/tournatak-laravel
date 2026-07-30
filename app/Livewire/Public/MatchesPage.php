@@ -2,8 +2,9 @@
 
 namespace App\Livewire\Public;
 
-use App\Models\Match_;
 use App\Models\Competition;
+use App\Models\Match_;
+use Carbon\Carbon;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,9 +15,13 @@ class MatchesPage extends Component
     use WithPagination;
 
     public string $selectedDate = '';
+
     public string $filterMode = 'date';
+
     public string $statusFilter = '';
+
     public string $search = '';
+
     public ?int $competitionId = null;
 
     public function mount(): void
@@ -33,6 +38,7 @@ class MatchesPage extends Component
         $next = Match_::whereDate('match_date', '>=', $today)
             ->orderBy('match_date')
             ->first();
+
         return $next ? $next->match_date->format('Y-m-d') : $today;
     }
 
@@ -45,14 +51,14 @@ class MatchesPage extends Component
 
     public function prevDay(): void
     {
-        $this->selectedDate = \Carbon\Carbon::parse($this->selectedDate)->subDay()->format('Y-m-d');
+        $this->selectedDate = Carbon::parse($this->selectedDate)->subDay()->format('Y-m-d');
         $this->filterMode = 'date';
         $this->resetPage();
     }
 
     public function nextDay(): void
     {
-        $this->selectedDate = \Carbon\Carbon::parse($this->selectedDate)->addDay()->format('Y-m-d');
+        $this->selectedDate = Carbon::parse($this->selectedDate)->addDay()->format('Y-m-d');
         $this->filterMode = 'date';
         $this->resetPage();
     }
@@ -108,15 +114,15 @@ class MatchesPage extends Component
         if ($this->search) {
             $q = $this->search;
             $query->where(function ($sub) use ($q) {
-                $sub->whereHas('team1', fn($t) => $t->where('name', 'like', "%{$q}%"))
-                    ->orWhereHas('team2', fn($t) => $t->where('name', 'like', "%{$q}%"));
+                $sub->whereHas('team1', fn ($t) => $t->where('name', 'like', "%{$q}%"))
+                    ->orWhereHas('team2', fn ($t) => $t->where('name', 'like', "%{$q}%"));
             });
         }
 
         $matches = $query->paginate(20);
 
         $todayStr = today()->format('Y-m-d');
-        $center = \Carbon\Carbon::parse($this->selectedDate);
+        $center = Carbon::parse($this->selectedDate);
         $dateRange = [];
         for ($i = -3; $i <= 3; $i++) {
             $d = (clone $center)->addDays($i);

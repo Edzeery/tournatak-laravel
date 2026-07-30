@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('goals')) {
+        if (! Schema::hasTable('goals')) {
             return;
         }
 
@@ -23,7 +23,7 @@ return new class extends Migration
                 ->where('minute', $goal->minute)
                 ->exists();
 
-            if (!$exists) {
+            if (! $exists) {
                 $match = DB::table('matches')->find($goal->match_id);
                 $teamId = null;
                 if ($match) {

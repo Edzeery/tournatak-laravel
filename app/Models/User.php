@@ -2,23 +2,24 @@
 
 namespace App\Models;
 
+use App\Mail\ResetPasswordMail;
+use App\Mail\VerificationEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use App\Mail\ResetPasswordMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Mail\VerificationEmail;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasApiTokens, HasRoles, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -105,7 +106,7 @@ class User extends Authenticatable
 
     public function sendEmailVerificationNotification(): void
     {
-        $token = \Illuminate\Support\Str::random(60);
+        $token = Str::random(60);
         cache()->put("email_verification_{$this->id}_{$token}", true, 60 * 60 * 24);
         Mail::to($this->email)->send(new VerificationEmail($this->id, $token));
     }

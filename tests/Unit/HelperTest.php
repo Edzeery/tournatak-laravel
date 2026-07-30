@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Carbon\Carbon;
 
 test('isRtlLocale returns true for ar', function () {
     $this->assertTrue(isRtlLocale('ar'));
@@ -15,7 +15,7 @@ test('isRtlLocale returns false for fr', function () {
 });
 
 test('formatDate returns formatted date', function () {
-    $date = \Carbon\Carbon::create(2025, 6, 15);
+    $date = Carbon::create(2025, 6, 15);
     $this->assertEquals('15/06/2025', formatDate($date));
 });
 
@@ -24,12 +24,12 @@ test('formatDate returns null for null date', function () {
 });
 
 test('formatDate accepts custom format', function () {
-    $date = \Carbon\Carbon::create(2025, 6, 15);
+    $date = Carbon::create(2025, 6, 15);
     $this->assertEquals('15/06', formatDate($date, 'd/m'));
 });
 
 test('formatDateTime returns formatted datetime', function () {
-    $date = \Carbon\Carbon::create(2025, 6, 15, 14, 30);
+    $date = Carbon::create(2025, 6, 15, 14, 30);
     $this->assertEquals('15/06/2025 14:30', formatDateTime($date));
 });
 

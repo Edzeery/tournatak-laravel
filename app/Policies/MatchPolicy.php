@@ -28,7 +28,7 @@ class MatchPolicy
 
     public function view(User $user, Match_ $match): bool
     {
-        if ($user->hasRole('organizer')) {
+        if ($user->hasRole('organizer') || $user->hasRole('local_organizer')) {
             return $match->competition->organizer_id === $user->id;
         }
 
@@ -43,7 +43,7 @@ class MatchPolicy
 
     public function update(User $user, Match_ $match): bool
     {
-        if ($user->hasRole('organizer')) {
+        if ($user->hasRole('organizer') || $user->hasRole('local_organizer')) {
             return $match->competition->organizer_id === $user->id;
         }
 
@@ -53,7 +53,7 @@ class MatchPolicy
 
     public function delete(User $user, Match_ $match): bool
     {
-        if ($user->hasRole('organizer')) {
+        if ($user->hasRole('organizer') || $user->hasRole('local_organizer')) {
             return $match->competition->organizer_id === $user->id;
         }
 

@@ -7,14 +7,23 @@ use Illuminate\View\Component;
 class DatePicker extends Component
 {
     public string $name;
+
     public ?string $value;
+
     public ?string $label;
+
     public bool $required;
+
     public bool $enableTime;
+
     public string $dateFormat;
+
     public string $altFormat;
+
     public ?string $placeholder;
+
     public ?string $error;
+
     public bool $inline;
 
     public function __construct(

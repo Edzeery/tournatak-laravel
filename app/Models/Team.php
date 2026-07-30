@@ -18,6 +18,7 @@ class Team extends Model
         'name',
         'logo',
         'captain_id',
+        'sport_id',
         'points',
     ];
 
@@ -28,6 +29,11 @@ class Team extends Model
     public function captain(): BelongsTo
     {
         return $this->belongsTo(User::class, 'captain_id');
+    }
+
+    public function sport(): BelongsTo
+    {
+        return $this->belongsTo(Sport::class);
     }
 
     public function players(): HasMany
@@ -77,10 +83,13 @@ class Team extends Model
 
     public function getLogoUrlAttribute(): ?string
     {
-        if (!$this->logo) return null;
+        if (! $this->logo) {
+            return null;
+        }
         if (Str::startsWith($this->logo, ['http://', 'https://'])) {
             return $this->logo;
         }
-        return asset('uploads/teams/' . $this->logo);
+
+        return asset('uploads/teams/'.$this->logo);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Livewire\Admin\Matches;
 
 use App\Models\Match_;
 use App\Models\MatchStat;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -12,9 +11,13 @@ use Livewire\Component;
 class MatchStatsPage extends Component
 {
     public $matchId;
+
     public $match;
+
     public $team1Stats;
+
     public $team2Stats;
+
     public $activeTeam = 1;
 
     public $statsForm = [
@@ -168,7 +171,7 @@ class MatchStatsPage extends Component
         $statFields = collect(self::getStatLabels())->except(['possession']);
 
         return view('livewire.admin.matches.stats-page', [
-            'title' => __('app.page_title_match_stats') . ' - ' . $this->match->team1->name . ' vs ' . $this->match->team2->name,
+            'title' => __('app.page_title_match_stats').' - '.$this->match->team1->name.' vs '.$this->match->team2->name,
             'match' => $this->match,
             'team1Stats' => $this->team1Stats,
             'team2Stats' => $this->team2Stats,

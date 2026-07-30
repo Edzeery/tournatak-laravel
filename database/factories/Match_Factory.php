@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Competition;
 use App\Models\Match_;
 use App\Models\Team;
-use App\Models\Competition;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class Match_Factory extends Factory

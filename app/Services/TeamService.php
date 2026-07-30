@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Sport;
 use App\Models\Team;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -11,12 +12,17 @@ class TeamService
 {
     public function create(array $data): Team
     {
+        if (empty($data['sport_id'])) {
+            $data['sport_id'] = Sport::where('slug', 'football')->value('id');
+        }
+
         return Team::create($data);
     }
 
     public function update(Team $team, array $data): Team
     {
         $team->update($data);
+
         return $team;
     }
 
@@ -24,11 +30,11 @@ class TeamService
     {
         $uniqueRule = 'unique:teams,name';
         if ($isUpdate && $ignoreId) {
-            $uniqueRule .= ',' . $ignoreId;
+            $uniqueRule .= ','.$ignoreId;
         }
 
         return [
-            'name' => 'required|string|max:255|' . $uniqueRule,
+            'name' => 'required|string|max:255|'.$uniqueRule,
             'captain_id' => 'nullable|exists:users,id',
             'logo' => 'nullable|string|max:2048',
             'logoFile' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:500',
@@ -38,16 +44,17 @@ class TeamService
 
     public function storeLogo(UploadedFile $file): string
     {
-        $filename = 'logo_' . uniqid() . '.' . $file->extension();
+        $filename = 'logo_'.uniqid().'.'.$file->extension();
         $path = $file->storeAs('teams', $filename, 'uploads');
+
         return basename($path);
     }
 
     public function deleteLogoFile(?string $filename): void
     {
-        if (!$filename || Str::startsWith($filename, 'http')) {
+        if (! $filename || Str::startsWith($filename, 'http')) {
             return;
         }
-        Storage::disk('uploads')->delete('teams/' . $filename);
+        Storage::disk('uploads')->delete('teams/'.$filename);
     }
 }

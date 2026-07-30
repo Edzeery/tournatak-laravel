@@ -5,12 +5,14 @@ namespace App\Providers;
 use App\Models\Competition;
 use App\Models\Match_;
 use App\Models\Player;
+use App\Models\Registration;
 use App\Models\Team;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Policies\CompetitionPolicy;
 use App\Policies\MatchPolicy;
 use App\Policies\PlayerPolicy;
+use App\Policies\RegistrationPolicy;
 use App\Policies\TeamPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Competition::class, CompetitionPolicy::class);
         Gate::policy(Team::class, TeamPolicy::class);
         Gate::policy(Player::class, PlayerPolicy::class);
+        Gate::policy(Registration::class, RegistrationPolicy::class);
 
         RateLimiter::for('login', function () {
             return Limit::perMinute(5)->by(request()->ip());

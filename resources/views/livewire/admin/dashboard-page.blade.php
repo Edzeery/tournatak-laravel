@@ -379,7 +379,7 @@
                                             <td class="fw-bold fs-md">{{ $reg->getParticipantName() ?? '—' }}</td>
                                             <td>
                                                 @if ($reg->isIndividualRegistration())
-                                                    <span class="badge bg-info-subtle text-info fs-sm">{{ __('app.individual') }}</span>
+                                                    <span class="badge bg-info-subtle text-info fs-sm">{{ __('app.participant_type_individual') }}</span>
                                                 @else
                                                     <span class="badge bg-primary-subtle text-primary fs-sm">{{ __('app.team') }}</span>
                                                 @endif

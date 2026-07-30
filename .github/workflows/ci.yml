@@ -49,6 +49,9 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
+      - name: Run Composer audit
+        run: composer audit
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -57,6 +60,9 @@ jobs:
 
       - name: Install NPM dependencies
         run: npm ci
+
+      - name: Run npm audit
+        run: npm audit
 
       - name: Build assets
         run: npm run build

@@ -49,7 +49,7 @@ class RegisterPage extends Component
     {
         return view('livewire.auth.register-page', [
             'title' => __('app.page_title_register'),
-            'roleOptions' => $this->roleOptions,
+            'roleOptions' => $this->getRoleOptionsProperty(),
         ]);
     }
 }

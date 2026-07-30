@@ -60,7 +60,7 @@ class TeamStaffPage extends Component
         $user = DB::table('users')->find($userId);
         if ($user) {
             $this->staffForm['user_id'] = $userId;
-            $this->userSearch = $user->name;
+            $this->userSearch = ((object) $user)->name;
             $this->searchedUsers = [];
         }
     }

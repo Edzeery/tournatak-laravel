@@ -4,8 +4,8 @@ namespace App\Livewire\Admin\Registrations;
 
 use App\Models\Competition;
 use App\Models\CompetitionType;
-use App\Models\Registration;
 use App\Models\Team;
+use App\Services\RegistrationService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -18,30 +18,20 @@ class CreateTeamRegistrationPage extends Component
 
     public string $searchTeam = '';
 
-    public function store()
+    public function store(RegistrationService $service)
     {
         $this->validate([
             'competition_id' => 'required|exists:competitions,id',
             'team_id' => 'required|exists:teams,id',
         ]);
 
-        $existing = Registration::where('competition_id', $this->competition_id)
-            ->where('participant_type', Registration::PARTICIPANT_TEAM)
-            ->where('team_id', $this->team_id)
-            ->first();
+        $result = $service->registerTeam($this->competition_id, $this->team_id);
 
-        if ($existing) {
-            session()->flash('error', __('app.registration_team_already_exists'));
+        if (! $result['success']) {
+            session()->flash('error', $result['message']);
 
             return;
         }
-
-        Registration::create([
-            'competition_id' => $this->competition_id,
-            'participant_type' => Registration::PARTICIPANT_TEAM,
-            'team_id' => $this->team_id,
-            'status' => Registration::STATUS_APPROVED,
-        ]);
 
         session()->flash('success', __('app.team_registration_created'));
 

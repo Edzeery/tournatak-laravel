@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Competitions;
 use App\Models\Competition;
 use App\Models\CompetitionSubtype;
 use App\Models\CompetitionType;
+use App\Services\CompetitionService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -47,7 +48,7 @@ class EditCompetitionPage extends Component
         $this->approval_status = $competition->approval_status;
     }
 
-    public function update()
+    public function update(CompetitionService $service)
     {
         $this->validate([
             'name' => 'required|string|max:255',
@@ -55,7 +56,7 @@ class EditCompetitionPage extends Component
             'subtype_id' => 'required|exists:competition_subtypes,id',
         ]);
 
-        $this->competition->update([
+        $service->update($this->competition, [
             'name' => $this->name,
             'type_id' => $this->type_id,
             'subtype_id' => $this->subtype_id,

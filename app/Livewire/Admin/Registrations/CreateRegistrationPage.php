@@ -4,8 +4,8 @@ namespace App\Livewire\Admin\Registrations;
 
 use App\Models\Competition;
 use App\Models\CompetitionType;
-use App\Models\Registration;
 use App\Models\User;
+use App\Services\RegistrationService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -18,32 +18,20 @@ class CreateRegistrationPage extends Component
 
     public string $searchUser = '';
 
-    public function store()
+    public function store(RegistrationService $service)
     {
         $this->validate([
             'competition_id' => 'required|exists:competitions,id',
             'user_id' => 'required|exists:users,id',
         ]);
 
-        $competition = Competition::findOrFail($this->competition_id);
+        $result = $service->registerIndividual($this->competition_id, $this->user_id);
 
-        $existing = Registration::where('competition_id', $this->competition_id)
-            ->where('participant_type', Registration::PARTICIPANT_INDIVIDUAL)
-            ->where('user_id', $this->user_id)
-            ->first();
-
-        if ($existing) {
-            session()->flash('error', __('app.registration_already_exists'));
+        if (! $result['success']) {
+            session()->flash('error', $result['message']);
 
             return;
         }
-
-        Registration::create([
-            'competition_id' => $this->competition_id,
-            'participant_type' => Registration::PARTICIPANT_INDIVIDUAL,
-            'user_id' => $this->user_id,
-            'status' => Registration::STATUS_APPROVED,
-        ]);
 
         session()->flash('success', __('app.individual_registration_created'));
 

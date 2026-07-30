@@ -32,17 +32,25 @@ class CreateMatchPage extends Component
 
     public function store()
     {
-        $service = app(MatchService::class);
-        $this->validate(array_merge($service->getValidationRules(), [
+        $this->validate([
+            'competition_id' => 'required|exists:competitions,id',
+            'team1_id' => 'required|exists:teams,id',
+            'team2_id' => 'required|exists:teams,id',
+            'match_date' => 'nullable|date',
+            'status' => 'required|in:scheduled,in_progress,completed,cancelled,postponed,abandoned,pending',
             'referee_id' => 'nullable|exists:referees,id',
             'assistant_referee_1_id' => 'nullable|exists:referees,id',
             'assistant_referee_2_id' => 'nullable|exists:referees,id',
             'fourth_official_id' => 'nullable|exists:referees,id',
-        ]));
+        ]);
 
-        $service->validateSameTeams($this->team1_id, $this->team2_id);
+        if ($this->team1_id === $this->team2_id) {
+            session()->flash('error', __('app.teams_must_be_different'));
 
-        $service->create([
+            return;
+        }
+
+        app(MatchService::class)->create([
             'competition_id' => $this->competition_id,
             'team1_id' => $this->team1_id,
             'team2_id' => $this->team2_id,

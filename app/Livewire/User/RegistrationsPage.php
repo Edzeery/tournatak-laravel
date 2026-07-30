@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Models\Competition;
 use App\Models\CompetitionType;
 use App\Models\Registration;
+use App\Services\RegistrationService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -17,7 +18,7 @@ class RegistrationsPage extends Component
 
     public ?int $team_id = null;
 
-    public function register()
+    public function register(RegistrationService $service)
     {
         $this->validate([
             'participantType' => 'required|in:individual,team',
@@ -25,48 +26,21 @@ class RegistrationsPage extends Component
             'team_id' => 'required_if:participantType,team|exists:teams,id|nullable',
         ]);
 
+        $status = Registration::STATUS_PENDING;
+
         if ($this->participantType === 'individual') {
-            $existing = Registration::where('competition_id', $this->competition_id)
-                ->where('participant_type', Registration::PARTICIPANT_INDIVIDUAL)
-                ->where('user_id', auth()->id())
-                ->first();
-
-            if ($existing) {
-                session()->flash('error', __('app.registration_already_exists'));
-
-                return;
-            }
-
-            Registration::create([
-                'competition_id' => $this->competition_id,
-                'participant_type' => Registration::PARTICIPANT_INDIVIDUAL,
-                'user_id' => auth()->id(),
-                'status' => Registration::STATUS_PENDING,
-            ]);
-
-            session()->flash('success', __('app.registration_submitted'));
+            $result = $service->registerIndividual($this->competition_id, auth()->id(), $status);
         } else {
-            $existing = Registration::where('competition_id', $this->competition_id)
-                ->where('participant_type', Registration::PARTICIPANT_TEAM)
-                ->where('team_id', $this->team_id)
-                ->first();
-
-            if ($existing) {
-                session()->flash('error', __('app.registration_team_already_exists'));
-
-                return;
-            }
-
-            Registration::create([
-                'competition_id' => $this->competition_id,
-                'participant_type' => Registration::PARTICIPANT_TEAM,
-                'team_id' => $this->team_id,
-                'status' => Registration::STATUS_PENDING,
-            ]);
-
-            session()->flash('success', __('app.registration_submitted'));
+            $result = $service->registerTeam($this->competition_id, $this->team_id, $status);
         }
 
+        if (! $result['success']) {
+            session()->flash('error', $result['message']);
+
+            return;
+        }
+
+        session()->flash('success', __('app.registration_submitted'));
         $this->reset(['competition_id', 'team_id']);
     }
 

@@ -74,8 +74,99 @@ function initFlatpickr() {
     });
 }
 
-// Global delete confirmation helper
-window.confirmDelete = function(url, message = 'هل أنت متأكد من الحذف؟', title = 'تأكيد الحذف') {
+// Alpine.js match timer component (shared between match-control and matches listing)
+document.addEventListener('alpine:init', () => {
+    window.Alpine.data('matchTimer', (config) => ({
+        phase: config.phase || '',
+        fhs: config.fhs || null,
+        shs: config.shs || null,
+        et1s: config.et1s || null,
+        et2s: config.et2s || null,
+        at1: config.at1 || 0,
+        at2: config.at2 || 0,
+        ate1: config.ate1 || 0,
+        ate2: config.ate2 || 0,
+        mode: config.mode || 'full',
+        period: '',
+        display: '00:00',
+        _id: null,
+        init() {
+            this.tick();
+            this._id = setInterval(() => this.tick(), 1000);
+        },
+        tick() {
+            const now = Date.now();
+            const isCompact = this.mode === 'compact';
+
+            if (this.phase === 'full_time') {
+                this.period = isCompact ? 'FT' : 'FT';
+                this.display = isCompact ? 'FT' : 'Full Time';
+                return;
+            }
+            if (this.phase === 'scheduled') {
+                this.period = '--';
+                this.display = isCompact ? '—' : 'Not Started';
+                return;
+            }
+            if (this.phase === 'first_half' && this.fhs) {
+                const s = Math.max(0, Math.floor((now - this.fhs) / 1000));
+                const m = Math.floor(s / 60); const sec = s % 60;
+                this.period = isCompact ? '1st' : '1st Half';
+                this.display = String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                if (m >= 45) this.display += (isCompact ? '+' : ' +') + (m - 45 + (!isCompact ? this.at1 : 0));
+                return;
+            }
+            if (this.phase === 'half_time') {
+                this.period = isCompact ? 'HT' : 'Half Time';
+                this.display = isCompact ? 'HT' : 'HT ' + Math.max(0, Math.floor((this.fhs ? Math.max(0, Math.floor((now - this.fhs) / 1000)) : 0) - 45*60) / 60) + ':00';
+                return;
+            }
+            if (this.phase === 'second_half' && this.shs) {
+                const s = Math.max(0, Math.floor((now - this.shs) / 1000));
+                const m = Math.floor(s / 60); const sec = s % 60;
+                this.period = isCompact ? '2nd' : '2nd Half';
+                const t = 45 + m;
+                this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                if (m >= 45) this.display += (isCompact ? '+' : ' +') + (m - 45 + (!isCompact ? this.at2 : 0));
+                return;
+            }
+            if (this.phase === 'et_break') {
+                this.period = isCompact ? '—' : 'ET Break';
+                this.display = '—';
+                return;
+            }
+            if (this.phase === 'et_first_half' && this.et1s) {
+                const s = Math.max(0, Math.floor((now - this.et1s) / 1000));
+                const m = Math.floor(s / 60); const sec = s % 60;
+                this.period = isCompact ? 'ET1' : 'ET 1st Half';
+                const t = 90 + m;
+                this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                if (m >= 15) this.display += (isCompact ? '+' : ' +') + (m - 15 + (!isCompact ? this.ate1 : 0));
+                return;
+            }
+            if (this.phase === 'et_half_time') {
+                this.period = isCompact ? '—' : 'ET HT';
+                this.display = '—';
+                return;
+            }
+            if (this.phase === 'et_second_half' && this.et2s) {
+                const s = Math.max(0, Math.floor((now - this.et2s) / 1000));
+                const m = Math.floor(s / 60); const sec = s % 60;
+                this.period = isCompact ? 'ET2' : 'ET 2nd Half';
+                const t = 105 + m;
+                this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+                if (m >= 15) this.display += (isCompact ? '+' : ' +') + (m - 15 + (!isCompact ? this.ate2 : 0));
+                return;
+            }
+            this.period = '';
+            this.display = '—';
+        },
+        destroy() { if (this._id) clearInterval(this._id); }
+    }));
+});
+
+// Global SweetAlert delete confirmation (used by delete-confirm-button component)
+window.confirmSweetAlert = function(url, title, message, confirmText, cancelText) {
     return Swal.fire({
         title: title,
         text: message,
@@ -83,12 +174,12 @@ window.confirmDelete = function(url, message = 'هل أنت متأكد من ال
         showCancelButton: true,
         confirmButtonColor: '#ef4444',
         cancelButtonColor: '#6b7280',
-        confirmButtonText: 'نعم، احذف',
-        cancelButtonText: 'إلغاء',
+        confirmButtonText: confirmText,
+        cancelButtonText: cancelText,
         reverseButtons: true,
     }).then((result) => {
         if (result.isConfirmed) {
-            Livewire.navigate(url);
+            window.Livewire.navigate(url);
         }
     });
 };

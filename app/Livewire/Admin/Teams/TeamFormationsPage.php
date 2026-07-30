@@ -133,7 +133,7 @@ class TeamFormationsPage extends Component
             'description' => $formation->description ?? '',
             'is_default' => $formation->is_default,
         ];
-        $this->selectedPositions = $positions ?? [];
+        $this->selectedPositions = $positions;
         $this->showModal = true;
     }
 

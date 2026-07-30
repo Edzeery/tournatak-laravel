@@ -10,7 +10,7 @@ class ScoringEngine
         'win' => 3,
         'draw' => 1,
         'loss' => 0,
-        'tiebreakers' => ['goal_difference', 'goals_for', 'head_to_head'],
+        'tiebreakers' => ['goal_difference', 'goals_for'],
     ];
 
     public function getConfig(Competition $competition): array
@@ -64,7 +64,7 @@ class ScoringEngine
                     'goals_for' => $b['goals_for'] - $a['goals_for'],
                     'goals_against' => $a['goals_against'] - $b['goals_against'],
                     'wins' => $b['won'] - $a['won'],
-                    'head_to_head' => 0, // requires full data; falls through
+                    'head_to_head' => 0, // requires full match data; currently unused in defaults
                     default => 0,
                 };
 

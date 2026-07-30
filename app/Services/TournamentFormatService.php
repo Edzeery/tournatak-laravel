@@ -13,7 +13,7 @@ class TournamentFormatService
         return match ($competition->format) {
             Competition::FORMAT_KNOCKOUT => $this->generateKnockout($competition),
             Competition::FORMAT_GROUPS => $this->generateGroups($competition),
-            Competition::FORMAT_LEAGUE_KNOCKOUT => $this->generateLeagueKnockout($competition),
+            Competition::FORMAT_LEAGUE_KNOCKOUT => $this->generateGroups($competition),
             Competition::FORMAT_DOUBLE_ELIMINATION => $this->generateDoubleElimination($competition),
             Competition::FORMAT_SWISS => $this->generateSwiss($competition),
             Competition::FORMAT_HOME_AWAY => $this->generateHomeAway($competition),

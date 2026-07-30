@@ -2,23 +2,28 @@
 
 namespace App\Services;
 
+use App\Enums\ApprovalStatus;
+use App\Enums\CompetitionStatus;
 use App\Models\Competition;
 use App\Models\Sport;
+use Illuminate\Support\Facades\DB;
 
 class CompetitionService
 {
     public function create(array $data): Competition
     {
-        $profile = $data['competition_profile'] ?? Competition::PROFILE_OFFICIAL;
-        $data['organizer_id'] = auth()->id();
-        $data['approval_status'] = $profile === Competition::PROFILE_CASUAL ? 'approved' : 'pending';
-        $data['status'] = 'draft';
+        return DB::transaction(function () use ($data) {
+            $profile = $data['competition_profile'] ?? Competition::PROFILE_OFFICIAL;
+            $data['organizer_id'] = auth()->id();
+            $data['approval_status'] = $profile === Competition::PROFILE_CASUAL ? ApprovalStatus::Approved->value : ApprovalStatus::Pending->value;
+            $data['status'] = CompetitionStatus::Draft->value;
 
-        if (empty($data['sport_id'])) {
-            $data['sport_id'] = Sport::where('slug', 'football')->value('id');
-        }
+            if (empty($data['sport_id'])) {
+                $data['sport_id'] = Sport::where('slug', 'football')->value('id');
+            }
 
-        return Competition::create($data);
+            return Competition::create($data);
+        });
     }
 
     public function update(Competition $competition, array $data): Competition
@@ -30,14 +35,14 @@ class CompetitionService
 
     public function approve(Competition $competition): Competition
     {
-        $competition->update(['approval_status' => 'approved']);
+        $competition->update(['approval_status' => ApprovalStatus::Approved->value]);
 
         return $competition;
     }
 
     public function reject(Competition $competition): Competition
     {
-        $competition->update(['approval_status' => 'rejected']);
+        $competition->update(['approval_status' => ApprovalStatus::Rejected->value]);
 
         return $competition;
     }

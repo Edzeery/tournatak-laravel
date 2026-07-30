@@ -87,7 +87,7 @@ class ScoringEngineTest extends TestCase
 
         $tiebreakers = $this->engine->getTiebreakers($competition);
 
-        $this->assertEquals(['goal_difference', 'goals_for', 'head_to_head'], $tiebreakers);
+        $this->assertEquals(['goal_difference', 'goals_for'], $tiebreakers);
     }
 
     public function test_sort_standings_by_points(): void

@@ -121,7 +121,7 @@
                                 <td>
                                     <div class="d-flex align-items-center gap-3" style="min-width:260px;"
                                         @if(in_array($match->phase, ['first_half','half_time','second_half','et_break','et_first_half','et_half_time','et_second_half']))
-                                        x-data="{
+                                        x-data="matchTimer({
                                             phase: '{{ $match->phase }}',
                                             fhs: {{ $match->first_half_started_at ? strtotime($match->first_half_started_at) * 1000 : 'null' }},
                                             shs: {{ $match->second_half_started_at ? strtotime($match->second_half_started_at) * 1000 : 'null' }},
@@ -129,46 +129,8 @@
                                             et2s: {{ $match->et_second_half_started_at ? strtotime($match->et_second_half_started_at) * 1000 : 'null' }},
                                             at1: {{ $match->added_time_first_half ?? 0 }},
                                             at2: {{ $match->added_time_second_half ?? 0 }},
-                                            period: '', display: '00:00', _id: null,
-                                            init() { this.tick(); this._id = setInterval(() => this.tick(), 1000); },
-                                            tick() {
-                                                const now = Date.now();
-                                                if (this.phase === 'full_time') { this.period = 'FT'; this.display = 'FT'; return; }
-                                                if (this.phase === 'first_half' && this.fhs) {
-                                                    const s = Math.max(0, Math.floor((now - this.fhs) / 1000));
-                                                    const m = Math.floor(s / 60); const sec = s % 60;
-                                                    this.period = '1st'; this.display = String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                                                    if (m >= 45) this.display += '+' + (m - 45);
-                                                    return;
-                                                }
-                                                if (this.phase === 'half_time' && this.fhs) {
-                                                    this.period = 'HT'; this.display = 'HT';
-                                                    return;
-                                                }
-                                                if (this.phase === 'second_half' && this.shs) {
-                                                    const s = Math.max(0, Math.floor((now - this.shs) / 1000));
-                                                    const m = Math.floor(s / 60); const sec = s % 60;
-                                                    const t = 45 + m;
-                                                    this.period = '2nd'; this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                                                    if (m >= 45) this.display += '+' + (m - 45);
-                                                    return;
-                                                }
-                                                if (this.phase === 'et_first_half' && this.et1s) {
-                                                    const s = Math.max(0, Math.floor((now - this.et1s) / 1000));
-                                                    const m = Math.floor(s / 60); const sec = s % 60;
-                                                    this.period = 'ET1'; this.display = String(90 + m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                                                    return;
-                                                }
-                                                if (this.phase === 'et_second_half' && this.et2s) {
-                                                    const s = Math.max(0, Math.floor((now - this.et2s) / 1000));
-                                                    const m = Math.floor(s / 60); const sec = s % 60;
-                                                    this.period = 'ET2'; this.display = String(105 + m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                                                    return;
-                                                }
-                                                this.period = ''; this.display = '—';
-                                            },
-                                            destroy() { if (this._id) clearInterval(this._id); }
-                                        }"
+                                            mode: 'compact',
+                                        })"
                                         @endif
                                     >
                                         {{-- Team 1 --}}

@@ -32,81 +32,20 @@
                 </div>
             @endif
 
-            {{-- Match timer --}}
+            {{-- Match timer — uses shared Alpine component from app.js --}}
             <div class="mb-3" wire:ignore
-                x-data="{
+                x-data="matchTimer({
                     phase: '{{ $match->phase }}',
                     fhs: {{ $match->first_half_started_at ? strtotime($match->first_half_started_at) * 1000 : 'null' }},
                     shs: {{ $match->second_half_started_at ? strtotime($match->second_half_started_at) * 1000 : 'null' }},
-                    et1: {{ $match->et_first_half_started_at ? strtotime($match->et_first_half_started_at) * 1000 : 'null' }},
-                    et2: {{ $match->et_second_half_started_at ? strtotime($match->et_second_half_started_at) * 1000 : 'null' }},
+                    et1s: {{ $match->et_first_half_started_at ? strtotime($match->et_first_half_started_at) * 1000 : 'null' }},
+                    et2s: {{ $match->et_second_half_started_at ? strtotime($match->et_second_half_started_at) * 1000 : 'null' }},
                     at1: {{ $match->added_time_first_half ?? 0 }},
                     at2: {{ $match->added_time_second_half ?? 0 }},
                     ate1: {{ $match->extra_data['added_time_et_first_half'] ?? 0 }},
                     ate2: {{ $match->extra_data['added_time_et_second_half'] ?? 0 }},
-                    period: '', display: '00:00', _id: null,
-                    init() { this.tick(); this._id = setInterval(() => this.tick(), 1000); },
-                    tick() {
-                        const now = Date.now();
-                        if (this.phase === 'full_time') { this.period = 'FT'; this.display = 'Full Time'; return; }
-                        if (this.phase === 'scheduled') { this.period = '--'; this.display = 'Not Started'; return; }
-                        if (this.phase === 'first_half' && this.fhs) {
-                            const s = Math.floor((now - this.fhs) / 1000);
-                            if (s < 0) return;
-                            const m = Math.floor(s / 60); const sec = s % 60;
-                            this.period = '1st Half';
-                            this.display = String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                            if (m >= 45) this.display += ' +' + (m - 45 + this.at1);
-                            return;
-                        }
-                        if (this.phase === 'half_time' && this.fhs) {
-                            const s = Math.floor((now - this.fhs) / 1000);
-                            this.period = 'Half Time';
-                            const ht = Math.max(0, Math.floor((s - 45*60) / 60));
-                            this.display = 'HT ' + String(ht).padStart(2,'0') + ':00';
-                            return;
-                        }
-                        if (this.phase === 'second_half' && this.shs) {
-                            const s = Math.floor((now - this.shs) / 1000);
-                            if (s < 0) return;
-                            const m = Math.floor(s / 60); const sec = s % 60;
-                            this.period = '2nd Half';
-                            const t = 45 + m;
-                            this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                            if (m >= 45) this.display += ' +' + (m - 45 + this.at2);
-                            return;
-                        }
-                        if (this.phase === 'et_break') {
-                            this.period = 'ET Break'; this.display = '—';
-                            return;
-                        }
-                        if (this.phase === 'et_first_half' && this.et1) {
-                            const s = Math.floor((now - this.et1) / 1000);
-                            if (s < 0) return;
-                            const m = Math.floor(s / 60); const sec = s % 60;
-                            this.period = 'ET 1st Half';
-                            const t = 90 + m;
-                            this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                            if (m >= 15) this.display += ' +' + (m - 15 + this.ate1);
-                            return;
-                        }
-                        if (this.phase === 'et_half_time') {
-                            this.period = 'ET HT'; this.display = '—';
-                            return;
-                        }
-                        if (this.phase === 'et_second_half' && this.et2) {
-                            const s = Math.floor((now - this.et2) / 1000);
-                            if (s < 0) return;
-                            const m = Math.floor(s / 60); const sec = s % 60;
-                            this.period = 'ET 2nd Half';
-                            const t = 105 + m;
-                            this.display = String(t).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
-                            if (m >= 15) this.display += ' +' + (m - 15 + this.ate2);
-                            return;
-                        }
-                    },
-                    destroy() { if (this._id) clearInterval(this._id); }
-                }"
+                    mode: 'full',
+                })"
             >
                 <div class="fs-4xl fw-bold text-white mb-0" style="font-size:3.5rem;letter-spacing:2px;font-variant-numeric:tabular-nums;">
                     <span x-text="period"></span> <span x-text="display"></span>

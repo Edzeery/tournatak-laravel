@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\Player;
+use App\Models\Registration;
 use App\Models\Team;
 use App\Models\TeamMedicalRecord;
 use App\Models\TeamStaff;
@@ -31,6 +32,8 @@ class DashboardPage extends Component
             'goals' => MatchEvent::goal()->count(),
             'staff' => TeamStaff::where('is_active', true)->count(),
             'injuries' => TeamMedicalRecord::where('status', 'active')->count(),
+            'registrations_pending' => Registration::where('status', Registration::STATUS_PENDING)->count(),
+            'registrations_approved' => Registration::where('status', Registration::STATUS_APPROVED)->count(),
         ];
 
         $recentMatches = Match_::with(['team1', 'team2', 'competition'])
@@ -80,6 +83,10 @@ class DashboardPage extends Component
             'matchStatuses' => $matchStatuses,
             'monthlyGoals' => $monthlyGoals,
             'competitionStats' => $competitionStats,
+            'recentRegistrations' => Registration::with(['competition', 'team', 'user', 'player'])
+                ->latest()
+                ->limit(5)
+                ->get(),
         ]);
     }
 }

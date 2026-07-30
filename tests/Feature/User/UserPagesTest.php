@@ -52,3 +52,14 @@ test('guest is redirected from user security to login', function () {
 test('guest is redirected from notifications to login', function () {
     $this->get('/user/notifications')->assertRedirect('/login');
 });
+
+test('authenticated user can access registrations page', function () {
+    $user = User::factory()->create();
+    $user->assignRole('user');
+
+    $this->actingAs($user)->get('/user/registrations')->assertStatus(200);
+});
+
+test('guest is redirected from registrations page to login', function () {
+    $this->get('/user/registrations')->assertRedirect('/login');
+});

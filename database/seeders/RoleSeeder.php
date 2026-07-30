@@ -30,6 +30,7 @@ class RoleSeeder extends Seeder
             // Competition management
             'manage competitions',
             'manage competition types',
+            'manage registrations',
 
             // Match management
             'manage matches',
@@ -76,6 +77,7 @@ class RoleSeeder extends Seeder
         $organizer = Role::findByName('organizer');
         $organizer->syncPermissions([
             'manage competitions',
+            'manage registrations',
             'manage matches',
             'manage goals',
             'view dashboard',

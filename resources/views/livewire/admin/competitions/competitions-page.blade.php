@@ -29,6 +29,7 @@
                             <th>#</th>
                             <th>{{ __('app.competition') }}</th>
                             <th>{{ __('app.type') }}</th>
+                            <th>{{ __('app.participant_type') }}</th>
                             <th>{{ __('app.organizer') }}</th>
                             <th>{{ __('app.dates') }}</th>
                             <th>{{ __('app.status') }}</th>
@@ -41,8 +42,15 @@
                             <tr wire:key="{{ $competition->id }}">
                                 <td class="text-chrome-muted">{{ $competition->id }}</td>
                                 <td class="fw-bold">{{ $competition->name }}</td>
+                                <td>{{ $competition->type?->name ?? '-' }}</td>
                                 <td>
-                                    <x-status-badge domain="competition" status="{{ $competition->status }}" set="bi" />
+                                    @if($competition->type?->participant_type === 'individual')
+                                        <span class="badge bg-info">{{ __('app.participant_type_individual') }}</span>
+                                    @elseif($competition->type?->participant_type === 'both')
+                                        <span class="badge bg-warning">{{ __('app.participant_type_both') }}</span>
+                                    @else
+                                        <span class="badge bg-primary">{{ __('app.participant_type_team') }}</span>
+                                    @endif
                                 </td>
                                 <td>{{ $competition->organizer->name ?? '-' }}</td>
                                 <td class="fs-base">
@@ -75,7 +83,7 @@
                             </tr>
                         @empty
                             <tr wire:loading.remove>
-                                <td colspan="8">
+                                <td colspan="9">
                                     <x-empty-state icon="bi-trophy" title="{{ __('app.no_competitions_found') }}" message="{{ __('app.no_results_found') }}" />
                                 </td>
                             </tr>

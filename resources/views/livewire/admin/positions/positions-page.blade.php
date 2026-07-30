@@ -64,7 +64,7 @@
                                     <td class="fs-base">{{ $loop->iteration }}</td>
                                     <td class="fw-bold fs-md">{{ $pos->name }}</td>
                                     <td class="fs-base text-slate-500">{{ $pos->name_en ?? '—' }}</td>
-                                    <td><span class="badge bg-dark rounded-pill fs-sm">{{ $pos->abbreviation ?? '—' }}</span></td>
+                                    <td><span class="badge bg-gold rounded-pill  bg-opacity-50 fs-sm">{{ $pos->abbreviation ?? '—' }}</span></td>
                                     <td class="fs-base">
                                         @php
                                             $catColors = ['goalkeeper' => '#f59e0b', 'defender' => '#3b82f6', 'midfielder' => '#10b981', 'forward' => '#ef4444', 'player' => '#64748b'];

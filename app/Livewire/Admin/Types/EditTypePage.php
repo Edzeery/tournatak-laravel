@@ -26,6 +26,8 @@ class EditTypePage extends Component
 
     public bool $is_active = true;
 
+    public string $participant_type = 'team';
+
     public function mount(CompetitionType $type)
     {
         $this->type = $type;
@@ -35,6 +37,7 @@ class EditTypePage extends Component
         $this->subtype_id = $type->subtype_id;
         $this->icon = $type->icon;
         $this->sort_order = $type->sort_order;
+        $this->participant_type = $type->participant_type;
         $this->is_active = $type->is_active;
     }
 
@@ -47,6 +50,7 @@ class EditTypePage extends Component
             'subtype_id' => 'nullable|exists:competition_subtypes,id',
             'icon' => 'nullable|string|max:255',
             'sort_order' => 'integer|min:0',
+            'participant_type' => 'required|in:team,individual,both',
         ]);
 
         $this->type->update([
@@ -56,6 +60,7 @@ class EditTypePage extends Component
             'subtype_id' => $this->subtype_id,
             'icon' => $this->icon,
             'sort_order' => $this->sort_order,
+            'participant_type' => $this->participant_type,
             'is_active' => $this->is_active,
         ]);
 

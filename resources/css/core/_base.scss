@@ -3,7 +3,7 @@
 // ============================================
 
 * {
-    font-family: 'Cairo', sans-serif;
+    font-family: "Cairo", sans-serif;
     list-style: none;
 }
 
@@ -11,7 +11,9 @@ body {
     background-color: var(--bg-body);
     color: var(--text-primary);
     overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
 }
 
 // ---- Scrollbar ----
@@ -49,6 +51,27 @@ body {
 
 .bg-gold {
     background-color: rgba(255, 251, 7, var(--bs-bg-opacity)) !important;
+}
+.bg-dark {
+    background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+}
+.badge {
+    --bs-badge-padding-x: 0.65em;
+    --bs-badge-padding-y: 0.35em;
+    --bs-badge-font-size: 0.75em;
+    --bs-badge-font-weight: 700;
+    --bs-badge-color: var(--bs-badge-color);
+    --bs-badge-border-radius: var(--bs-border-radius);
+    padding: var(--bs-badge-padding-y) var(--bs-badge-padding-x);
+    font-size: var(--bs-badge-font-size);
+    font-weight: var(--bs-badge-font-weight);
+    /* color: var(--bs-badge-color); */
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: var(--bs-badge-border-radius);
+    line-height: 1;
+    display: inline-block;
 }
 
 .border-gold {

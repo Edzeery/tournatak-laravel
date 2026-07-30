@@ -188,7 +188,7 @@
                                                         <span x-text="period"></span> <span x-text="display"></span>
                                                     </div>
                                                 @else
-                                                    <span class="badge bg-dark rounded-pill px-3 fs-base">
+                                                    <span class="badge bg-gold bg-opacity-20 rounded-pill px-3 fs-base">
                                                         {{ $match->score_team1 ?? 0 }} - {{ $match->score_team2 ?? 0 }}
                                                     </span>
                                                 @endif

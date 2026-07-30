@@ -9,9 +9,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (DB::getDriverName() !== 'sqlite' && ! Schema::hasColumn('competition_types', 'participant_type')) {
+        if (! Schema::hasColumn('competition_types', 'participant_type')) {
             Schema::table('competition_types', function (Blueprint $table) {
-                $table->string('participant_type', 20)->default('team')->after('icon');
+                $table->string('participant_type', 20)->default('team');
             });
         }
 
@@ -101,7 +101,7 @@ return new class extends Migration
             $this->safeAddForeign('registrations', 'team_id', 'teams');
         }
 
-        if (DB::getDriverName() !== 'sqlite' && Schema::hasColumn('competition_types', 'participant_type')) {
+        if (Schema::hasColumn('competition_types', 'participant_type')) {
             Schema::table('competition_types', function (Blueprint $table) {
                 $table->dropColumn('participant_type');
             });

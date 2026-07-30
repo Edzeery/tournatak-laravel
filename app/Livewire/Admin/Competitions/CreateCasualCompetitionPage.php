@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Competitions;
 
 use App\Models\Competition;
+use App\Models\CompetitionSubtype;
 use App\Models\CompetitionType;
 use App\Services\CompetitionService;
 use Livewire\Attributes\Layout;
@@ -24,16 +25,26 @@ class CreateCasualCompetitionPage extends Component
         $service = app(CompetitionService::class);
         $this->validate($service->getCasualValidationRules());
 
-        $type = CompetitionType::firstOrCreate([
-            'name' => 'بطولة مجتمعية',
-            'name_en' => 'Community Tournament',
-            'is_active' => true,
-        ]);
+        $subtype = CompetitionSubtype::firstOrCreate(
+            ['name' => 'General'],
+            ['en_name' => 'General']
+        );
+
+        $type = CompetitionType::firstOrCreate(
+            ['slug' => 'community-tournament'],
+            [
+                'name' => 'Community Tournament',
+                'subtype_id' => $subtype->id,
+                'participant_type' => 'both',
+                'sort_order' => 999,
+                'is_active' => true,
+            ]
+        );
 
         $service->create([
             'name' => $this->name,
             'type_id' => $type->id,
-            'subtype_id' => null,
+            'subtype_id' => $subtype->id,
             'format' => $this->format,
             'start_date' => $this->start_date,
             'location' => $this->location,

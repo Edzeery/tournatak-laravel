@@ -187,6 +187,31 @@
                         </div>
                     </li>
                     @endcan
+                    @can('manage competitions')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.registrations.*') ? 'active open' : '' }}"
+                            href="#" onclick="toggleSubmenu(this, 'submenu-registrations')"
+                            data-tooltip="{{ __('app.registrations') }}">
+                            <i class="bi bi-person-plus-fill"></i> <span>{{ __('app.registrations') }}</span>
+                            <i class="bi bi-chevron-down nav-link-arrow"></i>
+                        </a>
+                        <div class="sidebar-submenu {{ request()->routeIs('admin.registrations.*') ? 'show' : '' }}"
+                            id="submenu-registrations">
+                            <a class="nav-link {{ request()->routeIs('admin.registrations.index') ? 'active' : '' }}"
+                                href="{{ route('admin.registrations.index') }}">
+                                <i class="bi bi-list-ul"></i> <span>{{ __('app.all_registrations') }}</span>
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.registrations.create.individual') ? 'active' : '' }}"
+                                href="{{ route('admin.registrations.create.individual') }}">
+                                <i class="bi bi-person-plus"></i> <span>{{ __('app.add_individual_registration_short') }}</span>
+                            </a>
+                            <a class="nav-link {{ request()->routeIs('admin.registrations.create.team') ? 'active' : '' }}"
+                                href="{{ route('admin.registrations.create.team') }}">
+                                <i class="bi bi-shield-plus"></i> <span>{{ __('app.add_team_registration_short') }}</span>
+                            </a>
+                        </div>
+                    </li>
+                    @endcan
                     @can('manage casual competitions')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.competitions.create-casual') ? 'active' : '' }}"

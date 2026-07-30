@@ -49,6 +49,7 @@
                             <th>{{ __('app.name') }}</th>
                             <th>{{ __('app.slug') }}</th>
                             <th>{{ __('app.category') }}</th>
+                            <th>{{ __('app.participant_type') }}</th>
                             <th>{{ __('app.status') }}</th>
                             <th class="text-center">{{ __('app.actions') }}</th>
                         </tr>
@@ -60,6 +61,15 @@
                                 <td class="fw-bold">{{ $type->name }}</td>
                                 <td><code class="rounded-xs badge-type-gold">{{ $type->slug }}</code></td>
                                 <td>{{ $type->subtype->name ?? '-' }}</td>
+                                <td>
+                                    @if($type->participant_type === 'individual')
+                                        <span class="badge bg-info">{{ __('app.participant_type_individual') }}</span>
+                                    @elseif($type->participant_type === 'both')
+                                        <span class="badge bg-warning">{{ __('app.participant_type_both') }}</span>
+                                    @else
+                                        <span class="badge bg-primary">{{ __('app.participant_type_team') }}</span>
+                                    @endif
+                                </td>
                                 <td>
                                     @if($type->is_active)
                                         <x-status-badge domain="competition" status="active" set="bi" />
@@ -86,7 +96,7 @@
                             </tr>
                         @empty
                             <tr wire:loading.remove>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <x-empty-state icon="bi-tag" title="{{ __('app.types') }}" message="{{ __('app.no_results_found') }}" />
                                 </td>
                             </tr>

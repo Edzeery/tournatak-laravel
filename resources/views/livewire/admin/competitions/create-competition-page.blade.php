@@ -26,12 +26,25 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.type') }}</label>
-                        <select class="form-select" wire:model="type_id" required>
+                        <select class="form-select" wire:model.live="type_id" required>
                             <option value="">{{ __('app.choose_type') }}</option>
                             @foreach($types as $type)
                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
                             @endforeach
                         </select>
+                        @php $selectedType = $types->firstWhere('id', $type_id); @endphp
+                        @if($selectedType)
+                            <div class="mt-2">
+                                <small class="text-muted">{{ __('app.participant_type') }}:</small>
+                                @if($selectedType->participant_type === 'individual')
+                                    <span class="badge bg-info">{{ __('app.participant_type_individual') }}</span>
+                                @elseif($selectedType->participant_type === 'both')
+                                    <span class="badge bg-warning">{{ __('app.participant_type_both') }}</span>
+                                @else
+                                    <span class="badge bg-primary">{{ __('app.participant_type_team') }}</span>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.subtype') }}</label>

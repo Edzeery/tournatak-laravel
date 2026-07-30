@@ -130,6 +130,9 @@
                                     <a class="dropdown-item" href="{{ route('user.dashboard') }}">
                                         <i class="bi bi-grid-1x2"></i> <span>{{ __('app.dashboard') }}</span>
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('user.registrations') }}">
+                                        <i class="bi bi-person-plus"></i> <span>{{ __('app.my_registrations') }}</span>
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('user.preferences') }}">
                                         <i class="bi bi-gear"></i> <span>{{ __('app.page_title_preferences') }}</span>
                                     </a>
@@ -243,6 +246,11 @@
                     <li class="nav-item">
                         <a class="nav-link nav-link-mobile" href="{{ route('user.profile') }}">
                             <i class="bi bi-person"></i> {{ __('app.profile') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-mobile" href="{{ route('user.registrations') }}">
+                            <i class="bi bi-person-plus"></i> {{ __('app.my_registrations') }}
                         </a>
                     </li>
                 </ul>
@@ -388,6 +396,7 @@
                     <ul class="list-unstyled d-flex flex-column gap-2">
                         @auth
                             <li><a href="{{ route('user.dashboard') }}">{{ __('app.dashboard') }}</a></li>
+                            <li><a href="{{ route('user.registrations') }}">{{ __('app.my_registrations') }}</a></li>
                             <li><a href="{{ route('user.profile') }}">{{ __('app.profile') }}</a></li>
                         @else
                             <li><a href="{{ route('login') }}">{{ __('app.login') }}</a></li>

@@ -175,6 +175,7 @@
 
     --bs-code-color: var(--accent-2) !important;
     --bs-highlight-bg: var(--primary-glow) !important;
+  --bs-badge-color: #000 !important;
 
     --bs-focus-ring-color: var(--primary-glow) !important;
     --bs-box-shadow: var(--shadow-card) !important;
@@ -279,7 +280,7 @@
     // Bootstrap — Alerts / Badges / Toasts
     // ============================================
     --bs-alert-border-radius: var(--radius-sm) !important;
-    --bs-badge-color: #fff !important;
+
     --bs-toast-bg: var(--bg-elevated) !important;
     --bs-toast-color: var(--text-primary) !important;
     --bs-toast-border-color: var(--border-color) !important;
@@ -412,6 +413,7 @@
     --bs-light-rgb: 30, 41, 59 !important;
     --bs-dark: var(--text-primary) !important;
     --bs-dark-rgb: 226, 232, 240 !important;
+  --bs-badge-color: #fff !important;
 
     --bs-primary-text-emphasis: #ffe69c !important;
     --bs-primary-bg-subtle: #4d3800 !important;
@@ -589,7 +591,7 @@
     --bs-pagination-disabled-color: var(--text-muted) !important;
     --bs-pagination-disabled-bg: var(--bg-surface-alt) !important;
     --bs-pagination-disabled-border-color: var(--border-color) !important;
- 
+
 
     --bs-bg-opacity-10: 0.1 !important;
     --bs-bg-opacity-20: 0.2 !important;

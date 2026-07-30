@@ -19,6 +19,9 @@ use App\Livewire\Admin\Positions\PositionsPage;
 use App\Livewire\Admin\Referees\CreateRefereePage;
 use App\Livewire\Admin\Referees\EditRefereePage;
 use App\Livewire\Admin\Referees\RefereesPage;
+use App\Livewire\Admin\Registrations\CreateRegistrationPage;
+use App\Livewire\Admin\Registrations\CreateTeamRegistrationPage;
+use App\Livewire\Admin\Registrations\RegistrationsPage;
 use App\Livewire\Admin\SecurityLogPage;
 use App\Livewire\Admin\Sports\CreateSportPage;
 use App\Livewire\Admin\Sports\EditSportPage;
@@ -58,6 +61,7 @@ use App\Livewire\Public\TeamsPage as PublicTeamsPage;
 use App\Livewire\Security\TwoFactorSetupPage;
 use App\Livewire\User\NotificationsPage;
 use App\Livewire\User\ProfilePage;
+use App\Livewire\User\RegistrationsPage as UserRegistrationsPage;
 use App\Livewire\User\SecurityPage;
 use App\Livewire\User\UserDashboardPage;
 use App\Livewire\User\UserPreferencesPage;
@@ -152,6 +156,7 @@ Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
     Route::get('/preferences', UserPreferencesPage::class)->name('preferences');
     Route::get('/security', SecurityPage::class)->name('security');
     Route::get('/security/2fa', TwoFactorSetupPage::class)->name('2fa-setup');
+    Route::get('/registrations', UserRegistrationsPage::class)->name('registrations');
 });
 
 // Alias route for profile (used in layout)
@@ -185,6 +190,13 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
         Route::get('/competitions', CompetitionsPage::class)->name('competitions.index');
         Route::get('/competitions/create', CreateCompetitionPage::class)->name('competitions.create');
         Route::get('/competitions/{competition}/edit', EditCompetitionPage::class)->name('competitions.edit');
+    });
+
+    // ── Registration Management ─────────────────────────────────────
+    Route::middleware(['permission:manage competitions'])->group(function () {
+        Route::get('/registrations', RegistrationsPage::class)->name('registrations.index');
+        Route::get('/registrations/create/individual', CreateRegistrationPage::class)->name('registrations.create.individual');
+        Route::get('/registrations/create/team', CreateTeamRegistrationPage::class)->name('registrations.create.team');
     });
 
     // ── Casual Competition Management (local organizers) ─────────────

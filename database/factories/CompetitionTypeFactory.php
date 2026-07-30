@@ -22,6 +22,7 @@ class CompetitionTypeFactory extends Factory
             'description' => fake()->sentence(),
             'icon' => null,
             'sort_order' => fake()->numberBetween(1, 100),
+            'participant_type' => 'team',
             'is_active' => true,
         ];
     }

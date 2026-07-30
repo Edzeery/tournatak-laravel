@@ -45,6 +45,14 @@
                         </select>
                     </div>
                     <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">{{ __('app.participant_type') }}</label>
+                        <select class="form-select" wire:model="participant_type" required>
+                            <option value="team">{{ __('app.participant_type_team') }}</option>
+                            <option value="individual">{{ __('app.participant_type_individual') }}</option>
+                            <option value="both">{{ __('app.participant_type_both') }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
                         <label class="form-label fw-bold">{{ __('app.icon') }}</label>
                         <input type="text" class="form-control" wire:model="icon">
                     </div>

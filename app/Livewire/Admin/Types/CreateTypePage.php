@@ -23,6 +23,8 @@ class CreateTypePage extends Component
 
     public int $sort_order = 0;
 
+    public string $participant_type = 'team';
+
     public function updatedName()
     {
         if (empty($this->slug)) {
@@ -39,6 +41,7 @@ class CreateTypePage extends Component
             'subtype_id' => 'nullable|exists:competition_subtypes,id',
             'icon' => 'nullable|string|max:255',
             'sort_order' => 'integer|min:0',
+            'participant_type' => 'required|in:team,individual,both',
         ]);
 
         CompetitionType::create([
@@ -48,6 +51,7 @@ class CreateTypePage extends Component
             'subtype_id' => $this->subtype_id,
             'icon' => $this->icon,
             'sort_order' => $this->sort_order,
+            'participant_type' => $this->participant_type,
             'is_active' => true,
         ]);
 

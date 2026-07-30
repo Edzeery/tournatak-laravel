@@ -96,6 +96,28 @@
         </div>
     </div>
 
+    {{-- Registration Stats Row --}}
+    <div class="row g-3 mb-4 stagger-children">
+        <div class="col-md-3 col-6">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-blue-bright">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+                <div class="stat-number">{{ $stats['registrations_pending'] }}</div>
+                <div class="stat-label">{{ __('app.registrations_pending') }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card">
+                <div class="stat-icon stat-icon-green">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div class="stat-number">{{ $stats['registrations_approved'] }}</div>
+                <div class="stat-label">{{ __('app.registrations_approved') }}</div>
+            </div>
+        </div>
+    </div>
+
     {{-- Charts Row --}}
     <div class="row g-3 mb-4">
         <div class="col-lg-8">
@@ -219,7 +241,7 @@
                                             {{ $match->team1->name ?? '—' }}</td>
                                         <td class="text-center">
                                             @if ($match->status === 'completed')
-                                                <span class="badge bg-dark rounded-pill px-3 fs-md">
+                                                <span class="badge bg-gold rounded-pill px-3 fs-md">
                                                     {{ $match->score_team1 ?? 0 }} -
                                                     {{ $match->score_team2 ?? 0 }}
                                                 </span>
@@ -325,6 +347,59 @@
                 <div class="empty-state py-3">
                     <i class="bi bi-clock-history d-block empty-icon-lg"></i>
                     <h5>{{ __('app.no_activity_yet') }}</h5>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    {{-- Recent Registrations --}}
+    <div class="row g-4 mt-2">
+        <div class="col-12">
+            @if ($recentRegistrations->count())
+                <div class="card border-0">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3 section-title-dark">
+                            <i class="bi bi-person-plus-fill text-gold"></i> {{ __('app.recent_registrations') }}
+                        </h6>
+                        <div class="table-responsive">
+                            <table class="table align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="fs-xs">{{ __('app.competition') }}</th>
+                                        <th class="fs-xs">{{ __('app.participant') }}</th>
+                                        <th class="fs-xs">{{ __('app.type') }}</th>
+                                        <th class="fs-xs">{{ __('app.status') }}</th>
+                                        <th class="fs-xs">{{ __('app.date') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($recentRegistrations as $reg)
+                                        <tr>
+                                            <td class="fw-bold fs-md">{{ $reg->competition->name ?? '—' }}</td>
+                                            <td class="fw-bold fs-md">{{ $reg->getParticipantName() ?? '—' }}</td>
+                                            <td>
+                                                @if ($reg->isIndividualRegistration())
+                                                    <span class="badge bg-info-subtle text-info fs-sm">{{ __('app.individual') }}</span>
+                                                @else
+                                                    <span class="badge bg-primary-subtle text-primary fs-sm">{{ __('app.team') }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($reg->status === 'approved')
+                                                    <span class="badge bg-success-subtle text-success fs-sm">{{ __('app.approved') }}</span>
+                                                @elseif ($reg->status === 'rejected')
+                                                    <span class="badge bg-danger-subtle text-danger fs-sm">{{ __('app.rejected') }}</span>
+                                                @else
+                                                    <span class="badge bg-warning-subtle text-warning fs-sm">{{ __('app.pending') }}</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-theme-muted fs-xs">{{ formatDate($reg->created_at) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             @endif
         </div>

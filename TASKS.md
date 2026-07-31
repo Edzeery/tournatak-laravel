@@ -196,10 +196,10 @@ End-state acceptance test (add a 6th domain): seed one `competition_domains` row
 - `tests/Feature/Public/SubmissionCompetitionFlowTest.php`: create hackathon competition (domain `hackathon_project`) → create round → register team participants → submit submissions → assign judge → judge scores → `SubmissionScoringEngine` ranks → results page shows ranking. Plus a match-domain competition still renders the classic detail page (regression).
 
 ### 4.5 Phase 4 deliverables checklist
-- [ ] Submission-domain public detail (tabs: overview/rounds/results)
-- [ ] Admin rounds/submissions/judging management
-- [ ] Judge scoring UI + policies + `judge-score-input` component
-- [ ] End-to-end flow tests · translations ×4 · full safety net green
+- [x] Submission-domain public detail (tabs: overview/rounds/results)
+- [x] Admin rounds/submissions/judging management
+- [x] Judge scoring UI + policies + `judge-score-input` component
+- [x] End-to-end flow tests · translations ×4 · full safety net green
 
 ---
 

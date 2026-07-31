@@ -5,6 +5,7 @@ namespace App\Livewire\Public;
 use App\Models\Competition;
 use App\Models\Match_;
 use App\Services\StandingService;
+use App\Services\SubmissionScoringEngine;
 use Carbon\Carbon;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -112,6 +113,10 @@ class CompetitionDetailPage extends Component
 
     public function render(StandingService $standingService)
     {
+        if ($this->competition->evaluationBasis() === 'submission') {
+            return $this->renderSubmissionDetail();
+        }
+
         $this->competition->load([
             'teams',
             'matches' => function ($q) {
@@ -179,6 +184,26 @@ class CompetitionDetailPage extends Component
             'topScorers' => $standingService->getTopScorers($this->competition, 5),
             'dateRange' => $dateRange,
             'filteredMatches' => $filteredMatches,
+        ]);
+    }
+
+    private function renderSubmissionDetail()
+    {
+        $engine = app(SubmissionScoringEngine::class);
+        $this->competition->load([
+            'type', 'subtype', 'organizer', 'domain',
+            'teams',
+            'rounds' => fn ($q) => $q->orderBy('number')->orderBy('id'),
+            'submissions' => fn ($q) => $q->with(['round', 'team', 'user', 'player'])
+                ->orderByDesc('id'),
+            'judges' => fn ($q) => $q->with('user'),
+        ]);
+
+        return view('livewire.public.submission-competition-detail-page', [
+            'title' => $this->competition->name,
+            'ranking' => $engine->calculateRanking($this->competition),
+            'maxScore' => $engine->maxScore($this->competition),
+            'aggregation' => $engine->getConfig($this->competition)['aggregation'] ?? SubmissionScoringEngine::AGGREGATION_AVERAGE,
         ]);
     }
 }

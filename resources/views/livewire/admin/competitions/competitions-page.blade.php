@@ -79,6 +79,19 @@
                                         aria-label="{{ __('app.edit') }}">
                                         <i class="bi bi-pencil"></i>
                                     </a>
+                                    @if($competition->usesSubmissionEvaluation())
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="{{ __('app.manage_submissions') }}">
+                                            <a href="{{ route('admin.competitions.rounds', $competition) }}" class="btn btn-outline-secondary rounded-md" title="{{ __('app.manage_rounds') }}">
+                                                <i class="bi bi-layers"></i>
+                                            </a>
+                                            <a href="{{ route('admin.competitions.submissions', $competition) }}" class="btn btn-outline-secondary rounded-md" title="{{ __('app.manage_submissions') }}">
+                                                <i class="bi bi-clipboard-check"></i>
+                                            </a>
+                                            <a href="{{ route('admin.competitions.judging', $competition) }}" class="btn btn-outline-secondary rounded-md" title="{{ __('app.manage_judging') }}">
+                                                <i class="bi bi-people"></i>
+                                            </a>
+                                        </div>
+                                    @endif
                                     @if($competition->approval_status === 'pending')
                                         <button class="btn btn-sm btn-outline-success rounded-md" wire:click="approve({{ $competition->id }})"
                                             aria-label="{{ __('app.approve') }}">

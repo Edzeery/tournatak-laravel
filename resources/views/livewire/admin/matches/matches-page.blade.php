@@ -118,7 +118,6 @@
                                 {{-- Matchup --}}
                                 <td>
                                     <div class="d-flex align-items-center gap-3" style="min-width:260px;"
-                                        @if(in_array($match->phase, ['first_half','half_time','second_half','et_break','et_first_half','et_half_time','et_second_half']))
                                         x-data="matchTimer({
                                             phase: '{{ $match->phase }}',
                                             fhs: {{ $match->first_half_started_at ? strtotime($match->first_half_started_at) * 1000 : 'null' }},
@@ -129,7 +128,6 @@
                                             at2: {{ $match->added_time_second_half ?? 0 }},
                                             mode: 'compact',
                                         })"
-                                        @endif
                                     >
                                         {{-- Team 1 --}}
                                         <div class="d-flex align-items-center gap-2 text-end" style="flex:1;">

@@ -1,7 +1,7 @@
 <div class="  w-4xl" wire:poll.30s>
     @if (auth()->check())
-        <div class="nav-item" x-data="notificationBell()" @click.outside="close()" @keydown.escape.window="close()"
-             class="position-relative">
+        <div class="nav-item position-relative" x-data="notificationBell()" @click.outside="close()" @keydown.escape.window="close()"
+              >
             <button class="nav-link notification-bell-btn" @click="toggle()" aria-label="{{ __('app.notifications') }}">
                 <i class="bi bi-bell"></i>
                 @if ($unreadCount > 0)

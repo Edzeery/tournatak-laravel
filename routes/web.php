@@ -1,10 +1,13 @@
 <?php
 
 use App\Livewire\Admin\CompetitionDomainsPage;
+use App\Livewire\Admin\Competitions\CompetitionJudgingPage;
 use App\Livewire\Admin\Competitions\CompetitionsPage;
 use App\Livewire\Admin\Competitions\CreateCasualCompetitionPage;
 use App\Livewire\Admin\Competitions\CreateCompetitionPage;
 use App\Livewire\Admin\Competitions\EditCompetitionPage;
+use App\Livewire\Admin\Competitions\RoundsPage;
+use App\Livewire\Admin\Competitions\SubmissionsPage;
 use App\Livewire\Admin\DashboardPage;
 use App\Livewire\Admin\Matches\CreateMatchPage;
 use App\Livewire\Admin\Matches\EditMatchPage;
@@ -51,6 +54,7 @@ use App\Livewire\Auth\RegisterPage;
 use App\Livewire\Auth\ResetPasswordPage;
 use App\Livewire\Auth\TwoFactorChallengePage;
 use App\Livewire\Home\HomePage;
+use App\Livewire\Judge\JudgingPage as JudgeJudgingPage;
 use App\Livewire\Public\CompetitionDetailPage;
 use App\Livewire\Public\CompetitionsPage as PublicCompetitionsPage;
 use App\Livewire\Public\MatchesPage as PublicMatchesPage;
@@ -167,6 +171,15 @@ Route::middleware(['auth'])->get('/profile', function () {
 
 /*
 |--------------------------------------------------------------------------
+| Judge Panel Routes
+|--------------------------------------------------------------------------
+| Auth only — per-competition access enforced by CompetitionPolicy::judge()
+| (assigned judges, owning organizer, or competition managers).
+*/
+Route::middleware(['auth'])->get('/judge/competitions/{competition}', JudgeJudgingPage::class)->name('judge.competitions.show');
+
+/*
+|--------------------------------------------------------------------------
 | Admin Routes — Permission-scoped sub-groups
 |--------------------------------------------------------------------------
 | URL prefix: /panel (visible URL) | Route names: admin.* (unchanged)
@@ -191,6 +204,9 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
         Route::get('/competitions', CompetitionsPage::class)->name('competitions.index');
         Route::get('/competitions/create', CreateCompetitionPage::class)->name('competitions.create');
         Route::get('/competitions/{competition}/edit', EditCompetitionPage::class)->name('competitions.edit');
+        Route::get('/competitions/{competition}/rounds', RoundsPage::class)->name('competitions.rounds');
+        Route::get('/competitions/{competition}/submissions', SubmissionsPage::class)->name('competitions.submissions');
+        Route::get('/competitions/{competition}/judging', CompetitionJudgingPage::class)->name('competitions.judging');
     });
 
     // ── Registration Management ─────────────────────────────────────

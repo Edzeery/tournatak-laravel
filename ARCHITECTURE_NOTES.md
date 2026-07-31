@@ -177,6 +177,47 @@ Step/field labels use `app.*` keys present in all four locale files
   `format_config`) with per-domain type/subtype provisioned via
   `provisionTypeFor()`. Stepper + review summary; flatpickr on datetime fields.
 
+### Phase 4 -- submission competition pages & judging
+
+- **Public detail branch** (`Public/CompetitionDetailPage`): `render()` keeps
+  the match-domain page untouched and branches to a dedicated submission view
+  (`livewire.public.submission-competition-detail-page`) when
+  `$competition->evaluationBasis() === 'submission'`. The view renders a hero,
+  stats panel (rounds/submissions/judges), and Bootstrap tabs: **Overview**,
+  **Rounds & Submissions**, **Results** (ranking via
+  `SubmissionScoringEngine`, only shown once `scores_count > 0`).
+- **Admin management** (all under the `admin.` prefix + `manage competitions`
+  permission, routes `admin.competitions.{rounds,submissions,judging}`):
+  - `Admin/Competitions/RoundsPage` -- list + create `CompetitionRound` rows
+    (`nextRoundNumber()` = max number + 1; duplicate `[competition_id, number]`
+    guarded).
+  - `Admin/Competitions/SubmissionsPage` -- submissions filtered by
+    `?round=`; create for team or individual participants; inline edit
+    (title/description/status); quick `setStatus()` from the list.
+  - `Admin/Competitions/CompetitionJudgingPage` -- assign/remove judges
+    (duplicate assignment guarded), toggle `hide_other_judges` persisted in
+    `format_config['judging']['hide_other_judges'] ?? true`, live ranking table
+    via the scoring engine.
+- **Judge panel** (`Judge/JudgingPage` at `/judge/competitions/{competition}`,
+  auth only -- no permission middleware; authorization via
+  `CompetitionPolicy::judge()` which covers assigned judges, the owning
+  organizer, and `manage competitions` holders). Shows the current (in-progress
+  or first upcoming) round with a round switcher; judges enter per-submission
+  scores via the `judge-score-input` Blade component (bound to
+  `scores.{submissionId}.{score,notes}`, validated against the engine's
+  `maxScore()`); other judges' averages are hidden unless the organizer
+  disables `hide_other_judges`.
+- **Policies** (registered in `AppServiceProvider`):
+  - `JudgePolicy` -- `create`/`delete` proxy to `Competition::update`.
+  - `SubmissionPolicy` -- `update`/`delete` proxy to `Competition::update`.
+  - `JudgeScorePolicy` -- `view`/`update` allow admins (via `before`), the
+    owning organizer, and the score's owning judge (cross-competition scores
+    are rejected).
+- **Scoring**: the ranking table reuses `SubmissionScoringEngine`
+  (`calculateRanking()`, `maxScore()`, aggregation from
+  `format_config['scoring']`); judges only ever persist rows for their own
+  `Judge` (first-or-create per competition+user).
+
 ### Adding a 6th domain (runbook)
 
 1. Add the row to `2026_08_01_000001_create_competition_domains_table.php`

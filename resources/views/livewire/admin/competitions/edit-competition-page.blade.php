@@ -10,6 +10,19 @@
         ]"
     >
         <x-slot:action>
+            @if ($competition->usesSubmissionEvaluation())
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ route('admin.competitions.rounds', $competition) }}" class="btn btn-outline-secondary rounded-md">
+                        <i class="bi bi-layers"></i> {{ __('app.manage_rounds') }}
+                    </a>
+                    <a href="{{ route('admin.competitions.submissions', $competition) }}" class="btn btn-outline-secondary rounded-md">
+                        <i class="bi bi-clipboard-check"></i> {{ __('app.manage_submissions') }}
+                    </a>
+                    <a href="{{ route('admin.competitions.judging', $competition) }}" class="btn btn-outline-secondary rounded-md">
+                        <i class="bi bi-people"></i> {{ __('app.manage_judging') }}
+                    </a>
+                </div>
+            @endif
             <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-secondary rounded-md">
                 <i class="bi bi-arrow-right"></i> {{ __('app.back_button') }}
             </a>

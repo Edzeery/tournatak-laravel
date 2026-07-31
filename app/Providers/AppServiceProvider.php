@@ -3,16 +3,22 @@
 namespace App\Providers;
 
 use App\Models\Competition;
+use App\Models\Judge;
+use App\Models\JudgeScore;
 use App\Models\Match_;
 use App\Models\Player;
 use App\Models\Registration;
+use App\Models\Submission;
 use App\Models\Team;
 use App\Models\User;
 use App\Observers\UserObserver;
 use App\Policies\CompetitionPolicy;
+use App\Policies\JudgePolicy;
+use App\Policies\JudgeScorePolicy;
 use App\Policies\MatchPolicy;
 use App\Policies\PlayerPolicy;
 use App\Policies\RegistrationPolicy;
+use App\Policies\SubmissionPolicy;
 use App\Policies\TeamPolicy;
 use App\Policies\UserPolicy;
 use App\Services\ScoringEngineRegistry;
@@ -47,6 +53,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Team::class, TeamPolicy::class);
         Gate::policy(Player::class, PlayerPolicy::class);
         Gate::policy(Registration::class, RegistrationPolicy::class);
+        Gate::policy(Judge::class, JudgePolicy::class);
+        Gate::policy(Submission::class, SubmissionPolicy::class);
+        Gate::policy(JudgeScore::class, JudgeScorePolicy::class);
 
         RateLimiter::for('login', function () {
             return Limit::perMinute(5)->by(request()->ip());

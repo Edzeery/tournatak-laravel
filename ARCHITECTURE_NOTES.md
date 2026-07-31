@@ -218,6 +218,65 @@ Step/field labels use `app.*` keys present in all four locale files
   `format_config['scoring']`); judges only ever persist rows for their own
   `Judge` (first-or-create per competition+user).
 
+### Phase 5 -- visual design system rollout
+
+- **Brand tokens** (`resources/css/core/_variables.scss`, light block only so
+  dark mode inherits): `--brand-primary` (deep indigo `#1e1b4b`),
+  `--brand-primary-hover`/`--brand-primary-soft`, `--brand-accent` (amber
+  `#f5a622`), `--brand-accent-soft`/`--brand-accent-glow`,
+  `--brand-text-on-accent`, `--brand-gradient` (indigo 135deg). `--primary`
+  gold and everything feeding the sports UI are untouched and stay
+  pixel-identical.
+- **Utilities** (`components/_utilities.scss`): `.text-brand`, `.bg-brand`,
+  `.bg-brand-soft`, `.border-brand`, `.btn-brand` (indigo gradient pill),
+  `.btn-outline-brand` (amber outline pill); plus `.badge-domain`
+  (`components/_badges.scss`, amber tint on transparent so it reads on both
+  light surfaces and the dark indigo hero).
+- **Wiring -- domain-neutral surfaces only**:
+  - `--gradient-hero` now resolves to `var(--brand-gradient)`; homepage hero
+    `::before`/`::after` glows and `.hero-badge`/`.hero-shape` switched to
+    amber/indigo tones (`pages/_hero.scss`); hero title span, hero stat
+    numbers, and domain-card icon/button use brand classes
+    (`livewire/home/home-page.blade.php`).
+  - Nav highlight states (`.nav-link:hover`/`.active` + underline,
+    mobile `.nav-link-mobile.active`, `.offcanvas-lang-btn.active`,
+    `.navbar-role-badge`) use `--brand-accent`
+    (`layouts/_navbar.scss`); gold avatar buttons stay gold.
+  - Create-competition wizard stepper (active = `btn-brand`, done =
+    `btn-outline-brand`), continue/save buttons, and selected domain-card
+    border (`border-brand`) are branded.
+  - Domain badges on `admin/competitions/competitions-page`,
+    `edit-competition-page`, and the submission detail overview tab now use
+    `.badge-domain`. `badge-sport` remains for stats/rounds/points badges.
+- **Bundle splitting** (`resources/js/app.js` + `vite.config.js`):
+  - ApexCharts is no longer eagerly bundled. `window.loadApexCharts()` does a
+    one-time `import('apexcharts')` and caches the promise; the admin
+    dashboard's `@push('scripts')` init awaits it before `new ApexCharts(...)`.
+  - The lineup board Alpine component moved from an inline `<script>` to its
+    own Vite entry `resources/js/lineup.js` (registered via `alpine:init` +
+    `Alpine.data('lineupInteractions', ...)`), loaded only on
+    `admin/matches/lineup-page`.
+  - **Before → after** (`npm run build`): main `app.js` 1098.72 kB → 266.52 kB
+    (gzip 318.29 → 80.34 kB, ~76% smaller). ApexCharts ships as an on-demand
+    chunk (832.50 kB / gzip 238.36 kB) loaded only on the admin dashboard;
+    `lineup.js` is 0.53 kB.
+
+### 5.3 Visual QA checklist (Phase 5)
+
+- Homepage (public, light + dark): hero renders indigo gradient, amber
+  badge/title accent + stat numbers, gold CTAs still legible on indigo.
+- Competition wizard: active step + continue buttons show indigo gradient,
+  done steps amber outline, selected domain card has amber border.
+- Navbar (public + admin): hover/active links + active underline amber;
+  role badge amber; avatar stays gold.
+- Domain badge on admin competitions list/edit + submission detail hero: amber
+  pill readable on both the light card and the dark hero.
+- One sports page (e.g. match-domain competition detail): visuals unchanged
+  (gold badges, `btn-primary-sport`, status-kit variants).
+- One hackathon page (`/competitions?domain=hackathon`, submission detail):
+  domain badge/detail reads correctly; charts on admin dashboard still render
+  after the lazy ApexCharts change.
+
 ### Adding a 6th domain (runbook)
 
 1. Add the row to `2026_08_01_000001_create_competition_domains_table.php`

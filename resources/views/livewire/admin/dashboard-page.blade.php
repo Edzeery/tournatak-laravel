@@ -410,6 +410,8 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if (typeof window.loadApexCharts !== 'function') return;
+            window.loadApexCharts().then(function() {
             if (typeof ApexCharts === 'undefined') return;
 
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -524,6 +526,7 @@
                 },
             });
             matchStatusChart.render();
+            });
         });
     </script>
 @endpush

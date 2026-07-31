@@ -9,7 +9,7 @@
                     </div>
                     <h1 class="hero-title mb-4 animate-in animate-delay-1">
                         {{ __('app.home_hero_title') }}<br>
-                        <span class="text-gold">{{ __('app.home_hero_title2') }}</span>
+                        <span class="text-brand">{{ __('app.home_hero_title2') }}</span>
                     </h1>
                     <p class="hero-subtitle mb-5 animate-in animate-delay-2">
                         {{ __('app.home_hero_desc') }}
@@ -39,18 +39,18 @@
                                 class="d-inline-flex flex-column align-items-center gap-3 p-4 rounded-4 hero-stats-panel">
                                 <div class="d-flex gap-4">
                                     <div class="text-center">
-                                        <div class="text-gold fw-bold fs-4xl">{{ $stats['competitions'] ?? 0 }}</div>
+                                        <div class="text-brand fw-bold fs-4xl">{{ $stats['competitions'] ?? 0 }}</div>
                                         <small class="text-chrome-subtle">{{ __('app.stat_competition') }}</small>
                                     </div>
                                     <div class="hero-stat-vdiv"></div>
                                     <div class="text-center">
-                                        <div class="text-gold fw-bold fs-4xl">{{ $stats['teams'] ?? 0 }}</div>
+                                        <div class="text-brand fw-bold fs-4xl">{{ $stats['teams'] ?? 0 }}</div>
                                         <small class="text-chrome-subtle">{{ __('app.stat_team') }}</small>
                                     </div>
                                 </div>
                                 <div class="hero-stat-hdiv"></div>
                                 <div class="text-center">
-                                    <div class="text-gold fw-bold fs-4xl">{{ $stats['players'] ?? 0 }}</div>
+                                    <div class="text-brand fw-bold fs-4xl">{{ $stats['players'] ?? 0 }}</div>
                                     <small class="text-chrome-subtle">{{ __('app.stat_player') }}</small>
                                 </div>
                             </div>
@@ -115,12 +115,12 @@
                                 <div class="competition-card h-100 text-center">
                                     <div class="card-header-custom"></div>
                                     <div class="card-body d-flex flex-column">
-                                        <div class="stat-icon bg-warning bg-opacity-10 text-gold mx-auto mb-3">
+                                        <div class="stat-icon bg-warning bg-opacity-10 text-brand mx-auto mb-3">
                                             <i class="bi {{ $domain->icon }}"></i>
                                         </div>
                                         <h5 class="card-title mb-2">{{ $domain->localizedName() }}</h5>
                                         <p class="text-muted fs-md mb-4 flex-grow-1">{{ $domain->description }}</p>
-                                        <span class="btn btn-outline-sport btn-sm align-self-center">
+                                        <span class="btn btn-outline-brand btn-sm align-self-center">
                                             {{ __('app.browse_domain') }} <i
                                                 class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }}"></i>
                                         </span>

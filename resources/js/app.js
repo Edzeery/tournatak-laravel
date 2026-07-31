@@ -6,12 +6,20 @@ import 'flatpickr/dist/l10n/fr.js';
 import 'flatpickr/dist/l10n/es.js';
 import Swal from 'sweetalert2';
 
-
-import ApexCharts from 'apexcharts';
-
 window.Swal = Swal;
-window.ApexCharts = ApexCharts;
 window.bootstrap = bootstrap;
+
+// ApexCharts is loaded on demand (charts render on the admin dashboard only)
+let apexPromise = null;
+window.loadApexCharts = function () {
+    if (!apexPromise) {
+        apexPromise = import('apexcharts').then((module) => {
+            window.ApexCharts = module.default;
+            return module.default;
+        });
+    }
+    return apexPromise;
+};
 
 // ============================================
 // Theme Toggle (Dark / Light)

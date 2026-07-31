@@ -217,6 +217,46 @@
     color: var(--primary);
 }
 
+// ---- Brand identity (Phase 5) ----
+.text-brand {
+    color: var(--brand-accent) !important;
+}
+.bg-brand {
+    background-color: var(--brand-primary) !important;
+}
+.bg-brand-soft {
+    background-color: var(--brand-primary-soft) !important;
+}
+.border-brand {
+    border-color: var(--brand-accent) !important;
+}
+.btn-brand {
+    background: var(--brand-gradient);
+    border: none;
+    color: #fff !important;
+    font-weight: 700;
+    border-radius: var(--radius-pill);
+    transition: all 0.3s ease;
+}
+.btn-brand:hover {
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(49, 46, 129, 0.35);
+}
+.btn-outline-brand {
+    border: 2px solid var(--brand-accent);
+    background: transparent;
+    color: var(--brand-accent) !important;
+    font-weight: 700;
+    border-radius: var(--radius-pill);
+    transition: all 0.3s ease;
+}
+.btn-outline-brand:hover {
+    background: var(--brand-accent);
+    color: var(--brand-text-on-accent) !important;
+    transform: translateY(-2px);
+}
+
 // ---- Tiny action button ----
 .btn-xs {
     border-radius: 6px !important;

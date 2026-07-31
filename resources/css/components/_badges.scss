@@ -7,3 +7,14 @@
     font-size: 0.8rem;
     border: 1px solid rgba(255, 193, 7, 0.2);
 }
+
+// Domain badge (Phase 5 - brand identity, works on dark chrome and light surfaces)
+.badge-domain {
+    background: var(--brand-accent-soft);
+    color: var(--brand-accent);
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8rem;
+    border: 1px solid rgba(245, 166, 34, 0.35);
+}

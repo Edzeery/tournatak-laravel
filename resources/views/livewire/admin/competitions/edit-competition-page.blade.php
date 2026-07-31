@@ -31,7 +31,7 @@
 
     @if ($competition->domain)
         <div class="mb-3">
-            <span class="badge badge-sport fs-base">
+            <span class="badge badge-domain fs-base">
                 <i class="bi {{ $competition->domain->icon }} me-1"></i>
                 {{ $competition->domain->localizedName() }}
             </span>

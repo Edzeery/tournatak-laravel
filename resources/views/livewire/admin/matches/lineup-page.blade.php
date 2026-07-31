@@ -45,34 +45,7 @@
             .player-dot .player-name { font-size: 9px; }
         }
     </style>
-    <script>
-        window.lineupInteractions = function () {
-            return {
-                openPicker: null,
-                dragPlayerId: null,
-                openPlayerPicker(slotIndex) {
-                    this.openPicker = this.openPicker === slotIndex ? null : slotIndex;
-                },
-                closePicker() {
-                    this.openPicker = null;
-                },
-                onDragStart(event, playerId) {
-                    this.dragPlayerId = playerId;
-                    event.dataTransfer.effectAllowed = 'move';
-                    event.dataTransfer.setData('text/plain', playerId);
-                },
-                onDrop(event, slotIndex) {
-                    event.preventDefault();
-                    const playerId = event.dataTransfer.getData('text/plain') || this.dragPlayerId;
-                    if (playerId) {
-                        this.$wire.assignToPosition(parseInt(playerId), slotIndex);
-                    }
-                    this.dragPlayerId = null;
-                    this.openPicker = null;
-                },
-            }
-        }
-    </script>
+    @vite(['resources/js/lineup.js'])
 
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">

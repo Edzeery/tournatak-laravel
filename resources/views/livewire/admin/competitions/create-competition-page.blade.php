@@ -23,7 +23,7 @@
                     @foreach ($this->steps() as $index => $stepKey)
                         <li>
                             <button type="button" wire:click="goToStep('{{ $stepKey }}')"
-                                class="btn btn-sm rounded-pill {{ $index === $this->stepIndex() ? 'btn-warning fw-bold' : ($index < $this->stepIndex() ? 'btn-outline-warning' : 'btn-outline-secondary') }}">
+                                class="btn btn-sm rounded-pill {{ $index === $this->stepIndex() ? 'btn-brand fw-bold' : ($index < $this->stepIndex() ? 'btn-outline-brand' : 'btn-outline-secondary') }}">
                                 <span class="badge rounded-circle {{ $index === $this->stepIndex() ? 'bg-dark' : 'bg-secondary' }} me-1">{{ $index + 1 }}</span>
                                 {{ __("app.step_{$stepKey}") }}
                             </button>
@@ -46,9 +46,9 @@
                     @foreach ($this->domains() as $domain)
                         <div class="col-md-6 col-lg-4 col-xl-3">
                             <button type="button" wire:click="selectDomain({{ $domain->id }})"
-                                class="w-100 h-100 text-start p-3 rounded-4 bg-body border {{ $this->domain_id === $domain->id ? 'border-warning border-2' : 'border-dark-subtle' }}">
+                                class="w-100 h-100 text-start p-3 rounded-4 bg-body border {{ $this->domain_id === $domain->id ? 'border-brand border-2' : 'border-dark-subtle' }}">
                                 <div class="d-flex align-items-center gap-3 mb-2">
-                                    <div class="stat-icon bg-warning bg-opacity-10 text-gold">
+                                    <div class="stat-icon bg-warning bg-opacity-10 text-brand">
                                         <i class="bi {{ $domain->icon }}"></i>
                                     </div>
                                     <h6 class="fw-bold mb-0">{{ $domain->localizedName() }}</h6>
@@ -75,7 +75,7 @@
                     <button type="button" class="btn btn-outline-secondary" wire:click="previousStep">
                         <i class="bi bi-arrow-{{ isRtl() ? 'right' : 'left' }} me-1"></i> {{ __('app.wizard_back') }}
                     </button>
-                    <button type="button" class="btn btn-warning px-4" wire:click="store" wire:loading.attr="disabled">
+                    <button type="button" class="btn btn-brand px-4" wire:click="store" wire:loading.attr="disabled">
                         <span wire:loading.remove wire:target="store"><i class="bi bi-check-lg"></i> {{ __('app.save_competition') }}</span>
                         <span wire:loading wire:target="store"><span class="spinner-border spinner-border-sm"></span> {{ __('app.saving') }}...</span>
                     </button>
@@ -129,7 +129,7 @@
                         <button type="button" class="btn btn-outline-secondary" wire:click="previousStep">
                             <i class="bi bi-arrow-{{ isRtl() ? 'right' : 'left' }} me-1"></i> {{ __('app.wizard_back') }}
                         </button>
-                        <button type="submit" class="btn btn-warning px-4">
+                        <button type="submit" class="btn btn-brand px-4">
                             {{ __('app.wizard_continue') }} <i class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }} ms-1"></i>
                         </button>
                     </div>

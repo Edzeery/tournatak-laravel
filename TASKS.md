@@ -219,10 +219,12 @@ End-state acceptance test (add a 6th domain): seed one `competition_domains` row
 - `docs/visual-qa.md` (or section in ARCHITECTURE_NOTES.md): screenshots/checklist across homepage, wizard, one sports page, one hackathon page. Brand consistency check.
 
 ### 5.4 Phase 5 deliverables checklist
-- [ ] Brand tokens added (sports visuals unchanged)
-- [ ] Domain-neutral UI wired to tokens
-- [ ] Dynamic imports + before/after bundle sizes
-- [ ] Visual QA notes
+- [x] Brand tokens added (sports visuals unchanged)
+- [x] Domain-neutral UI wired to tokens
+- [x] Dynamic imports + before/after bundle sizes
+- [x] Visual QA notes
+
+**Phase 5 done.** Implemented + committed as one commit. Main JS bundle cut from **1098.72 kB → 266.52 kB** (gzip 318.29 → 80.34 kB, ~76% smaller) by lazy-loading ApexCharts via `window.loadApexCharts()` (`import('apexcharts')`); the lineup/tactics board was extracted to its own `resources/js/lineup.js` Vite entry (0.53 kB, loaded only on the lineup page). ApexCharts chunk now ships as a separate on-demand asset (832.50 kB, gzip 238.36 kB). Brand tokens (`--brand-primary` deep indigo `#1e1b4b`, `--brand-accent` amber `#f5a622`, `--brand-gradient`) were added without touching `--primary` gold; wired into the homepage hero (indigo `--gradient-hero` + amber accents/glows), hero + nav highlight states, domain cards, create-competition wizard stepper/buttons, and a new `.badge-domain` variant replacing `badge-sport` on domain badges in admin/public competition pages. Sports visuals (gold `btn-primary-sport`, `.badge-sport` stats/rounds badges, status-kit vendor config) remain pixel-identical. Quality gate green: 310 tests, Pint, PHPStan, `npm run build`, view cache. Visual QA checklist in `ARCHITECTURE_NOTES.md` §5.3.
 
 ---
 

@@ -96,7 +96,7 @@
                                     <li>
                                         <span class="text-chrome-muted d-block fs-sm">{{ __('app.domain') }}</span>
                                         @if ($competition->domain)
-                                            <span class="badge badge-sport mt-1">
+                                            <span class="badge badge-domain mt-1">
                                                 <i class="bi {{ $competition->domain->icon }} me-1"></i>
                                                 {{ $competition->domain->localizedName() }}
                                             </span>

@@ -44,7 +44,7 @@
                                 <td class="fw-bold">{{ $competition->name }}</td>
                                 <td>
                                     @if ($competition->domain)
-                                        <span class="badge badge-sport">
+                                        <span class="badge badge-domain">
                                             <i class="bi {{ $competition->domain->icon }} me-1"></i>
                                             {{ $competition->domain->localizedName() }}
                                         </span>

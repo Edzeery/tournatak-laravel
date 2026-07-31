@@ -13,6 +13,21 @@
     --accent: #00d4aa;
     --accent-2: #3b82f6;
 
+    // Brand identity (Phase 5 - domain-neutral surfaces, gold stays untouched)
+    --brand-primary: #1e1b4b; // deep indigo
+    --brand-primary-hover: #312e81;
+    --brand-primary-soft: rgba(30, 27, 75, 0.08);
+    --brand-accent: #f5a622; // amber accent
+    --brand-accent-soft: rgba(245, 166, 34, 0.12);
+    --brand-accent-glow: rgba(245, 166, 34, 0.3);
+    --brand-text-on-accent: #1e1b4b;
+    --brand-gradient: linear-gradient(
+        135deg,
+        #1e1b4b 0%,
+        #312e81 50%,
+        #4338ca 100%
+    );
+
     // Semantic colors (Custom) - used to feed Bootstrap below
     --secondary: #64748b;
     --success: #00d4aa; // = accent
@@ -51,12 +66,7 @@
     --dark-3: #1e293b;
 
     // Gradients
-    --gradient-hero: linear-gradient(
-        135deg,
-        #0a0e1a 0%,
-        #111827 40%,
-        #1a1f35 100%
-    );
+    --gradient-hero: var(--brand-gradient);
     --gradient-gold: linear-gradient(
         135deg,
         #ffc107 0%,

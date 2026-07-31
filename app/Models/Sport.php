@@ -60,6 +60,14 @@ class Sport extends Model
         return $this->hasMany(Competition::class);
     }
 
+    /**
+     * Sports belong to the "sports" competition domain by convention.
+     */
+    public function competitionDomain(): CompetitionDomain
+    {
+        return CompetitionDomain::query()->where('slug', CompetitionDomain::SLUG_SPORTS)->firstOrFail();
+    }
+
     public function teams(): HasMany
     {
         return $this->hasMany(Team::class);

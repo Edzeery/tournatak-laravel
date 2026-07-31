@@ -1418,4 +1418,32 @@ return [
     'registration_already_exists' => 'This user is already registered in this competition',
     'team_registration_created' => 'Team registration created successfully',
     'registration_team_already_exists' => 'This team is already registered in this competition',
+    'registration_domain_participant_not_supported' => 'This competition does not accept this type of participant',
+
+    // Evaluation basis
+    'evaluation_basis_match' => 'Match-based',
+    'evaluation_basis_submission' => 'Submission-based',
+
+    // Submission statuses
+    'status_pending' => 'Pending',
+    'status_under_review' => 'Under Review',
+    'status_approved' => 'Approved',
+    'status_rejected' => 'Rejected',
+
+    // Rounds
+    'round' => 'Round :number',
+    'round_group_stage' => 'Group Stage',
+    'round_knockout_stage' => 'Knockout Stage :round',
+
+    // Competition setup
+    'general_competition_type' => 'General :domain Competition',
+    'domain' => 'Domain',
+    'format' => 'Format',
+    'rounds_count' => 'Number of Rounds',
+    'judging_criteria' => 'Judging Criteria',
+    'step_domain' => 'Domain',
+    'step_basics' => 'Basics',
+    'step_format' => 'Sport & Format',
+    'step_rounds' => 'Rounds & Judging',
+    'step_review' => 'Review',
 ];

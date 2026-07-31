@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CompetitionEvaluationBasis;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,6 +51,7 @@ class Competition extends Model
         'type_id',
         'subtype_id',
         'organizer_id',
+        'domain_id',
         'sport_id',
         'name',
         'description',
@@ -89,6 +91,11 @@ class Competition extends Model
         return $this->belongsTo(Sport::class);
     }
 
+    public function domain(): BelongsTo
+    {
+        return $this->belongsTo(CompetitionDomain::class);
+    }
+
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class, 'registrations')->withPivot('status');
@@ -102,6 +109,21 @@ class Competition extends Model
     public function registrations(): HasMany
     {
         return $this->hasMany(Registration::class);
+    }
+
+    public function rounds(): HasMany
+    {
+        return $this->hasMany(CompetitionRound::class);
+    }
+
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
+    }
+
+    public function judges(): HasMany
+    {
+        return $this->hasMany(Judge::class);
     }
 
     public function scopeOfficial($query)
@@ -122,5 +144,20 @@ class Competition extends Model
     public function isOfficial(): bool
     {
         return $this->competition_profile === self::PROFILE_OFFICIAL;
+    }
+
+    public function isSportsDomain(): bool
+    {
+        return $this->domain?->isSports() ?? $this->sport_id !== null;
+    }
+
+    public function usesSubmissionEvaluation(): bool
+    {
+        return $this->domain?->usesSubmissionEvaluation() ?? false;
+    }
+
+    public function evaluationBasis(): string
+    {
+        return $this->domain?->evaluation_basis?->value ?? CompetitionEvaluationBasis::Match->value;
     }
 }

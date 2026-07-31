@@ -1385,4 +1385,32 @@ return [
     'registration_already_exists' => 'Este usuario ya está inscrito en esta competición',
     'team_registration_created' => 'Inscripción de equipo creada con éxito',
     'registration_team_already_exists' => 'Este equipo ya está inscrito en esta competición',
+    'registration_domain_participant_not_supported' => 'Esta competición no acepta este tipo de participante',
+
+    // Evaluation basis
+    'evaluation_basis_match' => 'Basado en partidos',
+    'evaluation_basis_submission' => 'Basado en envíos',
+
+    // Submission statuses
+    'status_pending' => 'Pendiente',
+    'status_under_review' => 'En revisión',
+    'status_approved' => 'Aprobado',
+    'status_rejected' => 'Rechazado',
+
+    // Rounds
+    'round' => 'Ronda :number',
+    'round_group_stage' => 'Fase de grupos',
+    'round_knockout_stage' => 'Fase eliminatoria :round',
+
+    // Competition setup
+    'general_competition_type' => 'Competición general de :domain',
+    'domain' => 'Dominio',
+    'format' => 'Formato',
+    'rounds_count' => 'Número de rondas',
+    'judging_criteria' => 'Criterios de evaluación',
+    'step_domain' => 'Dominio',
+    'step_basics' => 'Información básica',
+    'step_format' => 'Deporte y formato',
+    'step_rounds' => 'Rondas y evaluación',
+    'step_review' => 'Revisión',
 ];

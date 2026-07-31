@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Competition;
+use App\Models\CompetitionDomain;
 use App\Models\CompetitionSubtype;
 use App\Models\CompetitionType;
 use App\Models\User;
@@ -21,6 +22,7 @@ class CompetitionFactory extends Factory
             'type_id' => CompetitionType::factory(),
             'subtype_id' => CompetitionSubtype::factory(),
             'organizer_id' => User::factory(),
+            'domain_id' => CompetitionDomain::factory(),
             'name' => fake()->unique()->sentence(3),
             'description' => fake()->paragraph(),
             'start_date' => fake()->dateTimeBetween('+1 month', '+3 months'),
@@ -36,5 +38,21 @@ class CompetitionFactory extends Factory
             ]),
             'format_config' => [],
         ];
+    }
+
+    public function sports(): static
+    {
+        return $this->state(fn () => [
+            'domain_id' => CompetitionDomain::query()->where('slug', CompetitionDomain::SLUG_SPORTS)->value('id'),
+        ]);
+    }
+
+    public function submission(): static
+    {
+        return $this->state(fn () => [
+            'domain_id' => CompetitionDomain::query()
+                ->where('evaluation_basis', 'submission')
+                ->value('id'),
+        ]);
     }
 }

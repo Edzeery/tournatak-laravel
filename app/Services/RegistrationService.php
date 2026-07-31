@@ -16,6 +16,10 @@ class RegistrationService
     {
         $competition = Competition::findOrFail($competitionId);
 
+        if (! $this->isRegistrationAllowed($competition, ParticipantType::Individual->value)) {
+            return ['success' => false, 'message' => __('app.registration_domain_participant_not_supported')];
+        }
+
         $existing = $this->findExistingIndividual($competitionId, $userId);
         if ($existing) {
             return ['success' => false, 'message' => __('app.registration_already_exists')];
@@ -35,6 +39,10 @@ class RegistrationService
     {
         $competition = Competition::findOrFail($competitionId);
 
+        if (! $this->isRegistrationAllowed($competition, ParticipantType::Team->value)) {
+            return ['success' => false, 'message' => __('app.registration_domain_participant_not_supported')];
+        }
+
         $existing = $this->findExistingTeam($competitionId, $teamId);
         if ($existing) {
             return ['success' => false, 'message' => __('app.registration_team_already_exists')];
@@ -48,6 +56,22 @@ class RegistrationService
         ]);
 
         return ['success' => true, 'registration' => $registration];
+    }
+
+    /**
+     * Whether the competition's domain accepts the given participant type.
+     */
+    public function isRegistrationAllowed(Competition $competition, string $participantType): bool
+    {
+        $domain = $competition->domain;
+
+        if ($domain === null) {
+            return true;
+        }
+
+        return $participantType === ParticipantType::Individual->value
+            ? $domain->supportsIndividuals()
+            : $domain->supportsTeams();
     }
 
     public function findExistingIndividual(int $competitionId, int $userId): ?Registration
@@ -84,7 +108,7 @@ class RegistrationService
         return $individualRegistrations->merge($teamRegistrations);
     }
 
-    public function getAvailableCompetitions(User $user, string $participantType): Collection
+    public function getAvailableCompetitions(User $user, string $participantType, ?string $domainKey = null): Collection
     {
         $typeIds = $participantType === ParticipantType::Individual->value
             ? CompetitionType::whereIn('participant_type', [ParticipantType::Individual->value, ParticipantType::Both->value])->pluck('id')
@@ -99,6 +123,7 @@ class RegistrationService
         })->pluck('competition_id');
 
         return Competition::whereIn('type_id', $typeIds)
+            ->when($domainKey !== null, fn ($q) => $q->whereHas('domain', fn ($domain) => $domain->where('slug', $domainKey)))
             ->where('approval_status', 'approved')
             ->whereNotIn('id', $registeredIds)
             ->latest()

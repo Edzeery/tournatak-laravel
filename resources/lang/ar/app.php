@@ -1417,4 +1417,32 @@ return [
     'registration_already_exists' => 'هذا المستخدم مسجل بالفعل في هذه البطولة',
     'team_registration_created' => 'تم إنشاء تسجيل الفريق بنجاح',
     'registration_team_already_exists' => 'هذا الفريق مسجل بالفعل في هذه البطولة',
+    'registration_domain_participant_not_supported' => 'لا تقبل هذه البطولة هذا النوع من المشاركين',
+
+    // Evaluation basis
+    'evaluation_basis_match' => 'على أساس المباريات',
+    'evaluation_basis_submission' => 'على أساس التقديمات',
+
+    // Submission statuses
+    'status_pending' => 'قيد الانتظار',
+    'status_under_review' => 'قيد المراجعة',
+    'status_approved' => 'مقبول',
+    'status_rejected' => 'مرفوض',
+
+    // Rounds
+    'round' => 'الجولة :number',
+    'round_group_stage' => 'دور المجموعات',
+    'round_knockout_stage' => 'مرحلة خروج المغلوب :round',
+
+    // Competition setup
+    'general_competition_type' => 'مسابقة :domain عامة',
+    'domain' => 'المجال',
+    'format' => 'النظام',
+    'rounds_count' => 'عدد الجولات',
+    'judging_criteria' => 'معايير التحكيم',
+    'step_domain' => 'المجال',
+    'step_basics' => 'الأساسيات',
+    'step_format' => 'الرياضة والنظام',
+    'step_rounds' => 'الجولات والتحكيم',
+    'step_review' => 'المراجعة',
 ];

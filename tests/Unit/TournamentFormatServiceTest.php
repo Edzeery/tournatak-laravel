@@ -205,4 +205,81 @@ class TournamentFormatServiceTest extends TestCase
 
         $this->assertEquals(4, $config['group_size']);
     }
+
+    public function test_generate_rounds_knockout_returns_power_of_two_rounds(): void
+    {
+        $competition = Competition::factory()->create([
+            'format' => Competition::FORMAT_KNOCKOUT,
+        ]);
+        $teams = Team::factory()->count(8)->create();
+        $competition->teams()->attach($teams->pluck('id'));
+
+        $rounds = $this->service->generateRounds($competition);
+
+        $this->assertCount(3, $rounds);
+        $this->assertEquals(1, $rounds[0]['round_number']);
+        $this->assertEquals(3, $rounds[2]['round_number']);
+        $this->assertArrayHasKey('name', $rounds[0]);
+    }
+
+    public function test_generate_rounds_swiss_uses_configured_rounds(): void
+    {
+        $competition = Competition::factory()->create([
+            'format' => Competition::FORMAT_SWISS,
+            'format_config' => ['swiss_rounds' => 5],
+        ]);
+        $teams = Team::factory()->count(8)->create();
+        $competition->teams()->attach($teams->pluck('id'));
+
+        $rounds = $this->service->generateRounds($competition);
+
+        $this->assertCount(5, $rounds);
+        $this->assertEquals([1, 2, 3, 4, 5], array_column($rounds, 'round_number'));
+    }
+
+    public function test_generate_rounds_groups_returns_group_and_knockout_stages(): void
+    {
+        $competition = Competition::factory()->create([
+            'format' => Competition::FORMAT_GROUPS,
+        ]);
+        $teams = Team::factory()->count(8)->create();
+        $competition->teams()->attach($teams->pluck('id'));
+
+        $rounds = $this->service->generateRounds($competition);
+
+        $this->assertCount(3, $rounds);
+        $this->assertEquals('group', $rounds[0]['stage']);
+        $this->assertEquals('knockout', $rounds[1]['stage']);
+        $this->assertEquals('knockout', $rounds[2]['stage']);
+    }
+
+    public function test_generate_rounds_league_returns_single_round(): void
+    {
+        $competition = Competition::factory()->create([
+            'format' => Competition::FORMAT_LEAGUE,
+        ]);
+        $teams = Team::factory()->count(4)->create();
+        $competition->teams()->attach($teams->pluck('id'));
+
+        $rounds = $this->service->generateRounds($competition);
+
+        $this->assertCount(1, $rounds);
+        $this->assertEquals(1, $rounds[0]['round_number']);
+    }
+
+    public function test_create_rounds_persists_round_rows_and_is_idempotent(): void
+    {
+        $competition = Competition::factory()->create([
+            'format' => Competition::FORMAT_KNOCKOUT,
+        ]);
+        $teams = Team::factory()->count(8)->create();
+        $competition->teams()->attach($teams->pluck('id'));
+
+        $created = $this->service->createRounds($competition);
+        $secondCall = $this->service->createRounds($competition);
+
+        $this->assertEquals(3, $created);
+        $this->assertEquals(0, $secondCall);
+        $this->assertDatabaseCount('competition_rounds', 3);
+    }
 }

@@ -1412,5 +1412,32 @@ return [
     'individual_registration_created' => 'Inscription individuelle créée avec succès',
     'registration_already_exists' => 'Cet utilisateur est déjà inscrit à cette compétition',
     'team_registration_created' => 'Inscription d\'équipe créée avec succès',
-    'registration_team_already_exists' => 'Cette équipe est déjà inscrite à cette compétition',
+    'registration_domain_participant_not_supported' => 'Cette compétition n\'accepte pas ce type de participant',
+
+    // Evaluation basis
+    'evaluation_basis_match' => 'Basé sur les matchs',
+    'evaluation_basis_submission' => 'Basé sur les soumissions',
+
+    // Submission statuses
+    'status_pending' => 'En attente',
+    'status_under_review' => 'En cours d\'examen',
+    'status_approved' => 'Approuvé',
+    'status_rejected' => 'Rejeté',
+
+    // Rounds
+    'round' => 'Tour :number',
+    'round_group_stage' => 'Phase de groupes',
+    'round_knockout_stage' => 'Phase à élimination directe :round',
+
+    // Competition setup
+    'general_competition_type' => 'Compétition générale :domain',
+    'domain' => 'Domaine',
+    'format' => 'Format',
+    'rounds_count' => 'Nombre de tours',
+    'judging_criteria' => 'Critères de jugement',
+    'step_domain' => 'Domaine',
+    'step_basics' => 'Informations',
+    'step_format' => 'Sport & format',
+    'step_rounds' => 'Tours & jugement',
+    'step_review' => 'Vérification',
 ];

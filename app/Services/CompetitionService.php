@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\ApprovalStatus;
 use App\Enums\CompetitionStatus;
 use App\Models\Competition;
+use App\Models\CompetitionDomain;
 use App\Models\Sport;
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +19,15 @@ class CompetitionService
             $data['approval_status'] = $profile === Competition::PROFILE_CASUAL ? ApprovalStatus::Approved->value : ApprovalStatus::Pending->value;
             $data['status'] = CompetitionStatus::Draft->value;
 
-            if (empty($data['sport_id'])) {
-                $data['sport_id'] = Sport::where('slug', 'football')->value('id');
+            $sportsDomainId = CompetitionDomain::where('slug', CompetitionDomain::SLUG_SPORTS)->value('id');
+            $data['domain_id'] = $data['domain_id'] ?? $sportsDomainId;
+
+            if ($data['domain_id'] === $sportsDomainId) {
+                if (empty($data['sport_id'])) {
+                    $data['sport_id'] = Sport::where('slug', 'football')->value('id');
+                }
+            } else {
+                $data['sport_id'] = null;
             }
 
             return Competition::create($data);

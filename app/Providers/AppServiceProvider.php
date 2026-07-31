@@ -15,6 +15,9 @@ use App\Policies\PlayerPolicy;
 use App\Policies\RegistrationPolicy;
 use App\Policies\TeamPolicy;
 use App\Policies\UserPolicy;
+use App\Services\ScoringEngineRegistry;
+use App\Services\SportsScoringEngine;
+use App\Services\SubmissionScoringEngine;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
@@ -25,7 +28,12 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->singleton(ScoringEngineRegistry::class, function ($app) {
+            return new ScoringEngineRegistry(
+                $app->make(SportsScoringEngine::class),
+                $app->make(SubmissionScoringEngine::class),
+            );
+        });
     }
 
     public function boot(): void

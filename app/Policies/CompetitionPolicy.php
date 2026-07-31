@@ -61,4 +61,17 @@ class CompetitionPolicy
 
         return $user->hasPermissionTo('manage competitions');
     }
+
+    public function judge(User $user, Competition $competition): bool
+    {
+        if ($competition->judges()->where('user_id', $user->id)->exists()) {
+            return true;
+        }
+
+        if ($user->hasRole('organizer') || $user->hasRole('local_organizer')) {
+            return $competition->organizer_id === $user->id;
+        }
+
+        return $user->hasPermissionTo('manage competitions');
+    }
 }

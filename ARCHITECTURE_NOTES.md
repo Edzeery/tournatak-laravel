@@ -291,3 +291,24 @@ Step/field labels use `app.*` keys present in all four locale files
 5. Add translations for any new labels to all four locales (ar, en, fr, es)
    — all locale files must stay in sync.
 6. Run `migrate:fresh --seed`, the full test suite, Pint, and PHPStan.
+
+### Extension points (finalized, Phase 6)
+
+The platform is deliberately extended by **data + a small, well-known set of
+hooks**, never by touching sports-domain code:
+
+| Concern | Where to extend | Notes |
+|---|---|---|
+| New domain | `competition_domains` row (migration + seeder) + `CompetitionDomain::SLUGS` | localized names/descriptions required in all 4 locales |
+| New evaluation basis | `CompetitionEvaluationBasis` enum + a `ScoringEngineInterface` implementation registered in `AppServiceProvider` | registry falls back to the first engine; no code in `Match_`/`Submission` changes |
+| Wizard steps/fields | `CompetitionSetupService::stepsFor()` / `fieldsFor()` | match domains: `[domain, basics, format, review]`; submission: `[domain, basics, rounds, review]` |
+| Per-domain type/subtype | auto-provisioned by `CompetitionSetupService::provisionTypeFor()` | keeps `competitions.type_id`/`subtype_id` (NOT NULL) satisfied |
+| New sport | `sports` rows + `positions` rows | belongs to the sports domain only |
+| Vocab / labels | `app.*` translation keys in all 4 locale files | ar/en/fr/es must stay key-synced |
+| Public filtering | `Competition::scopeInDomains()` + `?domain=` on `competitions.index` | already wired for any new slug |
+| Visual identity | `--brand-*` tokens (`_variables.scss`) + `.text-brand`/`.btn-brand`/`.badge-domain` utilities | gold sports identity (`--primary`) stays untouched |
+| JS weight | dynamic `import()` chunks + page-scoped Vite entries | see Phase 5 bundle-split notes |
+
+The end-state acceptance test (from the plan) is still the guardrail: add a 6th
+domain by seeding one row + optional engine — with **no** changes to
+`Match_`, `MatchEvent`, or sports-domain code.

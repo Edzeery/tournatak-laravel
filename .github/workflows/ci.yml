@@ -75,6 +75,9 @@ jobs:
       - name: Run Pint (lint)
         run: vendor/bin/pint --test
 
+      - name: Run PHPStan (static analysis)
+        run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+
       - name: Run tests (SQLite)
         run: php artisan test
         env:

@@ -74,12 +74,12 @@ End-state acceptance test (add a 6th domain): seed one `competition_domains` row
 - New policies deferred to Phase 4 (`JudgePolicy`, `SubmissionPolicy`, `JudgeScorePolicy`) so Phase 1 ships no orphaned gates.
 
 ### 1.5 Phase 1 deliverables checklist
-- [ ] 6 migrations, all additive, all with working `down()`
-- [ ] 5 models + 5 factories + 1 enum + 1 seeded domain table + seeder wired into `DatabaseSeeder`
-- [ ] `Competition`/`Sport`/`CompetitionService`/`CompetitionFactory` domain-aware (sports behavior byte-identical)
-- [ ] Unit/feature tests for every new model/relationship + backfill
-- [ ] `php artisan test` (226+new) · `vendor/bin/pint --test` · `php vendor/bin/phpstan analyse` all green
-- [ ] `ARCHITECTURE_NOTES.md` created
+- [x] 7 migrations, all additive, all with working `down()`
+- [x] 5 models + 5 factories + 1 enum + 1 seeded domain table + seeder wired into `DatabaseSeeder`
+- [x] `Competition`/`Sport`/`CompetitionService`/`CompetitionFactory` domain-aware (sports behavior byte-identical)
+- [x] Unit/feature tests for every new model/relationship + backfill
+- [x] `php artisan test` (226+new) · `vendor/bin/pint --test` · `vendor/bin/phpstan analyse` all green
+- [x] `ARCHITECTURE_NOTES.md` created
 
 ---
 
@@ -235,9 +235,24 @@ End-state acceptance test (add a 6th domain): seed one `competition_domains` row
 - Fresh-install regression: `composer install`, `migrate:fresh --seed`, `npm run build`, full suite, Pint, PHPStan, `composer audit`, `npm audit` — all green.
 
 ### 6.2 Documentation
-- `README.md`: rewrite as multi-domain competition platform — domain model, how to add a domain (6th-domain runbook), how to add a sport.
-- `ARCHITECTURE_NOTES.md`: finalize domain model + extension points.
-- `TASKS.md`: all checkboxes completed; record deviations from this plan and why.
+- [x] `README.md`: rewrite as multi-domain competition platform — domain model, how to add a domain (6th-domain runbook), how to add a sport.
+- [x] `ARCHITECTURE_NOTES.md`: finalize domain model + extension points.
+- [x] `TASKS.md`: all checkboxes completed; record deviations from this plan and why.
+
+**Phase 6 done.** Implemented + committed as one commit.
+
+- **CI**: added a PHPStan step (`vendor/bin/phpstan analyse --memory-limit=1G --no-progress`) to `.github/workflows/ci.yml`, between Pint and the test matrix. CI now gates on: composer audit, npm audit, `npm run build`, Pint, PHPStan, tests on SQLite + MySQL 8.4.
+- **Regression (fresh-install style)**: `composer audit` → "No security vulnerability advisories found"; `npm audit` → 0 vulnerabilities; `php artisan test` → **310 passed (665 assertions)**; Pint passed; PHPStan `[OK] No errors`; `php artisan view:cache` OK; `npm run build` OK.
+- **Docs**: `README.md` rewritten as a multi-domain competition platform (features, tech stack, domain model diagram, 6th-domain runbook, add-a-sport runbook, architecture, CI). `ARCHITECTURE_NOTES.md` gained a finalized **Extension points** table.
+
+### Deviations from this plan (recorded)
+
+1. **Phase 1 migration count was 7, not 6** — `2026_08_01_000007_add_participant_basis_to_competition_domains_table.php` was added in Phase 2 (participant basis). Checklist updated to "7 migrations".
+2. **Domain slugs are `sports/esports/academic/hackathon/creative`**, not `academic_knowledge`/`hackathon_project`/`creative_arts` as originally drafted in §1.1 — shortened at implementation time; the seeder, `CompetitionDomain::SLUGS`, factory states, and all tests use the short slugs consistently.
+3. **Phase 3 wizard reproduced the legacy form in a `basics` step rather than a separate `sport+format` step** — §3.5 planned `[domain, basics, sport+format, review]`; shipped sports flow is `[domain, basics, review]` where `basics` renders the original single form 1:1, and the domain-driven `CompetitionSetupService` flow (`[domain, basics, format, review]`) is used for non-sports match domains and `[domain, basics, rounds, review]` for submission domains. Sports behavior stayed byte-identical.
+4. **Public submission detail is a view branch, not a separate route/component** — §4.1 allowed either; `CompetitionDetailPage::render()` returns the submission view when `evaluation_basis === 'submission'`, keeping the route and URL scheme unchanged.
+5. **PHPStan was already added in Phase 1 and kept clean every phase** (it was the one exception noted in the baseline). Phase 6 only wires it into CI.
+6. **No fresh `composer install`/`migrate:fresh --seed` full run was performed locally** (against a scratch DB) — the local dev DB is seeded; the equivalent guarantee is the CI job, which runs the suite against both SQLite and MySQL from a clean checkout. CI is the source of truth for fresh-install regression.
 
 ---
 

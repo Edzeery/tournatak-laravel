@@ -21,12 +21,15 @@ class CompetitionDomain extends Model
 
     const SLUG_CREATIVE = 'creative';
 
+    const SLUG_DESIGN = 'design';
+
     const SLUGS = [
         self::SLUG_SPORTS,
         self::SLUG_ESPORTS,
         self::SLUG_ACADEMIC,
         self::SLUG_HACKATHON,
         self::SLUG_CREATIVE,
+        self::SLUG_DESIGN,
     ];
 
     const PARTICIPANT_TEAM = 'team';

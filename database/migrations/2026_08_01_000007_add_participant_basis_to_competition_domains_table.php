@@ -21,6 +21,7 @@ return new class extends Migration
             'academic' => 'individual',
             'hackathon' => 'both',
             'creative' => 'both',
+            'design' => 'both',
         ];
 
         foreach ($bases as $slug => $basis) {

@@ -70,6 +70,18 @@ class CompetitionDomainSeeder extends Seeder
                 'participant_basis' => 'both',
                 'sort_order' => 5,
             ],
+            [
+                'name' => 'التصميم',
+                'name_en' => 'Design',
+                'name_fr' => 'Design',
+                'name_es' => 'Diseño',
+                'slug' => 'design',
+                'icon' => 'bi-brush',
+                'description' => 'Graphic design, UI/UX and visual creativity competitions.',
+                'evaluation_basis' => 'submission',
+                'participant_basis' => 'both',
+                'sort_order' => 6,
+            ],
         ];
 
         foreach ($domains as $domain) {

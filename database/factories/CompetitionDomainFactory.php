@@ -53,4 +53,19 @@ class CompetitionDomainFactory extends Factory
             'sort_order' => 1,
         ]);
     }
+
+    public function design(): static
+    {
+        return $this->state([
+            'name' => 'التصميم',
+            'name_en' => 'Design',
+            'name_fr' => 'Design',
+            'name_es' => 'Diseño',
+            'slug' => CompetitionDomain::SLUG_DESIGN,
+            'icon' => 'bi-brush',
+            'evaluation_basis' => 'submission',
+            'participant_basis' => 'both',
+            'sort_order' => 6,
+        ]);
+    }
 }

@@ -95,6 +95,20 @@ return new class extends Migration
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name' => 'التصميم',
+                'name_en' => 'Design',
+                'name_fr' => 'Design',
+                'name_es' => 'Diseño',
+                'slug' => 'design',
+                'icon' => 'bi-brush',
+                'description' => 'Graphic design, UI/UX and visual creativity competitions.',
+                'evaluation_basis' => 'submission',
+                'is_active' => true,
+                'sort_order' => 6,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 

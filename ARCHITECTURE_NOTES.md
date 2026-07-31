@@ -312,3 +312,22 @@ hooks**, never by touching sports-domain code:
 The end-state acceptance test (from the plan) is still the guardrail: add a 6th
 domain by seeding one row + optional engine — with **no** changes to
 `Match_`, `MatchEvent`, or sports-domain code.
+
+### Verified: 6th domain ("design") added via runbook only
+
+Following the runbook above, the demo **design** domain was added end-to-end:
+
+- Row added to `2026_08_01_000001_create_competition_domains_table.php`
+  (no `participant_basis` there — column lands later in migration 000007,
+  which also backfills `'design' => 'both'`), `CompetitionDomainSeeder`,
+  and `CompetitionDomain::SLUG_DESIGN` / `SLUGS`.
+- `evaluation_basis = submission`, `participant_basis = both`, so it reuses the
+  existing submission wizard flow (`[domain, basics, rounds, review]`),
+  `SubmissionScoringEngine` (no new engine), team + individual registration,
+  and the public submission detail.
+- Factory `design()` state + 2 new tests:
+  `CompetitionDomainTest::test_design_domain_is_submission_based_and_supports_both_participants`
+  and `CreateCompetitionWizardTest::test_design_domain_extension_point_produces_submission_competition_without_new_engine`.
+- Homepage card appears automatically (view iterates `competition_domains`).
+- Result: **312 tests / 682 assertions** green, Pint + PHPStan clean, build
+  sizes unchanged, audits clean. Zero edits to `Match_`/`MatchEvent`/sports code.

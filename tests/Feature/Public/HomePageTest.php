@@ -15,6 +15,7 @@ test('home page shows all competition domain cards', function () {
     $response->assertSee('Academic & Quiz');
     $response->assertSee('Hackathons');
     $response->assertSee('Creative Arts');
+    $response->assertSee('Design');
 });
 
 test('teams page renders', function () {

@@ -30,9 +30,9 @@ class CompetitionDomainTest extends TestCase
     {
         $domains = CompetitionDomain::orderBy('sort_order')->get();
 
-        $this->assertCount(5, $domains);
+        $this->assertCount(6, $domains);
         $this->assertSame(
-            ['sports', 'esports', 'academic', 'hackathon', 'creative'],
+            ['sports', 'esports', 'academic', 'hackathon', 'creative', 'design'],
             $domains->pluck('slug')->all(),
         );
     }
@@ -52,9 +52,22 @@ class CompetitionDomainTest extends TestCase
     {
         $sports = CompetitionDomain::where('slug', CompetitionDomain::SLUG_SPORTS)->firstOrFail();
         $academic = CompetitionDomain::where('slug', CompetitionDomain::SLUG_ACADEMIC)->firstOrFail();
+        $design = CompetitionDomain::where('slug', CompetitionDomain::SLUG_DESIGN)->firstOrFail();
 
         $this->assertTrue($sports->isSports());
         $this->assertFalse($academic->isSports());
+        $this->assertFalse($design->isSports());
+    }
+
+    public function test_design_domain_is_submission_based_and_supports_both_participants(): void
+    {
+        $design = CompetitionDomain::where('slug', CompetitionDomain::SLUG_DESIGN)->firstOrFail();
+
+        $this->assertTrue($design->usesSubmissionEvaluation());
+        $this->assertFalse($design->usesMatchEvaluation());
+        $this->assertTrue($design->supportsTeams());
+        $this->assertTrue($design->supportsIndividuals());
+        $this->assertSame('Design', $design->localizedName('en'));
     }
 
     public function test_localized_name_falls_back_to_arabic(): void

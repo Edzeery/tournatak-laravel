@@ -7,6 +7,8 @@ use App\Models\CompetitionSubtype;
 use App\Models\CompetitionType;
 use App\Models\Sport;
 use App\Models\User;
+use App\Services\ScoringEngineRegistry;
+use App\Services\SubmissionScoringEngine;
 use Livewire\Livewire;
 
 test('wizard stays on domain step when no domain selected', function () {
@@ -121,4 +123,40 @@ test('hackathon wizard step navigation validates rounds fields', function () {
         ->call('nextStep')
         ->assertHasErrors(['rounds_count'])
         ->assertSet('step', 'rounds');
+});
+
+test('design domain extension point produces submission competition without new engine', function () {
+    $admin = User::factory()->create();
+    $admin->assignRole('admin');
+
+    $design = CompetitionDomain::where('slug', CompetitionDomain::SLUG_DESIGN)->firstOrFail();
+
+    Livewire::actingAs($admin)
+        ->test(CreateCompetitionPage::class)
+        ->call('selectDomain', $design->id)
+        ->assertSet('domain_id', $design->id)
+        ->assertSet('step', 'basics')
+        ->set('name', 'Poster Design Contest 2026')
+        ->set('location', 'Rabat')
+        ->set('start_date', '2026-11-01 09:00')
+        ->set('end_date', '2026-11-02 18:00')
+        ->set('description', 'Design a competition poster')
+        ->call('nextStep')
+        ->assertSet('step', 'rounds')
+        ->set('rounds_count', 2)
+        ->set('judging_criteria', 'Originality, composition, execution')
+        ->call('nextStep')
+        ->assertSet('step', 'review')
+        ->call('store')
+        ->assertRedirect(route('admin.competitions.index'));
+
+    $competition = Competition::where('name', 'Poster Design Contest 2026')->firstOrFail();
+
+    $this->assertSame($design->id, $competition->domain_id);
+    $this->assertNull($competition->sport_id);
+    $this->assertSame('submission', $competition->evaluationBasis());
+    $this->assertInstanceOf(
+        SubmissionScoringEngine::class,
+        app(ScoringEngineRegistry::class)->forCompetition($competition),
+    );
 });

@@ -254,6 +254,23 @@ End-state acceptance test (add a 6th domain): seed one `competition_domains` row
 5. **PHPStan was already added in Phase 1 and kept clean every phase** (it was the one exception noted in the baseline). Phase 6 only wires it into CI.
 6. **No fresh `composer install`/`migrate:fresh --seed` full run was performed locally** (against a scratch DB) — the local dev DB is seeded; the equivalent guarantee is the CI job, which runs the suite against both SQLite and MySQL from a clean checkout. CI is the source of truth for fresh-install regression.
 
+### Post-Phase 6 verification: demo 6th domain ("design")
+
+Per the extension-points decision, the acceptance test was actually executed — a
+**design** domain (`evaluation_basis = submission`, `participant_basis = both`)
+was added **only** through the documented extension points:
+
+- Seeder + migration rows, `CompetitionDomain::SLUG_DESIGN`/`SLUGS`, migration
+  000007 backfill, factory `design()` state — **no** edits to `Match_`,
+  `MatchEvent`, scoring engines, wizard service, or any sports-domain code.
+- 2 new tests (domain helpers + wizard→submission scoring resolution) prove the
+  existing `SubmissionScoringEngine` + `ScoringEngineRegistry` resolve
+  automatically and the submission wizard `[domain, basics, rounds, review]`
+  drives it. Homepage card appears with no view change.
+- Quality gate: **312 tests / 682 assertions** green; Pint + PHPStan clean;
+  `npm run build` sizes unchanged; composer/npm audits clean; view cache OK.
+- Full detail in `ARCHITECTURE_NOTES.md` ("Verified: 6th domain …").
+
 ---
 
 ## Deferred (out of scope — will not ship)

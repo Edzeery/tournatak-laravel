@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Admin\CompetitionDomainsPage;
 use App\Livewire\Admin\Competitions\CompetitionsPage;
 use App\Livewire\Admin\Competitions\CreateCasualCompetitionPage;
 use App\Livewire\Admin\Competitions\CreateCompetitionPage;
@@ -272,6 +273,11 @@ Route::middleware(['auth'])->prefix('panel')->name('admin.')->group(function () 
         Route::get('/sports', SportsPage::class)->name('sports.index');
         Route::get('/sports/create', CreateSportPage::class)->name('sports.create');
         Route::get('/sports/{sport}/edit', EditSportPage::class)->name('sports.edit');
+    });
+
+    // ── Competition Domains ────────────────────────────────────────
+    Route::middleware(['permission:manage settings'])->group(function () {
+        Route::get('/domains', CompetitionDomainsPage::class)->name('domains.index');
     });
 
     // ── Positions ────────────────────────────────────────────────────

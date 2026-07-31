@@ -136,6 +136,17 @@ class Competition extends Model
         return $query->where('competition_profile', self::PROFILE_CASUAL);
     }
 
+    public function scopeInDomains($query, ?string $domainSlug)
+    {
+        if ($domainSlug === null || $domainSlug === '') {
+            return $query;
+        }
+
+        return $query->whereHas('domain', function ($q) use ($domainSlug) {
+            $q->where('slug', $domainSlug);
+        });
+    }
+
     public function isCasual(): bool
     {
         return $this->competition_profile === self::PROFILE_CASUAL;

@@ -145,6 +145,38 @@ Step/field labels use `app.*` keys present in all four locale files
 `domain`, `format`, `rounds_count`, `judging_criteria`, `general_competition_type`,
 `round`, `round_group_stage`, `round_knockout_stage`).
 
+### Phase 3 — Homepage, navigation & information architecture
+
+- **Homepage** (`Home/HomePage`): hero copy is domain-neutral (`home_hero_*`
+  keys); new **domain showcase** section renders one card per active
+  `CompetitionDomain` (icon, `localizedName()`, description, link to
+  `route('competitions.index', ['domain' => $domain->slug])`); new
+  **how-it-works** section (3 domain-neutral steps).
+- **Public nav** (`layouts/app.blade.php`): a **Domains** dropdown lists active
+  domains and links to filtered `/competitions?domain={slug}`; mobile offcanvas
+  gained a matching sub-list. The "Competitions" nav item's active class now
+  excludes `?domain` so filtered pages highlight the Domains dropdown instead.
+- **Admin nav** (`layouts/admin.blade.php`): sidebar section retitled
+  "Competitions & Domains"; read-only **Domains** page at `/panel/domains`
+  (`Admin/CompetitionDomainsPage`, permission `manage settings`) listing seeded
+  rows with competition counts. No CRUD in Phase 3.
+- **Domain filter** (`Public/CompetitionsPage`): `#[Url(as: 'domain')]` +
+  `Competition::scopeInDomains()` (whereHas domain slug); filter chip bar in the
+  listing; `activeDomain` drives the hero badge.
+- **Dynamic vocabulary**: the public detail hero badge and admin competition
+  index/edit pages show the domain badge and use submission-vocabulary keys
+  (`rounds`, `submissions`, `judging`, `submission_domain_manage_hint`) for
+  submission-based competitions; match-domain pages are unchanged.
+- **Create wizard** (`Admin/Competitions/CreateCompetitionPage`): step-driven,
+  route unchanged (`admin.competitions.create`). Step 1 = domain cards;
+  sports flow = `[domain, basics, review]` where "basics" reproduces the
+  previous single form 1:1 (name/type/subtype/location/dates/description +
+  `CompetitionService::create()` + `getValidationRules()`); submission flow =
+  `[domain, basics, rounds, review]` driven by `CompetitionSetupService`
+  (rounds step = `rounds_count` + `judging_criteria`, stored in
+  `format_config`) with per-domain type/subtype provisioned via
+  `provisionTypeFor()`. Stepper + review summary; flatpickr on datetime fields.
+
 ### Adding a 6th domain (runbook)
 
 1. Add the row to `2026_08_01_000001_create_competition_domains_table.php`

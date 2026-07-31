@@ -27,6 +27,7 @@
                         <tr>
                             <th>#</th>
                             <th>{{ __('app.competition') }}</th>
+                            <th>{{ __('app.domain') }}</th>
                             <th>{{ __('app.type') }}</th>
                             <th>{{ __('app.participant_type') }}</th>
                             <th>{{ __('app.organizer') }}</th>
@@ -41,6 +42,16 @@
                             <tr wire:key="{{ $competition->id }}">
                                 <td class="text-chrome-muted">{{ $competition->id }}</td>
                                 <td class="fw-bold">{{ $competition->name }}</td>
+                                <td>
+                                    @if ($competition->domain)
+                                        <span class="badge badge-sport">
+                                            <i class="bi {{ $competition->domain->icon }} me-1"></i>
+                                            {{ $competition->domain->localizedName() }}
+                                        </span>
+                                    @else
+                                        <span>-</span>
+                                    @endif
+                                </td>
                                 <td>{{ $competition->type?->name ?? '-' }}</td>
                                 <td>
                                     @if($competition->type?->participant_type === 'individual')
@@ -82,7 +93,7 @@
                             </tr>
                         @empty
                             <tr wire:loading.remove>
-                                <td colspan="9">
+                                <td colspan="10">
                                     <x-empty-state icon="bi-trophy" title="{{ __('app.no_competitions_found') }}" message="{{ __('app.no_results_found') }}" />
                                 </td>
                             </tr>

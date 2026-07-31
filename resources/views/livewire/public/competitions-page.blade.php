@@ -3,7 +3,8 @@
         <div class="container hero-content">
             <div class="text-center position-relative" class="pos-rel-z2">
                 <div class="hero-badge mx-auto mb-3 d-inline-flex">
-                    <i class="bi bi-trophy-fill"></i> {{ __('app.all_competitions') }}
+                    <i class="bi bi-trophy-fill"></i>
+                    {{ $activeDomain ? $activeDomain->localizedName() : __('app.all_competitions') }}
                 </div>
                 <h1 class="fw-bold mb-3 fs-4xl">{{ __('app.competitions_hero_title') }}</h1>
                 <p class="text-theme-muted hero-desc">
@@ -15,6 +16,21 @@
     </section>
 
     <div class="container py-5 mt-neg-20">
+        @if ($domains->count())
+            <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center">
+                <a href="{{ route('competitions.index') }}"
+                    class="btn btn-sm rounded-pill {{ $activeDomain ? 'btn-outline-secondary' : 'btn-warning fw-bold' }}">
+                    {{ __('app.all_domains') }}
+                </a>
+                @foreach ($domains as $chipDomain)
+                    <a href="{{ route('competitions.index', ['domain' => $chipDomain->slug]) }}"
+                        class="btn btn-sm rounded-pill {{ $activeDomain?->slug === $chipDomain->slug ? 'btn-warning fw-bold' : 'btn-outline-secondary' }}">
+                        <i class="bi {{ $chipDomain->icon }}"></i> {{ $chipDomain->localizedName() }}
+                    </a>
+                @endforeach
+            </div>
+        @endif
+
         @if($competitions->count())
             <div class="row g-4">
                 @foreach($competitions as $competition)

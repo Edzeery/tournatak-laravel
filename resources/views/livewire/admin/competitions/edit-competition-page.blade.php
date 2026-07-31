@@ -16,6 +16,21 @@
         </x-slot:action>
     </x-section-header>
 
+    @if ($competition->domain)
+        <div class="mb-3">
+            <span class="badge badge-sport fs-base">
+                <i class="bi {{ $competition->domain->icon }} me-1"></i>
+                {{ $competition->domain->localizedName() }}
+            </span>
+            @if ($competition->usesSubmissionEvaluation())
+                <span class="text-chrome-muted fs-sm ms-2">
+                    <i class="bi bi-info-circle me-1"></i>
+                    {{ __('app.submission_domain_manage_hint') }}
+                </span>
+            @endif
+        </div>
+    @endif
+
     <div class="card border-0">
         <div class="card-body p-4">
             <form wire:submit="update">

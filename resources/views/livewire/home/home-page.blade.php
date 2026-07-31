@@ -5,14 +5,14 @@
             <div class="row align-items-center">
                 <div class="col-lg-7">
                     <div class="hero-badge animate-in">
-                        <i class="bi bi-lightning-charge-fill"></i> {{ __('app.hero_tagline') }}
+                        <i class="bi bi-lightning-charge-fill"></i> {{ __('app.home_hero_tagline') }}
                     </div>
                     <h1 class="hero-title mb-4 animate-in animate-delay-1">
-                        {{ __('app.hero_title') }}<br>
-                        <span class="text-gold">{{ __('app.hero_title2') }}</span>
+                        {{ __('app.home_hero_title') }}<br>
+                        <span class="text-gold">{{ __('app.home_hero_title2') }}</span>
                     </h1>
                     <p class="hero-subtitle mb-5 animate-in animate-delay-2">
-                        {{ __('app.hero_desc') }}
+                        {{ __('app.home_hero_desc') }}
                     </p>
                     <div class="d-flex gap-3 flex-wrap animate-in animate-delay-3">
                         @auth
@@ -93,6 +93,68 @@
                         <div class="stat-label">{{ __('app.player_stat_label') }}</div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- Domain Showcase --}}
+    @if ($domains->count())
+        <section class="py-5">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge"><i class="bi bi-grid-1x2-fill"></i> {{ __('app.explore_domains') }}</div>
+                    <h2>{{ __('app.explore_domains_title') }}</h2>
+                    <p>{{ __('app.explore_domains_desc') }}</p>
+                </div>
+
+                <div class="row g-4">
+                    @foreach ($domains as $domain)
+                        <div class="col-md-6 col-lg-4 col-xl">
+                            <a href="{{ route('competitions.index', ['domain' => $domain->slug]) }}"
+                                class="text-decoration-none">
+                                <div class="competition-card h-100 text-center">
+                                    <div class="card-header-custom"></div>
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="stat-icon bg-warning bg-opacity-10 text-gold mx-auto mb-3">
+                                            <i class="bi {{ $domain->icon }}"></i>
+                                        </div>
+                                        <h5 class="card-title mb-2">{{ $domain->localizedName() }}</h5>
+                                        <p class="text-muted fs-md mb-4 flex-grow-1">{{ $domain->description }}</p>
+                                        <span class="btn btn-outline-sport btn-sm align-self-center">
+                                            {{ __('app.browse_domain') }} <i
+                                                class="bi bi-arrow-{{ isRtl() ? 'left' : 'right' }}"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    {{-- How It Works --}}
+    <section class="py-5">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge"><i class="bi bi-signpost-split"></i> {{ __('app.how_it_works') }}</div>
+                <h2>{{ __('app.how_it_works_title') }}</h2>
+                <p>{{ __('app.how_it_works_desc') }}</p>
+            </div>
+
+            <div class="row g-4">
+                @for ($i = 1; $i <= 3; $i++)
+                    <div class="col-md-4">
+                        <div class="stat-card h-100 text-center">
+                            <div class="stat-icon stat-icon-blue mx-auto mb-3">
+                                <span class="fw-bold fs-4">{{ $i }}</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">{{ __('app.how_step_' . $i . '_title') }}</h5>
+                            <p class="text-muted fs-md mb-0">{{ __('app.how_step_' . $i . '_desc') }}</p>
+                        </div>
+                    </div>
+                @endfor
             </div>
         </div>
     </section>

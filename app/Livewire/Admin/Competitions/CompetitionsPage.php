@@ -34,7 +34,7 @@ class CompetitionsPage extends Component
     {
         return view('livewire.admin.competitions.competitions-page', [
             'title' => __('app.manage_competitions'),
-            'competitions' => Competition::with('organizer', 'type')->latest()->paginate(10),
+            'competitions' => Competition::with('organizer', 'type', 'domain')->latest()->paginate(10),
         ]);
     }
 }

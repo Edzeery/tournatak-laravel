@@ -202,8 +202,27 @@ return [
     'browse_teams_desc' => 'Descubre los equipos que participan en competiciones',
     'points' => 'puntos',
     'are_you_ready' => '¿Estás listo para comenzar?',
-    'cta_join_desc' => 'Únete a Tournatak y gestiona tu propio torneo o registra tu equipo y participa en competiciones deportivas',
+    'cta_join_desc' => 'Únete a Tournatak para lanzar tu propia competición o participar en cualquier reto — en todos los ámbitos',
     'sign_up_now' => 'Regístrate gratis ahora',
+
+    // Vitrina de dominios y cómo funciona
+    'home_hero_tagline' => 'Una plataforma, todas las competiciones',
+    'home_hero_title' => 'Organiza y gestiona',
+    'home_hero_title2' => 'Cualquier competición',
+    'home_hero_desc' => 'Una plataforma multi-dominio para deportes, esports, concursos académicos, hackatones y retos creativos. Gestiona participantes y rondas — todo en un solo lugar.',
+    'explore_domains' => 'Dominios',
+    'explore_domains_title' => 'Explora por dominio',
+    'explore_domains_desc' => 'Elige tu campo — de torneos deportivos a maratones de programación',
+    'browse_domain' => 'Explorar',
+    'how_it_works' => 'Cómo funciona',
+    'how_it_works_title' => 'Lanza cualquier competición en 3 pasos',
+    'how_it_works_desc' => 'Un flujo sencillo que funciona para cada dominio',
+    'how_step_1_title' => 'Elige un dominio',
+    'how_step_1_desc' => 'Elige tu tipo de competición — deportes, esports, académico, hackathon o creativo.',
+    'how_step_2_title' => 'Configúralo',
+    'how_step_2_desc' => 'Define rondas, criterios y reglas. La plataforma se encarga de la organización.',
+    'how_step_3_title' => 'Compite y clasifícate',
+    'how_step_3_desc' => 'Los participantes se unen, los resultados se registran y las clasificaciones se actualizan automáticamente.',
 
     // Página de registro extras
     'join_community' => ' la comunidad deportiva',
@@ -1391,6 +1410,12 @@ return [
     'evaluation_basis_match' => 'Basado en partidos',
     'evaluation_basis_submission' => 'Basado en envíos',
 
+    // Vocabulario de dominios
+    'rounds' => 'Rondas',
+    'submissions' => 'Envíos',
+    'judging' => 'Evaluación',
+    'submission_domain_manage_hint' => 'Esta es una competición basada en envíos — las rondas, envíos y evaluaciones se gestionan desde el panel de la competición.',
+
     // Submission statuses
     'status_pending' => 'Pendiente',
     'status_under_review' => 'En revisión',
@@ -1413,4 +1438,19 @@ return [
     'step_format' => 'Deporte y formato',
     'step_rounds' => 'Rondas y evaluación',
     'step_review' => 'Revisión',
+    'select_domain_title' => 'Elige un dominio',
+    'select_domain_desc' => 'Elige el dominio que se adapte a tu competición — el formulario se adapta a él',
+    'wizard_continue' => 'Continuar',
+    'wizard_back' => 'Atrás',
+    'review_competition_desc' => 'Revisa tus datos antes de crear la competición',
+
+    // Dominios de competición
+    'domains' => 'Dominios',
+    'all_domains' => 'Todos los dominios',
+    'competitions_domains' => 'Competiciones y dominios',
+    'page_title_manage_domains' => 'Dominios de competición',
+    'domains_desc' => 'Las categorías de dominio que impulsan cada competición de la plataforma',
+    'evaluation_basis' => 'Evaluación',
+    'participant_basis' => 'Participantes',
+    'competitions_count' => 'Competiciones',
 ];

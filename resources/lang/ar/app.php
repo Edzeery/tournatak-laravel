@@ -202,8 +202,27 @@ return [
     'browse_teams_desc' => 'تعرف على الفرق المشاركة في البطولات',
     'points' => 'نقطة',
     'are_you_ready' => 'هل أنت مستعد للبدء؟',
-    'cta_join_desc' => 'انضم إلى منصة تورناتك وأدر بطولتك الخاصة أو سجّل فريقك وشارك في المسابقات الرياضية',
+    'cta_join_desc' => 'انضم إلى منصة تورناتك وأطلق مسابقتك الخاصة أو شارك في أي تحدٍ — في كل المجالات',
     'sign_up_now' => 'سجل مجاناً الآن',
+
+    // عرض المجالات وكيفية العمل
+    'home_hero_tagline' => 'منصة واحدة، كل المسابقات',
+    'home_hero_title' => 'نظّم وأدر',
+    'home_hero_title2' => 'أي مسابقة',
+    'home_hero_desc' => 'منصة متعددة المجالات للرياضات والرياضات الإلكترونية والمسابقات الأكاديمية والهاكاثونات والتحديات الإبداعية. أدر المشاركين والجولات — كل ذلك في مكان واحد.',
+    'explore_domains' => 'المجالات',
+    'explore_domains_title' => 'استكشف حسب المجال',
+    'explore_domains_desc' => 'اختر مجالك — من البطولات الرياضية إلى ماراثونات البرمجة',
+    'browse_domain' => 'تصفح',
+    'how_it_works' => 'كيف يعمل',
+    'how_it_works_title' => 'أطلق أي مسابقة في 3 خطوات',
+    'how_it_works_desc' => 'مسار بسيط يعمل مع كل مجال',
+    'how_step_1_title' => 'اختر مجالاً',
+    'how_step_1_desc' => 'اختر نوع مسابقتك — رياضات، رياضات إلكترونية، أكاديمي، هاكاثون أو إبداعي.',
+    'how_step_2_title' => 'أعدّ الإعدادات',
+    'how_step_2_desc' => 'حدد الجولات والمعايير والقواعد. المنصة تتولى التنظيم.',
+    'how_step_3_title' => 'تنافس وتصنّف',
+    'how_step_3_desc' => 'ينضم المشاركون، تُسجل النتائج وتتحدث الترتيبات تلقائياً.',
 
     // Register Page Extra
     'join_community' => 'مجتمع البطولات ',
@@ -1423,6 +1442,12 @@ return [
     'evaluation_basis_match' => 'على أساس المباريات',
     'evaluation_basis_submission' => 'على أساس التقديمات',
 
+    // Domain vocabulary
+    'rounds' => 'الجولات',
+    'submissions' => 'التقديمات',
+    'judging' => 'التحكيم',
+    'submission_domain_manage_hint' => 'هذه مسابقة تعتمد على التقديمات — تُدار الجولات والتقديمات والتحكيم من لوحة إدارة المسابقة.',
+
     // Submission statuses
     'status_pending' => 'قيد الانتظار',
     'status_under_review' => 'قيد المراجعة',
@@ -1445,4 +1470,19 @@ return [
     'step_format' => 'الرياضة والنظام',
     'step_rounds' => 'الجولات والتحكيم',
     'step_review' => 'المراجعة',
+    'select_domain_title' => 'اختر المجال',
+    'select_domain_desc' => 'اختر المجال المناسب لمسابقتك — سيتكيّف النموذج معه',
+    'wizard_continue' => 'متابعة',
+    'wizard_back' => 'رجوع',
+    'review_competition_desc' => 'راجع تفاصيلك قبل إنشاء المسابقة',
+
+    // Competition domains
+    'domains' => 'المجالات',
+    'all_domains' => 'كل المجالات',
+    'competitions_domains' => 'البطولات والمجالات',
+    'page_title_manage_domains' => 'مجالات المسابقات',
+    'domains_desc' => 'فئات المجالات التي تخدم كل مسابقة على المنصة',
+    'evaluation_basis' => 'آلية التقييم',
+    'participant_basis' => 'المشاركون',
+    'competitions_count' => 'المسابقات',
 ];

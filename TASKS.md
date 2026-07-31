@@ -160,12 +160,12 @@ End-state acceptance test (add a 6th domain): seed one `competition_domains` row
 - **Tests:** `tests/Feature/Livewire/CreateCompetitionWizardTest.php` — choose `sports` ⇒ produces official competition (type/subtype/sport preserved); choose `hackathon_project` ⇒ produces competition with domain_id + provisioned type/subtype; existing football create/edit flows asserted end-to-end unchanged.
 
 ### 3.6 Phase 3 deliverables checklist
-- [ ] Homepage redesigned (domain showcase + how-it-works) — 200 preserved
-- [ ] Public + admin navigation domain-aware
-- [ ] Public listing domain filter
-- [ ] Domain-first creation wizard (sports flow identical)
-- [ ] Domains admin page (read-only)
-- [ ] Translations ×4 · tests green
+- [x] Homepage redesigned (domain showcase + how-it-works) — 200 preserved
+- [x] Public + admin navigation domain-aware
+- [x] Public listing domain filter
+- [x] Domain-first creation wizard (sports flow identical)
+- [x] Domains admin page (read-only)
+- [x] Translations ×4 · tests green
 
 ---
 

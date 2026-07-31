@@ -6,8 +6,13 @@
             <div class="row align-items-center g-4">
                 <div class="col-lg-7">
                     <div class="hero-badge d-inline-flex mb-3">
-                        <i class="bi bi-trophy-fill me-1"></i>
-                        {{ $competition->type?->name ?? __('app.competition') }}
+                        @if ($competition->usesSubmissionEvaluation() && $competition->domain)
+                            <i class="bi {{ $competition->domain->icon }} me-1"></i>
+                            {{ $competition->domain->localizedName() }}
+                        @else
+                            <i class="bi bi-trophy-fill me-1"></i>
+                            {{ $competition->type?->name ?? __('app.competition') }}
+                        @endif
                     </div>
                     <h1 class="fw-bold mb-2 fs-4xl">{{ $competition->name }}</h1>
                     <div class="d-flex flex-wrap gap-2 align-items-center mt-3">

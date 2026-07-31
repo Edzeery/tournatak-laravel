@@ -33,6 +33,10 @@
     {{-- Top Progress Bar --}}
     <div id="progress-bar" class="progress-bar-top"></div>
 
+    @php
+        $navDomains = \App\Models\CompetitionDomain::where('is_active', true)->orderBy('sort_order')->get();
+    @endphp
+
     {{-- Navbar --}}
     <nav class="navbar navbar-expand-lg navbar-main sticky-top" id="mainNav">
         <div class="container">
@@ -58,8 +62,25 @@
                             {{ __('app.home') }}
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {{ request()->query('domain') ? 'active' : '' }}"
+                            href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ __('app.domains') }}
+                        </a>
+                        <ul class="dropdown-menu border-0 shadow-lg rounded-lg-custom bg-chrome-2 px-2">
+                            @foreach ($navDomains as $navDomain)
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2 {{ request()->query('domain') === $navDomain->slug ? 'active lang-item-active' : '' }}"
+                                        href="{{ route('competitions.index', ['domain' => $navDomain->slug]) }}">
+                                        <i class="bi {{ $navDomain->icon }} text-gold"></i>
+                                        <span>{{ $navDomain->localizedName() }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('competitions.*') ? 'active' : '' }}"
+                        <a class="nav-link {{ request()->routeIs('competitions.*') && ! request()->query('domain') ? 'active' : '' }}"
                             href="{{ route('competitions.index') }}">
                             {{ __('app.competitions') }}
                         </a>
@@ -201,7 +222,23 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-mobile {{ request()->routeIs('competitions.*') ? 'active' : '' }}"
+                    <a class="nav-link nav-link-mobile {{ request()->query('domain') ? 'active' : '' }}"
+                        href="{{ route('competitions.index') }}">
+                        <i class="bi bi-grid-1x2"></i> {{ __('app.domains') }}
+                    </a>
+                    <ul class="nav flex-column ps-3 offcanvas-nav-sub">
+                        @foreach ($navDomains as $navDomain)
+                            <li>
+                                <a class="nav-link nav-link-mobile fs-sm {{ request()->query('domain') === $navDomain->slug ? 'active' : '' }}"
+                                    href="{{ route('competitions.index', ['domain' => $navDomain->slug]) }}">
+                                    <i class="bi {{ $navDomain->icon }}"></i> {{ $navDomain->localizedName() }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-mobile {{ request()->routeIs('competitions.*') && ! request()->query('domain') ? 'active' : '' }}"
                         href="{{ route('competitions.index') }}">
                         <i class="bi bi-trophy"></i> {{ __('app.competitions') }}
                     </a>

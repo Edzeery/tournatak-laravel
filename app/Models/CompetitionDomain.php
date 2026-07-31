@@ -57,7 +57,7 @@ class CompetitionDomain extends Model
 
     public function competitions(): HasMany
     {
-        return $this->hasMany(Competition::class);
+        return $this->hasMany(Competition::class, 'domain_id');
     }
 
     public function isSports(): bool

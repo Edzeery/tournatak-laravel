@@ -5,6 +5,18 @@ test('home page renders successfully', function () {
     $response->assertStatus(200);
 });
 
+test('home page shows all competition domain cards', function () {
+    $this->get('/lang/en')->assertRedirect();
+
+    $response = $this->get('/');
+    $response->assertOk();
+    $response->assertSee('Sports');
+    $response->assertSee('Esports');
+    $response->assertSee('Academic & Quiz');
+    $response->assertSee('Hackathons');
+    $response->assertSee('Creative Arts');
+});
+
 test('teams page renders', function () {
     $response = $this->get('/teams');
     $response->assertStatus(200);

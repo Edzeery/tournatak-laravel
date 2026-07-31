@@ -202,8 +202,27 @@ return [
     'browse_teams_desc' => 'Découvrez les équipes participant aux compétitions',
     'points' => 'points',
     'are_you_ready' => 'Êtes-vous prêt à commencer ?',
-    'cta_join_desc' => 'Rejoignez Tournatak et gérez votre propre tournoi ou inscrivez votre équipe et participez aux compétitions sportives',
+    'cta_join_desc' => 'Rejoignez Tournatak pour lancer votre propre compétition ou participer à n\'importe quel défi — dans tous les domaines',
     'sign_up_now' => 'S\'inscrire gratuitement',
+
+    // Vitrine des domaines et fonctionnement
+    'home_hero_tagline' => 'Une plateforme, toutes les compétitions',
+    'home_hero_title' => 'Organisez et gérez',
+    'home_hero_title2' => 'Toute compétition',
+    'home_hero_desc' => 'Une plateforme multi-domaines pour les sports, l\'esport, les concours académiques, les hackathons et les défis créatifs. Gérez participants et manches — au même endroit.',
+    'explore_domains' => 'Domaines',
+    'explore_domains_title' => 'Explorer par domaine',
+    'explore_domains_desc' => 'Choisissez votre terrain — des tournois sportifs aux marathons de code',
+    'browse_domain' => 'Parcourir',
+    'how_it_works' => 'Comment ça marche',
+    'how_it_works_title' => 'Lancez n\'importe quelle compétition en 3 étapes',
+    'how_it_works_desc' => 'Un parcours simple pour chaque domaine',
+    'how_step_1_title' => 'Choisissez un domaine',
+    'how_step_1_desc' => 'Choisissez votre type de compétition — sport, esport, académique, hackathon ou créatif.',
+    'how_step_2_title' => 'Configurez',
+    'how_step_2_desc' => 'Définissez les manches, critères et règles. La plateforme s\'occupe de l\'organisation.',
+    'how_step_3_title' => 'Competez et classez',
+    'how_step_3_desc' => 'Les participants rejoignent, les résultats sont enregistrés et les classements se mettent à jour automatiquement.',
 
     // Page d'inscription supplémentaire
     'join_community' => ' la communauté sportive',
@@ -1412,11 +1431,18 @@ return [
     'individual_registration_created' => 'Inscription individuelle créée avec succès',
     'registration_already_exists' => 'Cet utilisateur est déjà inscrit à cette compétition',
     'team_registration_created' => 'Inscription d\'équipe créée avec succès',
+    'registration_team_already_exists' => 'Cette équipe est déjà inscrite à cette compétition',
     'registration_domain_participant_not_supported' => 'Cette compétition n\'accepte pas ce type de participant',
 
     // Evaluation basis
     'evaluation_basis_match' => 'Basé sur les matchs',
     'evaluation_basis_submission' => 'Basé sur les soumissions',
+
+    // Vocabulaire des domaines
+    'rounds' => 'Tours',
+    'submissions' => 'Soumissions',
+    'judging' => 'Jugement',
+    'submission_domain_manage_hint' => 'Ceci est une compétition basée sur les soumissions — les tours, soumissions et jugements sont gérés depuis le panneau de la compétition.',
 
     // Submission statuses
     'status_pending' => 'En attente',
@@ -1440,4 +1466,19 @@ return [
     'step_format' => 'Sport & format',
     'step_rounds' => 'Tours & jugement',
     'step_review' => 'Vérification',
+    'select_domain_title' => 'Choisissez un domaine',
+    'select_domain_desc' => 'Choisissez le domaine qui correspond à votre compétition — le formulaire s\'y adapte',
+    'wizard_continue' => 'Continuer',
+    'wizard_back' => 'Retour',
+    'review_competition_desc' => 'Vérifiez vos informations avant de créer la compétition',
+
+    // Domaines de compétition
+    'domains' => 'Domaines',
+    'all_domains' => 'Tous les domaines',
+    'competitions_domains' => 'Compétitions & domaines',
+    'page_title_manage_domains' => 'Domaines de compétition',
+    'domains_desc' => 'Les catégories de domaines qui alimentent chaque compétition de la plateforme',
+    'evaluation_basis' => 'Évaluation',
+    'participant_basis' => 'Participants',
+    'competitions_count' => 'Compétitions',
 ];

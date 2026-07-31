@@ -202,8 +202,27 @@ return [
     'browse_teams_desc' => 'Discover teams participating in competitions',
     'points' => 'points',
     'are_you_ready' => 'Are you ready to get started?',
-    'cta_join_desc' => 'Join Tournatak and manage your own tournament or register your team and participate in sports competitions',
+    'cta_join_desc' => 'Join Tournatak and launch your own competition, or take part in any challenge — across every domain',
     'sign_up_now' => 'Sign Up Free Now',
+
+    // Domain showcase & how it works
+    'home_hero_tagline' => 'One Platform, Every Competition',
+    'home_hero_title' => 'Organize & Manage',
+    'home_hero_title2' => 'Any Competition',
+    'home_hero_desc' => 'A multi-domain platform for sports, esports, academic contests, hackathons and creative challenges. Manage participants and rounds — all in one place.',
+    'explore_domains' => 'Domains',
+    'explore_domains_title' => 'Explore by Domain',
+    'explore_domains_desc' => 'Pick your arena — from sports tournaments to coding marathons',
+    'browse_domain' => 'Browse',
+    'how_it_works' => 'How It Works',
+    'how_it_works_title' => 'Launch any competition in 3 steps',
+    'how_it_works_desc' => 'A simple flow that works for every domain',
+    'how_step_1_title' => 'Choose a Domain',
+    'how_step_1_desc' => 'Pick your competition type — sports, esports, academic, hackathon or creative.',
+    'how_step_2_title' => 'Set It Up',
+    'how_step_2_desc' => 'Define rounds, criteria and rules. The platform handles the organization.',
+    'how_step_3_title' => 'Compete & Rank',
+    'how_step_3_desc' => 'Participants join, results are recorded and rankings update automatically.',
 
     // Register Page Extra
     'join_community' => ' the Sports Community',
@@ -1424,6 +1443,12 @@ return [
     'evaluation_basis_match' => 'Match-based',
     'evaluation_basis_submission' => 'Submission-based',
 
+    // Domain vocabulary
+    'rounds' => 'Rounds',
+    'submissions' => 'Submissions',
+    'judging' => 'Judging',
+    'submission_domain_manage_hint' => 'This is a submission-based competition — rounds, submissions and judging are managed from the competition panel.',
+
     // Submission statuses
     'status_pending' => 'Pending',
     'status_under_review' => 'Under Review',
@@ -1446,4 +1471,19 @@ return [
     'step_format' => 'Sport & Format',
     'step_rounds' => 'Rounds & Judging',
     'step_review' => 'Review',
+    'select_domain_title' => 'Choose a Domain',
+    'select_domain_desc' => 'Pick the domain that fits your competition — the form adapts to it',
+    'wizard_continue' => 'Continue',
+    'wizard_back' => 'Back',
+    'review_competition_desc' => 'Review your details before creating the competition',
+
+    // Competition domains
+    'domains' => 'Domains',
+    'all_domains' => 'All Domains',
+    'competitions_domains' => 'Competitions & Domains',
+    'page_title_manage_domains' => 'Competition Domains',
+    'domains_desc' => 'The domain categories that power every competition on the platform',
+    'evaluation_basis' => 'Evaluation',
+    'participant_basis' => 'Participants',
+    'competitions_count' => 'Competitions',
 ];

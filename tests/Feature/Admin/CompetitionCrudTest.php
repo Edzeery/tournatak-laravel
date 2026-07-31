@@ -52,6 +52,20 @@ test('admin can access competition subtypes page', function () {
     $this->actingAs($admin)->get('/panel/subtypes')->assertStatus(200);
 });
 
+test('admin can access competition domains page', function () {
+    $admin = User::factory()->create();
+    $admin->assignRole('admin');
+
+    $this->actingAs($admin)->get('/panel/domains')->assertStatus(200);
+});
+
+test('non-admin cannot access competition domains page', function () {
+    $user = User::factory()->create();
+    $user->assignRole('user');
+
+    $this->actingAs($user)->get('/panel/domains')->assertForbidden();
+});
+
 test('admin can access create type page', function () {
     $admin = User::factory()->create();
     $admin->assignRole('admin');

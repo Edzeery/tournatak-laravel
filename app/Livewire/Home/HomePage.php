@@ -3,6 +3,7 @@
 namespace App\Livewire\Home;
 
 use App\Models\Competition;
+use App\Models\CompetitionDomain;
 use App\Models\Player;
 use App\Models\Team;
 use Livewire\Attributes\Layout;
@@ -27,6 +28,9 @@ class HomePage extends Component
                 ->limit(6)
                 ->get(),
             'teams' => Team::latest()->limit(6)->get(),
+            'domains' => CompetitionDomain::where('is_active', true)
+                ->orderBy('sort_order')
+                ->get(),
         ]);
     }
 }

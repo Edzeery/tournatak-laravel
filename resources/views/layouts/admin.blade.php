@@ -163,8 +163,16 @@
             </div>
 
             <div class="sidebar-section">
-                <div class="sidebar-label">{{ __('app.competitions') }}</div>
+                <div class="sidebar-label">{{ __('app.competitions_domains') }}</div>
                 <ul class="nav flex-column">
+                    @can('manage settings')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.domains.*') ? 'active' : '' }}"
+                            href="{{ route('admin.domains.index') }}" data-tooltip="{{ __('app.domains') }}">
+                            <i class="bi bi-grid-1x2-fill"></i> <span>{{ __('app.domains') }}</span>
+                        </a>
+                    </li>
+                    @endcan
                     @can('manage competitions')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.competitions.*') ? 'active' : '' }} {{ request()->routeIs('admin.competitions.*') ? 'open' : '' }}"

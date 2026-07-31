@@ -74,6 +74,11 @@ function initFlatpickr() {
     });
 }
 
+// Entrance animations play once on first load; suppress them on subsequent Livewire soft navigations
+document.addEventListener('livewire:navigate', () => {
+    document.documentElement.classList.add('livewire-entered');
+});
+
 // Alpine.js match timer component (shared between match-control and matches listing)
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('matchTimer', (config) => ({

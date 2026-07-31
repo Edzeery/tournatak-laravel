@@ -61,6 +61,18 @@
 .animate-page { animation: fadeInUp 0.4s ease;   }
 .animate-in { animation: fadeInUp 0.6s ease forwards; }
 
+// Entrance animations play once on first load and are suppressed on Livewire soft navigations
+html.livewire-entered .animate-in,
+html.livewire-entered .animate-page,
+html.livewire-entered .animate-delay-1,
+html.livewire-entered .animate-delay-2,
+html.livewire-entered .animate-delay-3,
+html.livewire-entered .animate-delay-4,
+html.livewire-entered .animate-delay-5 {
+    animation: none;
+    opacity: 1;
+}
+
 .animate-delay-1 { animation-delay: 0.1s; opacity: 0; }
 .animate-delay-2 { animation-delay: 0.2s; opacity: 0; }
 .animate-delay-3 { animation-delay: 0.3s; opacity: 0; }

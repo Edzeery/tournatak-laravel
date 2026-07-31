@@ -1,20 +1,19 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.competitions.index') }}" class="breadcrumb-link">{{ __('app.competitions') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.add_new') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-trophy-fill text-gold"></i> {{ __('app.add_new_competition') }}</h4>
-        </div>
-        <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-secondary rounded-md">
-            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-        </a>
-    </div>
+    <x-section-header
+        :title="__('app.add_new_competition')"
+        icon="bi-trophy-fill"
+        :breadcrumbs="[
+            ['label' => __('app.dashboard'), 'route' => route('admin.dashboard')],
+            ['label' => __('app.competitions'), 'route' => route('admin.competitions.index')],
+            ['label' => __('app.add_new')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-secondary rounded-md">
+                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0">
         <div class="card-body p-4">

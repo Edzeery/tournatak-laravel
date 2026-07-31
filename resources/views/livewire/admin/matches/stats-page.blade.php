@@ -1,26 +1,25 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb breadcrumb-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="breadcrumb-link">{{ __('app.matches') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="breadcrumb-link">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.match_stats') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-dark-theme"><i class="bi bi-bar-chart-fill text-gold"></i> {{ __('app.match_stats') }}</h4>
-            <p class="text-muted mb-0 fs-md">
-                {{ $match->team1->name ?? '?' }}
-                <span class="fw-bold mx-1 text-gold-dark">vs</span>
-                {{ $match->team2->name ?? '?' }}
-            </p>
-        </div>
-        <a href="{{ route('admin.matches.edit', $match) }}" class="btn btn-outline-secondary rounded-md">
-            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-        </a>
-    </div>
+    <x-section-header
+        icon="bi bi-bar-chart-fill"
+        :title="__('app.match_stats')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['route' => route('admin.matches.index'), 'label' => __('app.matches')],
+            ['route' => route('admin.matches.edit', $match), 'label' => ($match->team1->name ?? '?') . ' vs ' . ($match->team2->name ?? '?')],
+            ['label' => __('app.match_stats')],
+        ]"
+    >
+        <x-slot:subtitle>
+            {{ $match->team1->name ?? '?' }}
+            <span class="fw-bold mx-1 text-gold-dark">vs</span>
+            {{ $match->team2->name ?? '?' }}
+        </x-slot:subtitle>
+        <x-slot:action>
+            <a href="{{ route('admin.matches.edit', $match) }}" class="btn btn-outline-secondary rounded-md">
+                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     {{-- Stats Comparison Bars --}}
     <div class="card border-0 mb-4">
@@ -104,12 +103,7 @@
             <h6 class="fw-bold mb-0"><i class="bi bi-pencil-square text-gold"></i> {{ __('app.edit_stats') }}</h6>
         </div>
         <div class="card-body p-4">
-            @if($errors->any())
-                <div class="alert alert-danger d-flex align-items-center gap-2">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
-                </div>
-            @endif
+            <x-form-errors />
 
             {{-- Team Tabs --}}
             <ul class="nav nav-tabs mb-3">

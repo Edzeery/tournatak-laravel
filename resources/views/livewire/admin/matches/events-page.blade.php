@@ -1,31 +1,30 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.index') }}" class="breadcrumb-link">{{ __('app.matches') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.matches.edit', $match) }}" class="breadcrumb-link">{{ $match->team1->name ?? '?' }} vs {{ $match->team2->name ?? '?' }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.match_events') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-lightning-fill text-gold"></i> {{ __('app.match_events') }}</h4>
-            <p class="text-muted mb-0 fs-md">
-                {{ $match->team1->name ?? '?' }}
-                <span class="text-gold fw-bold mx-1">vs</span>
-                {{ $match->team2->name ?? '?' }}
-            </p>
-        </div>
-        <div class="d-flex gap-2">
-            <button class="btn btn-warning" wire:click="$set('showModal', true)">
-                <i class="bi bi-plus-lg"></i> {{ __('app.add_event') }}
-            </button>
-            <a href="{{ route('admin.matches.edit', $match) }}" class="btn btn-outline-secondary rounded-md">
-                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-            </a>
-        </div>
-    </div>
+    <x-section-header
+        icon="bi bi-lightning-fill"
+        :title="__('app.match_events')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['route' => route('admin.matches.index'), 'label' => __('app.matches')],
+            ['route' => route('admin.matches.edit', $match), 'label' => ($match->team1->name ?? '?') . ' vs ' . ($match->team2->name ?? '?')],
+            ['label' => __('app.match_events')],
+        ]"
+    >
+        <x-slot:subtitle>
+            {{ $match->team1->name ?? '?' }}
+            <span class="text-gold fw-bold mx-1">vs</span>
+            {{ $match->team2->name ?? '?' }}
+        </x-slot:subtitle>
+        <x-slot:action>
+            <div class="d-flex gap-2">
+                <button class="btn btn-warning" wire:click="$set('showModal', true)">
+                    <i class="bi bi-plus-lg"></i> {{ __('app.add_event') }}
+                </button>
+                <a href="{{ route('admin.matches.edit', $match) }}" class="btn btn-outline-secondary rounded-md">
+                    <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+                </a>
+            </div>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0" wire:loading.opacity>
         <div class="card-body">
@@ -124,12 +123,7 @@
                         <button type="button" class="btn-close" aria-label="Close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
-                        @if($errors->any())
-                            <div class="alert alert-danger d-flex align-items-center gap-2">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
-                            </div>
-                        @endif
+                        <x-form-errors />
 
                         <div class="row g-3">
                             <div class="col-md-6">

@@ -1,20 +1,19 @@
 <div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-people-fill text-gold"></i> {{ __('app.user_management') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ __('app.users_desc') }}</p>
-        </div>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-warning">
-            <i class="bi bi-plus-lg"></i> {{ __('app.add_user') }}
-        </a>
-    </div>
-
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.users') }}</li>
-        </ol>
-    </nav>
+    <x-section-header
+        icon="bi bi-people-fill"
+        :title="__('app.user_management')"
+        :subtitle="__('app.users_desc')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['label' => __('app.users')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-warning">
+                <i class="bi bi-plus-lg"></i> {{ __('app.add_user') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0 mb-4">
         <div class="card-body">

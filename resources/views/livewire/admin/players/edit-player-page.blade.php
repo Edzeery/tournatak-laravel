@@ -1,30 +1,24 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.players.index') }}" class="breadcrumb-link">{{ __('app.players') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.edit_player') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-pencil text-gold"></i> {{ __('app.edit_player') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ $player->user->name ?? '' }}</p>
-        </div>
-        <a href="{{ route('admin.players.index') }}" class="btn btn-outline-secondary rounded-md">
-            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-        </a>
-    </div>
+    <x-section-header
+        :title="__('app.edit_player')"
+        icon="bi-pencil"
+        :subtitle="$player->user->name ?? ''"
+        :breadcrumbs="[
+            ['label' => __('app.dashboard'), 'route' => route('admin.dashboard')],
+            ['label' => __('app.players'), 'route' => route('admin.players.index')],
+            ['label' => __('app.edit_player')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.players.index') }}" class="btn btn-outline-secondary rounded-md">
+                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0">
         <div class="card-body p-4">
-            @if($errors->any())
-                <div class="alert alert-danger d-flex align-items-center gap-2">
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-                    <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
-                </div>
-            @endif
+            <x-form-errors />
 
             <form wire:submit="update">
                 <div class="row">

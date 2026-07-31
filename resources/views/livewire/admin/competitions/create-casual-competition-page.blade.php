@@ -1,21 +1,20 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.competitions.index') }}" class="breadcrumb-link">{{ __('app.competitions') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.create_casual') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-trophy-fill text-gold"></i> {{ __('app.page_title_create_casual_competition') }}</h4>
-            <p class="text-chrome-muted mb-0 fs-sm">{{ __('app.casual_competition_desc') }}</p>
-        </div>
-        <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-secondary rounded-md">
-            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-        </a>
-    </div>
+    <x-section-header
+        icon="bi bi-trophy-fill"
+        :title="__('app.page_title_create_casual_competition')"
+        :subtitle="__('app.casual_competition_desc')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['route' => route('admin.competitions.index'), 'label' => __('app.competitions')],
+            ['label' => __('app.create_casual')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.competitions.index') }}" class="btn btn-outline-secondary rounded-md">
+                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0">
         <div class="card-body p-4">

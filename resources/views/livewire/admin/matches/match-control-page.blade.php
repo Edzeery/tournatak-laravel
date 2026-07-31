@@ -1,19 +1,18 @@
 <div>
-    {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary">
-                <i class="bi bi-controller text-gold"></i> {{ __('app.match_control') }}
-            </h4>
-            <p class="text-muted mb-0 fs-md">
-                {{ $match->competition->name ?? '' }}
-                @if($match->round) · {{ $match->round }} @endif
-            </p>
-        </div>
-        <a href="{{ route('admin.matches.index') }}" class="btn btn-outline-secondary rounded-md btn-sm">
-            <i class="bi bi-arrow-left"></i> {{ __('app.back') }}
-        </a>
-    </div>
+    <x-section-header
+        icon="bi bi-controller"
+        :title="__('app.match_control')"
+    >
+        <x-slot:subtitle>
+            {{ $match->competition->name ?? '' }}
+            @if($match->round) · {{ $match->round }} @endif
+        </x-slot:subtitle>
+        <x-slot:action>
+            <a href="{{ route('admin.matches.index') }}" class="btn btn-outline-secondary rounded-md btn-sm">
+                <i class="bi bi-arrow-left"></i> {{ __('app.back') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     {{-- Main Scoreboard --}}
     <div class="card border-0 mb-4 overflow-hidden">

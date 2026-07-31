@@ -1,22 +1,21 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb breadcrumb-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="breadcrumb-link">{{ __('app.teams') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="breadcrumb-link">{{ $team->name }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.medical_record') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-dark-theme"><i class="bi bi-heart-pulse-fill text-gold"></i> {{ __('app.medical_record') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ $team->name }}</p>
-        </div>
-        <button class="btn btn-warning" wire:click="openModal">
-            <i class="bi bi-plus-lg"></i> {{ __('app.add_medical_record') }}
-        </button>
-    </div>
+    <x-section-header
+        icon="bi bi-heart-pulse-fill"
+        :title="__('app.medical_record')"
+        :subtitle="$team->name"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['route' => route('admin.teams.index'), 'label' => __('app.teams')],
+            ['route' => route('admin.teams.edit', $team), 'label' => $team->name],
+            ['label' => __('app.medical_record')],
+        ]"
+    >
+        <x-slot:action>
+            <button class="btn btn-warning" wire:click="openModal">
+                <i class="bi bi-plus-lg"></i> {{ __('app.add_medical_record') }}
+            </button>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="row g-3 mb-4">
         @php

@@ -1,22 +1,20 @@
 <div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-<div wire:poll.15s>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-calendar-event-fill text-gold"></i>
-                {{ __('app.match_management') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ __('app.matches_desc') }}</p>
-        </div>
-        <a href="{{ route('admin.matches.create') }}" class="btn btn-warning">
-            <i class="bi bi-plus-lg"></i> {{ __('app.add_match') }}
-        </a>
-    </div>
-
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"
-                    class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.matches') }}</li>
-        </ol>
-    </nav>
+    <x-section-header
+        wire:poll.15s
+        icon="bi bi-calendar-event-fill"
+        :title="__('app.match_management')"
+        :subtitle="__('app.matches_desc')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['label' => __('app.matches')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.matches.create') }}" class="btn btn-warning">
+                <i class="bi bi-plus-lg"></i> {{ __('app.add_match') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     {{-- Filters --}}
     <div class="card border-0 mb-4">

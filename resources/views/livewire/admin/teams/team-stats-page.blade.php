@@ -1,27 +1,26 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="text-decoration-none text-gold">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.index') }}" class="text-decoration-none text-gold">{{ __('app.teams') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.teams.edit', $team) }}" class="text-decoration-none text-gold">{{ $team->name }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.team_stats') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-bar-chart-line-fill text-gold"></i> {{ __('app.team_stats') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ $team->name }}</p>
-        </div>
-        <div class="d-flex gap-2">
-            <button class="btn btn-warning px-3 rounded-md" wire:click="openModal">
-                <i class="bi bi-plus-lg"></i> {{ __('app.add_stat') }}
-            </button>
-            <a href="{{ route('admin.teams.edit', $team) }}" class="btn btn-outline-secondary rounded-md">
-                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-            </a>
-        </div>
-    </div>
+    <x-section-header
+        icon="bi bi-bar-chart-line-fill"
+        :title="__('app.team_stats')"
+        :subtitle="$team->name"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['route' => route('admin.teams.index'), 'label' => __('app.teams')],
+            ['route' => route('admin.teams.edit', $team), 'label' => $team->name],
+            ['label' => __('app.team_stats')],
+        ]"
+    >
+        <x-slot:action>
+            <div class="d-flex gap-2">
+                <button class="btn btn-warning px-3 rounded-md" wire:click="openModal">
+                    <i class="bi bi-plus-lg"></i> {{ __('app.add_stat') }}
+                </button>
+                <a href="{{ route('admin.teams.edit', $team) }}" class="btn btn-outline-secondary rounded-md">
+                    <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+                </a>
+            </div>
+        </x-slot:action>
+    </x-section-header>
 
     @if(session('success'))
         <div class="alert alert-success d-flex align-items-center gap-2 alert-dismissible fade show">

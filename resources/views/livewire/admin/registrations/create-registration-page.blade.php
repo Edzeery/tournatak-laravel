@@ -1,21 +1,20 @@
 <div>
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('admin.registrations.index') }}" class="breadcrumb-link">{{ __('app.registrations') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.add_new') }}</li>
-        </ol>
-    </nav>
-
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-person-plus-fill text-gold"></i> {{ __('app.add_individual_registration') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ __('app.individual_registration_desc') }}</p>
-        </div>
-        <a href="{{ route('admin.registrations.index') }}" class="btn btn-outline-secondary rounded-md">
-            <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
-        </a>
-    </div>
+    <x-section-header
+        icon="bi bi-person-plus-fill"
+        :title="__('app.add_individual_registration')"
+        :subtitle="__('app.individual_registration_desc')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['route' => route('admin.registrations.index'), 'label' => __('app.registrations')],
+            ['label' => __('app.add_new')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.registrations.index') }}" class="btn btn-outline-secondary rounded-md">
+                <i class="bi bi-arrow-right"></i> {{ __('app.back') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0">
         <div class="card-body p-4">

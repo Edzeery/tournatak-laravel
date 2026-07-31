@@ -1,4 +1,12 @@
-<div @class(['mb-4' => !$noMargin])>
+@props([
+    'title' => '',
+    'icon' => null,
+    'subtitle' => null,
+    'breadcrumbs' => [],
+    'noMargin' => false,
+])
+
+<div {{ $attributes->merge(['class' => $noMargin ? '' : 'mb-4']) }}>
     @if($breadcrumbs)
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb fs-base">

@@ -1,20 +1,19 @@
 <div>
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h4 class="fw-bold mb-1 text-theme-primary"><i class="bi bi-person-badge-fill text-gold"></i> {{ __('app.player_management') }}</h4>
-            <p class="text-muted mb-0 fs-md">{{ __('app.players_desc') }}</p>
-        </div>
-        <a href="{{ route('admin.players.create') }}" class="btn btn-warning">
-            <i class="bi bi-plus-lg"></i> {{ __('app.add_player') }}
-        </a>
-    </div>
-
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb fs-base">
-            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">{{ __('app.dashboard') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('app.players') }}</li>
-        </ol>
-    </nav>
+    <x-section-header
+        icon="bi bi-person-badge-fill"
+        :title="__('app.player_management')"
+        :subtitle="__('app.players_desc')"
+        :breadcrumbs="[
+            ['route' => route('admin.dashboard'), 'label' => __('app.dashboard')],
+            ['label' => __('app.players')],
+        ]"
+    >
+        <x-slot:action>
+            <a href="{{ route('admin.players.create') }}" class="btn btn-warning">
+                <i class="bi bi-plus-lg"></i> {{ __('app.add_player') }}
+            </a>
+        </x-slot:action>
+    </x-section-header>
 
     <div class="card border-0 mb-4">
         <div class="card-body">

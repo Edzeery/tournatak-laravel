@@ -160,7 +160,7 @@
     </section>
 
     {{-- Active Competitions --}}
-    <section class="py-5 mt-4">
+    <section class="py-5">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge"><i class="bi bi-fire"></i> {{ __('app.latest') }}</div>

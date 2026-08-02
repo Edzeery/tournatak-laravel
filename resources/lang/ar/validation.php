@@ -9,7 +9,7 @@ return [
     'alpha' => 'يجب أن يحتوي :attribute على أحرف فقط.',
     'alpha_dash' => 'يجب أن يحتوي :attribute على أحرف وأرقام وشرطات وشرطات سفلية فقط.',
     'alpha_num' => 'يجب أن يحتوي :attribute على أحرف وأرقام فقط.',
-    'any_of' => ':attribute يجب أن يكون其中之一 من القيم المسموح بها.',
+    'any_of' => ':attribute يجب أن يكون أحد القيم المسموح بها.',
     'array' => 'يجب أن يكون :attribute مصفوفة.',
     'ascii' => 'يجب أن يحتوي :attribute على نص ASCII فقط.',
     'before' => 'يجب أن يكون :attribute بتاريخ يسبق :date.',

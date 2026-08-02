@@ -1214,7 +1214,7 @@ return [
     'start_et_first_half' => 'بدء الشوط الإضافي الأول',
     'end_et_first_half' => 'إنهاء الشوط الإضافي الأول',
     'start_et_second_half' => 'بدء الشوط الإضافي الثاني',
-    'force_end_match' => 'إنهاء المباراة强制اً',
+    'force_end_match' => 'إنهاء المباراة إجبارياً',
     'end_match_no_et' => 'إنهاء المباراة (بدون أشواط إضافية)',
     'confirm_end_match_no_et' => 'هل أنت متأكد من إنهاء المباراة بدون أشواط إضافية؟',
     'first_half_started' => 'بدأ الشوط الأول!',

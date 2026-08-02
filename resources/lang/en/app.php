@@ -1091,7 +1091,6 @@ return [
 
     // Missing keys from codebase
     'add_position' => 'Add Position',
-    'added_time' => 'Added Time',
     'appearance' => 'Appearance',
     'arabic' => 'Arabic',
     'back' => 'Back',
@@ -1148,7 +1147,7 @@ return [
     'teams_must_be_different' => 'Teams must be different',
     'theme' => 'Theme',
     'timezone' => 'Timezone',
-    'type_placeholder' => 'Type placeholder',
+    'type_placeholder' => 'Type',
     'tz_cairo' => 'Cairo',
     'tz_casablanca' => 'Casablanca',
     'tz_chicago' => 'Chicago',

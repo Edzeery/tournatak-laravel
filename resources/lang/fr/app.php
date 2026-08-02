@@ -221,7 +221,7 @@ return [
     'how_step_1_desc' => 'Choisissez votre type de compétition — sport, esport, académique, hackathon ou créatif.',
     'how_step_2_title' => 'Configurez',
     'how_step_2_desc' => 'Définissez les manches, critères et règles. La plateforme s\'occupe de l\'organisation.',
-    'how_step_3_title' => 'Competez et classez',
+    'how_step_3_title' => 'Concourez et classez',
     'how_step_3_desc' => 'Les participants rejoignent, les résultats sont enregistrés et les classements se mettent à jour automatiquement.',
 
     // Page d'inscription supplémentaire
@@ -836,7 +836,7 @@ return [
     'edit_medical_record' => 'Modifier le dossier médical',
     'player_label' => 'Joueur',
     'choose_player_medical' => 'Choisir un joueur...',
-    'record_type' => 'Type d\'enregistrement',
+    'record_type' => 'Type de dossier',
     'injury_name' => 'Nom de la blessure / affection',
     'injury_name_placeholder' => 'ex. Rupture du LCA',
     'severity' => 'Gravité',
@@ -852,7 +852,7 @@ return [
     'no_medical_records_desc' => 'Aucun dossier médical n\'a été enregistré pour le moment',
     'active_status' => 'Actif',
     'recovering_status' => 'En convalescence',
-    'returned_status' => 'Retourné',
+    'returned_status' => 'De retour',
     'long_term_status' => 'Longue durée',
     'filter_by_status' => 'Filtrer par statut',
     'filter_by_type' => 'Filtrer par type',
@@ -1091,7 +1091,6 @@ return [
 
     // Clés de traduction manquantes
     'add_position' => 'Ajouter un poste',
-    'added_time' => 'Ajouté le',
     'appearance' => 'Apparence',
     'arabic' => 'Arabe',
     'back' => 'Retour',

@@ -66,11 +66,31 @@ Fill in **every** `CHANGE_ME_IN_PRODUCTION` value:
 ### 2.3 Build and start the stack
 
 ```bash
+# 1) Compile front-end assets first — public/build is Vite output, NOT committed
+npm ci
+npm run build
+
+# 2) Build and start the stack
 docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
 ```
 
+> `public/build` (Vite build output) is gitignored, so `npm run build` must run
+> on the server before `up -d --build` — the compiled assets are baked into the
+> images, they are never bind-mounted.
+
 This starts: `app` (php-fpm), `nginx` (port 80 by default; override `APP_PORT`),
 `mysql`, `redis`, `queue` (worker), `scheduler` (`schedule:work`).
+
+> Code and nginx config are **baked into the images** (no bind mounts of the
+> repo). `app`/`queue`/`scheduler` share `storage-data` (covers
+> `storage/app/private`, `storage/app/public`, sessions, cache, logs) and
+> `public-data` mounted at `public/uploads` (user-uploaded files), while `nginx`
+> serves the same `public-data` volume so uploads are shared. Vite static assets
+> are served from the baked image copy of `public/`. Rebuilding images is
+> therefore how a new release ships — `up -d --build` in §6 is required, not
+> optional. The mysql and redis services are gated by healthchecks
+> (`condition: service_healthy`), so `app`/`queue`/`scheduler` only start once
+> the databases are ready.
 
 ### 2.4 Migrations and setup
 
@@ -87,8 +107,14 @@ required (out of scope of normal deploys).
 
 ### 2.5 Verify
 
-- Health endpoint: `curl http://<host>/up` → `{"status":"ok"}` (route registered in
-  `bootstrap/app.php`).
+Two health endpoints exist — use both:
+
+- **Liveness** — `curl -I http://<host>/up` → expect **HTTP 200**. This is Laravel's
+  default framework health route (registered in `bootstrap/app.php`) and returns a
+  plain **HTML "OK"** response — it does **not** return JSON.
+- **Readiness** — `curl http://<host>/api/health` → expect **JSON** with
+  `"status": "healthy"` and `services.database` / `services.cache` both `"healthy"`
+  (registered in `routes/api.php`, returns `"degraded"` when a dependency fails).
 - `docker compose -f docker-compose.prod.yml ps` — all services `Up`.
 - `docker compose -f docker-compose.prod.yml logs --tail=50 scheduler` — no errors.
 
@@ -157,6 +183,7 @@ docker compose -f docker-compose.prod.yml --env-file .env.production exec -T mys
 ```bash
 cd /var/www/bracketa
 git pull origin master
+npm ci && npm run build   # recompile assets when the front-end changed
 docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
 docker compose -f docker-compose.prod.yml --env-file .env.production exec app php artisan migrate --force
 docker compose -f docker-compose.prod.yml --env-file .env.production exec app php artisan config:cache
@@ -164,6 +191,11 @@ docker compose -f docker-compose.prod.yml --env-file .env.production exec app ph
 
 > Prefer `php artisan down` / `up` for zero-downtime maintenance windows if the app
 > cannot be kept live during migration.
+>
+> `up -d --build` **must** be used for every release — code is baked into the
+> `app`/`queue`/`scheduler`/`nginx` images (no repo bind mounts), so this command
+> is what ships the new code. Run `npm ci && npm run build` first so updated
+> Vite assets are baked in too.
 
 ---
 
@@ -172,6 +204,8 @@ docker compose -f docker-compose.prod.yml --env-file .env.production exec app ph
 | Check | Command |
 |---|---|
 | Compose file validity | `docker compose -f docker-compose.prod.yml --env-file .env.production config` |
+| Liveness | `curl -I http://<host>/up` → HTTP 200 (plain "OK", no JSON) |
+| Readiness | `curl http://<host>/api/health` → JSON `{"status":"healthy", ...}` with `services.database` / `services.cache` healthy |
 | Service status | `docker compose -f docker-compose.prod.yml ps` |
 | App logs | `docker compose -f docker-compose.prod.yml logs -f app` |
 | Queue logs | `docker compose -f docker-compose.prod.yml logs -f queue` |

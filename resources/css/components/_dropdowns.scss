@@ -16,9 +16,7 @@
     right: 0 !important;
     left: auto !important;
 }
-ul.dropdown-menu.dropdown-menu-end.border-0.shadow-lg.rounded-lg-custom.bg-chrome-2.dropdown-w-160.px-2 {
-    color: var(--bs-dropdown-link-color);
-}
+
 
 
 .dropdown-item.active,
@@ -31,5 +29,9 @@ ul.dropdown-menu.dropdown-menu-end.border-0.shadow-lg.rounded-lg-custom.bg-chrom
 .dropdown-item:hover,
 .dropdown-item:focus {
     color: var(--bs-dropdown-link-hover-color);
-        background-color: #f8f9fa17;
+    background-color: #f8f9fa17;
+}
+
+.bg-dropdown-menu-gradient-hero {
+     background-color: var(--gradient-hero) !important;
 }

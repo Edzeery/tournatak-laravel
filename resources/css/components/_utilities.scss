@@ -410,7 +410,7 @@
 
 // ---- Language dropdown items ----
 .lang-item-active {
-    color: var(--brand-accent);
+    color: var(--brand-accent)  !important;
     font-weight: 600;
 }
 .lang-item-inactive {
@@ -420,7 +420,7 @@
 
 // ---- Notification filter buttons ----
 .notif-filter-active {
-    background: var(--brand-accent);
+    background: var(--brand-accent)  !important;
     color: #000;
     font-weight: 600;
     border-radius: 8px;

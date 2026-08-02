@@ -67,7 +67,7 @@
                             href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false">
                             {{ __('app.domains') }}
                         </a>
-                        <ul class="dropdown-menu border-0 shadow-lg rounded-lg-custom bg-chrome-2 px-2">
+                        <ul class="dropdown-menu border-0 shadow-lg rounded-lg-custom px-2">
                             @foreach ($navDomains as $navDomain)
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2 {{ request()->query('domain') === $navDomain->slug ? 'active lang-item-active' : '' }}"

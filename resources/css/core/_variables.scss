@@ -180,7 +180,7 @@
 
     --bs-code-color: var(--info) !important;
     --bs-highlight-bg: var(--brand-accent-glow) !important;
-  --bs-badge-color: #000 !important;
+    --bs-badge-color: #000 !important;
 
     --bs-focus-ring-color: var(--brand-accent-glow) !important;
     --bs-box-shadow: var(--shadow-card) !important;
@@ -418,7 +418,7 @@
     --bs-light-rgb: 30, 41, 59 !important;
     --bs-dark: var(--text-primary) !important;
     --bs-dark-rgb: 226, 232, 240 !important;
-  --bs-badge-color: #fff !important;
+    --bs-badge-color: #fff !important;
 
     --bs-primary-text-emphasis: #ffe69c !important;
     --bs-primary-bg-subtle: #4d3800 !important;
@@ -531,7 +531,10 @@
     --bs-dropdown-link-hover-color: var(--text-primary) !important;
     --bs-dropdown-link-hover-bg: var(--bg-surface-alt) !important;
     --bs-dropdown-link-active-color: var(--brand-accent) !important;
-    --bs-dropdown-link-active-bg: rgba(var(--brand-accent-rgb), 0.15) !important;
+    --bs-dropdown-link-active-bg: rgba(
+        var(--brand-accent-rgb),
+        0.15
+    ) !important;
     --bs-dropdown-divider-bg: var(--border-color) !important;
 
     // ============================================
@@ -567,7 +570,10 @@
     --bs-accordion-color: var(--text-primary) !important;
     --bs-accordion-border-color: var(--border-color) !important;
     --bs-accordion-button-bg: var(--bg-surface) !important;
-    --bs-accordion-button-active-bg: rgba(var(--brand-accent-rgb), 0.15) !important;
+    --bs-accordion-button-active-bg: rgba(
+        var(--brand-accent-rgb),
+        0.15
+    ) !important;
 
     // ============================================
     // Bootstrap — Tooltip / Popover (dark)
@@ -589,14 +595,14 @@
     --bs-pagination-hover-border-color: var(--border-color) !important;
     --bs-pagination-focus-color: var(--brand-accent) !important;
     --bs-pagination-focus-bg: var(--bg-surface-alt) !important;
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--brand-accent-rgb), 0.15) !important;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem
+        rgba(var(--brand-accent-rgb), 0.15) !important;
     --bs-pagination-active-color: var(--dark) !important;
     --bs-pagination-active-bg: var(--brand-accent-gradient) !important;
     --bs-pagination-active-border-color: var(--brand-accent) !important;
     --bs-pagination-disabled-color: var(--text-muted) !important;
     --bs-pagination-disabled-bg: var(--bg-surface-alt) !important;
     --bs-pagination-disabled-border-color: var(--border-color) !important;
-
 
     --bs-bg-opacity-10: 0.1 !important;
     --bs-bg-opacity-20: 0.2 !important;

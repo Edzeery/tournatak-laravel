@@ -104,8 +104,7 @@
                                         <div class="d-flex gap-2 justify-content-end">
                                             <button
                                                 class="btn btn-sm btn-outline-success rounded-md"
-                                                wire:click="restore('{{ $typeKeys[$typeName] }}', {{ $record->id }})"
-                                                wire:confirm="{{ __('app.restore_confirm') }}"
+                                                x-on:click.prevent="confirmAction({ title: @js(__('app.restore')), text: @js(__('app.restore_confirm')), icon: 'info', confirmButtonText: @js(__('app.restore')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.restore(@js($typeKeys[$typeName]), {{ $record->id }}))"
                                                 title="{{ __('app.restore') }}"
                                                 aria-label="{{ __('app.restore') }}"
                                             >
@@ -113,8 +112,7 @@
                                             </button>
                                             <button
                                                 class="btn btn-sm btn-outline-danger rounded-md"
-                                                wire:click="forceDelete('{{ $typeKeys[$typeName] }}', {{ $record->id }})"
-                                                wire:confirm="{{ __('app.force_delete_confirm') }}"
+                                                x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.force_delete_confirm')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.forceDelete(@js($typeKeys[$typeName]), {{ $record->id }}))"
                                                 title="{{ __('app.force_delete') }}"
                                                 aria-label="{{ __('app.force_delete') }}"
                                             >

@@ -190,35 +190,26 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('swal:success', function(event) {
-            Swal.fire({
-                toast: true,
-                position: 'top-end',
-                icon: 'success',
-                title: event.detail.message,
-                showConfirmButton: false,
-                timer: 4000,
-                timerProgressBar: true,
-                background: '#1a1f35',
-                color: '#fff',
-                borderColor: 'rgba(22,163,74,0.3)',
-                iconColor: '#16a34a'
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('toast', (payload) => {
+                if (payload.type !== 'success') {
+                    return;
+                }
+                const theme = document.querySelector('input[name="theme"]:checked')?.value;
+                if (theme) {
+                    if (theme === 'system') {
+                        localStorage.removeItem('theme');
+                        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        document.documentElement.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
+                    } else {
+                        localStorage.setItem('theme', theme);
+                        document.documentElement.setAttribute('data-bs-theme', theme);
+                    }
+                    if (window.updateThemeIcon) {
+                        window.updateThemeIcon(document.documentElement.getAttribute('data-bs-theme'));
+                    }
+                }
             });
-
-            const theme = document.querySelector('input[name="theme"]:checked')?.value;
-            if (theme) {
-                if (theme === 'system') {
-                    localStorage.removeItem('theme');
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    document.documentElement.setAttribute('data-bs-theme', prefersDark ? 'dark' : 'light');
-                } else {
-                    localStorage.setItem('theme', theme);
-                    document.documentElement.setAttribute('data-bs-theme', theme);
-                }
-                if (window.updateThemeIcon) {
-                    window.updateThemeIcon(document.documentElement.getAttribute('data-bs-theme'));
-                }
-            }
         });
     </script>
 @endpush

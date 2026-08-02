@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Registrations;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\CompetitionType;
 use App\Models\Team;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class CreateTeamRegistrationPage extends Component
 {
+    use Notifies;
+
     public ?int $competition_id = null;
 
     public ?int $team_id = null;
@@ -28,7 +31,7 @@ class CreateTeamRegistrationPage extends Component
         $result = $service->registerTeam($this->competition_id, $this->team_id);
 
         if (! $result['success']) {
-            session()->flash('error', $result['message']);
+            $this->notify('error', $result['message']);
 
             return;
         }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Players;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Player;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class PlayersPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -37,7 +39,7 @@ class PlayersPage extends Component
         $this->authorize('delete', $player);
 
         $player->delete();
-        session()->flash('success', __('app.player_deleted'));
+        $this->notify('success', __('app.player_deleted'));
     }
 
     public function render()

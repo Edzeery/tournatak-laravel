@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Team;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class TeamsPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -37,7 +39,7 @@ class TeamsPage extends Component
         $this->authorize('delete', $team);
 
         $team->delete();
-        session()->flash('success', __('app.team_deleted'));
+        $this->notify('success', __('app.team_deleted'));
     }
 
     public function render()

@@ -88,8 +88,7 @@
                                                 <i class="bi bi-pencil"></i>
                                             </button>
                                             <button class="btn btn-sm btn-outline-danger rounded-md"
-                                                    wire:click="deletePosition({{ $pos->id }})"
-                                                    wire:confirm="{{ __('app.confirm_delete_position') }}"
+                                                    x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_position')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deletePosition({{ $pos->id }}))"
                                                     aria-label="{{ __('app.delete') }}">
                                                 <i class="bi bi-trash"></i>
                                             </button>

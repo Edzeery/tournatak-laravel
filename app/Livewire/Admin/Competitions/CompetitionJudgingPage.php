@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Competitions;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Judge;
 use App\Models\User;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class CompetitionJudgingPage extends Component
 {
+    use Notifies;
+
     public Competition $competition;
 
     public ?int $newJudgeUserId = null;
@@ -49,7 +52,7 @@ class CompetitionJudgingPage extends Component
 
         $this->reset('newJudgeUserId', 'newJudgeLead');
 
-        session()->flash('success', __('app.judge_assigned'));
+        $this->notify('success', __('app.judge_assigned'));
     }
 
     public function removeJudge(int $judgeId): void
@@ -59,7 +62,7 @@ class CompetitionJudgingPage extends Component
 
         $judge->delete();
 
-        session()->flash('success', __('app.judge_removed'));
+        $this->notify('success', __('app.judge_removed'));
     }
 
     public function saveSettings(): void
@@ -68,7 +71,7 @@ class CompetitionJudgingPage extends Component
         $config['judging'] = ['hide_other_judges' => $this->hideOtherJudges];
         $this->competition->update(['format_config' => $config]);
 
-        session()->flash('success', __('app.settings_saved'));
+        $this->notify('success', __('app.settings_saved'));
     }
 
     public function render(SubmissionScoringEngine $engine)

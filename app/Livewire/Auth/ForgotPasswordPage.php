@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\User;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\RateLimiter;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class ForgotPasswordPage extends Component
 {
+    use Notifies;
+
     public string $email = '';
 
     public function sendResetLink()
@@ -24,7 +27,7 @@ class ForgotPasswordPage extends Component
 
         if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
             $seconds = RateLimiter::availableIn($throttleKey);
-            session()->flash('error', __('app.rate_limit_exceeded', ['seconds' => $seconds]));
+            $this->notify('error', __('app.rate_limit_exceeded', ['seconds' => $seconds]));
 
             return;
         }
@@ -39,14 +42,14 @@ class ForgotPasswordPage extends Component
             );
 
             if ($status === Password::RESET_LINK_SENT) {
-                session()->flash('success', __('app.reset_link_sent'));
+                $this->notify('success', __('app.reset_link_sent'));
 
                 return;
             }
         }
 
         // Always show success to prevent email enumeration
-        session()->flash('success', __('app.reset_link_if_registered'));
+        $this->notify('success', __('app.reset_link_if_registered'));
     }
 
     public function render()

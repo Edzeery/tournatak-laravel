@@ -215,15 +215,13 @@
                                     <div class="d-flex justify-content-center gap-1">
                                         @if($match->status === 'scheduled' || $match->status === 'pending')
                                             <button class="btn btn-sm btn-outline-danger rounded-md"
-                                                wire:click="startMatch({{ $match->id }})"
-                                                wire:confirm="{{ __('app.confirm_start_match') }}"
+                                                x-on:click.prevent="confirmAction({ title: @js(__('app.start_match')), text: @js(__('app.confirm_start_match')), icon: 'info', confirmButtonText: @js(__('app.start_match')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.startMatch({{ $match->id }}))"
                                                 title="{{ __('app.start_match') }}">
                                                 <i class="bi bi-play-fill"></i>
                                             </button>
                                         @elseif($match->status === 'in_progress')
                                             <button class="btn btn-sm btn-outline-dark rounded-md"
-                                                wire:click="endMatch({{ $match->id }})"
-                                                wire:confirm="{{ __('app.confirm_end_match') }}"
+                                                x-on:click.prevent="confirmAction({ title: @js(__('app.end_match')), text: @js(__('app.confirm_end_match')), icon: 'warning', confirmButtonText: @js(__('app.end_match')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.endMatch({{ $match->id }}))"
                                                 title="{{ __('app.end_match') }}">
                                                 <i class="bi bi-stop-fill"></i>
                                             </button>
@@ -254,8 +252,7 @@
                                             <i class="bi bi-bar-chart-line"></i>
                                         </a>
                                         <button class="btn btn-sm btn-outline-danger rounded-md"
-                                            wire:click="delete({{ $match->id }})"
-                                            wire:confirm="{{ __('app.confirm_delete_match') }}"
+                                            x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_match')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.delete({{ $match->id }}))"
                                             title="{{ __('app.delete') }}">
                                             <i class="bi bi-trash"></i>
                                         </button>

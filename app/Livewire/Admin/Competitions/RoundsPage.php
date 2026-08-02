@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Competitions;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\CompetitionRound;
 use Livewire\Attributes\Layout;
@@ -10,6 +11,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class RoundsPage extends Component
 {
+    use Notifies;
+
     public Competition $competition;
 
     public string $name = '';
@@ -59,7 +62,7 @@ class RoundsPage extends Component
         $this->reset('name', 'starts_at', 'ends_at');
         $this->number = $this->nextRoundNumber();
 
-        session()->flash('success', __('app.round_created'));
+        $this->notify('success', __('app.round_created'));
     }
 
     public function render()

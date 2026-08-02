@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Referee;
 use App\Models\Team;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class CreateMatchPage extends Component
 {
+    use Notifies;
+
     public ?int $competition_id = null;
 
     public ?int $team1_id = null;
@@ -45,7 +48,7 @@ class CreateMatchPage extends Component
         ]);
 
         if ($this->team1_id === $this->team2_id) {
-            session()->flash('error', __('app.teams_must_be_different'));
+            $this->notify('error', __('app.teams_must_be_different'));
 
             return;
         }

@@ -210,8 +210,7 @@
 
                         @if(in_array($match->phase, [\App\Models\Match_::PHASE_FIRST_HALF, \App\Models\Match_::PHASE_SECOND_HALF, \App\Models\Match_::PHASE_ET_FIRST_HALF, \App\Models\Match_::PHASE_ET_SECOND_HALF]))
                             <hr class="my-2">
-                            <button class="btn btn-outline-danger rounded-md btn-sm" wire:click="endMatch"
-                                wire:confirm="{{ __('app.confirm_end_match') }}">
+                            <button class="btn btn-outline-danger rounded-md btn-sm" x-on:click.prevent="confirmAction({ title: @js(__('app.end_match')), text: @js(__('app.confirm_end_match')), icon: 'warning', confirmButtonText: @js(__('app.end_match')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.endMatch())">
                                 <i class="bi bi-stop-circle"></i> {{ __('app.force_end_match') }}
                             </button>
                         @endif
@@ -219,8 +218,7 @@
                         @if($match->phase === 'et_break')
                             <hr class="my-2">
                             <div class="d-grid">
-                                <button class="btn btn-outline-secondary rounded-md btn-sm" wire:click="endMatch"
-                                    wire:confirm="{{ __('app.confirm_end_match_no_et') }}">
+                                <button class="btn btn-outline-secondary rounded-md btn-sm" x-on:click.prevent="confirmAction({ title: @js(__('app.end_match')), text: @js(__('app.confirm_end_match_no_et')), icon: 'warning', confirmButtonText: @js(__('app.end_match')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.endMatch())">
                                     <i class="bi bi-check-circle"></i> {{ __('app.end_match_no_et') }}
                                 </button>
                             </div>

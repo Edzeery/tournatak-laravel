@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Team;
 use App\Models\TeamMedicalRecord;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class TeamMedicalPage extends Component
 {
+    use Notifies;
+
     public $teamId;
 
     public $team;
@@ -180,10 +183,10 @@ class TeamMedicalPage extends Component
         if ($this->editingRecordId) {
             $record = TeamMedicalRecord::findOrFail($this->editingRecordId);
             $record->update($data);
-            session()->flash('success', __('app.medical_record_saved'));
+            $this->notify('success', __('app.medical_record_saved'));
         } else {
             TeamMedicalRecord::create(array_merge($data, ['team_id' => $this->teamId]));
-            session()->flash('success', __('app.medical_record_saved'));
+            $this->notify('success', __('app.medical_record_saved'));
         }
 
         $this->closeModal();
@@ -194,7 +197,7 @@ class TeamMedicalPage extends Component
     {
         $record = TeamMedicalRecord::findOrFail($id);
         $record->delete();
-        session()->flash('success', __('app.medical_record_deleted'));
+        $this->notify('success', __('app.medical_record_deleted'));
         $this->loadRecords();
     }
 

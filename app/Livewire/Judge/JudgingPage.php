@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Judge;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Judge;
 use App\Models\JudgeScore;
@@ -13,6 +14,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class JudgingPage extends Component
 {
+    use Notifies;
+
     public Competition $competition;
 
     public ?int $round_id = null;
@@ -73,7 +76,7 @@ class JudgingPage extends Component
         $score->notes = $this->scores[$submissionId]['notes'] ?? null;
         $score->save();
 
-        session()->flash('success', __('app.score_saved'));
+        $this->notify('success', __('app.score_saved'));
     }
 
     public function render(SubmissionScoringEngine $engine)

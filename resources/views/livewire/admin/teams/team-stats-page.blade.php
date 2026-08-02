@@ -204,7 +204,7 @@
                                         <button class="btn btn-sm btn-outline-primary" wire:click="editStat({{ $stat->id }})" title="{{ __('app.edit') }}">
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button class="btn btn-sm btn-outline-danger" wire:click="deleteStat({{ $stat->id }})" wire:confirm="{{ __('app.confirm_delete_stat') }}" title="{{ __('app.delete') }}">
+                                        <button class="btn btn-sm btn-outline-danger" x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_stat')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteStat({{ $stat->id }}))" title="{{ __('app.delete') }}">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Team;
 use App\Models\TeamSeasonStat;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class TeamStatsPage extends Component
 {
+    use Notifies;
+
     public $teamId;
 
     public $team;
@@ -177,10 +180,10 @@ class TeamStatsPage extends Component
             TeamSeasonStat::where('id', $this->editingStatId)
                 ->where('team_id', $this->teamId)
                 ->update($data);
-            session()->flash('success', __('app.team_stat_saved'));
+            $this->notify('success', __('app.team_stat_saved'));
         } else {
             TeamSeasonStat::create($data);
-            session()->flash('success', __('app.team_stat_saved'));
+            $this->notify('success', __('app.team_stat_saved'));
         }
 
         $this->closeModal();
@@ -215,7 +218,7 @@ class TeamStatsPage extends Component
         }
 
         $this->loadStats();
-        session()->flash('success', __('app.team_stat_deleted'));
+        $this->notify('success', __('app.team_stat_deleted'));
     }
 
     public function getTotalWinsProperty()

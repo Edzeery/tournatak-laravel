@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Match_;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class MatchesPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -51,7 +53,7 @@ class MatchesPage extends Component
         $this->authorize('delete', $match);
 
         $match->delete();
-        $this->dispatch('swal:success', message: __('app.match_deleted'));
+        $this->notify('success', __('app.match_deleted'));
     }
 
     public function startMatch($id)
@@ -70,7 +72,7 @@ class MatchesPage extends Component
             'extra_data' => $extra,
         ]);
 
-        $this->dispatch('swal:success', message: __('app.match_started'));
+        $this->notify('success', __('app.match_started'));
     }
 
     public function endMatch($id)
@@ -80,7 +82,7 @@ class MatchesPage extends Component
 
         $match->update(['status' => 'completed']);
 
-        $this->dispatch('swal:success', message: __('app.match_ended'));
+        $this->notify('success', __('app.match_ended'));
     }
 
     public function render()

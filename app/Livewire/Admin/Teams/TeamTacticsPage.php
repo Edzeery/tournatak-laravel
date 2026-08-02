@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Team;
 use App\Models\TeamTactic;
 use Livewire\Attributes\Layout;
@@ -10,6 +11,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class TeamTacticsPage extends Component
 {
+    use Notifies;
+
     public $teamId;
 
     public $team;
@@ -174,13 +177,13 @@ class TeamTacticsPage extends Component
                 TeamTactic::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             $tactic->update($data);
-            session()->flash('success', __('app.tactic_saved'));
+            $this->notify('success', __('app.tactic_saved'));
         } else {
             if ($this->tacticForm['is_default']) {
                 TeamTactic::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             TeamTactic::create(array_merge($data, ['team_id' => $this->teamId]));
-            session()->flash('success', __('app.tactic_saved'));
+            $this->notify('success', __('app.tactic_saved'));
         }
 
         $this->closeModal();
@@ -191,7 +194,7 @@ class TeamTacticsPage extends Component
     {
         $tactic = TeamTactic::findOrFail($id);
         $tactic->delete();
-        session()->flash('success', __('app.tactic_deleted'));
+        $this->notify('success', __('app.tactic_deleted'));
         $this->loadTactics();
     }
 

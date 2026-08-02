@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Team;
 use App\Models\TeamStaff;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class TeamStaffPage extends Component
 {
+    use Notifies;
+
     public $teamId;
 
     public $team;
@@ -141,7 +144,7 @@ class TeamStaffPage extends Component
                 'start_date' => $this->staffForm['start_date'] ?: null,
                 'end_date' => $this->staffForm['end_date'] ?: null,
             ]);
-            session()->flash('success', __('app.staff_saved'));
+            $this->notify('success', __('app.staff_saved'));
         } else {
             TeamStaff::create([
                 'team_id' => $this->teamId,
@@ -151,7 +154,7 @@ class TeamStaffPage extends Component
                 'start_date' => $this->staffForm['start_date'] ?: null,
                 'end_date' => $this->staffForm['end_date'] ?: null,
             ]);
-            session()->flash('success', __('app.staff_saved'));
+            $this->notify('success', __('app.staff_saved'));
         }
 
         $this->closeModal();
@@ -162,7 +165,7 @@ class TeamStaffPage extends Component
     {
         $record = TeamStaff::findOrFail($id);
         $record->delete();
-        session()->flash('success', __('app.staff_deleted'));
+        $this->notify('success', __('app.staff_deleted'));
         $this->loadStaff();
     }
 

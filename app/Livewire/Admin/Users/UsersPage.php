@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Users;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\User;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class UsersPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -44,7 +46,7 @@ class UsersPage extends Component
         $this->authorize('delete', $user);
 
         $user->delete();
-        session()->flash('success', __('app.user_deleted'));
+        $this->notify('success', __('app.user_deleted'));
     }
 
     public function render()

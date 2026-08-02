@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Formation;
 use App\Models\Sport;
 use App\Models\Team;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class TeamFormationsPage extends Component
 {
+    use Notifies;
+
     public $teamId;
 
     public $team;
@@ -167,13 +170,13 @@ class TeamFormationsPage extends Component
                 Formation::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             $formation->update($data);
-            session()->flash('success', __('app.formation_saved'));
+            $this->notify('success', __('app.formation_saved'));
         } else {
             if ($this->formationForm['is_default']) {
                 Formation::where('team_id', $this->teamId)->update(['is_default' => false]);
             }
             Formation::create(array_merge($data, ['team_id' => $this->teamId]));
-            session()->flash('success', __('app.formation_saved'));
+            $this->notify('success', __('app.formation_saved'));
         }
 
         $this->closeModal();
@@ -184,7 +187,7 @@ class TeamFormationsPage extends Component
     {
         $formation = Formation::findOrFail($id);
         $formation->delete();
-        session()->flash('success', __('app.formation_deleted'));
+        $this->notify('success', __('app.formation_deleted'));
         $this->loadFormations();
     }
 

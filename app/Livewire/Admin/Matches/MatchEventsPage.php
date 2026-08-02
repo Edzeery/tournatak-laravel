@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Matches;
 
 use App\Events\GoalScored;
+use App\Livewire\Concerns\Notifies;
 use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\Player;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class MatchEventsPage extends Component
 {
+    use Notifies;
+
     public $matchId;
 
     public $match;
@@ -69,7 +72,7 @@ class MatchEventsPage extends Component
         ]);
 
         if (! in_array($this->eventForm['team_id'], [$this->match->team1_id, $this->match->team2_id])) {
-            session()->flash('error', __('app.invalid_team'));
+            $this->notify('error', __('app.invalid_team'));
 
             return;
         }
@@ -88,7 +91,7 @@ class MatchEventsPage extends Component
                 'description' => $this->eventForm['description'],
                 'related_player_id' => $this->eventForm['related_player_id'],
             ]);
-            session()->flash('success', __('app.event_updated'));
+            $this->notify('success', __('app.event_updated'));
         } else {
             $event = MatchEvent::create([
                 'match_id' => $this->matchId,
@@ -101,7 +104,7 @@ class MatchEventsPage extends Component
                 'related_player_id' => $this->eventForm['related_player_id'],
             ]);
             $isNew = true;
-            session()->flash('success', __('app.event_added'));
+            $this->notify('success', __('app.event_added'));
         }
 
         $this->recalculateScore();
@@ -135,7 +138,7 @@ class MatchEventsPage extends Component
     {
         MatchEvent::findOrFail($id)->delete();
         $this->recalculateScore();
-        session()->flash('success', __('app.event_deleted'));
+        $this->notify('success', __('app.event_deleted'));
         $this->loadEvents();
     }
 

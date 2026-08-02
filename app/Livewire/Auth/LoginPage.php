@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Livewire\Concerns\Notifies;
 use App\Services\SecurityActivityLogger;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -11,6 +12,8 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class LoginPage extends Component
 {
+    use Notifies;
+
     public string $identifier = '';
 
     public string $password = '';
@@ -23,7 +26,7 @@ class LoginPage extends Component
         $throttleKey = 'login:'.request()->ip();
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
-            session()->flash('error', __('app.rate_limit_exceeded', ['seconds' => $seconds]));
+            $this->notify('error', __('app.rate_limit_exceeded', ['seconds' => $seconds]));
 
             return;
         }

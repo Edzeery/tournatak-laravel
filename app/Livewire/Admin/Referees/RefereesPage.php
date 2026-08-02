@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Referees;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Referee;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class RefereesPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -37,7 +39,7 @@ class RefereesPage extends Component
     {
         $referee = Referee::findOrFail($id);
         $referee->update(['is_active' => ! $referee->is_active]);
-        $this->dispatch('swal:success', message: __('app.referee_updated'));
+        $this->notify('success', __('app.referee_updated'));
     }
 
     public function render()

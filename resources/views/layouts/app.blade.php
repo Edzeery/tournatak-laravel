@@ -334,66 +334,23 @@
         </div>
     </div>
     {{-- Flash Messages (SweetAlert2 Toasts) --}}
-    @if (session('success'))
+    @if (session('success') || session('error') || session('info') || session('warning'))
         @push('scripts')
             <script>
-                document.addEventListener('livewire:navigated', () => {
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'success',
-                        title: '{{ addslashes(session('success')) }}',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        background: '#1a1f35',
-                        color: '#fff',
-                        borderColor: 'rgba(22,163,74,0.3)',
-                        iconColor: '#16a34a'
-                    });
-                });
-            </script>
-        @endpush
-    @endif
-    @if (session('error'))
-        @push('scripts')
-            <script>
-                document.addEventListener('livewire:navigated', () => {
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'error',
-                        title: '{{ addslashes(session('error')) }}',
-                        showConfirmButton: false,
-                        timer: 5000,
-                        timerProgressBar: true,
-                        background: '#1a1f35',
-                        color: '#fff',
-                        borderColor: 'rgba(239,68,68,0.3)',
-                        iconColor: '#ef4444'
-                    });
-                });
-            </script>
-        @endpush
-    @endif
-    @if (session('info'))
-        @push('scripts')
-            <script>
-                document.addEventListener('livewire:navigated', () => {
-                    Swal.fire({
-                        toast: true,
-                        position: 'top-end',
-                        icon: 'info',
-                        title: '{{ addslashes(session('info')) }}',
-                        showConfirmButton: false,
-                        timer: 4000,
-                        timerProgressBar: true,
-                        background: '#1a1f35',
-                        color: '#fff',
-                        borderColor: 'rgba(59,130,246,0.3)',
-                        iconColor: '#f5a622'
-                    });
-                });
+                let toastShown = false;
+                const showSessionToast = () => {
+                    if (toastShown || typeof window.showToast !== 'function') {
+                        return;
+                    }
+                    @foreach (['success', 'error', 'info', 'warning'] as $flashType)
+                        @if (session($flashType))
+                            window.showToast('{{ $flashType }}', @json(session($flashType)));
+                        @endif
+                    @endforeach
+                    toastShown = true;
+                };
+                document.addEventListener('DOMContentLoaded', showSessionToast);
+                document.addEventListener('livewire:navigated', showSessionToast);
             </script>
         @endpush
     @endif

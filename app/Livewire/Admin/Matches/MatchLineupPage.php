@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Formation;
 use App\Models\Match_;
 use App\Models\MatchLineup;
@@ -14,6 +15,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class MatchLineupPage extends Component
 {
+    use Notifies;
+
     public $matchId;
 
     public $match;
@@ -253,7 +256,7 @@ class MatchLineupPage extends Component
 
         $player = Player::findOrFail($this->lineupForm['player_id']);
         if ($player->team_id !== $teamId) {
-            session()->flash('error', __('app.player_not_in_team'));
+            $this->notify('error', __('app.player_not_in_team'));
 
             return;
         }
@@ -271,7 +274,7 @@ class MatchLineupPage extends Component
                 'is_captain' => $this->lineupForm['is_captain'],
                 'performance_notes' => $this->lineupForm['performance_notes'],
             ]);
-            session()->flash('success', __('app.lineup_updated'));
+            $this->notify('success', __('app.lineup_updated'));
         } else {
             MatchLineup::create([
                 'match_id' => $this->matchId,
@@ -286,7 +289,7 @@ class MatchLineupPage extends Component
                 'is_captain' => $this->lineupForm['is_captain'],
                 'performance_notes' => $this->lineupForm['performance_notes'],
             ]);
-            session()->flash('success', __('app.lineup_added'));
+            $this->notify('success', __('app.lineup_added'));
         }
 
         $this->closeModal();
@@ -321,7 +324,7 @@ class MatchLineupPage extends Component
     public function deleteLineup($id)
     {
         MatchLineup::findOrFail($id)->delete();
-        session()->flash('success', __('app.lineup_deleted'));
+        $this->notify('success', __('app.lineup_deleted'));
         $this->loadLineups();
     }
 
@@ -407,14 +410,14 @@ class MatchLineupPage extends Component
         $positions = self::$formationPositions[$formation] ?? self::$formationPositions['4-4-2'];
 
         if (! isset($positions[$slotIndex])) {
-            session()->flash('error', __('app.invalid_position'));
+            $this->notify('error', __('app.invalid_position'));
 
             return;
         }
 
         $player = Player::findOrFail($playerId);
         if ($player->team_id !== $teamId) {
-            session()->flash('error', __('app.player_not_in_team'));
+            $this->notify('error', __('app.player_not_in_team'));
 
             return;
         }
@@ -423,7 +426,7 @@ class MatchLineupPage extends Component
         $existing = $lineup->first(fn ($l) => $l->player_id === $playerId && $l->is_starter);
 
         if ($existing) {
-            session()->flash('warning', __('app.player_already_in_lineup'));
+            $this->notify('warning', __('app.player_already_in_lineup'));
 
             return;
         }
@@ -443,7 +446,7 @@ class MatchLineupPage extends Component
         );
 
         $this->loadLineups();
-        session()->flash('success', __('app.player_assigned'));
+        $this->notify('success', __('app.player_assigned'));
     }
 
     public function selectFormation($teamNum, $code): void

@@ -174,6 +174,7 @@ return [
     'confirm_delete_message' => 'Are you sure you want to delete this item?',
     'confirm_delete_yes' => 'Yes, delete',
     'confirm_delete_cancel' => 'Cancel',
+    'form_validation_failed' => 'Please fix the errors below',
 
     // Date/Time Pickers
     'select_date' => 'Select date',

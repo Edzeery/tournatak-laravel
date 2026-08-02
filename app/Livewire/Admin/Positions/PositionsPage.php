@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Positions;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Position;
 use App\Models\Sport;
 use Livewire\Attributes\Computed;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class PositionsPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public $showModal = false;
@@ -136,11 +138,11 @@ class PositionsPage extends Component
         if ($this->editingPositionId) {
             Position::findOrFail($this->editingPositionId)->update($this->positionForm);
             Position::bustCache();
-            session()->flash('success', __('app.position_updated'));
+            $this->notify('success', __('app.position_updated'));
         } else {
             Position::create($this->positionForm);
             Position::bustCache();
-            session()->flash('success', __('app.position_created'));
+            $this->notify('success', __('app.position_created'));
         }
 
         $this->closeModal();
@@ -150,7 +152,7 @@ class PositionsPage extends Component
     {
         Position::findOrFail($id)->delete();
         Position::bustCache();
-        session()->flash('success', __('app.position_deleted'));
+        $this->notify('success', __('app.position_deleted'));
     }
 
     public function updatedSearch()

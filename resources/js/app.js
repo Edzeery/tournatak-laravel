@@ -9,6 +9,41 @@ import Swal from 'sweetalert2';
 window.Swal = Swal;
 window.bootstrap = bootstrap;
 
+// ============================================
+// Unified toast notifications (Livewire 'toast' event + session flashes)
+// ============================================
+window.showToast = function (type, message) {
+    const styles = {
+        success: { icon: 'success', timer: 4000, borderColor: 'rgba(22,163,74,0.3)', iconColor: '#16a34a' },
+        error: { icon: 'error', timer: 5000, borderColor: 'rgba(239,68,68,0.3)', iconColor: '#ef4444' },
+        info: { icon: 'info', timer: 4000, borderColor: 'rgba(59,130,246,0.3)', iconColor: '#f5a622' },
+        warning: { icon: 'warning', timer: 5000, borderColor: 'rgba(245,166,34,0.3)', iconColor: '#f5a622' },
+    };
+    const s = styles[type] || styles.info;
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: s.icon,
+        title: message,
+        showConfirmButton: false,
+        timer: s.timer,
+        timerProgressBar: true,
+        background: '#1a1f35',
+        color: '#fff',
+        borderColor: s.borderColor,
+        iconColor: s.iconColor,
+    });
+};
+
+document.addEventListener('livewire:init', () => {
+    Livewire.on('toast', ({ type, message }) => showToast(type, message));
+});
+
+// Backward compat for the legacy swal:* browser events dispatched from Livewire
+window.addEventListener('swal:success', (event) => showToast('success', event.detail?.message));
+window.addEventListener('swal:error', (event) => showToast('error', event.detail?.message));
+window.addEventListener('swal:info', (event) => showToast('info', event.detail?.message));
+
 // ApexCharts is loaded on demand (charts render on the admin dashboard only)
 let apexPromise = null;
 window.loadApexCharts = function () {
@@ -228,4 +263,26 @@ window.confirmSweetAlert = function(url, title, message, confirmText, cancelText
             window.Livewire.navigate(url);
         }
     });
+};
+
+// Styled SweetAlert2 confirmation modal (replaces native wire:confirm).
+// Resolves true when confirmed; false on cancel/dismiss. Options: title, text,
+// icon ('warning'|'info'), confirmButtonText, cancelButtonText.
+// warning = destructive (red confirm button), info = positive (green confirm button).
+window.confirmAction = function (options = {}) {
+    const destructive = (options.icon || 'warning') === 'warning';
+    return Swal.fire({
+        title: options.title || '',
+        text: options.text || '',
+        icon: options.icon || 'warning',
+        showCancelButton: true,
+        confirmButtonColor: options.confirmButtonColor || (destructive ? '#ef4444' : '#16a34a'),
+        cancelButtonColor: options.cancelButtonColor || '#6b7280',
+        confirmButtonText: options.confirmButtonText,
+        cancelButtonText: options.cancelButtonText,
+        reverseButtons: true,
+        background: '#1a1f35',
+        color: '#fff',
+        iconColor: destructive ? '#ef4444' : '#16a34a',
+    }).then((result) => Boolean(result.isConfirmed));
 };

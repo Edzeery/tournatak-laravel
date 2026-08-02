@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Livewire\Concerns\Notifies;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -9,6 +10,8 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class UserPreferencesPage extends Component
 {
+    use Notifies;
+
     public string $locale = 'ar';
 
     public string $theme = 'system';
@@ -88,7 +91,7 @@ class UserPreferencesPage extends Component
             $validated
         );
 
-        $this->dispatch('swal:success', message: __('app.preferences_saved'));
+        $this->notify('success', __('app.preferences_saved'));
     }
 
     public function render()

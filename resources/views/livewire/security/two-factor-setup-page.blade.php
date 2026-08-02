@@ -15,16 +15,7 @@
         </div>
     @endif
 
-    @if($errors->any())
-        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4 tfa-alert-danger">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <div>
-                @foreach($errors->all() as $error)
-                    <div class="fs-sm">{{ $error }}</div>
-                @endforeach
-            </div>
-        </div>
-    @endif
+    <x-form-errors class="tfa-alert-danger mb-4" />
 
     {{-- Status Card --}}
     <div class="auth-card mb-4">

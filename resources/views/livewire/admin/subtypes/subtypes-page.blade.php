@@ -62,8 +62,7 @@
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <button class="btn btn-sm btn-outline-danger rounded-md"
-                                            wire:click="delete({{ $subtype->id }})"
-                                            wire:confirm="{{ __('app.confirm_delete_subtype') }}"
+                                            x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_subtype')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.delete({{ $subtype->id }}))"
                                             aria-label="{{ __('app.delete') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>

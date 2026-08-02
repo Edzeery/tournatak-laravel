@@ -174,6 +174,7 @@ return [
     'confirm_delete_message' => 'هل أنت متأكد من حذف هذا العنصر؟',
     'confirm_delete_yes' => 'نعم، احذف',
     'confirm_delete_cancel' => 'إلغاء',
+    'form_validation_failed' => 'يرجى تصحيح الأخطاء أدناه',
 
     // Date/Time Pickers
     'select_date' => 'اختر التاريخ',

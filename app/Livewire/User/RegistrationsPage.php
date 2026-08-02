@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\CompetitionType;
 use App\Models\Registration;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class RegistrationsPage extends Component
 {
+    use Notifies;
+
     public string $participantType = 'individual';
 
     public ?int $competition_id = null;
@@ -35,12 +38,12 @@ class RegistrationsPage extends Component
         }
 
         if (! $result['success']) {
-            session()->flash('error', $result['message']);
+            $this->notify('error', $result['message']);
 
             return;
         }
 
-        session()->flash('success', __('app.registration_submitted'));
+        $this->notify('success', __('app.registration_submitted'));
         $this->reset(['competition_id', 'team_id']);
     }
 

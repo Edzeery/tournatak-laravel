@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Subtypes;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\CompetitionSubtype;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class SubtypesPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -35,7 +37,7 @@ class SubtypesPage extends Component
     {
         $subtype = CompetitionSubtype::findOrFail($id);
         $subtype->delete();
-        session()->flash('success', __('app.subtype_deleted'));
+        $this->notify('success', __('app.subtype_deleted'));
     }
 
     public function render()

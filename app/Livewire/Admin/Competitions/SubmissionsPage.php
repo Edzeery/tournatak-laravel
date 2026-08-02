@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Competitions;
 
 use App\Enums\SubmissionStatus;
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Submission;
 use App\Models\Team;
@@ -14,6 +15,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class SubmissionsPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public Competition $competition;
@@ -78,7 +80,7 @@ class SubmissionsPage extends Component
 
         $this->reset('newTitle', 'newDescription', 'newParticipantId');
 
-        session()->flash('success', __('app.submission_created'));
+        $this->notify('success', __('app.submission_created'));
     }
 
     public function startEdit(int $submissionId): void
@@ -118,7 +120,7 @@ class SubmissionsPage extends Component
 
         $this->editSubmissionId = null;
 
-        session()->flash('success', __('app.submission_updated'));
+        $this->notify('success', __('app.submission_updated'));
     }
 
     public function setStatus(int $submissionId, string $status): void
@@ -132,7 +134,7 @@ class SubmissionsPage extends Component
 
         $submission->update(['status' => $status]);
 
-        session()->flash('success', __('app.status_updated'));
+        $this->notify('success', __('app.status_updated'));
     }
 
     public function render()

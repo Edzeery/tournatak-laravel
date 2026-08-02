@@ -49,16 +49,7 @@
                     <h2>{{ __('app.login') }}</h2>
                     <p class="auth-subtitle">{{ __('app.login_subtitle') }}</p>
 
-                    @if($errors->any())
-                        <div class="alert alert-danger d-flex align-items-center gap-2 mb-4 alert-dark-danger">
-                            <i class="bi bi-exclamation-triangle-fill"></i>
-                            <div>
-                                @foreach($errors->all() as $error)
-                                    <div class="fs-base">{{ $error }}</div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
+                    <x-form-errors class="alert-dark-danger mb-4" />
 
                     <form wire:submit="login">
                         <div class="mb-3">

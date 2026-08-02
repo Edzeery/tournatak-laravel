@@ -79,8 +79,7 @@
                                     <a href="{{ route('admin.teams.medical', $team->id) }}" class="btn btn-sm btn-outline-danger" title="{{ __('app.medical') }}" aria-label="{{ __('app.medical') }}"><i class="bi bi-heart-pulse"></i></a>
                                     <a href="{{ route('admin.teams.stats', $team->id) }}" class="btn btn-sm btn-outline-primary" title="{{ __('app.results') }}" aria-label="{{ __('app.results') }}"><i class="bi bi-bar-chart"></i></a>
                                     <button class="btn btn-sm btn-outline-danger rounded-md"
-                                            wire:click="delete({{ $team->id }})"
-                                            wire:confirm="{{ __('app.confirm_delete_team') }}"
+                                            x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_team')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.delete({{ $team->id }}))"
                                             aria-label="{{ __('app.delete') }}">
                                         <i class="bi bi-trash"></i>
                                     </button>

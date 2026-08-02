@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Match_;
 use App\Models\Player;
@@ -14,6 +15,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class TrashPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $filterType = 'all';
@@ -68,7 +70,7 @@ class TrashPage extends Component
         };
 
         $model->restore();
-        session()->flash('success', __('app.record_restored'));
+        $this->notify('success', __('app.record_restored'));
     }
 
     public function forceDelete(string $type, int $id): void
@@ -82,7 +84,7 @@ class TrashPage extends Component
         };
 
         $model->forceDelete();
-        session()->flash('success', __('app.record_deleted_permanently'));
+        $this->notify('success', __('app.record_deleted_permanently'));
     }
 
     public function render()

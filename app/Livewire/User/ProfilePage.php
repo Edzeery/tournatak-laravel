@@ -2,6 +2,7 @@
 
 namespace App\Livewire\User;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Profile;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -9,6 +10,8 @@ use Livewire\Component;
 #[Layout('layouts.app')]
 class ProfilePage extends Component
 {
+    use Notifies;
+
     public $full_name = '';
 
     public $profile_date_birth = '';
@@ -47,7 +50,7 @@ class ProfilePage extends Component
             $this->hasProfile = true;
         }
 
-        session()->flash('success', __('app.profile_updated'));
+        $this->notify('success', __('app.profile_updated'));
     }
 
     public function render()

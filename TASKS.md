@@ -1,294 +1,200 @@
-# Tournatak → Multi-Domain Competition Platform (Phase Plan)
+# Toast & Confirmation UX (SweetAlert2) — Task Checklist
 
-**Repo root (git):** `C:\laragon\www\tournatak-laravel`
-**Baseline:** 226 tests passing (416 assertions) · Pint clean · PHPStan clean at level 1 (local only — **not yet in CI**) · 1130 unique translation keys per locale, all 4 locales **in sync** (ar=en=fr=es on unique keys).
+Goal: unify all error/flash feedback into a navigation-independent toast system and
+replace the native `wire:confirm` dialogs with styled SweetAlert2 modals. Three phases;
+each phase ends with verification and a report. Do NOT start Phase 1 until the user
+confirms this plan.
 
-> Prior cleanup plan (P0–P4) is complete; this plan supersedes it. Prior plan preserved in git history.
+## Constraints
+- No new npm or composer packages (sweetalert2 `^11.26` already installed).
+- All user-facing strings via `__('app.xxx')`; new keys added to all 4 locales
+  `resources/lang/{en,ar,fr,es}/app.php`. Preserve RTL.
+- Keep the existing dark/gold theme: bg `#1a1f35`, text `#fff`, success `#16a34a`,
+  error `#ef4444`, info `#f5a622` (existing), warning gold `#f5a622`, cancel `#6b7280`.
+- Do not touch: `composer.json`/`composer.lock` drift (backup 9.4.1) and the
+  pre-existing uncommitted frontend edits (favicon, `_auth.scss`, layouts, auth
+  blades, home-page, `public/img/`). Commit only task files.
 
----
+## Audit summary (facts gathered)
+- `session()->flash()` call sites: **91 across app/Livewire (51 files)**.
+  - **67 NO_REDIRECT** (flash silently dropped today) → convert to `notify()`.
+  - **24 redirect-following** (flash survives full page load; toast shown by layout JS) → keep.
+  - Warning sites: `TwoFactorChallengePage:78` (redirect, keep flash) and
+    `MatchLineupPage:426` (NO_REDIRECT, convert). Layouts have NO `warning` branch.
+- Layout flash handling is duplicated in `layouts/app.blade.php` (lines ~336–399,
+  success/error/info) and `layouts/admin.blade.php` (lines ~365–~400, success/error),
+  each bound only to `livewire:navigated`.
+- `wire:confirm`: **27 occurrences in 18 views**.
+- Inline `@if($errors->any())` alert-danger blocks: **7 views**; a shared
+  `x-form-errors` component already exists (`resources/views/components/form-errors.blade.php`).
+- Legacy `confirmSweetAlert(url, ...)` exists at `resources/js/app.js:215` (URL-navigate
+  style; used by the unused `delete-confirm-button` component and
+  `two-factor-setup-page`). We add a new `confirmAction` helper; leave the legacy one.
 
-## Stage 1 — Discovery findings (verified against live code)
-
-Confirmations:
-- `Sport` is root: `competitions.sport_id`, `teams.sport_id`, `positions.sport_id` (all nullable FKs, backfilled to football). Sports seeded **inside** the migration `database/migrations/2026_07_30_161743_create_sports_table.php` (football, futsal).
-- Sport-specific vocabulary: `Match_`, `MatchEvent`, `MatchLineup`, `Referee`, `Formation`, `TeamTactic`, `TeamMedicalRecord`, `StandingService`.
-- Good foundations confirmed: `TournamentFormatService` (match-pairing strategies), `ScoringEngine` (concrete class — **not** an interface), `RegistrationService`, `CompetitionService`, PHP Enums, `status-badge`/`section-header`/`form-errors` components, `competition_profile` (official/casual), individual-participant support.
-
-Deviations/corrections vs. the task brief (these shape the plan):
-1. **DB ENUMs are forbidden for new schema.** The repo deliberately converted ENUM columns to `VARCHAR` (`2026_07_30_210000_convert_enum_columns_to_string.php`) because DBAL/ENUM migrations break on SQLite. → `competition_domains` will use **string columns** backed by new PHP enums (`CompetitionEvaluationBasis`, and reuse existing `ParticipantType` for `participant_basis`).
-2. **PHPStan is not in CI.** `ci.yml` gates on composer audit, npm audit, Pint, tests (sqlite+mysql). → Add a PHPStan job in Phase 6 (and keep it clean in every phase).
-3. **`competitions.type_id` / `subtype_id` are NOT NULL** (constrained FKs in `2026_07_26_210005`). Non-sports competitions cannot leave them null. → `CompetitionSetupService` will auto-provision a per-domain Type/Subtype via `firstOrCreate`, mirroring the existing casual-competition pattern (`CreateCasualCompetitionPage.php:28-42`).
-4. **Domain rows must be seeded in the migration** (like sports) so the `competitions.domain_id` backfill works during `migrate:fresh`, **plus** a `CompetitionDomainSeeder` for re-seeding.
-5. **`CompetitionService::create()` hardcodes football** as default sport (`app/Services/CompetitionService.php:21-23`) → becomes domain-aware (default domain = sports, sport default only applies within the sports domain).
-6. **`CompetitionFactory` does not set `sport_id`/`domain_id`** → update factory to reference the seeded sports domain.
-7. Tests for homepage (`tests/Feature/Public/HomePageTest.php`), competition pages (`CompetitionCrudTest.php`, `CompetitionDetailTest.php`) only assert HTTP 200 → Phase 3/4 redesigns must preserve those assertions.
-8. Translation gap previously flagged for `es` is **already closed** (unique-key comparison). New strings still require all 4 locales.
-
-End-state acceptance test (add a 6th domain): seed one `competition_domains` row + implement `ScoringEngineInterface` only if scoring is genuinely new + add domain tab content. No touching `Match_`, `MatchEvent`, or sports-domain code.
-
----
-
-## Phase 1 (HIGH) — Backend Domain Model Foundation
-
-### 1.1 `competition_domains` table + seed + enum
-- **New files:**
-  - `database/migrations/2026_08_01_000001_create_competition_domains_table.php`
-    - `id, key (string, unique), name, name_en, name_fr, name_es, description, icon, participant_basis (string(20), default 'both'), evaluation_basis (string(20), default 'match'), is_active (bool), sort_order (unsignedSmallInt), timestamps`.
-    - Seeds the 5 domains inline (like the sports migration): `sports`, `esports`, `academic_knowledge`, `hackathon_project`, `creative_arts` — each with all localized names/descriptions, an icon (bootstrap-icons, domain-neutral), participant_basis, evaluation_basis (`match` for sports/esports, `submission` for the other three), sort_order.
-    - `down()`: `dropIfExists`.
-  - `app/Enums/CompetitionEvaluationBasis.php` — `Match = 'match'`, `Submission = 'submission'`, with `label()`.
-  - `app/Models/CompetitionDomain.php` — constants `KEY_SPORTS`/`KEY_ESPORTS`/`KEY_ACADEMIC`/`KEY_HACKATHON`/`KEY_CREATIVE`; `$fillable`, `$casts`; `localizedName()` (mirror `Sport::localizedName()`); `evaluationBasis()` and `participantBasis()` helpers returning enums; `isMatchBased()`/`isSubmissionBased()`; relationships `competitions(): HasMany`.
-  - `database/factories/CompetitionDomainFactory.php` (lazy: `firstOrCreate`-backed state for `sports` key).
-- **New seed file:** `database/seeders/CompetitionDomainSeeder.php` — `updateOrCreate` by `key`; call from `DatabaseSeeder::run()` (after RoleSeeder).
-- **Implicit Sport↔domain link (no schema change):**
-  - `app/Models/Sport.php`: add `domain(): CompetitionDomain` returning the `sports` domain (via `CompetitionDomain::where('key', KEY_SPORTS)`), and `competitionDomains(): Collection` (empty list fallback).
-- **Unit tests:** `tests/Unit/CompetitionDomainTest.php` (seeded rows exist after `RefreshDatabase`, helpers, localizedName, relationships). `tests/Feature/Model/CompetitionDomainModelTest.php` for the Sport↔domain accessor.
-
-### 1.2 `competitions.domain_id` + backfill
-- **New file:** `database/migrations/2026_08_01_000002_add_domain_id_to_competitions_table.php`
-  - Adds nullable `domain_id` FK → `competition_domains` (`nullOnDelete`), `after('organizer_id')`.
-  - Backfill: `UPDATE competitions SET domain_id = <sports id>` (mirrors the sport_id backfill migration).
-  - `down()`: drop FK + column.
-- **Model:** `app/Models/Competition.php` — add `domain_id` to `$fillable`; `domain(): BelongsTo`; helpers `domainKey(): ?string`, `isSportsDomain(): bool`, `evaluationBasis(): ?CompetitionEvaluationBasis` (from domain, fallback `match` when null), `scopeDomain(string $key)`, `scopeInDomains(array $keys)`.
-- **Factory:** `database/factories/CompetitionFactory.php` — set `domain_id` to the seeded sports domain (resolve via `CompetitionDomain` query, `afterCreating`/state-safe so migrate:fresh ordering holds).
-- **Service:** `app/Services/CompetitionService.php` — `create()`: accept optional `domain_id`; when absent, resolve from `sport_id` (non-null ⇒ sports) else default to the `sports` domain; the football-sport default at lines 21-23 applies only when the resolved domain is `sports`.
-- **Tests:** extend `tests/Unit/ModelTest.php` or new `tests/Feature/Model/CompetitionDomainTest.php` (competition→domain, domain→competitions, helpers, backfill via factory-created competition).
-
-### 1.3 Generic evaluation-side models (submission domains)
-- **New migrations (each with full `down()`):**
-  - `2026_08_01_000003_create_competition_rounds_table.php` → `id, competition_id FK, round_number, name, start_date? , end_date?, meta (json nullable), timestamps`.
-  - `2026_08_01_000004_create_submissions_table.php` → `id, competition_round_id FK, participant_type (string(20)), team_id?, user_id?, title?, content (text), file_path?, submitted_at?, status (string(20) default 'submitted'), timestamps` + indexes. (team_id/user_id mirrors `registrations` — no polymorphic id column.)
-  - `2026_08_01_000005_create_judges_table.php` → `id, competition_id FK, user_id FK, role (string), timestamps`, unique `(competition_id, user_id)`.
-  - `2026_08_01_000006_create_judge_scores_table.php` → `id, submission_id FK, judge_id FK (→ judges), criteria (string), score (decimal 5,2), comments?, timestamps`, unique `(submission_id, judge_id, criteria)`.
-- **New enums:** `app/Enums/SubmissionStatus.php` — `Submitted`, `UnderReview`, `Scored`, `Rejected`.
-- **New models + factories:**
-  - `app/Models/CompetitionRound.php` (+ `CompetitionRoundFactory`) — `competition()`, `submissions()`.
-  - `app/Models/Submission.php` (+ `SubmissionFactory`) — `round()`, `team()`, `user()`, `judgeScores()`, `averageScore()`, `totalScore()`, `isTeamSubmission()`/`isIndividualSubmission()` (mirror `Registration`).
-  - `app/Models/Judge.php` (+ `JudgeFactory`) — `competition()`, `user()`, `scores()`.
-  - `app/Models/JudgeScore.php` (+ `JudgeScoreFactory`) — `submission()`, `judge()`.
-- **Do NOT touch** `Match_`, `MatchEvent`, `Referee` — they remain the `match`-evaluation implementation.
-- **`ARCHITECTURE_NOTES.md`** (new file, repo root): section "Domain model" — the generic vs. domain-specific boundary, how to add a 6th domain, how to add a sport.
-
-### 1.4 Policies — domain-agnostic top level
-- `app/Policies/CompetitionPolicy.php` is already permission-based (domain-agnostic). Add a `judge(User, Competition)` ability checking membership in `judges` (used by Phase 4). Registration/Team policies stay as-is.
-- New policies deferred to Phase 4 (`JudgePolicy`, `SubmissionPolicy`, `JudgeScorePolicy`) so Phase 1 ships no orphaned gates.
-
-### 1.5 Phase 1 deliverables checklist
-- [x] 7 migrations, all additive, all with working `down()`
-- [x] 5 models + 5 factories + 1 enum + 1 seeded domain table + seeder wired into `DatabaseSeeder`
-- [x] `Competition`/`Sport`/`CompetitionService`/`CompetitionFactory` domain-aware (sports behavior byte-identical)
-- [x] Unit/feature tests for every new model/relationship + backfill
-- [x] `php artisan test` (226+new) · `vendor/bin/pint --test` · `vendor/bin/phpstan analyse` all green
-- [x] `ARCHITECTURE_NOTES.md` created
+## Verification (after each phase)
+- Tests: `C:\laragon\bin\php\php-8.3.28-Win32-vs16-x64\php.exe artisan test`
+  (local default PHP 8.2.12 is blocked by the composer platform check; 8.3.28 proven: 336 tests / 7422 assertions).
+- Style: `vendor/bin/pint --test` (same PHP binary prefix).
+- Frontend build: `npm run build`.
+- Report real output; never mark a phase complete without running these.
 
 ---
 
-## Phase 2 (HIGH) — Backend Service Layer Generalization
+## Phase 1 — Unified toast system (`dispatch('toast')` + global listener)
 
-### 2.1 Scoring abstraction
-- **New:** `app/Contracts/ScoringEngineInterface.php`
-  - `supports(string $evaluationBasis): bool`
-  - `calculateRanking(Competition $competition, array $context = []): array` — returns ranked participant rows.
-- **New:** `app/Services/SportsScoringEngine.php` — implements interface; `supports('match')`; `calculateRanking()` delegates to existing `StandingService` (which keeps its concrete `ScoringEngine` dependency — **unchanged**, zero break).
-- **New:** `app/Services/SubmissionScoringEngine.php` — implements interface; `supports('submission')`; aggregates `JudgeScore` per submission (average/total, count), returns ranked list.
-- **New:** `app/Services/ScoringEngineRegistry.php` — resolves engine by `$competition->evaluationBasis()` (default: sports engine).
-- Existing `app/Services/ScoringEngine.php` stays as the low-level sports points/tiebreaker utility (used by `StandingService`, `TournamentFormatService::getFormatConfig`). **No renames.**
-- **Tests:** `tests/Unit/ScoringEngineRegistryTest.php`, `tests/Unit/SportsScoringEngineTest.php`, `tests/Unit/SubmissionScoringEngineTest.php`; existing `tests/Unit/ScoringEngineTest.php`/`StandingServiceTest.php` pass unchanged (proves abstraction didn't alter sports behavior).
+### 1A. PHP helper
+- [x] Create `app/Livewire/Concerns/Notifies.php` — trait with
+      `notify(string $type, string $message): void { $this->dispatch('toast', type: $type, message: $message); }`
+      (type in: success | error | info | warning).
 
-### 2.2 `TournamentFormatService` — abstract "rounds" on top of match pairing
-- `app/Services/TournamentFormatService.php`: add `generateRounds(Competition): array` (domain-neutral round descriptors: round_number, name, stage) derived from existing format config (`getFormatConfig`) — e.g. knockout ⇒ 1..N rounds, swiss ⇒ `swiss_rounds`, groups ⇒ group stage + knockout stage; and `createRounds(Competition): int` writing `CompetitionRound` rows (used by submission domains to define judging rounds; harmless/unused for match domains).
-- Existing `generateMatches()`/`createMatches()` and all match-based strategies remain **exactly as-is**.
-- **Tests:** extend `tests/Unit/TournamentFormatServiceTest.php` (round generation per format; match generation unchanged).
+### 1B. Global JS listener (resources/js/app.js)
+- [x] Add `window.showToast(type, message)` — single `Swal.fire` toast (toast:true,
+      position:'top-end', timer 4000/5000 per type, timerProgressBar, bg `#1a1f35`,
+      color `#fff`, iconColor map success `#16a34a` / error `#ef4444` / info `#f5a622` /
+      warning `#f5a622`).
+- [x] Register once after `window.Swal = Swal;`:
+      `Livewire.on('toast', ({ type, message }) => showToast(type, message));`
+      (fires on AJAX updates AND navigations → navigation-independent).
 
-### 2.3 `RegistrationService` domain-awareness
-- `app/Services/RegistrationService.php`: add `isRegistrationAllowed(Competition, string $participantType): bool` gating on the competition domain's `participant_basis` (sports domain = `both` ⇒ current behavior identical). Wire as a soft guard in `registerIndividual()`/`registerTeam()` returning the existing "not allowed" result shape (no exception throws that change current flows).
-- `getAvailableCompetitions()` keeps filtering by `CompetitionType.participant_type` (sports flow unchanged) — add optional `?string $domainKey` param to filter by domain (used by Phase 3 public listing if needed).
-- **Tests:** extend `tests/Unit/RegistrationServiceTest.php` and `tests/Feature/Livewire/RegistrationTest.php` (domain guard for a submission-domain competition).
+### 1C. Layouts — backward compat for full-page-load session flashes
+- [x] `resources/views/layouts/app.blade.php` (~336–399): replace the three
+      `@if(session(...))`+`@push('scripts')` blocks with one block that calls
+      `showToast('success'|'error'|'info'|'warning', @json(session(key)))` for each
+      present key; fire on initial load AND `livewire:navigated` (avoid double-fire);
+      ADD the missing `warning` branch.
+- [x] `resources/views/layouts/admin.blade.php` (~365–400): same (add `info`+`warning`).
 
-### 2.4 `CompetitionSetupService` — single source of truth for the wizard
-- **New:** `app/Services/CompetitionSetupService.php`
-  - `stepsFor(CompetitionDomain): array` — ordered wizard steps per domain (sports: [domain, basics, sport+format, review]; hackathon: [domain, basics, rounds/judging-criteria, review]).
-  - `fieldsFor(string $step, CompetitionDomain): array` — field descriptors (name, type, options, validation rules, required).
-  - `validationFor(CompetitionDomain): array` — Laravel validation rules per domain step.
-  - `provisionTypeFor(CompetitionDomain, array $data): [type_id, subtype_id]` — `firstOrCreate` per-domain type/subtype (mirrors casual-competition pattern at `CreateCasualCompetitionPage.php:28-42`).
-- **New:** `app/Enums/CompetitionStep.php` (or plain string constants on the service — choose constants; avoid enum explosion).
-- **Tests:** `tests/Unit/CompetitionSetupServiceTest.php` (sports step list matches current create form fields; hackathon step list has judging criteria; provisionType returns/create per domain).
+### 1D. Convert the 67 NO_REDIRECT sites (32 files) — `use Notifies;` + `session()->flash(...)` → `$this->notify(...)`
+Lines refer to current `session()->flash()` calls. Errors are `error`, successes `success`, warnings `warning`.
+- [x] User/ProfilePage.php:50
+- [x] User/RegistrationsPage.php:38 (error), 43
+- [x] Security/TwoFactorSetupPage.php:149, 174
+- [x] Judge/JudgingPage.php:76
+- [x] Auth/ForgotPasswordPage.php:27 (error), 42, 49
+- [x] Auth/LoginPage.php:26 (error) — known dead site
+- [x] Admin/Matches/CreateMatchPage.php:48 (error)
+- [x] Admin/Matches/EditMatchPage.php:76 (error)
+- [x] Admin/Matches/MatchLineupPage.php:256 (error), 274, 289, 324, 410 (error), 417 (error), 426 (warning), 446
+- [x] Admin/Matches/MatchEventsPage.php:72 (error), 91, 104, 138
+- [x] Admin/Matches/MatchStatsPage.php:165
+- [x] Admin/Competitions/CompetitionsPage.php:21, 30 (error)
+- [x] Admin/Competitions/CompetitionJudgingPage.php:52, 62, 71
+- [x] Admin/Competitions/RoundsPage.php:62
+- [x] Admin/Competitions/SubmissionsPage.php:81, 121, 135
+- [x] Admin/Users/UsersPage.php:47
+- [x] Admin/Positions/PositionsPage.php:139, 143, 153
+- [x] Admin/Registrations/CreateRegistrationPage.php:31 (error)
+- [x] Admin/Registrations/CreateTeamRegistrationPage.php:31 (error)
+- [x] Admin/Registrations/RegistrationsPage.php:52, 59, 66
+- [x] Admin/Types/TypesPage.php:38, 45
+- [x] Admin/Subtypes/SubtypesPage.php:38
+- [x] Admin/Sports/SportsPage.php:33, 40
+- [x] Admin/Players/PlayersPage.php:40
+- [x] Admin/TrashPage.php:71, 85
+- [x] Admin/Teams/TeamFormationsPage.php:170, 176, 187
+- [x] Admin/Teams/TeamsPage.php:40
+- [x] Admin/Teams/TeamStaffPage.php:144, 154, 165
+- [x] Admin/Teams/TeamStatsPage.php:180, 183, 218
+- [x] Admin/Teams/TeamMedicalPage.php:183, 186, 197
+- [x] Admin/Teams/TeamTacticsPage.php:177, 183, 194
 
-### 2.5 Phase 2 deliverables checklist
-- [x] Interface + 2 engines + registry, all unit-tested
-- [x] Rounds generator added (match generation untouched)
-- [x] Registration domain guard (sports behavior unchanged)
-- [x] `CompetitionSetupService` + tests
-- [x] Full safety net green (tests/Pint/PHPStan)
+### 1E. Keep the 24 redirect-following sites as `session()->flash(...)` (backward compat) — audit only
+- [x] Confirm none of these are converted: CreateCasualCompetitionPage:54;
+      CreateCompetitionPage:297; EditCompetitionPage:71; CreateMatchPage:65;
+      EditMatchPage:100; CreatePlayerPage:86; EditPlayerPage:122; CreateRefereePage:56;
+      EditRefereePage:73; CreateRegistrationPage:36; CreateTeamRegistrationPage:36;
+      CreateSportPage:61; EditSportPage:71; CreateSubtypePage:28; EditSubtypePage:37;
+      CreateTeamPage:48; EditTeamPage:107; CreateTypePage:58; EditTypePage:67;
+      CreateUserPage:38; EditUserPage:53; RegisterPage:38; ResetPasswordPage:53;
+      TwoFactorChallengePage:78 (warning — now renders via the new layout warning branch).
 
----
-
-## Phase 3 (HIGH) — Homepage, Navigation & Information Architecture
-
-### 3.1 Homepage — general competition platform
-- `app/Livewire/Home/HomePage.php`: add `domains` (active `CompetitionDomain` list) + keep existing `stats`/`activeCompetitions`/`teams`.
-- `resources/views/livewire/home/home-page.blade.php`:
-  - Hero: domain-neutral headline/copy (new translation keys) — keep `hero-sports` container styling but swap vocabulary ("organize any competition", "participants and rounds").
-  - New **domain showcase** section: one card per domain (icon, localized name, description, link to `route('competitions.index', ['domain' => $domain->key])`).
-  - New **how-it-works** section (domain-neutral, 3 steps).
-  - Keep Active Competitions section and Latest Teams section (teams section is sports-flavored; keep — sports is a first-class domain).
-  - Preserve HTTP 200 (`HomePageTest`).
-- **Tests:** extend `tests/Feature/Public/HomePageTest.php` (page 200; all 5 domain cards present).
-
-### 3.2 Navigation
-- `resources/views/layouts/app.blade.php`: add a **Domains** dropdown (or "Competitions" nav item with a domains flyout) linking to filtered listings; keep Home/Competitions/Teams/Matches/Players links (teams/matches/players are the sports hub, acceptable as sports-domain surfaces).
-- `resources/views/layouts/admin.blade.php` sidebar: retitle the Competitions section to a domain-neutral hub; add "Domains" item (view-only, permission `manage settings` or new `manage domains` permission via `RoleSeeder` — add permission `manage domains` to admin role only, low-risk) linking to a new `Admin/CompetitionDomainsPage` (read-only listing seeded rows; Phase 3 scope: view list; no CRUD unless cheap).
-  - New: `app/Livewire/Admin/CompetitionDomainsPage.php` + view + route `/panel/domains` (permission `manage settings`).
-- **Tests:** extend `tests/Feature/Admin/CompetitionCrudTest.php` (domains page 200 for admin, 403 for plain user).
-
-### 3.3 Public competitions listing — domain filter
-- `app/Livewire/Public/CompetitionsPage.php`: read `?domain=` query; `scopeInDomains` filter; pass `domains` list + `activeDomain`.
-- `resources/views/livewire/public/competitions-page.blade.php`: domain chips/filter bar above the grid; keep existing listing.
-- **Tests:** `tests/Feature/Public/CompetitionsPageDomainFilterTest.php` (filter by domain returns only that domain's competitions; no filter returns all).
-
-### 3.4 Dynamic page titles/breadcrumbs
-- `CompetitionDetailPage` (public) + admin competition pages: breadcrumb/title labels adapt to domain vocabulary (e.g. submissions-domain pages use "Rounds/Submissions/Judging" strings). Backed by new translation keys; match-domain pages unchanged.
-
-### 3.5 Competition creation wizard (domain-first)
-- `app/Livewire/Admin/Competitions/CreateCompetitionPage.php` becomes step-driven:
-  - Step 1: choose domain (from `competition_domains`, icons+descriptions).
-  - Steps 2..n: fields driven by `CompetitionSetupService` (sports step reproduces the **current** create form 1:1 — same fields/validation/`CompetitionService::create()` call).
-  - Keep route `admin.competitions.create` → this component (tests stay green).
-- `resources/views/livewire/admin/competitions/create-competition-page.blade.php`: step indicator + dynamic field rendering; sports step visually identical to today.
-- `CreateCasualCompetitionPage`: unchanged (casual path untouched), but `CompetitionService::create()` now stamps `domain_id` = sports.
-- **Translations (4 locales):** domain names/descriptions, hero/how-it-works copy, wizard labels/step titles, domain-filter labels, nav labels, "judging/submissions" vocabulary.
-- **Tests:** `tests/Feature/Livewire/CreateCompetitionWizardTest.php` — choose `sports` ⇒ produces official competition (type/subtype/sport preserved); choose `hackathon_project` ⇒ produces competition with domain_id + provisioned type/subtype; existing football create/edit flows asserted end-to-end unchanged.
-
-### 3.6 Phase 3 deliverables checklist
-- [x] Homepage redesigned (domain showcase + how-it-works) — 200 preserved
-- [x] Public + admin navigation domain-aware
-- [x] Public listing domain filter
-- [x] Domain-first creation wizard (sports flow identical)
-- [x] Domains admin page (read-only)
-- [x] Translations ×4 · tests green
+### 1F. Verify
+- [x] Run tests, Pint, `npm run build`; report.
 
 ---
 
-## Phase 4 (MEDIUM) — Domain-Specific Competition & Participant Pages
+## Phase 2 — Unify inline validation error blocks (toast + keep per-field hints)
 
-### 4.1 Generic detail shell + swapped tabs
-- Public match-domain detail stays as-is (`app/Livewire/Public/CompetitionDetailPage.php` + `competition-detail-page.blade.php`).
-- **New submission-domain detail:** `app/Livewire/Public/SubmissionCompetitionDetailPage.php` + `submission-competition-detail-page.blade.php`, registered via route slug logic (same `/competitions/{competition}` route — the controller-less Livewire route resolves to whichever component based on `evaluation_basis`; simplest non-breaking approach: keep the existing route/component and branch inside `CompetitionDetailPage::render()` to return the submission view when `$competition->evaluationBasis() === submission`).
-  - Tabs: Overview · Rounds & Submissions · Results/Ranking (via `SubmissionScoringEngine`).
-- Reuse `status-badge`, `section-header`, `empty-state`, `pagination`.
+### 2A. Replace the 7 inline `@if($errors->any())` alert-danger blocks with `<x-form-errors />`
+- [x] `livewire/auth/login-page.blade.php:52`
+- [x] `livewire/auth/register-page.blade.php:62`
+- [x] `livewire/auth/forgot-password-page.blade.php:37`
+- [x] `livewire/auth/reset-password-page.blade.php:23`
+- [x] `livewire/auth/two-factor-challenge-page.blade.php:15`
+- [x] `livewire/security/two-factor-setup-page.blade.php:18`
+- [x] `livewire/admin/matches/lineup-page.blade.php:447` (inside modal)
+  (Preserve surrounding layout/margins where the block was not a bare component.)
 
-### 4.2 Admin submission + judging management
-- `app/Livewire/Admin/Competitions/RoundsPage.php` + view — manage `CompetitionRound` rows (list/create).
-- `app/Livewire/Admin/Competitions/SubmissionsPage.php` + view — list submissions per round, create/edit, set status.
-- `app/Livewire/Admin/Competitions/CompetitionJudgingPage.php` + view — assign judges per round, view aggregated results (non-judge view).
-- Routes under `admin.competitions.*` (permission `manage competitions`).
+### 2B. Enhance the shared component `resources/views/components/form-errors.blade.php`
+- [x] Keep the alert-danger list (accessibility + inline context).
+- [x] Fire a `toast` (error) when `$errors->any()` appears. NOTE: verified that Livewire 3/4
+      `@script` does NOT re-run on component updates (only on load) — so instead of `@script`,
+      the component uses `x-data` + `x-init` on the alert div, which runs on initial mount AND
+      whenever Livewire inserts the alert after a failed validation (fires once per appearance).
+- [x] Add generic key `form_validation_failed` ("Please fix the errors below") to all 4 locales.
+- [x] Confirm the 18 existing `x-form-errors` usages gain the toast automatically (no regressions).
 
-### 4.3 Judge experience
-- `app/Livewire/Judge/JudgingPage.php` + view + route `/judge/competitions/{competition}` (auth + `JudgePolicy`):
-  - sees only assigned submissions for the current round
-  - enters scores per criteria (`judge-score-input` Blade component — new, minimal)
-  - cannot see other judges' scores (configurable per competition via `format_config['judging']['hide_other_judges'] ?? true`)
-  - results aggregate automatically via `SubmissionScoringEngine`.
-- **Policies:** `app/Policies/JudgePolicy.php`, `SubmissionPolicy.php`, `JudgeScorePolicy.php`; register in `AppServiceProvider`; `CompetitionPolicy::judge()` from Phase 1 wired here.
-- **Component:** `resources/views/components/judge-score-input.blade.php`.
+### 2C. Keep per-field inline hints untouched (auth pages show per-field help text).
 
-### 4.4 End-to-end flow test
-- `tests/Feature/Public/SubmissionCompetitionFlowTest.php`: create hackathon competition (domain `hackathon_project`) → create round → register team participants → submit submissions → assign judge → judge scores → `SubmissionScoringEngine` ranks → results page shows ranking. Plus a match-domain competition still renders the classic detail page (regression).
-
-### 4.5 Phase 4 deliverables checklist
-- [x] Submission-domain public detail (tabs: overview/rounds/results)
-- [x] Admin rounds/submissions/judging management
-- [x] Judge scoring UI + policies + `judge-score-input` component
-- [x] End-to-end flow tests · translations ×4 · full safety net green
+### 2D. Verify
+- [x] Run tests, Pint, `npm run build`; report.
 
 ---
 
-## Phase 5 (MEDIUM) — Visual Design System Rollout
+## Phase 3 — Replace native `wire:confirm` with SweetAlert2 confirm modals
 
-### 5.1 Brand tokens (Deep Indigo `#1E1B4B` primary / Amber `#F5A622` accent)
-- `resources/css/core/_variables.scss`: **add** (don't replace) `--brand-primary: #1E1B4B`, `--brand-primary-hover`, `--brand-accent: #F5A622`, `--brand-accent-glow`, `--brand-gradient`. Leave existing `--primary` (#ffc107 gold) untouched so sports UI is pixel-identical.
-- `resources/css/components/_utilities.scss`: add `.text-brand`, `.bg-brand`, `.btn-brand`, `.btn-outline-brand` helpers.
-- Apply tokens to **new/domain-neutral surfaces only**: homepage hero + domain cards + wizard + nav highlights + domain badge (`status-badge` gets a `domain` variant via existing `$variant` mechanism).
-- Sports-domain pages keep sport icons (e.g. soccer ball) inside their own pages.
+### 3A. JS helper (resources/js/app.js)
+- [x] Add `window.confirmAction(options)` → returns `Promise<boolean>` (resolves true on
+      confirm; false/cancel on dismiss). Options: title, text, icon ('warning'|'info'),
+      confirmButtonText, cancelButtonText. Styling: bg `#1a1f35`, color `#fff`,
+      confirm `#ef4444` (destructive) / `#16a34a` (start/approve), cancel `#6b7280`,
+      `reverseButtons: true`, RTL-safe. Reuses existing `Swal` instance.
+      Icon maps color: 'warning' → red confirm, 'info' → green confirm (overridable).
 
-### 5.2 Bundle splitting / dynamic imports
-- `resources/js/app.js`: baseline `npm run build` output sizes recorded before/after.
-- Vite `resources/js/app.js` + `vite.config.js`: add dynamic `import()` for heavy domain JS — tactics board (`lineup-page`/`tactics`), judging interface — so the public bundle stays lean.
+### 3B. Replace 27 `wire:confirm` occurrences (18 views) with
+`x-on:click.prevent="confirmAction({...}).then(ok => ok && $wire.method(args))"`
+preserving the exact method name + arguments (`$wire` is available globally via Alpine/Livewire).
+Translated strings embedded via `@js()` (renders single-quoted JS literals with `\uXXXX`
+escaping, safe inside double-quoted attributes; verified by rendering samples).
+Method names verified against the PHP components; per-context titles/buttons reuse
+`app.start_match`/`app.end_match`/`app.approve`/`app.reject`/`app.restore`.
+- [x] `livewire/admin/users/users-page.blade.php:102` → `delete($user->id)`
+- [x] `livewire/admin/players/players-page.blade.php:80` → `delete($player->id)`
+- [x] `livewire/admin/teams/teams-page.blade.php:83` → `delete($team->id)`
+- [x] `livewire/admin/positions/positions-page.blade.php:92` → `deletePosition($pos->id)`
+- [x] `livewire/admin/sports/sports-page.blade.php:80` → `delete($sport->id)`
+- [x] `livewire/admin/types/types-page.blade.php:90` → `delete($type->id)`
+- [x] `livewire/admin/subtypes/subtypes-page.blade.php:66` → `delete($subtype->id)`
+- [x] `livewire/admin/teams/team-formations-page.blade.php:86` → `deleteFormation($formation->id)`
+- [x] `livewire/admin/teams/team-staff-page.blade.php:62` → `deleteStaff($member->id)`
+- [x] `livewire/admin/teams/team-tactics-page.blade.php:78` → `deleteTactic($tactic->id)`
+- [x] `livewire/admin/teams/team-medical-page.blade.php:166` → `deleteRecord($record->id)`
+- [x] `livewire/admin/teams/team-stats-page.blade.php:207` → `deleteStat($stat->id)`
+- [x] `livewire/admin/matches/events-page.blade.php:96` → `deleteEvent($event->id)`
+- [x] `livewire/admin/matches/lineup-page.blade.php:305,338,384,417` → `deleteLineup($lineup->id)` (×4)
+- [x] `livewire/admin/matches/match-control-page.blade.php:214,223` → `endMatch` (both sites use `endMatch`; distinct confirm texts)
+- [x] `livewire/admin/matches/matches-page.blade.php:219,226,258` → `startMatch($match->id)`, `endMatch($match->id)`, `delete($match->id)`
+- [x] `livewire/admin/registrations/registrations-page.blade.php:94,99,105` → `approve/reject/delete($registration->id)`
+- [x] `livewire/admin/trash-page.blade.php:108,117` → `restore($type, $id)` / `forceDelete($type, $id)` (`@js($typeKeys[$typeName])` for the string arg)
 
-### 5.3 Visual QA notes
-- `docs/visual-qa.md` (or section in ARCHITECTURE_NOTES.md): screenshots/checklist across homepage, wizard, one sports page, one hackathon page. Brand consistency check.
+### 3C. Translations
+- [x] Reuse existing keys: `app.confirm_delete_yes`, `app.confirm_delete_cancel`,
+      `app.confirm_delete_title`, per-item `confirm_delete_*` texts, plus
+      `app.start_match`/`app.end_match`/`app.approve`/`app.reject`/`app.restore`
+      as per-context titles/confirm buttons. All verified present in all 4 locales.
+- [x] No new keys needed.
 
-### 5.4 Phase 5 deliverables checklist
-- [x] Brand tokens added (sports visuals unchanged)
-- [x] Domain-neutral UI wired to tokens
-- [x] Dynamic imports + before/after bundle sizes
-- [x] Visual QA notes
+### 3D. Out of scope / leave as-is
+- [x] `confirmSweetAlert` (app.js:266), `delete-confirm-button` component,
+      `two-factor-setup-page` onclick usage — unchanged (optionally note for later).
 
-**Phase 5 done.** Implemented + committed as one commit. Main JS bundle cut from **1098.72 kB → 266.52 kB** (gzip 318.29 → 80.34 kB, ~76% smaller) by lazy-loading ApexCharts via `window.loadApexCharts()` (`import('apexcharts')`); the lineup/tactics board was extracted to its own `resources/js/lineup.js` Vite entry (0.53 kB, loaded only on the lineup page). ApexCharts chunk now ships as a separate on-demand asset (832.50 kB, gzip 238.36 kB). Brand tokens (`--brand-primary` deep indigo `#1e1b4b`, `--brand-accent` amber `#f5a622`, `--brand-gradient`) were added without touching `--primary` gold; wired into the homepage hero (indigo `--gradient-hero` + amber accents/glows), hero + nav highlight states, domain cards, create-competition wizard stepper/buttons, and a new `.badge-domain` variant replacing `badge-sport` on domain badges in admin/public competition pages. Sports visuals (gold `btn-primary-sport`, `.badge-sport` stats/rounds badges, status-kit vendor config) remain pixel-identical. Quality gate green: 310 tests, Pint, PHPStan, `npm run build`, view cache. Visual QA checklist in `ARCHITECTURE_NOTES.md` §5.3.
-
----
-
-## Phase 6 (LOW) — Hardening & Documentation
-
-### 6.1 CI + regression
-- `.github/workflows/ci.yml`: add PHPStan step (`vendor/bin/phpstan analyse`) after Pint.
-- Fresh-install regression: `composer install`, `migrate:fresh --seed`, `npm run build`, full suite, Pint, PHPStan, `composer audit`, `npm audit` — all green.
-
-### 6.2 Documentation
-- [x] `README.md`: rewrite as multi-domain competition platform — domain model, how to add a domain (6th-domain runbook), how to add a sport.
-- [x] `ARCHITECTURE_NOTES.md`: finalize domain model + extension points.
-- [x] `TASKS.md`: all checkboxes completed; record deviations from this plan and why.
-
-**Phase 6 done.** Implemented + committed as one commit.
-
-- **CI**: added a PHPStan step (`vendor/bin/phpstan analyse --memory-limit=1G --no-progress`) to `.github/workflows/ci.yml`, between Pint and the test matrix. CI now gates on: composer audit, npm audit, `npm run build`, Pint, PHPStan, tests on SQLite + MySQL 8.4.
-- **Regression (fresh-install style)**: `composer audit` → "No security vulnerability advisories found"; `npm audit` → 0 vulnerabilities; `php artisan test` → **310 passed (665 assertions)**; Pint passed; PHPStan `[OK] No errors`; `php artisan view:cache` OK; `npm run build` OK.
-- **Docs**: `README.md` rewritten as a multi-domain competition platform (features, tech stack, domain model diagram, 6th-domain runbook, add-a-sport runbook, architecture, CI). `ARCHITECTURE_NOTES.md` gained a finalized **Extension points** table.
-
-### Deviations from this plan (recorded)
-
-1. **Phase 1 migration count was 7, not 6** — `2026_08_01_000007_add_participant_basis_to_competition_domains_table.php` was added in Phase 2 (participant basis). Checklist updated to "7 migrations".
-2. **Domain slugs are `sports/esports/academic/hackathon/creative`**, not `academic_knowledge`/`hackathon_project`/`creative_arts` as originally drafted in §1.1 — shortened at implementation time; the seeder, `CompetitionDomain::SLUGS`, factory states, and all tests use the short slugs consistently.
-3. **Phase 3 wizard reproduced the legacy form in a `basics` step rather than a separate `sport+format` step** — §3.5 planned `[domain, basics, sport+format, review]`; shipped sports flow is `[domain, basics, review]` where `basics` renders the original single form 1:1, and the domain-driven `CompetitionSetupService` flow (`[domain, basics, format, review]`) is used for non-sports match domains and `[domain, basics, rounds, review]` for submission domains. Sports behavior stayed byte-identical.
-4. **Public submission detail is a view branch, not a separate route/component** — §4.1 allowed either; `CompetitionDetailPage::render()` returns the submission view when `evaluation_basis === 'submission'`, keeping the route and URL scheme unchanged.
-5. **PHPStan was already added in Phase 1 and kept clean every phase** (it was the one exception noted in the baseline). Phase 6 only wires it into CI.
-6. **No fresh `composer install`/`migrate:fresh --seed` full run was performed locally** (against a scratch DB) — the local dev DB is seeded; the equivalent guarantee is the CI job, which runs the suite against both SQLite and MySQL from a clean checkout. CI is the source of truth for fresh-install regression.
-
-### Post-Phase 6 verification: demo 6th domain ("design")
-
-Per the extension-points decision, the acceptance test was actually executed — a
-**design** domain (`evaluation_basis = submission`, `participant_basis = both`)
-was added **only** through the documented extension points:
-
-- Seeder + migration rows, `CompetitionDomain::SLUG_DESIGN`/`SLUGS`, migration
-  000007 backfill, factory `design()` state — **no** edits to `Match_`,
-  `MatchEvent`, scoring engines, wizard service, or any sports-domain code.
-- 2 new tests (domain helpers + wizard→submission scoring resolution) prove the
-  existing `SubmissionScoringEngine` + `ScoringEngineRegistry` resolve
-  automatically and the submission wizard `[domain, basics, rounds, review]`
-  drives it. Homepage card appears with no view change.
-- Quality gate: **312 tests / 682 assertions** green; Pint + PHPStan clean;
-  `npm run build` sizes unchanged; composer/npm audits clean; view cache OK.
-- Full detail in `ARCHITECTURE_NOTES.md` ("Verified: 6th domain …").
+### 3E. Verify
+- [ ] Manual checks (cancel + confirm paths) on: users, teams, matches (start/end/delete),
+      registrations (approve/reject), trash (restore/force-delete), lineup (deleteLineup).
+- [x] `grep wire:confirm` → 0 occurrences (only comments in app.js/TASKS.md).
+- [x] Run tests (336 passed / 7426 assertions), Pint (clean), `npm run build` (success).
 
 ---
 
-## Deferred (out of scope — will not ship)
-
-| Item | Reason |
-|------|--------|
-| Full `CompetitionType`/`Subtype` per-domain CRUD in admin | Overkill; setup service provisions types programmatically |
-| `ScoringEngine` H2H tiebreaker | Requires full match-history design; unrelated to multi-domain |
-| Judge score anonymization/blind judging UI | Configurable flag exists; UX iteration later |
-| Submissions with file uploads | `file_path` column ships; storage driver integration later |
-| esports-specific pages (lan / seeds) | Domain exists; esports reuses sports match engine + sports pages |
-| Multi-tenant/orgs | Out of scope |
-
----
-
-## Execution Order & Gates
-
-```
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
-```
-Each phase ends with: `php artisan test` (new + all 226), `vendor/bin/pint --test`, `php vendor/bin/phpstan analyse`, `php artisan view:cache`, and `composer audit`/`npm audit` (no new vulns). One commit per phase. Stop for review between phases.
+## Final
+- [ ] Commit only task files (not composer drift / pre-existing frontend edits) and push.

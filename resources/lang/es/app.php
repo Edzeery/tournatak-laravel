@@ -174,6 +174,7 @@ return [
     'confirm_delete_message' => '¿Está seguro de que desea eliminar este elemento?',
     'confirm_delete_yes' => 'Sí, eliminar',
     'confirm_delete_cancel' => 'Cancelar',
+    'form_validation_failed' => 'Corrija los errores a continuación',
 
     // Selectores de fecha/hora
     'select_date' => 'Seleccionar fecha',

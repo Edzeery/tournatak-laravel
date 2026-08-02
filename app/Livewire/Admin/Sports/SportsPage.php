@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Sports;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Sport;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class SportsPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -30,14 +32,14 @@ class SportsPage extends Component
     {
         $sport = Sport::findOrFail($id);
         $sport->update(['is_active' => ! $sport->is_active]);
-        session()->flash('success', $sport->is_active ? __('app.sport_toggled_active') : __('app.sport_toggled_inactive'));
+        $this->notify('success', $sport->is_active ? __('app.sport_toggled_active') : __('app.sport_toggled_inactive'));
     }
 
     public function delete($id)
     {
         $sport = Sport::findOrFail($id);
         $sport->delete();
-        session()->flash('success', __('app.sport_deleted'));
+        $this->notify('success', __('app.sport_deleted'));
     }
 
     public function render()

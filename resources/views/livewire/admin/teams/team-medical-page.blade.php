@@ -162,8 +162,7 @@
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <button class="btn btn-sm btn-outline-danger rounded-md"
-                                            wire:click="deleteRecord({{ $record->id }})"
-                                            wire:confirm="{{ __('app.confirm_delete_medical') }}">
+                                            x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_medical')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteRecord({{ $record->id }}))">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>

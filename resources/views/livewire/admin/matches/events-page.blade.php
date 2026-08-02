@@ -92,8 +92,7 @@
                             <i class="bi bi-pencil"></i>
                         </button>
                         <button class="btn btn-sm btn-outline-danger rounded-md"
-                                wire:click="deleteEvent({{ $event->id }})"
-                                wire:confirm="{{ __('app.confirm_delete_event') }}">
+                                x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_event')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteEvent({{ $event->id }}))">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Security;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\TwoFactorRecoveryCode;
 use App\Services\SecurityActivityLogger;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
@@ -17,6 +18,8 @@ use PragmaRX\Google2FA\Google2FA;
 #[Layout('layouts.app')]
 class TwoFactorSetupPage extends Component
 {
+    use Notifies;
+
     public bool $isEnabled = false;
 
     public string $password = '';
@@ -146,7 +149,7 @@ class TwoFactorSetupPage extends Component
         $this->recoveryCodes = [];
 
         SecurityActivityLogger::twoFactorDisabled($user);
-        session()->flash('success', __('app.two_factor_disabled'));
+        $this->notify('success', __('app.two_factor_disabled'));
     }
 
     public function generateNewRecoveryCodes()
@@ -171,7 +174,7 @@ class TwoFactorSetupPage extends Component
         $this->showRecoveryCodes = true;
         $this->password = '';
 
-        session()->flash('success', __('app.recovery_codes_generated'));
+        $this->notify('success', __('app.recovery_codes_generated'));
     }
 
     protected function generateRecoveryCodes($user)

@@ -90,19 +90,16 @@
                                 <td class="text-center d-flex flex-wrap gap-2 justify-content-center">
                                     @if($registration->status === 'pending')
                                         <button class="btn btn-sm btn-outline-success rounded-md"
-                                            wire:click="approve({{ $registration->id }})"
-                                            wire:confirm="{{ __('app.confirm_approve_registration') }}">
+                                            x-on:click.prevent="confirmAction({ title: @js(__('app.approve')), text: @js(__('app.confirm_approve_registration')), icon: 'info', confirmButtonText: @js(__('app.approve')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.approve({{ $registration->id }}))">
                                             <i class="bi bi-check-lg"></i>
                                         </button>
                                         <button class="btn btn-sm btn-outline-danger rounded-md"
-                                            wire:click="reject({{ $registration->id }})"
-                                            wire:confirm="{{ __('app.confirm_reject_registration') }}">
+                                            x-on:click.prevent="confirmAction({ title: @js(__('app.reject')), text: @js(__('app.confirm_reject_registration')), icon: 'warning', confirmButtonText: @js(__('app.reject')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.reject({{ $registration->id }}))">
                                             <i class="bi bi-x-lg"></i>
                                         </button>
                                     @endif
                                     <button class="btn btn-sm btn-outline-danger rounded-md"
-                                        wire:click="delete({{ $registration->id }})"
-                                        wire:confirm="{{ __('app.confirm_delete_registration') }}">
+                                        x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete_registration')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.delete({{ $registration->id }}))">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>

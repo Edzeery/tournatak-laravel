@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Registrations;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Registration;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,6 +11,7 @@ use Livewire\WithPagination;
 #[Layout('layouts.admin')]
 class RegistrationsPage extends Component
 {
+    use Notifies;
     use WithPagination;
 
     public string $search = '';
@@ -49,21 +51,21 @@ class RegistrationsPage extends Component
     {
         $registration = Registration::findOrFail($id);
         $registration->update(['status' => Registration::STATUS_APPROVED]);
-        session()->flash('success', __('app.registration_approved'));
+        $this->notify('success', __('app.registration_approved'));
     }
 
     public function reject($id)
     {
         $registration = Registration::findOrFail($id);
         $registration->update(['status' => Registration::STATUS_REJECTED]);
-        session()->flash('success', __('app.registration_rejected'));
+        $this->notify('success', __('app.registration_rejected'));
     }
 
     public function delete($id)
     {
         $registration = Registration::findOrFail($id);
         $registration->delete();
-        session()->flash('success', __('app.registration_deleted'));
+        $this->notify('success', __('app.registration_deleted'));
     }
 
     public function render()

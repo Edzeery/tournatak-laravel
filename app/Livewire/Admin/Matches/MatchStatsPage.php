@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Match_;
 use App\Models\MatchStat;
 use Livewire\Attributes\Layout;
@@ -10,6 +11,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class MatchStatsPage extends Component
 {
+    use Notifies;
+
     public $matchId;
 
     public $match;
@@ -162,7 +165,7 @@ class MatchStatsPage extends Component
             ? ($this->match->team1->name ?? __('app.team1_name'))
             : ($this->match->team2->name ?? __('app.team2_name'));
 
-        session()->flash('success', __('app.stats_saved_for', ['team' => $teamName]));
+        $this->notify('success', __('app.stats_saved_for', ['team' => $teamName]));
         $this->loadStats();
     }
 

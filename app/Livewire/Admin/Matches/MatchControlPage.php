@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Livewire\Concerns\Notifies;
 use App\Models\Match_;
 use App\Models\Player;
 use App\Services\MatchService;
@@ -12,6 +13,8 @@ use Livewire\Component;
 #[Layout('layouts.admin')]
 class MatchControlPage extends Component
 {
+    use Notifies;
+
     public Match_ $match;
 
     public int $score1 = 0;
@@ -69,31 +72,31 @@ class MatchControlPage extends Component
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_FIRST_HALF);
         $this->refresh();
-        $this->dispatch('swal:success', message: __('app.first_half_started'));
+        $this->notify('success', __('app.first_half_started'));
     }
 
     public function endFirstHalf()
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_HALF_TIME);
         $this->refresh();
-        $this->dispatch('swal:info', message: __('app.first_half_ended'));
+        $this->notify('info', __('app.first_half_ended'));
     }
 
     public function startSecondHalf()
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_SECOND_HALF);
         $this->refresh();
-        $this->dispatch('swal:success', message: __('app.second_half_started'));
+        $this->notify('success', __('app.second_half_started'));
     }
 
     public function endSecondHalf()
     {
         if ($this->supportsET) {
             app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_ET_BREAK);
-            $this->dispatch('swal:info', message: __('app.second_half_ended'));
+            $this->notify('info', __('app.second_half_ended'));
         } else {
             app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_FULL_TIME);
-            $this->dispatch('swal:success', message: __('app.match_ended'));
+            $this->notify('success', __('app.match_ended'));
         }
 
         $this->refresh();
@@ -103,28 +106,28 @@ class MatchControlPage extends Component
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_ET_FIRST_HALF);
         $this->refresh();
-        $this->dispatch('swal:success', message: __('app.et_first_half_started'));
+        $this->notify('success', __('app.et_first_half_started'));
     }
 
     public function endETFirstHalf()
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_ET_HALF_TIME);
         $this->refresh();
-        $this->dispatch('swal:info', message: __('app.et_first_half_ended'));
+        $this->notify('info', __('app.et_first_half_ended'));
     }
 
     public function startETSecondHalf()
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_ET_SECOND_HALF);
         $this->refresh();
-        $this->dispatch('swal:success', message: __('app.et_second_half_started'));
+        $this->notify('success', __('app.et_second_half_started'));
     }
 
     public function endMatch()
     {
         app(MatchService::class)->transitionPhase($this->match, Match_::PHASE_FULL_TIME);
         $this->refresh();
-        $this->dispatch('swal:success', message: __('app.match_ended'));
+        $this->notify('success', __('app.match_ended'));
     }
 
     // ── Score control ──────────────────────────────────────────────
@@ -152,7 +155,7 @@ class MatchControlPage extends Component
     protected function persistScore()
     {
         app(MatchService::class)->updateScore($this->match, $this->score1, $this->score2);
-        $this->dispatch('swal:success', message: __('app.score_updated'));
+        $this->notify('success', __('app.score_updated'));
     }
 
     // ── Added time ─────────────────────────────────────────────────
@@ -167,7 +170,7 @@ class MatchControlPage extends Component
             $this->addedTimeET2,
         );
 
-        $this->dispatch('swal:success', message: __('app.added_time_saved'));
+        $this->notify('success', __('app.added_time_saved'));
     }
 
     // ── Quick events ──────────────────────────────────────────────
@@ -192,7 +195,7 @@ class MatchControlPage extends Component
         $this->score2 = $this->match->score_team2;
         $this->resetEventForm();
         $this->reloadEvents();
-        $this->dispatch('swal:success', message: __('app.event_added'));
+        $this->notify('success', __('app.event_added'));
     }
 
     public function quickYellowCard($teamId)
@@ -200,7 +203,7 @@ class MatchControlPage extends Component
         app(MatchService::class)->addEvent($this->match, $teamId, 'yellow_card', __('app.yellow_card'));
         $this->resetEventForm();
         $this->reloadEvents();
-        $this->dispatch('swal:success', message: __('app.event_added'));
+        $this->notify('success', __('app.event_added'));
     }
 
     public function quickRedCard($teamId)
@@ -208,20 +211,20 @@ class MatchControlPage extends Component
         app(MatchService::class)->addEvent($this->match, $teamId, 'red_card', __('app.red_card'));
         $this->resetEventForm();
         $this->reloadEvents();
-        $this->dispatch('swal:success', message: __('app.event_added'));
+        $this->notify('success', __('app.event_added'));
     }
 
     public function quickSubstitution($teamId)
     {
         if (! $this->selectedPlayerId) {
-            $this->dispatch('swal:error', message: __('app.select_player_first'));
+            $this->notify('error', __('app.select_player_first'));
 
             return;
         }
 
         $playerTeamId = Player::where('id', $this->selectedPlayerId)->value('team_id');
         if ($playerTeamId !== $teamId) {
-            $this->dispatch('swal:error', message: __('app.player_not_in_team'));
+            $this->notify('error', __('app.player_not_in_team'));
 
             return;
         }
@@ -229,7 +232,7 @@ class MatchControlPage extends Component
         app(MatchService::class)->handleSubstitution($this->match, $teamId, $this->selectedPlayerId);
         $this->resetEventForm();
         $this->reloadEvents();
-        $this->dispatch('swal:success', message: __('app.event_added'));
+        $this->notify('success', __('app.event_added'));
     }
 
     public function quickOwnGoal($teamId)
@@ -240,7 +243,7 @@ class MatchControlPage extends Component
         $this->score2 = $this->match->score_team2;
         $this->resetEventForm();
         $this->reloadEvents();
-        $this->dispatch('swal:success', message: __('app.event_added'));
+        $this->notify('success', __('app.event_added'));
     }
 
     // ── Helpers ────────────────────────────────────────────────────

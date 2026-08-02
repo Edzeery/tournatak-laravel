@@ -302,7 +302,7 @@
                                 <button class="btn btn-sm p-0 -50" wire:click="editLineup({{ $lineup->id }})" style="font-size:10px;">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm p-0 text-danger" wire:click="deleteLineup({{ $lineup->id }})" wire:confirm="{{ __('app.confirm_delete') }}" style="font-size:10px;">
+                                <button class="btn btn-sm p-0 text-danger" x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteLineup({{ $lineup->id }}))" style="font-size:10px;">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -335,7 +335,7 @@
                                 <button class="btn btn-sm p-0 -50" wire:click="editLineup({{ $lineup->id }})" style="font-size:10px;">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm p-0 text-danger" wire:click="deleteLineup({{ $lineup->id }})" wire:confirm="{{ __('app.confirm_delete') }}" style="font-size:10px;">
+                                <button class="btn btn-sm p-0 text-danger" x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteLineup({{ $lineup->id }}))" style="font-size:10px;">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -381,7 +381,7 @@
                                 <button class="btn btn-sm p-0 -50" wire:click="editLineup({{ $lineup->id }})" style="font-size:10px;">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm p-0 text-danger" wire:click="deleteLineup({{ $lineup->id }})" wire:confirm="{{ __('app.confirm_delete') }}" style="font-size:10px;">
+                                <button class="btn btn-sm p-0 text-danger" x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteLineup({{ $lineup->id }}))" style="font-size:10px;">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -414,7 +414,7 @@
                                 <button class="btn btn-sm p-0 -50" wire:click="editLineup({{ $lineup->id }})" style="font-size:10px;">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm p-0 text-danger" wire:click="deleteLineup({{ $lineup->id }})" wire:confirm="{{ __('app.confirm_delete') }}" style="font-size:10px;">
+                                <button class="btn btn-sm p-0 text-danger" x-on:click.prevent="confirmAction({ title: @js(__('app.confirm_delete_title')), text: @js(__('app.confirm_delete')), icon: 'warning', confirmButtonText: @js(__('app.confirm_delete_yes')), cancelButtonText: @js(__('app.confirm_delete_cancel')) }).then(ok => ok && $wire.deleteLineup({{ $lineup->id }}))" style="font-size:10px;">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -444,12 +444,7 @@
                         <button type="button" class="btn-close btn-close-white" aria-label="Close" wire:click="closeModal"></button>
                     </div>
                     <div class="modal-body">
-                        @if($errors->any())
-                            <div class="alert alert-danger d-flex align-items-center gap-2 error-alert-dark">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
-                            </div>
-                        @endif
+                        <x-form-errors class="error-alert-dark" />
 
                         <div class="row g-3">
                             <div class="col-md-6">

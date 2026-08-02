@@ -87,6 +87,39 @@ document.addEventListener('livewire:navigate', () => {
     document.documentElement.classList.add('livewire-entered');
 });
 
+// Reset Bootstrap's scrollbar compensation when a soft navigation replaced the
+// DOM while an offcanvas/modal was open. Bootstrap's ScrollBarHelper.reset() only
+// runs when the overlay's hide() completes, which is skipped if the DOM is torn
+// down mid-navigation, leaving body{padding-right;overflow:hidden} behind.
+// Root cause of the RTL phantom gap: Bootstrap 5.3's ScrollBarHelper hardcodes
+// 'padding-right'/'margin-right' (bootstrap.esm.js), but in RTL the scrollbar is
+// on the left, so the compensation lands on the wrong edge.
+document.addEventListener('livewire:navigated', () => {
+    if (document.querySelector('.modal.show, .offcanvas.show')) {
+        return;
+    }
+    const body = document.body;
+    body.classList.remove('modal-open');
+    if (body.style.overflow === 'hidden') {
+        body.style.overflow = '';
+    }
+    if (body.style.paddingRight) {
+        body.style.paddingRight = '';
+    }
+    document.querySelectorAll('.fixed-top, .fixed-bottom, .is-fixed, .sticky-top').forEach(el => {
+        const saved = el.getAttribute('data-bs-margin-right');
+        if (saved !== null) {
+            el.style.marginRight = saved;
+            el.removeAttribute('data-bs-margin-right');
+        } else if (el.style.marginRight) {
+            el.style.marginRight = '';
+        }
+        if (el.style.paddingRight) {
+            el.style.paddingRight = '';
+        }
+    });
+});
+
 // Alpine.js match timer component (shared between match-control and matches listing)
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('matchTimer', (config) => ({

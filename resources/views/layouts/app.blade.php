@@ -193,7 +193,7 @@
     </nav>
     {{-- Mobile offcanvas nav --}}
     <div class="offcanvas offcanvas-end d-lg-none offcanvas-dark" tabindex="-1" id="mobileNav"
-        aria-labelledby="mobileNavLabel">
+        aria-labelledby="mobileNavLabel" data-bs-scroll="true">
         <div class="offcanvas-header border-chrome-bottom">
             <a class="navbar-brand text-gold" href="{{ route('home') }}">
                 <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}

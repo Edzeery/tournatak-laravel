@@ -48,7 +48,7 @@
 }
 .nav-tabs-custom .nav-link.active {
     color: var(--bs-primary);
-    background: rgba(255, 193, 7, 0.1);
+    background: rgba(var(--brand-accent-rgb), 0.1);
 }
 .nav-tabs-custom .nav-link i {
     font-size: 0.9rem;
@@ -105,7 +105,7 @@
 }
 .date-cell.selected {
     background: var(--bs-primary);
-    box-shadow: 0 2px 12px rgba(255, 193, 7, 0.3);
+    box-shadow: 0 2px 12px rgba(var(--brand-accent-rgb), 0.3);
 }
 .date-cell.selected .date-cell-dow,
 .date-cell.selected .date-cell-day,
@@ -153,7 +153,7 @@
     background: rgba(0, 0, 0, 0.5);
 }
 .date-cell.has-matches .date-cell-dot {
-    background: var(--accent);
+    background: var(--success);
 }
 .date-bar-actions {
     display: flex;
@@ -279,7 +279,7 @@
 }
 .match-card:hover {
     border-color: var(--bs-primary);
-    box-shadow: var(--shadow-gold);
+    box-shadow: var(--brand-accent-shadow);
     transform: translateY(-2px);
 }
 .match-card-inner {
@@ -357,7 +357,7 @@
     font-size: 0.85rem;
 }
 .table-highlight td {
-    background: rgba(255, 193, 7, 0.04);
+    background: rgba(var(--brand-accent-rgb), 0.04);
 }
 .team-standings-dot {
     display: inline-block;
@@ -366,7 +366,7 @@
     border-radius: 50%;
     flex-shrink: 0;
 }
-.rank-gold { background: #ffc107; }
+.rank-gold { background: var(--brand-accent); }
 .rank-silver { background: #a0aec0; }
 .rank-bronze { background: #cd7f32; }
 
@@ -384,11 +384,11 @@
 }
 .form-w {
     background: rgba(0, 212, 170, 0.15);
-    color: #00d4aa;
+    color: var(--success);
 }
 .form-d {
-    background: rgba(255, 193, 7, 0.15);
-    color: #ffc107;
+    background: rgba(var(--brand-accent-rgb), 0.15);
+    color: var(--brand-accent);
 }
 .form-l {
     background: rgba(239, 68, 68, 0.15);
@@ -402,7 +402,7 @@
     padding: 0.3rem 0.8rem;
     font-size: 0.75rem;
     font-weight: 700;
-    background: rgba(255, 193, 7, 0.12);
+    background: rgba(var(--brand-accent-rgb), 0.12);
     color: var(--bs-primary);
     border-radius: 50px;
 }
@@ -540,7 +540,7 @@
     font-size: 2rem;
 }
 .scoreboard-away .team-shield i {
-    color: var(--accent);
+    color: var(--success);
     font-size: 2rem;
 }
 .team-shield {
@@ -607,7 +607,7 @@
 }
 .badge-ft {
     background: rgba(0, 212, 170, 0.12);
-    color: #00d4aa;
+    color: var(--success);
 }
 .badge-live {
     background: rgba(239, 68, 68, 0.15);
@@ -756,7 +756,7 @@
 }
 .timeline-penalty {
     font-size: 0.7rem;
-    color: #00d4aa;
+    color: var(--success);
     margin-left: 0.35rem;
     font-weight: 700;
 }
@@ -814,7 +814,7 @@
 }
 .lineup-captain i {
     font-size: 0.65rem;
-    color: #ffc107;
+    color: var(--brand-accent);
 }
 
 // ---- Stats Comparison ----
@@ -851,7 +851,7 @@
     text-align: right;
 }
 .stat-val-away {
-    color: var(--accent);
+    color: var(--success);
 }
 .stat-track {
     flex: 1;
@@ -869,5 +869,5 @@
     background: linear-gradient(90deg, var(--bs-primary), #7c9aff);
 }
 .stat-fill-away {
-    background: linear-gradient(90deg, var(--accent), #34d9a8);
+    background: linear-gradient(90deg, var(--success), #34d9a8);
 }

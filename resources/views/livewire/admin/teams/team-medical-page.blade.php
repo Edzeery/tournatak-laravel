@@ -35,7 +35,7 @@
         <div class="col-md-3 col-6">
             <div class="card border-0 text-center rounded-lg-custom shadow-sm">
                 <div class="card-body py-3">
-                    <div class="fw-bold fs-18" style="color:#ffc107;">{{ $recoveringCount }}</div>
+                    <div class="fw-bold fs-18" style="color:#f5a622;">{{ $recoveringCount }}</div>
                     <small class="text-muted fw-bold">{{ __('app.status_recovering') }}</small>
                 </div>
             </div>

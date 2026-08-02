@@ -459,7 +459,7 @@
                 grid: {
                     borderColor: gridColor
                 },
-                colors: ['#ffc107'],
+                colors: ['#f5a622'],
                 plotOptions: {
                     bar: {
                         borderRadius: 6,

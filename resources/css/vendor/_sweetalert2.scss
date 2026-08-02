@@ -1,6 +1,6 @@
 .swal2-popup.swal-tournatak {
     background: #1a1f35 !important;
-    border: 1px solid rgba(255, 193, 7, 0.12);
+    border: 1px solid rgba(var(--brand-accent-rgb), 0.12);
     border-radius: 16px !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
 }
@@ -40,5 +40,5 @@
 }
 
 .swal2-popup.swal2-toast .swal2-timer-progress-bar {
-    background: #ffc107 !important;
+    background: var(--brand-accent) !important;
 }

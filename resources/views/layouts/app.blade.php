@@ -386,7 +386,7 @@
                         background: '#1a1f35',
                         color: '#fff',
                         borderColor: 'rgba(59,130,246,0.3)',
-                        iconColor: '#3b82f6'
+                        iconColor: '#f5a622'
                     });
                 });
             </script>

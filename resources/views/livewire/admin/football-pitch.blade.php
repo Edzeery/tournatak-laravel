@@ -119,7 +119,7 @@
 
         {{-- Outer glow for captain --}}
         @if($isCaptain)
-            <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r + 4 }}" fill="none" stroke="#ffc107" stroke-width="2" opacity="0.6" filter="url(#glow-{{ md5($sportType) }})"/>
+            <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r + 4 }}" fill="none" stroke="#f5a622" stroke-width="2" opacity="0.6" filter="url(#glow-{{ md5($sportType) }})"/>
         @endif
 
         {{-- Shadow --}}
@@ -136,7 +136,7 @@
             {{-- Photo circle --}}
             <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r }}"
                     fill="{{ $jerseyClass === 'team2-jersey' ? '#c62828' : '#1a237e' }}"
-                    stroke="{{ $isCaptain ? '#ffc107' : 'rgba(255,255,255,0.9)' }}"
+                    stroke="{{ $isCaptain ? '#f5a622' : 'rgba(255,255,255,0.9)' }}"
                     stroke-width="{{ $isCaptain ? 3 : 2 }}"/>
             <image href="{{ $photoUrl }}"
                    x="{{ $px - $r }}" y="{{ $py - $r }}"
@@ -154,7 +154,7 @@
             {{-- Jersey circle with number --}}
             <circle cx="{{ $px }}" cy="{{ $py }}" r="{{ $r }}"
                     fill="{{ $jerseyClass === 'team2-jersey' ? '#c62828' : '#1a237e' }}"
-                    stroke="{{ $isCaptain ? '#ffc107' : 'rgba(255,255,255,0.9)' }}"
+                    stroke="{{ $isCaptain ? '#f5a622' : 'rgba(255,255,255,0.9)' }}"
                     stroke-width="{{ $isCaptain ? 3 : 2 }}"/>
 
             {{-- Initials or jersey number --}}
@@ -179,7 +179,7 @@
 
         {{-- Captain badge --}}
         @if($isCaptain)
-            <circle cx="{{ $px + $r - 2 }}" cy="{{ $py - $r + 2 }}" r="7" fill="#ffc107" stroke="#1a1a2e" stroke-width="1.5"/>
+            <circle cx="{{ $px + $r - 2 }}" cy="{{ $py - $r + 2 }}" r="7" fill="#f5a622" stroke="#1a1a2e" stroke-width="1.5"/>
             <text x="{{ $px + $r - 2 }}" y="{{ $py - $r + 2 }}" text-anchor="middle" dominant-baseline="central"
                   font-family="Cairo, sans-serif" font-size="7" font-weight="900" fill="#1a1a2e">C</text>
         @endif

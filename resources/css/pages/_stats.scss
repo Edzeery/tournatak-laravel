@@ -23,7 +23,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--gradient-gold);
+    background: var(--brand-accent-gradient);
 }
 
 .stat-card:hover {
@@ -65,14 +65,14 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255, 193, 7, 0.1);
+    background: rgba(var(--brand-accent-rgb), 0.1);
     color: #b8860b;
     padding: 6px 16px;
     border-radius: var(--radius-pill);
     font-weight: 700;
     font-size: 0.85rem;
     margin-bottom: 1rem;
-    border: 1px solid rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(var(--brand-accent-rgb), 0.2);
 }
 
 .section-header h2 {
@@ -101,7 +101,7 @@
 // ---- Stat icon color variants ----
 .stat-icon-blue {
     background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
+    color: var(--info);
 }
 .stat-icon-green {
     background: rgba(16, 185, 129, 0.1);

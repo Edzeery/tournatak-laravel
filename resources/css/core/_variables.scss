@@ -5,21 +5,23 @@
 :root,
 [data-bs-theme="light"] {
     // ============================================
-    // Brand (Custom)
+    // Brand (Custom) - single source of truth
     // ============================================
-    --primary: #ffc107;
-    --primary-hover: #e0a800b2;
-    --primary-glow: rgba(255, 193, 7, 0.35);
-    --accent: #00d4aa;
-    --accent-2: #3b82f6;
-
-    // Brand identity (Phase 5 - domain-neutral surfaces, gold stays untouched)
     --brand-primary: #1e1b4b; // deep indigo
     --brand-primary-hover: #312e81;
     --brand-primary-soft: rgba(30, 27, 75, 0.08);
     --brand-accent: #f5a622; // amber accent
+    --brand-accent-hover: #d98f1d;
+    --brand-accent-rgb: 245, 166, 34;
     --brand-accent-soft: rgba(245, 166, 34, 0.12);
     --brand-accent-glow: rgba(245, 166, 34, 0.3);
+    --brand-accent-shadow: 0 4px 30px rgba(245, 166, 34, 0.2);
+    --brand-accent-gradient: linear-gradient(
+        135deg,
+        #f5a622 0%,
+        #d98f1d 50%,
+        #c07a17 100%
+    );
     --brand-text-on-accent: #1e1b4b;
     --brand-gradient: linear-gradient(
         135deg,
@@ -30,9 +32,9 @@
 
     // Semantic colors (Custom) - used to feed Bootstrap below
     --secondary: #64748b;
-    --success: #00d4aa; // = accent
-    --info: #3b82f6; // = accent-2
-    --warning: #fd7e14; // new orange, distinct from primary (gold)
+    --success: #00d4aa; // teal success (former --accent)
+    --info: #3b82f6; // blue info (former --accent-2)
+    --warning: #fd7e14; // orange, distinct from the amber brand accent
     --danger: #ef4444;
     --light: #f8f9fa;
     --dark: #0a0e1a;
@@ -67,12 +69,6 @@
 
     // Gradients
     --gradient-hero: var(--brand-gradient);
-    --gradient-gold: linear-gradient(
-        135deg,
-        #ffc107 0%,
-        #ff9800 50%,
-        #f57c00 100%
-    );
     --gradient-dark: linear-gradient(
         180deg,
         rgba(10, 14, 26, 0) 0%,
@@ -82,7 +78,6 @@
     // Shadows
     --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.06);
     --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
-    --shadow-gold: 0 4px 30px rgba(255, 193, 7, 0.2);
     --shadow-dropdown: 0 8px 30px rgba(0, 0, 0, 0.12);
 
     // Radius
@@ -99,14 +94,14 @@
     --input-bg: #ffffff;
     --input-border: #e2e8f0;
     --input-color: #1e293b;
-    --input-focus-border: var(--primary);
-    --input-focus-shadow: 0 0 0 3px var(--primary-glow);
+    --input-focus-border: var(--brand-accent);
+    --input-focus-shadow: 0 0 0 3px var(--brand-accent-glow);
 
     // ============================================
     // Bootstrap 5.3 — Root Colors
     // ============================================
-    --bs-primary: var(--primary) !important;
-    --bs-primary-rgb: 255, 193, 7 !important;
+    --bs-primary: var(--brand-accent) !important;
+    --bs-primary-rgb: 245, 166, 34 !important;
     --bs-secondary: var(--secondary) !important;
     --bs-secondary-rgb: 100, 116, 139 !important;
     --bs-success: var(--success) !important;
@@ -178,16 +173,16 @@
     --bs-border-radius-2xl: 24px !important;
     --bs-border-radius-pill: var(--radius-pill) !important;
 
-    --bs-link-color: var(--primary) !important;
-    --bs-link-color-rgb: 255, 193, 7 !important;
-    --bs-link-hover-color: var(--primary-hover) !important;
-    --bs-link-hover-color-rgb: 224, 168, 0 !important;
+    --bs-link-color: var(--brand-accent) !important;
+    --bs-link-color-rgb: 245, 166, 34 !important;
+    --bs-link-hover-color: var(--brand-accent-hover) !important;
+    --bs-link-hover-color-rgb: 217, 143, 29 !important;
 
-    --bs-code-color: var(--accent-2) !important;
-    --bs-highlight-bg: var(--primary-glow) !important;
+    --bs-code-color: var(--info) !important;
+    --bs-highlight-bg: var(--brand-accent-glow) !important;
   --bs-badge-color: #000 !important;
 
-    --bs-focus-ring-color: var(--primary-glow) !important;
+    --bs-focus-ring-color: var(--brand-accent-glow) !important;
     --bs-box-shadow: var(--shadow-card) !important;
     --bs-box-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
     --bs-box-shadow-lg: var(--shadow-hover) !important;
@@ -212,9 +207,9 @@
     --bs-table-border-color: var(--table-border) !important;
     --bs-table-striped-bg: var(--bg-surface-alt) !important;
     --bs-table-striped-color: var(--text-primary) !important;
-    --bs-table-hover-bg: rgba(255, 193, 7, 0.06) !important;
+    --bs-table-hover-bg: rgba(var(--brand-accent-rgb), 0.06) !important;
     --bs-table-hover-color: var(--text-primary) !important;
-    --bs-table-active-bg: var(--primary-glow) !important;
+    --bs-table-active-bg: var(--brand-accent-glow) !important;
 
     // ============================================
     // Bootstrap — Forms
@@ -228,8 +223,8 @@
     --bs-form-control-disabled-bg: var(--bg-surface-alt) !important;
     --bs-form-check-input-bg: var(--input-bg) !important;
     --bs-form-check-input-border: 1px solid var(--input-border) !important;
-    --bs-form-check-input-checked-bg-color: var(--primary) !important;
-    --bs-form-check-input-checked-border-color: var(--primary) !important;
+    --bs-form-check-input-checked-bg-color: var(--brand-accent) !important;
+    --bs-form-check-input-checked-border-color: var(--brand-accent) !important;
     --bs-form-select-bg: var(--input-bg) !important;
     --bs-form-select-color: var(--input-color) !important;
     --bs-form-select-border-color: var(--input-border) !important;
@@ -240,8 +235,8 @@
     --bs-btn-border-radius: var(--radius-sm) !important;
     --bs-btn-border-radius-sm: 8px !important;
     --bs-btn-border-radius-lg: 12px !important;
-    --bs-btn-box-shadow: var(--shadow-gold) !important;
-    --bs-btn-focus-box-shadow: 0 0 0 3px var(--primary-glow) !important;
+    --bs-btn-box-shadow: var(--brand-accent-shadow) !important;
+    --bs-btn-focus-box-shadow: 0 0 0 3px var(--brand-accent-glow) !important;
     --bs-btn-disabled-opacity: 0.5 !important;
 
     // ============================================
@@ -249,7 +244,7 @@
     // ============================================
     --bs-navbar-color: var(--chrome-text) !important;
     --bs-navbar-hover-color: var(--chrome-text-hover) !important;
-    --bs-navbar-active-color: var(--primary) !important;
+    --bs-navbar-active-color: var(--brand-accent) !important;
     --bs-navbar-brand-color: #fff !important;
     --bs-navbar-toggler-border-color: var(--chrome-border) !important;
 
@@ -263,9 +258,9 @@
     --bs-dropdown-box-shadow: var(--shadow-dropdown) !important;
     --bs-dropdown-link-color: var(--text-primary) !important;
     --bs-dropdown-link-hover-color: var(--text-primary) !important;
-    --bs-dropdown-link-hover-bg: var(--primary-hover) !important;
-    --bs-dropdown-link-active-color: var(--primary) !important;
-    --bs-dropdown-link-active-bg: var(--primary-glow) !important;
+    --bs-dropdown-link-hover-bg: var(--brand-accent-hover) !important;
+    --bs-dropdown-link-active-color: var(--brand-accent) !important;
+    --bs-dropdown-link-active-bg: var(--brand-accent-glow) !important;
     --bs-dropdown-header-color: var(--text-muted) !important;
     --bs-dropdown-divider-bg: var(--border-color-light) !important;
 
@@ -305,8 +300,8 @@
     --bs-list-group-color: var(--text-primary) !important;
     --bs-list-group-border-color: var(--border-color) !important;
     --bs-list-group-hover-bg: var(--bg-surface-alt) !important;
-    --bs-list-group-active-bg: var(--primary) !important;
-    --bs-list-group-active-border-color: var(--primary) !important;
+    --bs-list-group-active-bg: var(--brand-accent) !important;
+    --bs-list-group-active-border-color: var(--brand-accent) !important;
     --bs-list-group-active-color: var(--dark) !important;
 
     --bs-breadcrumb-divider-color: var(--text-muted) !important;
@@ -316,7 +311,7 @@
     --bs-accordion-color: var(--text-primary) !important;
     --bs-accordion-border-color: var(--border-color) !important;
     --bs-accordion-button-bg: var(--bg-surface) !important;
-    --bs-accordion-button-active-bg: var(--primary-glow) !important;
+    --bs-accordion-button-active-bg: var(--brand-accent-glow) !important;
     --bs-accordion-button-active-color: var(--dark) !important;
 
     // ============================================
@@ -332,8 +327,8 @@
     --bs-popover-box-shadow: var(--shadow-dropdown) !important;
 
     --bs-dropdown-link-hover-color: var(--text-primary);
-    --bs-dropdown-link-active-color: var(--primary);
-    --bs-dropdown-link-hover-bg: var(--primary-hover);
+    --bs-dropdown-link-active-color: var(--brand-accent);
+    --bs-dropdown-link-hover-bg: var(--brand-accent-hover);
 
     // Pagination
     --bs-pagination-padding-x: 0.75rem !important;
@@ -344,15 +339,15 @@
     --bs-pagination-border-width: var(--bs-border-width) !important;
     --bs-pagination-border-color: var(--border-color) !important;
     --bs-pagination-border-radius: var(--radius-sm) !important;
-    --bs-pagination-hover-color: var(--primary) !important;
+    --bs-pagination-hover-color: var(--brand-accent) !important;
     --bs-pagination-hover-bg: var(--bg-surface-alt) !important;
     --bs-pagination-hover-border-color: var(--border-color) !important;
-    --bs-pagination-focus-color: var(--primary) !important;
+    --bs-pagination-focus-color: var(--brand-accent) !important;
     --bs-pagination-focus-bg: var(--bg-surface-alt) !important;
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem var(--primary-glow) !important;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem var(--brand-accent-glow) !important;
     --bs-pagination-active-color: var(--dark) !important;
-    --bs-pagination-active-bg: var(--primary) !important;
-    --bs-pagination-active-border-color: var(--primary) !important;
+    --bs-pagination-active-bg: var(--brand-accent) !important;
+    --bs-pagination-active-border-color: var(--brand-accent) !important;
     --bs-pagination-disabled-color: var(--text-muted) !important;
     --bs-pagination-disabled-bg: var(--bg-surface-alt) !important;
     --bs-pagination-disabled-border-color: var(--border-color) !important;
@@ -405,8 +400,8 @@
     --input-bg: #1a1f35;
     --input-border: rgba(255, 255, 255, 0.1);
     --input-color: #e2e8f0;
-    --input-focus-border: var(--primary);
-    --input-focus-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
+    --input-focus-border: var(--brand-accent);
+    --input-focus-shadow: 0 0 0 3px rgba(var(--brand-accent-rgb), 0.15);
 
     --chrome-text: rgba(255, 255, 255, 0.55);
     --chrome-text-hover: rgba(255, 255, 255, 0.8);
@@ -473,9 +468,9 @@
     --bs-border-color: var(--border-color) !important;
     --bs-border-color-translucent: rgba(255, 255, 255, 0.1) !important;
 
-    --bs-link-color: var(--primary) !important;
-    --bs-link-hover-color: var(--primary-hover) !important;
-    --bs-code-color: var(--accent-2) !important;
+    --bs-link-color: var(--brand-accent) !important;
+    --bs-link-hover-color: var(--brand-accent-hover) !important;
+    --bs-code-color: var(--info) !important;
 
     --bs-box-shadow: var(--shadow-card) !important;
     --bs-box-shadow-lg: var(--shadow-hover) !important;
@@ -498,9 +493,9 @@
     --bs-table-border-color: var(--table-border) !important;
     --bs-table-striped-bg: var(--bg-surface-alt) !important;
     --bs-table-striped-color: var(--text-primary) !important;
-    --bs-table-hover-bg: rgba(255, 193, 7, 0.08) !important;
+    --bs-table-hover-bg: rgba(var(--brand-accent-rgb), 0.08) !important;
     --bs-table-hover-color: var(--text-primary) !important;
-    --bs-table-active-bg: rgba(255, 193, 7, 0.15) !important;
+    --bs-table-active-bg: rgba(var(--brand-accent-rgb), 0.15) !important;
 
     // ============================================
     // Bootstrap — Forms (dark)
@@ -523,7 +518,7 @@
     // ============================================
     --bs-navbar-color: var(--chrome-text) !important;
     --bs-navbar-hover-color: var(--chrome-text-hover) !important;
-    --bs-navbar-active-color: var(--primary) !important;
+    --bs-navbar-active-color: var(--brand-accent) !important;
 
     // ============================================
     // Bootstrap — Dropdown (dark)
@@ -535,8 +530,8 @@
     --bs-dropdown-link-color: var(--text-primary) !important;
     --bs-dropdown-link-hover-color: var(--text-primary) !important;
     --bs-dropdown-link-hover-bg: var(--bg-surface-alt) !important;
-    --bs-dropdown-link-active-color: var(--primary) !important;
-    --bs-dropdown-link-active-bg: rgba(255, 193, 7, 0.15) !important;
+    --bs-dropdown-link-active-color: var(--brand-accent) !important;
+    --bs-dropdown-link-active-bg: rgba(var(--brand-accent-rgb), 0.15) !important;
     --bs-dropdown-divider-bg: var(--border-color) !important;
 
     // ============================================
@@ -572,7 +567,7 @@
     --bs-accordion-color: var(--text-primary) !important;
     --bs-accordion-border-color: var(--border-color) !important;
     --bs-accordion-button-bg: var(--bg-surface) !important;
-    --bs-accordion-button-active-bg: rgba(255, 193, 7, 0.15) !important;
+    --bs-accordion-button-active-bg: rgba(var(--brand-accent-rgb), 0.15) !important;
 
     // ============================================
     // Bootstrap — Tooltip / Popover (dark)
@@ -589,15 +584,15 @@
     --bs-pagination-color: var(--text-secondary) !important;
     --bs-pagination-bg: var(--bg-surface) !important;
     --bs-pagination-border-color: var(--border-color) !important;
-    --bs-pagination-hover-color: var(--primary) !important;
+    --bs-pagination-hover-color: var(--brand-accent) !important;
     --bs-pagination-hover-bg: var(--bg-surface-alt) !important;
     --bs-pagination-hover-border-color: var(--border-color) !important;
-    --bs-pagination-focus-color: var(--primary) !important;
+    --bs-pagination-focus-color: var(--brand-accent) !important;
     --bs-pagination-focus-bg: var(--bg-surface-alt) !important;
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.15) !important;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--brand-accent-rgb), 0.15) !important;
     --bs-pagination-active-color: var(--dark) !important;
-    --bs-pagination-active-bg: var(--gradient-gold) !important;
-    --bs-pagination-active-border-color: var(--primary) !important;
+    --bs-pagination-active-bg: var(--brand-accent-gradient) !important;
+    --bs-pagination-active-border-color: var(--brand-accent) !important;
     --bs-pagination-disabled-color: var(--text-muted) !important;
     --bs-pagination-disabled-bg: var(--bg-surface-alt) !important;
     --bs-pagination-disabled-border-color: var(--border-color) !important;

@@ -3,10 +3,10 @@
     top: 0;
     width: 0;
     height: 3px;
-    background: var(--gradient-gold);
+    background: var(--brand-accent-gradient);
     z-index: 10000;
     transition: width 0.3s ease;
-    box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+    box-shadow: 0 0 10px rgba(var(--brand-accent-rgb), 0.5);
 }
 [dir="rtl"] .progress-bar-top {
     right: 0;

@@ -1,11 +1,11 @@
 .badge-sport {
-    background: rgba(255, 193, 7, 0.12);
+    background: rgba(var(--brand-accent-rgb), 0.12);
     color: #b8860b;
     font-weight: 700;
     padding: 6px 14px;
     border-radius: var(--radius-pill);
     font-size: 0.8rem;
-    border: 1px solid rgba(255, 193, 7, 0.2);
+    border: 1px solid rgba(var(--brand-accent-rgb), 0.2);
 }
 
 // Domain badge (Phase 5 - brand identity, works on dark chrome and light surfaces)

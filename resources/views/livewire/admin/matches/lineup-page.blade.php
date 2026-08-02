@@ -6,8 +6,8 @@
         .player-dot { position: absolute; transform: translate(-50%, -50%); cursor: pointer; z-index: 2; transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .player-dot:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10; }
         .player-dot .jersey { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; color: #fff; border: 3px solid rgba(255,255,255,0.9); box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 -2px 4px rgba(0,0,0,0.2); position: relative; }
-        .player-dot .jersey.captain { border-color: #ffc107; box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 0 2px #ffc107; }
-        .player-dot .jersey .captain-badge { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: #ffc107; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #1a1a2e; border: 2px solid #fff; }
+        .player-dot .jersey.captain { border-color: #f5a622; box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 0 2px #f5a622; }
+        .player-dot .jersey .captain-badge { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: #f5a622; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #1a1a2e; border: 2px solid #fff; }
         .player-dot .player-name { position: absolute; top: calc(100% + 4px); left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.5); text-align: center; line-height: 1.2; }
         .player-dot .player-name .pos-label { display: block; font-size: 9px; font-weight: 500; opacity: 0.7; }
         .team1-jersey { background: linear-gradient(135deg, #1a237e, #283593); }
@@ -18,9 +18,9 @@
         .bench-player:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
         .bench-jersey { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: #fff; flex-shrink: 0; }
         .stat-pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-        .match-header-card { background: linear-gradient(135deg, rgba(26,30,46,0.95), rgba(20,24,40,0.98)); border: 1px solid rgba(255,193,7,0.15); }
+        .match-header-card { background: linear-gradient(135deg, rgba(26,30,46,0.95), rgba(20,24,40,0.98)); border: 1px solid rgba(245,166,34,0.15); }
         .team-tab { padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 700; transition: all 0.2s; border: 2px solid transparent; }
-        .team-tab.active { border-color: var(--primary); background: rgba(255,193,7,0.1); }
+        .team-tab.active { border-color: var(--brand-accent); background: rgba(245,166,34,0.1); }
         .team-tab:hover:not(.active) { background: rgba(255,255,255,0.05); }
         .action-btn-row { display: flex; gap: 4px; opacity: 0; transition: opacity 0.2s; }
         .player-dot:hover .action-btn-row { opacity: 1; }
@@ -29,7 +29,7 @@
         .lineup-list-item:hover { background: rgba(255,255,255,0.05); }
         .position-slot-overlay { position: absolute; width: 48px; height: 48px; transform: translate(-50%, -50%); cursor: pointer; z-index: 5; border-radius: 50%; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
         .position-slot-overlay.empty { border: 2px dashed rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); }
-        .position-slot-overlay.empty:hover { border-color: #ffc107; background: rgba(255,193,7,0.15); transform: translate(-50%, -50%) scale(1.15); }
+        .position-slot-overlay.empty:hover { border-color: #f5a622; background: rgba(245,166,34,0.15); transform: translate(-50%, -50%) scale(1.15); }
         .position-slot-overlay.filled { pointer-events: none; }
         .position-slot-overlay .slot-label { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); text-align: center; line-height: 1.1; }
         .player-picker { position: absolute; z-index: 50; background: rgba(20,24,40,0.98); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 8px; min-width: 200px; max-height: 300px; overflow-y: auto; backdrop-filter: blur(12px); box-shadow: 0 8px 32px rgba(0,0,0,0.6); }

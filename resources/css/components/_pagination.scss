@@ -28,19 +28,19 @@
 
 .page-btn:hover {
     background: var(--bg-surface-alt);
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: var(--brand-accent);
+    color: var(--brand-accent);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 // ---- Active page ----
 .page-btn-active {
-    background: var(--gradient-gold) !important;
-    border-color: var(--primary) !important;
+    background: var(--brand-accent-gradient) !important;
+    border-color: var(--brand-accent) !important;
     color: #000 !important;
     font-weight: 800;
-    box-shadow: 0 4px 16px rgba(255, 193, 7, 0.25);
+    box-shadow: 0 4px 16px rgba(var(--brand-accent-rgb), 0.25);
     transform: translateY(-1px);
     font-weight: 800;
 }
@@ -121,7 +121,7 @@
 
 [data-bs-theme="dark"] .page-btn:hover {
     background: rgba(255, 255, 255, 0.06);
-    border-color: var(--primary);
+    border-color: var(--brand-accent);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 

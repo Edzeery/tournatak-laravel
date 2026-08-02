@@ -27,11 +27,11 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--primary-hover);
+    background: var(--brand-accent-hover);
     border-radius: 4px;
 
     &:hover {
-        background: var(--primary);
+        background: var(--brand-accent);
     }
 }
 
@@ -46,7 +46,7 @@ body {
 
 // ---- Utility Classes ----
 .text-gold {
-    color: var(--primary) !important;
+    color: var(--brand-accent) !important;
 }
 
 .bg-gold {
@@ -75,7 +75,7 @@ body {
 }
 
 .border-gold {
-    border-color: var(--primary) !important;
+    border-color: var(--brand-accent) !important;
 }
 
 .text-muted-2 {

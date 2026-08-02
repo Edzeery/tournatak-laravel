@@ -3,7 +3,7 @@ button i {
 }
 
 .btn-primary-sport {
-    background: var(--gradient-gold);
+    background: var(--brand-accent-gradient);
     border: none;
     color: #000;
     font-weight: 700;
@@ -31,13 +31,13 @@ button i {
 
 .btn-primary-sport:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-gold);
+    box-shadow: var(--brand-accent-shadow);
     color: #000;
 }
 
 .btn-outline-sport {
-    border: 2px solid var(--primary);
-    color: var(--primary);
+    border: 2px solid var(--brand-accent);
+    color: var(--brand-accent);
     font-weight: 700;
     padding: 10px 30px;
     border-radius: var(--radius-pill);
@@ -46,23 +46,23 @@ button i {
 }
 
 .btn-outline-sport:hover {
-    background: var(--primary);
+    background: var(--brand-accent);
     color: #000;
     transform: translateY(-2px);
-    box-shadow: var(--shadow-gold);
+    box-shadow: var(--brand-accent-shadow);
 }
 
 .btn-warning {
-    background: var(--gradient-gold);
+    background: var(--brand-accent-gradient);
     border: none;
     color: #000;
     font-weight: 600;
 }
 
 .btn-warning:hover {
-    background: linear-gradient(135deg, #e0a800 0%, #d49400 100%);
-    border-color: var(--primary-hover);
+    background: linear-gradient(135deg, #d98f1d 0%, #c07a17 100%);
+    border-color: var(--brand-accent-hover);
     color: #000;
-    box-shadow: var(--shadow-gold);
+    box-shadow: var(--brand-accent-shadow);
     transform: translateY(-1px);
 }

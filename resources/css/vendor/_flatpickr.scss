@@ -1,6 +1,6 @@
 .flatpickr-calendar {
     background: #1a1f35 !important;
-    border: 1px solid rgba(255, 193, 7, 0.15) !important;
+    border: 1px solid rgba(var(--brand-accent-rgb), 0.15) !important;
     border-radius: 12px !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
 }
@@ -11,14 +11,14 @@
 }
 
 .flatpickr-day:hover {
-    background: rgba(255, 193, 7, 0.15) !important;
-    border-color: rgba(255, 193, 7, 0.3) !important;
+    background: rgba(var(--brand-accent-rgb), 0.15) !important;
+    border-color: rgba(var(--brand-accent-rgb), 0.3) !important;
 }
 
 .flatpickr-day.selected,
 .flatpickr-day.selected:hover {
-    background: var(--primary, #ffc107) !important;
-    border-color: var(--primary, #ffc107) !important;
+    background: var(--brand-accent) !important;
+    border-color: var(--brand-accent) !important;
     color: #000 !important;
     font-weight: 700;
 }
@@ -47,7 +47,7 @@ span.flatpickr-weekday {
 
 .flatpickr-current-month .flatpickr-prev_month:hover,
 .flatpickr-current-month .flatpickr-next_month:hover {
-    color: var(--primary, #ffc107) !important;
+    color: var(--brand-accent) !important;
 }
 
 .dayContainer {

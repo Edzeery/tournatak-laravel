@@ -8,6 +8,11 @@
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="{{ config('app.name') }} - {{ __('app.platform_desc') }}">
     <title>{{ config('app.name', 'Bracketa') }} - {{ $title ?? __('app.home') }}</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.ico') }}">
+    <meta name="theme-color" content="#0a0e1a">
+    <meta name="msapplication-TileColor" content="#0a0e1a">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -26,7 +31,7 @@
     <div id="preloader" class="preloader">
         <div class="preloader-inner">
             <div class="preloader-ring"></div>
-            <div class="preloader-logo"><i class="bi bi-trophy-fill"></i></div>
+            <div class="preloader-logo"><img src="{{ asset('favicon.ico') }}" alt="{{ config('app.name') }}"></div>
         </div>
     </div>
 
@@ -41,7 +46,7 @@
     <nav class="navbar navbar-expand-lg navbar-main sticky-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand text-gold" href="{{ route('home') }}">
-                <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
+                  <img src="{{ asset('img/icons/icon.png') }}" alt="Bracketa" width="25" height="25">  {{ config('app.name') }}
             </a>
 
             <div class="d-flex align-items-center gap-2 d-lg-none">
@@ -196,7 +201,7 @@
         aria-labelledby="mobileNavLabel" data-bs-scroll="true">
         <div class="offcanvas-header border-chrome-bottom">
             <a class="navbar-brand text-gold" href="{{ route('home') }}">
-                <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
+                 <img src="{{ asset('img/icons/icon.png') }}" alt="Bracketa" width="25" height="25"> {{ config('app.name') }}
             </a>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                 aria-label="{{ __('app.close') }}"></button>
@@ -404,7 +409,7 @@
             <div class="row g-4 mb-4">
                 <div class="col-lg-4">
                     <div class="footer-brand text-gold mb-3">
-                        <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
+                        <img src="{{ asset('img/icons/icon.png') }}" alt="Bracketa" width="25" height="25"> {{ config('app.name') }}
                     </div>
                     <p class="footer-desc">
                         {{ __('app.platform_desc') }}

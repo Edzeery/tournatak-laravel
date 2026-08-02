@@ -252,7 +252,7 @@
                     </a>
                 </div>
             </div>
-            <div class="hero-shape hero-shape-md" style="top:-100px;left:-100px;"></div>
+            <div class="hero-shape hero-shape-md" style="top:-100px;left:0;"></div>
             <div class="hero-shape" style="width:200px;height:200px;bottom:-80px;right:-80px;"></div>
         </section>
     @endif
@@ -275,7 +275,7 @@
                 </a>
             @endauth
         </div>
-        <div class="hero-shape hero-shape-md" style="top:-100px;left:-100px;"></div>
+        <div class="hero-shape hero-shape-md" style="top:-100px;left:0;"></div>
         <div class="hero-shape" style="width:200px;height:200px;bottom:-80px;right:-80px;"></div>
     </section>
 </div>

@@ -8,6 +8,11 @@
     <meta name="color-scheme" content="light dark">
     <title>{{ config('app.name') }} - {{ $title ?? __('app.dashboard') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.ico') }}">
+    <meta name="theme-color" content="#0a0e1a">
+    <meta name="msapplication-TileColor" content="#0a0e1a">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
@@ -26,7 +31,7 @@
     <div id="preloader" class="preloader">
         <div class="preloader-inner">
             <div class="preloader-ring"></div>
-            <div class="preloader-logo"><i class="bi bi-trophy-fill"></i></div>
+            <div class="preloader-logo"><img src="{{ asset('favicon.ico') }}" alt="{{ config('app.name') }}" width="30" height="30"></div>
         </div>
     </div>
 

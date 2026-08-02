@@ -9,11 +9,11 @@
             <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center px-5 pos-rel-z2">
                 <a href="{{ route('home') }}" class="text-decoration-none mb-4">
                     <span class="text-gold fw-bold fs-18">
-                        <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
+                          <img src="{{ asset('img/icons/icon.png') }}" alt="Bracketa" width="35" height="35">  {{ config('app.name') }}
                     </span>
                 </a>
                 <h1 class="text-white fw-bold mb-3 auth-hero-title">
-                    {{ __('app.join') }} 
+                    {{ __('app.join') }}
                     <span class="text-gold">{{ __('app.join_community') }}</span>
                 </h1>
                 <p class="auth-hero-desc">
@@ -48,7 +48,7 @@
                     <div class="text-center d-lg-none mb-4">
                         <a href="{{ route('home') }}" class="text-decoration-none">
                             <span class="text-gold fw-bold fs-xl">
-                                <i class="bi bi-trophy-fill"></i> {{ config('app.name') }}
+                                <img src="{{ asset('img/icons/icon.png') }}" alt="Bracketa" width="35" height="35"> {{ config('app.name') }}
                             </span>
                         </a>
                     </div>

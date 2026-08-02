@@ -193,6 +193,10 @@ Method names verified against the PHP components; per-context titles/buttons reu
       registrations (approve/reject), trash (restore/force-delete), lineup (deleteLineup).
 - [x] `grep wire:confirm` → 0 occurrences (only comments in app.js/TASKS.md).
 - [x] Run tests (336 passed / 7426 assertions), Pint (clean), `npm run build` (success).
+- [x] Automated render check: temp test rendered all 18 admin confirm pages with real data
+      (incl. positions/lineup/events/control/trash) and asserted `confirmAction(...)` plus the
+      correct `$wire.method(...)` call in the HTML (restore/forceDelete, startMatch/endMatch/
+      delete, approve/reject, deleteLineup, deleteEvent, etc.) — passed; temp test removed.
 
 ---
 

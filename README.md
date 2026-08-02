@@ -1,4 +1,4 @@
-# Tournatak — Multi-Domain Competition Platform
+# Bracketa — Multi-Domain Competition Platform
 
 A professional, multi-language competition management platform built with **Laravel 12 + Livewire 4**, powering **five competition domains** from one shared `Competition` core: **sports**, **esports**, **academic** (quiz), **hackathon**, and **creative arts**.
 
@@ -62,7 +62,7 @@ Each domain chooses how competitions are evaluated:
 | 2FA | pragmarx/google2fa + bacon/bacon-qr-code |
 | Charts | ApexCharts (dynamic `import()` — dashboard only) |
 | Build | Vite 7 + Sass (`app.js` 266 kB gzipped ~80 kB) |
-| Testing | Pest 3.8 (**310 tests, 665 assertions**) |
+| Testing | Pest 3.8 (**336 tests, 7422 assertions**) |
 | Static analysis | PHPStan (Larastan), Pint |
 | Observability | Sentry |
 
@@ -116,7 +116,7 @@ Runs: `composer install` → `.env` → `key:generate` → `migrate` → `npm in
 ## Environment Variables
 
 ```env
-APP_NAME="Tournatak"
+APP_NAME="Bracketa"
 APP_ENV=local
 APP_DEBUG=true
 APP_URL=http://tournatak-laravel.test
@@ -135,7 +135,7 @@ MAIL_PORT=587
 MAIL_USERNAME=
 MAIL_PASSWORD=
 MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=noreply@tournatak.com
+MAIL_FROM_ADDRESS=noreply@bracketa.com
 MAIL_FROM_NAME="${APP_NAME}"
 
 # Security
@@ -238,7 +238,7 @@ app/Policies/CompetitionPolicy.php, JudgePolicy.php, SubmissionPolicy.php, Judge
 Pest + SQLite in-memory. The suite covers auth/2FA flows, role-gated admin access, model operations, public pages, the multi-domain model, the domain-first wizard, registration guards, submission/judging end-to-end, and scoring engines.
 
 ```bash
-php artisan test                          # full suite (310 tests, 665 assertions)
+php artisan test                          # full suite (336 tests, 7422 assertions)
 php artisan test --filter=SubmissionCompetitionFlowTest
 ```
 

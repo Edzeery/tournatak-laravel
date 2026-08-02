@@ -202,7 +202,7 @@ return [
     'browse_teams_desc' => 'Découvrez les équipes participant aux compétitions',
     'points' => 'points',
     'are_you_ready' => 'Êtes-vous prêt à commencer ?',
-    'cta_join_desc' => 'Rejoignez Tournatak pour lancer votre propre compétition ou participer à n\'importe quel défi — dans tous les domaines',
+    'cta_join_desc' => 'Rejoignez Bracketa pour lancer votre propre compétition ou participer à n\'importe quel défi — dans tous les domaines',
     'sign_up_now' => 'S\'inscrire gratuitement',
 
     // Vitrine des domaines et fonctionnement

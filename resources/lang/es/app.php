@@ -202,7 +202,7 @@ return [
     'browse_teams_desc' => 'Descubre los equipos que participan en competiciones',
     'points' => 'puntos',
     'are_you_ready' => '¿Estás listo para comenzar?',
-    'cta_join_desc' => 'Únete a Tournatak para lanzar tu propia competición o participar en cualquier reto — en todos los ámbitos',
+    'cta_join_desc' => 'Únete a Bracketa para lanzar tu propia competición o participar en cualquier reto — en todos los ámbitos',
     'sign_up_now' => 'Regístrate gratis ahora',
 
     // Vitrina de dominios y cómo funciona

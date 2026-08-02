@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="{{ config('app.name') }} - {{ __('app.platform_desc') }}">
-    <title>{{ config('app.name', 'Tournatak') }} - {{ $title ?? __('app.home') }}</title>
+    <title>{{ config('app.name', 'Bracketa') }} - {{ $title ?? __('app.home') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -444,7 +444,7 @@
                 <div class="col-lg-4">
                     <h6 class="text-white fw-bold mb-3">{{ __('app.contact_us') }}</h6>
                     <ul class="list-unstyled d-flex flex-column gap-2 text-chrome-muted">
-                        <li><i class="bi bi-envelope-fill text-gold me-2"></i> info@tournatak.com</li>
+                        <li><i class="bi bi-envelope-fill text-gold me-2"></i> info@bracketa.com</li>
                         <li><i class="bi bi-telephone-fill text-gold me-2"></i> +213 XX XX XX XX</li>
                         <li><i class="bi bi-geo-alt-fill text-gold me-2"></i> {{ __('app.algeria') }}</li>
                     </ul>

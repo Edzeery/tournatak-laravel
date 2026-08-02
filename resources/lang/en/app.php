@@ -202,7 +202,7 @@ return [
     'browse_teams_desc' => 'Discover teams participating in competitions',
     'points' => 'points',
     'are_you_ready' => 'Are you ready to get started?',
-    'cta_join_desc' => 'Join Tournatak and launch your own competition, or take part in any challenge — across every domain',
+    'cta_join_desc' => 'Join Bracketa and launch your own competition, or take part in any challenge — across every domain',
     'sign_up_now' => 'Sign Up Free Now',
 
     // Domain showcase & how it works

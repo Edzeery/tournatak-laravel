@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Matches;
 
+use App\Events\MatchCompleted;
+use App\Events\MatchStarted;
 use App\Livewire\Concerns\Notifies;
 use App\Models\Match_;
 use Livewire\Attributes\Layout;
@@ -72,6 +74,8 @@ class MatchesPage extends Component
             'extra_data' => $extra,
         ]);
 
+        event(new MatchStarted($match->fresh()));
+
         $this->notify('success', __('app.match_started'));
     }
 
@@ -81,6 +85,8 @@ class MatchesPage extends Component
         $this->authorize('update', $match);
 
         $match->update(['status' => 'completed']);
+
+        event(new MatchCompleted($match->fresh()));
 
         $this->notify('success', __('app.match_ended'));
     }

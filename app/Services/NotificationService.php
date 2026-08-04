@@ -25,6 +25,31 @@ class NotificationService
         ]);
     }
 
+    public function notifyUser(
+        User $user,
+        string $title,
+        ?string $message = null,
+        ?string $icon = null,
+        ?string $link = null,
+        ?string $type = 'info'
+    ): UserNotification {
+        return $this->create($user->id, $title, $message, $icon, $link, $type);
+    }
+
+    public function createForRole(
+        string $role,
+        string $title,
+        ?string $message = null,
+        ?string $icon = null,
+        ?string $link = null,
+        ?string $type = 'info'
+    ): void {
+        $userIds = User::whereHas('roles', fn ($q) => $q->where('name', $role))->pluck('id');
+        foreach ($userIds as $userId) {
+            $this->create($userId, $title, $message, $icon, $link, $type);
+        }
+    }
+
     public function createForAdmins(
         string $title,
         ?string $message = null,
@@ -32,10 +57,7 @@ class NotificationService
         ?string $link = null,
         ?string $type = 'info'
     ): void {
-        $adminUserIds = User::whereHas('roles', fn ($q) => $q->where('name', 'admin'))->pluck('id');
-        foreach ($adminUserIds as $userId) {
-            $this->create($userId, $title, $message, $icon, $link, $type);
-        }
+        $this->createForRole('admin', $title, $message, $icon, $link, $type);
     }
 
     public function markAsRead(int $userId, int $notificationId): ?UserNotification

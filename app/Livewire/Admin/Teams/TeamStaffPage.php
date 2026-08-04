@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Teams;
 
+use App\Events\TeamStaffAssigned;
 use App\Livewire\Concerns\Notifies;
 use App\Models\Team;
 use App\Models\TeamStaff;
@@ -146,7 +147,7 @@ class TeamStaffPage extends Component
             ]);
             $this->notify('success', __('app.staff_saved'));
         } else {
-            TeamStaff::create([
+            $staff = TeamStaff::create([
                 'team_id' => $this->teamId,
                 'user_id' => $this->staffForm['user_id'],
                 'staff_role' => $this->staffForm['staff_role'],
@@ -154,6 +155,9 @@ class TeamStaffPage extends Component
                 'start_date' => $this->staffForm['start_date'] ?: null,
                 'end_date' => $this->staffForm['end_date'] ?: null,
             ]);
+
+            event(new TeamStaffAssigned($staff));
+
             $this->notify('success', __('app.staff_saved'));
         }
 

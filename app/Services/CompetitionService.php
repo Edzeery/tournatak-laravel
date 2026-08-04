@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\ApprovalStatus;
 use App\Enums\CompetitionStatus;
+use App\Events\CompetitionStatusChanged;
 use App\Models\Competition;
 use App\Models\CompetitionDomain;
 use App\Models\Sport;
@@ -30,7 +31,13 @@ class CompetitionService
                 $data['sport_id'] = null;
             }
 
-            return Competition::create($data);
+            $competition = Competition::create($data);
+
+            if ($competition->approval_status === ApprovalStatus::Pending->value) {
+                event(new CompetitionStatusChanged($competition->fresh(), null, ApprovalStatus::Pending->value));
+            }
+
+            return $competition;
         });
     }
 
@@ -43,14 +50,20 @@ class CompetitionService
 
     public function approve(Competition $competition): Competition
     {
+        $oldStatus = $competition->approval_status;
         $competition->update(['approval_status' => ApprovalStatus::Approved->value]);
+
+        event(new CompetitionStatusChanged($competition->refresh(), $oldStatus, ApprovalStatus::Approved->value));
 
         return $competition;
     }
 
     public function reject(Competition $competition): Competition
     {
+        $oldStatus = $competition->approval_status;
         $competition->update(['approval_status' => ApprovalStatus::Rejected->value]);
+
+        event(new CompetitionStatusChanged($competition->refresh(), $oldStatus, ApprovalStatus::Rejected->value));
 
         return $competition;
     }

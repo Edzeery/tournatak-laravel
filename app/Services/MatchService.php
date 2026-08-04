@@ -3,6 +3,10 @@
 namespace App\Services;
 
 use App\Enums\MatchStatus;
+use App\Events\GoalScored;
+use App\Events\MatchCompleted;
+use App\Events\MatchScheduled;
+use App\Events\MatchStarted;
 use App\Models\Match_;
 use App\Models\MatchEvent;
 use App\Models\MatchLineup;
@@ -12,7 +16,11 @@ class MatchService
 {
     public function create(array $data): Match_
     {
-        return Match_::create($data);
+        $match = Match_::create($data);
+
+        event(new MatchScheduled($match->fresh()));
+
+        return $match;
     }
 
     public function transitionPhase(Match_ $match, string $phase): void
@@ -47,6 +55,12 @@ class MatchService
         }
 
         $match->update($updates);
+
+        if ($phase === Match_::PHASE_FIRST_HALF) {
+            event(new MatchStarted($match->fresh()));
+        } elseif ($phase === Match_::PHASE_FULL_TIME) {
+            event(new MatchCompleted($match->fresh()));
+        }
     }
 
     public function updateScore(Match_ $match, int $scoreTeam1, int $scoreTeam2): void
@@ -82,6 +96,8 @@ class MatchService
         } else {
             $match->increment('score_team2');
         }
+
+        event(new GoalScored($event));
 
         return $event;
     }

@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('backup:run --only-db')->daily()->at('02:00');
         $schedule->command('backup:clean')->daily()->at('02:30');
     })
+    ->withEvents(discover: false)
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
             SetLocale::class,

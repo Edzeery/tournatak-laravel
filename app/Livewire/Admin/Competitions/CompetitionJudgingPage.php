@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Competitions;
 
+use App\Events\JudgeAssigned;
 use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Judge;
@@ -45,10 +46,12 @@ class CompetitionJudgingPage extends Component
             return;
         }
 
-        $this->competition->judges()->create([
+        $judge = $this->competition->judges()->create([
             'user_id' => $this->newJudgeUserId,
             'is_lead' => $this->newJudgeLead,
         ]);
+
+        event(new JudgeAssigned($judge));
 
         $this->reset('newJudgeUserId', 'newJudgeLead');
 

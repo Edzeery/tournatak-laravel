@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Competitions;
 
 use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
+use App\Services\CompetitionService;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,7 +20,7 @@ class CompetitionsPage extends Component
         $competition = Competition::findOrFail($id);
         $this->authorize('update', $competition);
 
-        $competition->update(['approval_status' => 'approved']);
+        app(CompetitionService::class)->approve($competition);
         $this->notify('success', __('app.competition_approved'));
     }
 
@@ -28,7 +29,7 @@ class CompetitionsPage extends Component
         $competition = Competition::findOrFail($id);
         $this->authorize('update', $competition);
 
-        $competition->update(['approval_status' => 'rejected']);
+        app(CompetitionService::class)->reject($competition);
         $this->notify('error', __('app.competition_rejected'));
     }
 

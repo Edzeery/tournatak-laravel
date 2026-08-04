@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\PlayerTeamAssigned;
 use App\Models\Player;
 use App\Models\Sport;
 use Illuminate\Http\UploadedFile;
@@ -26,11 +27,18 @@ class PlayerService
             $data['sport_id'] = Sport::where('slug', $data['sport_type'])->value('id');
         }
 
-        return Player::create($data);
+        $player = Player::create($data);
+
+        if ($player->team_id) {
+            PlayerTeamAssigned::dispatch($player);
+        }
+
+        return $player;
     }
 
     public function update(Player $player, array $data): Player
     {
+        $oldTeamId = $player->team_id;
         $data = array_filter($data, fn ($v) => $v !== '');
         $data['position_id'] = $data['position_id'] ?? null;
         $data['date_of_birth'] = $data['date_of_birth'] ?? null;
@@ -42,6 +50,10 @@ class PlayerService
         $data['is_captain'] = $data['is_captain'] ?? false;
 
         $player->update($data);
+
+        if ($oldTeamId !== $player->team_id) {
+            PlayerTeamAssigned::dispatch($player, $oldTeamId);
+        }
 
         return $player;
     }

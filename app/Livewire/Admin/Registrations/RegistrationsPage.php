@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Registrations;
 
+use App\Events\RegistrationStatusChanged;
 use App\Livewire\Concerns\Notifies;
 use App\Models\Registration;
 use Livewire\Attributes\Layout;
@@ -50,14 +51,18 @@ class RegistrationsPage extends Component
     public function approve($id)
     {
         $registration = Registration::findOrFail($id);
+        $oldStatus = $registration->status;
         $registration->update(['status' => Registration::STATUS_APPROVED]);
+        event(new RegistrationStatusChanged($registration, $oldStatus, Registration::STATUS_APPROVED));
         $this->notify('success', __('app.registration_approved'));
     }
 
     public function reject($id)
     {
         $registration = Registration::findOrFail($id);
+        $oldStatus = $registration->status;
         $registration->update(['status' => Registration::STATUS_REJECTED]);
+        event(new RegistrationStatusChanged($registration, $oldStatus, Registration::STATUS_REJECTED));
         $this->notify('success', __('app.registration_rejected'));
     }
 

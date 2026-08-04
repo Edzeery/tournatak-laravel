@@ -21,7 +21,7 @@ class UpdatePlayerStatsAfterGoal
             return;
         }
 
-        if (in_array($matchEvent->event_type, ['goal', 'penalty_scored'])) {
+        if (in_array($matchEvent->event_type, ['goal', 'penalty_scored']) && $matchEvent->player_id) {
             $stat = PlayerSeasonStat::firstOrNew([
                 'player_id' => $matchEvent->player_id,
                 'competition_id' => $match->competition_id,

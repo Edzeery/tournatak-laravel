@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Competitions;
 
 use App\Enums\SubmissionStatus;
+use App\Events\SubmissionStatusChanged;
 use App\Livewire\Concerns\Notifies;
 use App\Models\Competition;
 use App\Models\Submission;
@@ -111,12 +112,16 @@ class SubmissionsPage extends Component
         $submission = $this->competition->submissions()->findOrFail($this->editSubmissionId);
         $this->authorize('update', $submission);
 
+        $oldStatus = $submission->status?->value;
+
         $submission->update([
             'round_id' => $this->editRoundId,
             'title' => $this->editTitle,
             'description' => $this->editDescription,
             'status' => $this->editStatus,
         ]);
+
+        event(new SubmissionStatusChanged($submission, $oldStatus, $this->editStatus));
 
         $this->editSubmissionId = null;
 
@@ -132,7 +137,11 @@ class SubmissionsPage extends Component
             abort(422);
         }
 
+        $oldStatus = $submission->status?->value;
+
         $submission->update(['status' => $status]);
+
+        event(new SubmissionStatusChanged($submission, $oldStatus, $status));
 
         $this->notify('success', __('app.status_updated'));
     }
